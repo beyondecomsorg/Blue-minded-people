@@ -1,0 +1,584 @@
+{% comment %}
+  Brand Product Carousel — MR PORTER style
+  Splide.js via CDN
+{% endcomment %}
+
+{{ 'https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css' | stylesheet_tag }}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .bpc-wrap {
+    max-width: {{ section.settings.container_width }}px;
+    margin: 0 auto;
+    padding: 0 {{ section.settings.side_padding }}px;
+    position: relative;
+  }
+
+  {% if section.settings.heading != blank %}
+  .bpc-heading {
+    font-family: {{ section.settings.font_family }};
+    font-size: {{ section.settings.heading_size }}px;
+    font-weight: {{ section.settings.heading_weight }};
+    color: {{ section.settings.heading_color }};
+    text-transform: {{ section.settings.heading_transform }};
+    letter-spacing: {{ section.settings.heading_tracking }}em;
+    margin: 0 0 24px;
+    text-align: {{ section.settings.heading_align }};
+  }
+  {% endif %}
+
+  /* ── Splide reset ── */
+  .bpc-splide .splide__track {
+    overflow: hidden;
+  }
+
+  /* ── Card ── */
+  .bpc-card {
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .bpc-img-wrap {
+    width: 100%;
+    aspect-ratio: {{ section.settings.image_ratio }};
+    background: {{ section.settings.card_bg_color }};
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bpc-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: {{ section.settings.image_fit }};
+    object-position: center;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .bpc-card:hover .bpc-img-wrap img {
+    transform: scale(1.04);
+  }
+
+  .bpc-card-label {
+    font-family: {{ section.settings.font_family }};
+    font-size: {{ section.settings.label_size }}px;
+    font-weight: {{ section.settings.label_weight }};
+    color: {{ section.settings.label_color }};
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin: 12px 0 0;
+    line-height: 1.3;
+  }
+
+  /* ── Arrow ── */
+  .bpc-arrow {
+    position: absolute;
+    top: calc({{ section.settings.image_ratio | split: '/' | last | times: 1.0 }} / {{ section.settings.image_ratio | split: '/' | first | times: 1.0 }} * 50% - 20px);
+    width: 40px;
+    height: 40px;
+    background: {{ section.settings.arrow_bg }};
+    border: 1px solid {{ section.settings.arrow_border }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+
+  .bpc-arrow:hover {
+    background: {{ section.settings.arrow_hover_bg }};
+    border-color: {{ section.settings.arrow_hover_bg }};
+  }
+
+  .bpc-arrow:hover svg {
+    stroke: {{ section.settings.arrow_hover_icon }};
+  }
+
+  .bpc-arrow svg {
+    width: 16px;
+    height: 16px;
+    stroke: {{ section.settings.arrow_icon }};
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .bpc-arrow-prev { right: calc(100% - {{ section.settings.side_padding }}px + 4px); display: none; }
+  .bpc-arrow-next { right: -2px; }
+
+  /* ── Progress bar pagination ── */
+  .bpc-progress-wrap {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .bpc-progress-track {
+    width: 280px;
+    height: 2px;
+    background: {{ section.settings.progress_bg }};
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bpc-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: {{ section.settings.progress_fill }};
+    transition: width 0.3s ease;
+    width: 0%;
+  }
+
+  @media (max-width: 768px) {
+    .bpc-arrow-next { right: -8px; }
+    .bpc-progress-track { width: 160px; }
+  }
+</style>
+
+<div class="bpc-wrap">
+  {% if section.settings.heading != blank %}
+    <h2 class="bpc-heading">{{ section.settings.heading }}</h2>
+  {% endif %}
+
+  <div
+    id="bpc-splide-{{ section.id }}"
+    class="splide bpc-splide"
+    aria-label="{{ section.settings.heading }}"
+  >
+    <div class="splide__track">
+      <ul class="splide__list">
+        {% for block in section.blocks %}
+          {% if block.type == 'product_slide' %}
+            <li class="splide__slide" {{ block.shopify_attributes }}>
+              <a href="{{ block.settings.card_url }}" class="bpc-card">
+                <div class="bpc-img-wrap">
+                  {% if block.settings.card_image != blank %}
+                    <img
+                      src="{{ block.settings.card_image | img_url: '600x' }}"
+                      alt="{{ block.settings.brand_name }}"
+                      loading="lazy"
+                      width="600"
+                      height="750"
+                    >
+                  {% else %}
+                    {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {% endif %}
+                </div>
+                {% if block.settings.brand_name != blank %}
+                  <p class="bpc-card-label">{{ block.settings.brand_name }}</p>
+                {% endif %}
+              </a>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Arrow (right only, like the reference) -->
+  <button class="bpc-arrow bpc-arrow-next" id="bpc-next-{{ section.id }}" aria-label="Next">
+    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+  </button>
+</div>
+
+<!-- Progress bar -->
+<div class="bpc-progress-wrap">
+  <div class="bpc-progress-track">
+    <div class="bpc-progress-bar" id="bpc-bar-{{ section.id }}"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js" defer></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var el = document.getElementById('bpc-splide-{{ section.id }}');
+  var bar = document.getElementById('bpc-bar-{{ section.id }}');
+  var nextBtn = document.getElementById('bpc-next-{{ section.id }}');
+  if (!el) return;
+
+  var perPage = {{ section.settings.slides_desktop }};
+  var total   = {{ section.blocks.size }};
+
+  var splide = new Splide(el, {
+    type        : 'slider',
+    perPage     : perPage,
+    perMove     : 1,
+    gap         : '{{ section.settings.slide_gap }}px',
+    pagination  : false,
+    arrows      : false,
+    rewind      : true,
+    breakpoints : {
+      1024: { perPage: {{ section.settings.slides_tablet }} },
+      640 : { perPage: {{ section.settings.slides_mobile }}, gap: '10px' }
+    }
+  });
+
+  function updateBar(index) {
+    if (!bar) return;
+    var maxIndex = total - perPage;
+    if (maxIndex <= 0) { bar.style.width = '100%'; return; }
+    var pct = Math.min((index / maxIndex) * 100, 100);
+    bar.style.width = pct + '%';
+  }
+
+  splide.on('mounted moved', function () {
+    updateBar(splide.index);
+  });
+
+  nextBtn && nextBtn.addEventListener('click', function () {
+    splide.go('>');
+  });
+
+  splide.mount();
+  updateBar(0);
+});
+</script>
+
+{% schema %}
+{
+  "name": "Brand Product Carousel",
+  "tag": "section",
+  "class": "brand-product-carousel",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading Size",
+      "min": 14,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Heading Weight",
+      "default": "600",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "900", "label": "Black" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_transform",
+      "label": "Heading Case",
+      "default": "none",
+      "options": [
+        { "value": "none", "label": "Normal" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "heading_tracking",
+      "label": "Heading Letter Spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 0,
+      "info": "Value × 0.01em"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading Alignment",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#111111"
+    },
+    {
+      "type": "header",
+      "content": "Carousel Layout"
+    },
+    {
+      "type": "range",
+      "id": "slides_desktop",
+      "label": "Slides Visible (Desktop)",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "slides_tablet",
+      "label": "Slides Visible (Tablet)",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "slides_mobile",
+      "label": "Slides Visible (Mobile)",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "slide_gap",
+      "label": "Gap Between Slides",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Card"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Card Background",
+      "default": "#f5f5f3"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image Aspect Ratio",
+      "default": "3/4",
+      "options": [
+        { "value": "1/1", "label": "Square (1:1)" },
+        { "value": "3/4", "label": "Portrait (3:4)" },
+        { "value": "2/3", "label": "Tall (2:3)" },
+        { "value": "4/5", "label": "Standard (4:5)" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image Fit",
+      "default": "contain",
+      "options": [
+        { "value": "contain", "label": "Contain (show full product)" },
+        { "value": "cover", "label": "Cover (fill card)" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "label": "Brand Label Size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "label_weight",
+      "label": "Brand Label Weight",
+      "default": "400",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Brand Label Color",
+      "default": "#111111"
+    },
+    {
+      "type": "header",
+      "content": "Arrow Button"
+    },
+    {
+      "type": "color",
+      "id": "arrow_bg",
+      "label": "Arrow Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "arrow_border",
+      "label": "Arrow Border",
+      "default": "#cccccc"
+    },
+    {
+      "type": "color",
+      "id": "arrow_icon",
+      "label": "Arrow Icon",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "arrow_hover_bg",
+      "label": "Arrow Hover Background",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "arrow_hover_icon",
+      "label": "Arrow Hover Icon",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Progress Bar"
+    },
+    {
+      "type": "color",
+      "id": "progress_bg",
+      "label": "Progress Track Color",
+      "default": "#dddddd"
+    },
+    {
+      "type": "color",
+      "id": "progress_fill",
+      "label": "Progress Fill Color",
+      "default": "#111111"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "font_family",
+      "label": "Font Family",
+      "default": "inherit",
+      "options": [
+        { "value": "inherit", "label": "Theme Default" },
+        { "value": "Helvetica, Arial, sans-serif", "label": "Helvetica" },
+        { "value": "'Times New Roman', serif", "label": "Times New Roman" },
+        { "value": "Georgia, serif", "label": "Georgia" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Background & Padding"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "label": "Max Container Width",
+      "min": 800,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1440
+    },
+    {
+      "type": "range",
+      "id": "side_padding",
+      "label": "Side Padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_slide",
+      "name": "Product Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Product Image"
+        },
+        {
+          "type": "text",
+          "id": "brand_name",
+          "label": "Brand Name",
+          "default": "BRAND NAME"
+        },
+        {
+          "type": "url",
+          "id": "card_url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Product Carousel",
+      "blocks": [
+        { "type": "product_slide", "settings": { "brand_name": "CANALI" } },
+        { "type": "product_slide", "settings": { "brand_name": "BRUNELLO CUCINELLI" } },
+        { "type": "product_slide", "settings": { "brand_name": "JACQUES MARIE MAGE" } },
+        { "type": "product_slide", "settings": { "brand_name": "TOM FORD" } },
+        { "type": "product_slide", "settings": { "brand_name": "TOM FORD" } },
+        { "type": "product_slide", "settings": { "brand_name": "TOM FORD" } },
+        { "type": "product_slide", "settings": { "brand_name": "ZEGNA" } },
+        { "type": "product_slide", "settings": { "brand_name": "LORO PIANA" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

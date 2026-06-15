@@ -1,0 +1,516 @@
+{% comment %}
+  Three-Panel Editorial Banner — Gifts style
+{% endcomment %}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .tpb-wrap {
+    max-width: {{ section.settings.container_width }}px;
+    margin: 0 auto;
+    padding: 0 {{ section.settings.side_padding }}px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: {{ section.settings.panel_gap }}px;
+  }
+
+  /* Panel */
+  .tpb-panel {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    text-decoration: none;
+  }
+
+  .tpb-panel-img {
+    width: 100%;
+    aspect-ratio: {{ section.settings.panel_ratio }};
+    display: block;
+    overflow: hidden;
+  }
+
+  .tpb-panel-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ section.settings.image_position }};
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .tpb-panel:hover .tpb-panel-img img {
+    transform: scale(1.04);
+  }
+
+  /* Overlay */
+  .tpb-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  /* Text block */
+  .tpb-text {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  /* Position helpers */
+  .tpb-pos--bottom-left  { bottom: {{ section.settings.text_offset }}px; left: {{ section.settings.text_offset }}px; text-align: left; }
+  .tpb-pos--bottom-right { bottom: {{ section.settings.text_offset }}px; right: {{ section.settings.text_offset }}px; text-align: right; }
+  .tpb-pos--top-left     { top: {{ section.settings.text_offset }}px; left: {{ section.settings.text_offset }}px; text-align: left; }
+  .tpb-pos--top-right    { top: {{ section.settings.text_offset }}px; right: {{ section.settings.text_offset }}px; text-align: right; }
+  .tpb-pos--center       { top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 90%; }
+  .tpb-pos--top-center   { top: {{ section.settings.text_offset }}px; left: 50%; transform: translateX(-50%); text-align: center; width: 90%; }
+  .tpb-pos--bottom-center{ bottom: {{ section.settings.text_offset }}px; left: 50%; transform: translateX(-50%); text-align: center; width: 90%; }
+
+  .tpb-line1 {
+    font-family: {{ section.settings.font_family }};
+    font-size: {{ section.settings.line1_size }}px;
+    font-weight: {{ section.settings.line1_weight }};
+    font-style: {{ section.settings.line1_style }};
+    letter-spacing: {{ section.settings.line1_tracking }}em;
+    text-transform: {{ section.settings.line1_transform }};
+    line-height: 1;
+    margin: 0;
+  }
+
+  .tpb-line2 {
+    font-family: {{ section.settings.font_family }};
+    font-size: {{ section.settings.line2_size }}px;
+    font-weight: {{ section.settings.line2_weight }};
+    font-style: {{ section.settings.line2_style }};
+    letter-spacing: {{ section.settings.line2_tracking }}em;
+    text-transform: {{ section.settings.line2_transform }};
+    line-height: 1;
+    margin: 0;
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .tpb-wrap {
+      grid-template-columns: 1fr;
+      gap: {{ section.settings.panel_gap | times: 0.6 | round }}px;
+      padding: 0 12px;
+    }
+
+    .tpb-panel-img {
+      aspect-ratio: {{ section.settings.panel_ratio_mobile }};
+    }
+
+    .tpb-line1 { font-size: {{ section.settings.line1_size | times: 0.8 | round }}px; }
+    .tpb-line2 { font-size: {{ section.settings.line2_size | times: 0.8 | round }}px; }
+  }
+</style>
+
+<div class="tpb-wrap">
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'panel' -%}
+      {%- assign text_color = block.settings.text_color -%}
+      {%- assign overlay_color = block.settings.overlay_color -%}
+      {%- assign overlay_opacity = block.settings.overlay_opacity | divided_by: 100.0 -%}
+
+      <a href="{{ block.settings.panel_url }}" class="tpb-panel" {{ block.shopify_attributes }}>
+
+        <div class="tpb-panel-img">
+          {%- if block.settings.panel_image != blank -%}
+            <img
+              src="{{ block.settings.panel_image | img_url: '1000x' }}"
+              alt="{{ block.settings.line1 }} {{ block.settings.line2 }}"
+              loading="lazy"
+              width="1000"
+              height="1250"
+            >
+          {%- else -%}
+            {{ 'collection-' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
+
+        {%- if block.settings.overlay_opacity > 0 -%}
+          <div
+            class="tpb-overlay"
+            style="background: {{ overlay_color }}; opacity: {{ overlay_opacity }};"
+          ></div>
+        {%- endif -%}
+
+        {%- if block.settings.line1 != blank or block.settings.line2 != blank -%}
+          <div class="tpb-text tpb-pos--{{ block.settings.text_position }}">
+            {%- if block.settings.line1 != blank -%}
+              <span class="tpb-line1" style="color: {{ text_color }};">{{ block.settings.line1 }}</span>
+            {%- endif -%}
+            {%- if block.settings.line2 != blank -%}
+              <span class="tpb-line2" style="color: {{ text_color }};">{{ block.settings.line2 }}</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+      </a>
+    {%- endif -%}
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Three-Panel Editorial",
+  "tag": "section",
+  "class": "three-panel-editorial",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "label": "Max Container Width",
+      "min": 800,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "default": 1440
+    },
+    {
+      "type": "range",
+      "id": "side_padding",
+      "label": "Side Padding",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "panel_gap",
+      "label": "Gap Between Panels",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "panel_ratio",
+      "label": "Panel Ratio (Desktop)",
+      "default": "3/4",
+      "options": [
+        { "value": "1/1", "label": "Square 1:1" },
+        { "value": "3/4", "label": "Portrait 3:4" },
+        { "value": "2/3", "label": "Tall 2:3" },
+        { "value": "4/5", "label": "Standard 4:5" },
+        { "value": "9/16", "label": "Tall 9:16" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "panel_ratio_mobile",
+      "label": "Panel Ratio (Mobile)",
+      "default": "4/5",
+      "options": [
+        { "value": "1/1", "label": "Square 1:1" },
+        { "value": "3/4", "label": "Portrait 3:4" },
+        { "value": "4/5", "label": "Standard 4:5" },
+        { "value": "9/16", "label": "Tall 9:16" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image Focus Position",
+      "default": "center top",
+      "options": [
+        { "value": "center top", "label": "Top Center" },
+        { "value": "center center", "label": "Center" },
+        { "value": "center bottom", "label": "Bottom Center" },
+        { "value": "left center", "label": "Left Center" },
+        { "value": "right center", "label": "Right Center" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Typography (Global)"
+    },
+    {
+      "type": "select",
+      "id": "font_family",
+      "label": "Font Family",
+      "default": "inherit",
+      "options": [
+        { "value": "inherit", "label": "Theme Default" },
+        { "value": "Georgia, serif", "label": "Georgia" },
+        { "value": "'Times New Roman', serif", "label": "Times New Roman" },
+        { "value": "Helvetica, Arial, sans-serif", "label": "Helvetica" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "line1_size",
+      "label": "Line 1 Font Size",
+      "min": 10,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "line1_weight",
+      "label": "Line 1 Weight",
+      "default": "400",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "900", "label": "Black" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "line1_style",
+      "label": "Line 1 Style",
+      "default": "italic",
+      "options": [
+        { "value": "normal", "label": "Normal" },
+        { "value": "italic", "label": "Italic" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "line1_transform",
+      "label": "Line 1 Case",
+      "default": "uppercase",
+      "options": [
+        { "value": "none", "label": "Normal" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "line1_tracking",
+      "label": "Line 1 Letter Spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 4,
+      "info": "Value ÷ 100 = em"
+    },
+    {
+      "type": "range",
+      "id": "line2_size",
+      "label": "Line 2 Font Size",
+      "min": 16,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "select",
+      "id": "line2_weight",
+      "label": "Line 2 Weight",
+      "default": "700",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "900", "label": "Black" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "line2_style",
+      "label": "Line 2 Style",
+      "default": "normal",
+      "options": [
+        { "value": "normal", "label": "Normal" },
+        { "value": "italic", "label": "Italic" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "line2_transform",
+      "label": "Line 2 Case",
+      "default": "uppercase",
+      "options": [
+        { "value": "none", "label": "Normal" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "capitalize", "label": "Capitalize" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "line2_tracking",
+      "label": "Line 2 Letter Spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 2,
+      "info": "Value ÷ 100 = em"
+    },
+    {
+      "type": "range",
+      "id": "text_offset",
+      "label": "Text Offset from Edge",
+      "min": 8,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Background & Padding"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "panel",
+      "name": "Panel",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "panel_image",
+          "label": "Panel Image"
+        },
+        {
+          "type": "url",
+          "id": "panel_url",
+          "label": "Link URL"
+        },
+        {
+          "type": "header",
+          "content": "Text"
+        },
+        {
+          "type": "text",
+          "id": "line1",
+          "label": "Line 1 (smaller, italic)",
+          "default": "GIFTS FOR"
+        },
+        {
+          "type": "text",
+          "id": "line2",
+          "label": "Line 2 (large, bold)",
+          "default": "HER"
+        },
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Text Position",
+          "default": "bottom-left",
+          "options": [
+            { "value": "bottom-left", "label": "Bottom Left" },
+            { "value": "bottom-right", "label": "Bottom Right" },
+            { "value": "bottom-center", "label": "Bottom Center" },
+            { "value": "top-left", "label": "Top Left" },
+            { "value": "top-right", "label": "Top Right" },
+            { "value": "top-center", "label": "Top Center" },
+            { "value": "center", "label": "Center" }
+          ]
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "Overlay"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay Color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Overlay Opacity",
+          "min": 0,
+          "max": 80,
+          "step": 5,
+          "unit": "%",
+          "default": 20
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Three-Panel Editorial",
+      "blocks": [
+        {
+          "type": "panel",
+          "settings": {
+            "line1": "GIFTS FOR",
+            "line2": "HER",
+            "text_position": "bottom-left",
+            "text_color": "#ffffff",
+            "overlay_opacity": 20
+          }
+        },
+        {
+          "type": "panel",
+          "settings": {
+            "line1": "GIFTS UNDER",
+            "line2": "999",
+            "text_position": "top-center",
+            "text_color": "#ffffff",
+            "overlay_opacity": 15
+          }
+        },
+        {
+          "type": "panel",
+          "settings": {
+            "line1": "GIFTS FOR",
+            "line2": "HIM",
+            "text_position": "bottom-right",
+            "text_color": "#ffffff",
+            "overlay_opacity": 20
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

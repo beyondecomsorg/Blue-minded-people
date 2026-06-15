@@ -1,0 +1,604 @@
+{% comment %}
+  Shop Fabric By Category — Splide Carousel Section
+{% endcomment %}
+
+{{ 'https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css' | stylesheet_tag }}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .sfc-wrap {
+    max-width: {{ section.settings.container_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* Heading */
+  .sfc-heading-block {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  .sfc-heading {
+    font-family: {{ section.settings.font_family }};
+    font-size: {{ section.settings.heading_size }}px;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: {{ section.settings.heading_color }};
+    margin: 0 0 10px;
+    line-height: 1.15;
+  }
+
+  .sfc-subheading {
+    font-family: {{ section.settings.font_family }};
+    font-size: {{ section.settings.subheading_size }}px;
+    color: {{ section.settings.subheading_color }};
+    margin: 0;
+    font-weight: 400;
+  }
+
+  /* Splide overrides */
+  .sfc-splide .splide__track {
+    overflow: visible;
+    clip-path: inset(0 0 0 0);
+  }
+
+  .sfc-splide .splide__list {
+    align-items: stretch;
+  }
+
+  /* Card */
+  .sfc-card {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    text-decoration: none;
+    border: 1.5px solid {{ section.settings.card_border_color }};
+    background: #111;
+  }
+
+  .sfc-card-img {
+    width: 100%;
+    aspect-ratio: {{ section.settings.image_ratio }};
+    display: block;
+    overflow: hidden;
+  }
+
+  .sfc-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .sfc-card:hover .sfc-card-img img {
+    transform: scale(1.05);
+  }
+
+  /* Overlay at bottom */
+  .sfc-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+    padding: 40px 16px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .sfc-card-title {
+    font-family: {{ section.settings.font_family }};
+    font-size: {{ section.settings.card_title_size }}px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 4px;
+    line-height: 1.3;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+
+  .sfc-card-subtitle {
+    font-family: {{ section.settings.font_family }};
+    font-size: {{ section.settings.card_subtitle_size }}px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.88);
+    margin: 0;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+
+  /* Arrows */
+  .sfc-arrows {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+    padding: 0 4px;
+  }
+
+  .sfc-arrow-btn {
+    width: 48px;
+    height: 48px;
+    border: 1.5px solid {{ section.settings.arrow_border_color }};
+    background: {{ section.settings.arrow_bg_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .sfc-arrow-btn:hover {
+    background: {{ section.settings.arrow_hover_bg }};
+    border-color: {{ section.settings.arrow_hover_bg }};
+  }
+
+  .sfc-arrow-btn:hover svg {
+    stroke: {{ section.settings.arrow_hover_color }};
+  }
+
+  .sfc-arrow-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: {{ section.settings.arrow_color }};
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Pagination dots */
+  .sfc-pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    justify-content: center;
+    padding: 0 20px;
+  }
+
+  .sfc-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: {{ section.settings.dot_inactive_color }};
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s, width 0.3s;
+  }
+
+  .sfc-dot.is-active {
+    background: {{ section.settings.dot_active_color }};
+    width: 32px;
+    border-radius: 5px;
+  }
+
+  /* Splide track clip fix */
+  .sfc-splide .splide__track {
+    overflow: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .sfc-heading {
+      font-size: {{ section.settings.heading_size | times: 0.65 | round }}px;
+    }
+  }
+</style>
+
+<div class="sfc-wrap">
+  {% if section.settings.heading != blank %}
+    <div class="sfc-heading-block">
+      <h2 class="sfc-heading">{{ section.settings.heading }}</h2>
+      {% if section.settings.subheading != blank %}
+        <p class="sfc-subheading">{{ section.settings.subheading }}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div
+    id="sfc-splide-{{ section.id }}"
+    class="splide sfc-splide"
+    aria-label="{{ section.settings.heading }}"
+  >
+    <div class="splide__track">
+      <ul class="splide__list">
+        {% for block in section.blocks %}
+          {% if block.type == 'slide_card' %}
+            <li class="splide__slide" {{ block.shopify_attributes }}>
+              <a href="{{ block.settings.card_url }}" class="sfc-card">
+                <div class="sfc-card-img">
+                  {% if block.settings.card_image != blank %}
+                    <img
+                      src="{{ block.settings.card_image | img_url: '800x' }}"
+                      alt="{{ block.settings.card_title }}"
+                      loading="lazy"
+                      width="800"
+                      height="1000"
+                    >
+                  {% else %}
+                    {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {% endif %}
+                </div>
+                <div class="sfc-card-overlay">
+                  {% if block.settings.card_title != blank %}
+                    <p class="sfc-card-title">{{ block.settings.card_title }}</p>
+                  {% endif %}
+                  {% if block.settings.card_subtitle != blank %}
+                    <p class="sfc-card-subtitle">{{ block.settings.card_subtitle }}</p>
+                  {% endif %}
+                </div>
+              </a>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Custom Controls -->
+  <div class="sfc-arrows">
+    <button class="sfc-arrow-btn" id="sfc-prev-{{ section.id }}" aria-label="Previous">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
+    <div class="sfc-pagination" id="sfc-dots-{{ section.id }}"></div>
+    <button class="sfc-arrow-btn" id="sfc-next-{{ section.id }}" aria-label="Next">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js" defer></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var el = document.getElementById('sfc-splide-{{ section.id }}');
+  if (!el) return;
+
+  var splide = new Splide(el, {
+    type       : 'loop',
+    perPage    : {{ section.settings.slides_desktop }},
+    perMove    : 1,
+    gap        : '{{ section.settings.slide_gap }}px',
+    pagination : false,
+    arrows     : false,
+    breakpoints: {
+      1024: { perPage: {{ section.settings.slides_tablet }} },
+      640 : { perPage: {{ section.settings.slides_mobile }}, gap: '10px' }
+    }
+  });
+
+  // Dots
+  var dotsWrap = document.getElementById('sfc-dots-{{ section.id }}');
+  var totalPages = Math.ceil({{ section.blocks.size }} / {{ section.settings.slides_desktop }});
+
+  for (var i = 0; i < totalPages; i++) {
+    var dot = document.createElement('button');
+    dot.className = 'sfc-dot' + (i === 0 ? ' is-active' : '');
+    dot.setAttribute('aria-label', 'Go to page ' + (i + 1));
+    (function(index) {
+      dot.addEventListener('click', function () {
+        splide.go(index * {{ section.settings.slides_desktop }});
+      });
+    })(i);
+    dotsWrap.appendChild(dot);
+  }
+
+  splide.on('moved', function (newIndex) {
+    var dots = dotsWrap.querySelectorAll('.sfc-dot');
+    var activePage = Math.floor(newIndex / {{ section.settings.slides_desktop }}) % totalPages;
+    dots.forEach(function (d, i) {
+      d.classList.toggle('is-active', i === activePage);
+    });
+  });
+
+  // Arrows
+  document.getElementById('sfc-prev-{{ section.id }}').addEventListener('click', function () {
+    splide.go('<');
+  });
+  document.getElementById('sfc-next-{{ section.id }}').addEventListener('click', function () {
+    splide.go('>');
+  });
+
+  splide.mount();
+});
+</script>
+
+{% schema %}
+{
+  "name": "Fabric Category Carousel",
+  "tag": "section",
+  "class": "fabric-category-carousel",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "SHOP SHIRT FABRIC BY CATEGORY"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Explore premium shirt fabrics tailored for every style and occasion."
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading Size",
+      "min": 18,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Subheading Size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading Color",
+      "default": "#555555"
+    },
+    {
+      "type": "header",
+      "content": "Carousel Layout"
+    },
+    {
+      "type": "range",
+      "id": "slides_desktop",
+      "label": "Slides Visible (Desktop)",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "slides_tablet",
+      "label": "Slides Visible (Tablet)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "slides_mobile",
+      "label": "Slides Visible (Mobile)",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "slide_gap",
+      "label": "Gap Between Slides",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image Aspect Ratio",
+      "default": "3/4",
+      "options": [
+        { "value": "1/1", "label": "Square (1:1)" },
+        { "value": "3/4", "label": "Portrait (3:4)" },
+        { "value": "2/3", "label": "Tall (2:3)" },
+        { "value": "4/5", "label": "Standard (4:5)" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Card Text"
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "label": "Card Title Size",
+      "min": 12,
+      "max": 26,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_subtitle_size",
+      "label": "Card Subtitle Size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card Border Color",
+      "default": "#dddddd"
+    },
+    {
+      "type": "header",
+      "content": "Arrow Buttons"
+    },
+    {
+      "type": "color",
+      "id": "arrow_bg_color",
+      "label": "Arrow Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "arrow_border_color",
+      "label": "Arrow Border",
+      "default": "#cccccc"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow Icon Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "arrow_hover_bg",
+      "label": "Arrow Hover Background",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "arrow_hover_color",
+      "label": "Arrow Hover Icon Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Pagination Dots"
+    },
+    {
+      "type": "color",
+      "id": "dot_active_color",
+      "label": "Active Dot Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "dot_inactive_color",
+      "label": "Inactive Dot Color",
+      "default": "#cccccc"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "font_family",
+      "label": "Font Family",
+      "default": "inherit",
+      "options": [
+        { "value": "inherit", "label": "Theme Default" },
+        { "value": "Helvetica, Arial, sans-serif", "label": "Helvetica" },
+        { "value": "'Times New Roman', serif", "label": "Times New Roman" },
+        { "value": "Georgia, serif", "label": "Georgia" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Background & Padding"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "label": "Max Container Width",
+      "min": 800,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "default": 1400
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide_card",
+      "name": "Slide Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "card_image",
+          "label": "Card Image"
+        },
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Title",
+          "default": "Pure Linen Shirt Fabric (62)"
+        },
+        {
+          "type": "text",
+          "id": "card_subtitle",
+          "label": "Subtitle / Tag",
+          "default": "First-class quality"
+        },
+        {
+          "type": "url",
+          "id": "card_url",
+          "label": "Card Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fabric Category Carousel",
+      "blocks": [
+        { "type": "slide_card", "settings": { "card_title": "Pure Linen Shirt Fabric (62)", "card_subtitle": "First-class quality" } },
+        { "type": "slide_card", "settings": { "card_title": "Pure Cotton Shirt Fabric (543)", "card_subtitle": "top-notch fabric" } },
+        { "type": "slide_card", "settings": { "card_title": "Linen Cotton Mix Blended Shirt Fabric (110)", "card_subtitle": "best in-house" } },
+        { "type": "slide_card", "settings": { "card_title": "Wrinkle Free Shirt Fabric (104)", "card_subtitle": "NEW - Save up to 30%!" } },
+        { "type": "slide_card", "settings": { "card_title": "Oxford Shirt Fabric (88)", "card_subtitle": "Classic weave" } },
+        { "type": "slide_card", "settings": { "card_title": "Dobby Shirt Fabric (74)", "card_subtitle": "Textured premium" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
