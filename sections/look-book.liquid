@@ -1,161 +1,232 @@
 {% comment %}
+
   ============================================================
+
   ABOUT US — Polaroid Fan Layout  |  Mime360
+
   ============================================================
+
 {% endcomment %}
 
+
+
 {%- liquid
+
   assign bg_color = section.settings.background_color
+
   assign heading   = section.settings.heading
+
   assign body_text = section.settings.body_text
+
   assign cta_text  = section.settings.cta_text
+
   assign cta_url   = section.settings.cta_url
+
   assign accent    = section.settings.accent_color
+
   assign card_blocks = section.blocks | where: 'type', 'card'
+
 -%}
 
+
+
 <section
+
   class="wau-section"
+
   id="wau-{{ section.id }}"
-  style="
-    --wau-bg: {{ section.settings.background_color }};
-    --wau-accent: {{ section.settings.accent_color }};
-    --wau-blob-color: {{ section.settings.blob_color }};
 
-    --wau-heading-color: {{ section.settings.heading_color }};
-    --wau-body-color: {{ section.settings.body_color }};
-
-    --wau-button-bg: {{ section.settings.button_bg }};
-    --wau-button-text: {{ section.settings.button_text }};
-    --wau-button-hover-bg: {{ section.settings.button_hover_bg }};
-    --wau-button-hover-text: {{ section.settings.button_hover_text }};
-
-    --wau-stats-number-color: {{ section.settings.stats_number_color }};
-    --wau-stats-label-color: {{ section.settings.stats_label_color }};
-    --wau-stats-number-size: {{ section.settings.stats_number_size }}px;
-    --wau-stats-number-size-mobile: {{ section.settings.stats_number_size_mobile }}px;
-    --wau-stats-number-weight: {{ section.settings.stats_number_weight }};
-    --wau-stats-label-size: {{ section.settings.stats_label_size }}px;
-    --wau-stats-label-size-mobile: {{ section.settings.stats_label_size_mobile }}px;
-    --wau-stats-label-weight: {{ section.settings.stats_label_weight }};
-
-    --wau-heading-size: {{ section.settings.heading_size }}px;
-    --wau-heading-size-mobile: {{ section.settings.heading_size_mobile }}px;
-    --wau-heading-weight: {{ section.settings.heading_weight }};
-
-    --wau-body-size: {{ section.settings.body_size }}px;
-    --wau-body-size-mobile: {{ section.settings.body_size_mobile }}px;
-    --wau-body-weight: {{ section.settings.body_weight }};
-
-    --wau-button-size: {{ section.settings.button_font_size }}px;
-    --wau-button-size-mobile: {{ section.settings.button_font_size_mobile }}px;
-    --wau-button-weight: {{ section.settings.button_font_weight }};
-    --wau-button-width: {{ section.settings.button_width_desktop }}px;
-    --wau-button-height: {{ section.settings.button_height_desktop }}px;
-    --wau-button-width-mobile: {{ section.settings.button_width_mobile }}px;
-    --wau-button-height-mobile: {{ section.settings.button_height_mobile }}px;
-
-    --wau-pt: {{ section.settings.padding_top }}px;
-    --wau-pb: {{ section.settings.padding_bottom }}px;
-  "
 >
+
   <!-- BG image layer -->
+
   {%- if section.settings.bg_image != blank -%}
+
     <div class="wau-bg-img" style="background-image: url('{{ section.settings.bg_image | image_url: width: 1600 }}');"></div>
+
   {%- endif -%}
+
   <div class="wau-bg-overlay"></div>
+
+
 
   <div class="wau-inner">
 
+
+
     <!-- ═══ LEFT ═══ -->
+
 <div class="wau-left">
+
   {% if section.settings.heading != blank %}
+
     <h2 class="wau-heading">
+
       {{ section.settings.heading }}
+
     </h2>
+
   {% endif %}
+
+
 
   {% if section.settings.body_text != blank %}
+
     <div class="wau-body ccc">
+
       {{ section.settings.body_text }}
+
     </div>
+
   {% endif %}
+
+
 
   {% if section.settings.cta_text != blank %}
+
     <a href="{{ section.settings.cta_url }}" class="wau-cta">
+
       <span>{{ section.settings.cta_text }}</span>
 
+
+
       <svg width="18" height="18" viewBox="0 0 14 14" fill="none">
+
         <path
+
           d="M1 7H13M13 7L7 1M13 7L7 13"
+
           stroke="currentColor"
+
           stroke-width="1.5"
+
           stroke-linecap="round"
+
           stroke-linejoin="round"
+
         />
+
       </svg>
+
     </a>
+
   {% endif %}
 
+
+
   <div class="wau-stats">
+
     {% for block in section.blocks %}
+
       {% if block.type == 'stat' %}
+
         <div class="wau-stat-pill" {{ block.shopify_attributes }}>
+
           <strong>{{ block.settings.stat_value }}</strong>
+
           <span>{{ block.settings.stat_label }}</span>
+
         </div>
+
       {% endif %}
+
     {% endfor %}
+
   </div>
+
 </div>
 
+
+
     <!-- ═══ RIGHT — Polaroid Fan ═══ -->
+
 <div class="wau-right">
+
   <div class="wau-fan-wrap">
 
+
+
     {% for block in section.blocks %}
+
       {% if block.type == 'card' %}
+
         <div class="wau-pcard wau-pcard--{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+
+
 
           <div class="wau-pcard__inner">
 
+
+
             {% if block.settings.card_image != blank %}
+
               {{
+
                 block.settings.card_image
+
                 | image_url: width: 700
+
                 | image_tag:
+
                   loading: 'lazy',
+
                   class: 'wau-pcard__img'
+
               }}
+
             {% endif %}
 
+
+
             {% if block.settings.card_label != blank %}
+
               <div class="wau-pcard__caption">
+
                 {{ block.settings.card_label }}
+
               </div>
+
             {% endif %}
+
+
 
           </div>
 
+
+
         </div>
+
       {% endif %}
+
     {% endfor %}
 
+
+
     <div class="wau-blob wau-blob--1"></div>
+
     <div class="wau-blob wau-blob--2"></div>
 
+
+
   </div>
+
 </div>
+
   </div><!-- /inner -->
+
+
 
   <!-- ═══ MARQUEE STRIP ═══ -->
 
 
+
+
+
 </section>
 
-<!-- ════════════════════════════
-  CSS
-════════════════════════════ -->
+
+
+
 <style>
 #wau-{{ section.id }} *, #wau-{{ section.id }} *::before, #wau-{{ section.id }} *::after {
   box-sizing: border-box;
@@ -163,16 +234,76 @@
   padding: 0;
 }
 
-/* ── Shell ── */
-.wau-section {
-  position: relative;
-  overflow: hidden;
-  padding-top: var(--wau-pt);
-  padding-bottom: var(--wau-pb);
-  background: var(--wau-bg);
+#wau-{{ section.id }} {
+  --wau-bg: linear-gradient(90deg, var(--color-indigo-blue, #1E3A5F) 0%, var(--color-raw-denim-blue, #345E8A) 100%);
+  --wau-accent: var(--color-copper-rivet, #B87333);
+  --wau-blob-color: var(--color-raw-denim-blue, #345E8A);
+
+  --wau-heading-color: var(--color-off-white, #F8F6F2);
+  --wau-body-color: var(--color-off-white, #F8F6F2);
+
+  --wau-button-bg: var(--color-off-white, #F8F6F2);
+  --wau-button-text: var(--color-deep-navy, #0B1F33);
+  --wau-button-hover-bg: var(--color-off-white, #F8F6F2);
+  --wau-button-hover-text: var(--color-deep-navy, #0B1F33);
+
+  --wau-stats-number-color: var(--color-copper-rivet, #B87333);
+  --wau-stats-label-color: var(--color-off-white, #F8F6F2);
+  --wau-stats-number-size: 28px;
+  --wau-stats-number-weight: 700;
+  --wau-stats-label-size: 11px;
+  --wau-stats-label-weight: 600;
+
+  --wau-heading-size: clamp(36px, 4.5vw, 56px);
+  --wau-heading-weight: 700;
+
+  --wau-body-size: 16px;
+  --wau-body-weight: 400;
+
+  --wau-button-size: 14px;
+  --wau-button-weight: 700;
+
+  --wau-pt: var(--global-section-padding-top-desktop, 60px);
+  --wau-pb: var(--global-section-padding-bottom-desktop, 60px);
 }
 
-.wau-bg-img {
+@media (max-width: 900px) {
+  #wau-{{ section.id }} {
+    --wau-pt: var(--global-section-padding-top-mobile, 40px);
+    --wau-pb: var(--global-section-padding-bottom-mobile, 40px);
+    --wau-body-size: 14px;
+  }
+}
+
+/* --- Shell --- */
+#wau-{{ section.id }}.wau-section,
+.wau-section-wrapper .wau-section {
+  position: relative !important;
+  width: 100vw !important;
+  left: 50% !important;
+  margin-left: -50vw !important;
+  margin-right: -50vw !important;
+  min-height: 500px !important;
+  padding-top: var(--wau-pt) !important;
+  padding-bottom: var(--wau-pb) !important;
+  background: var(--wau-bg) !important;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  overflow: visible !important; /* Allow polaroid cards to fan outside boundaries if needed */
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 900px) {
+  #wau-{{ section.id }}.wau-section,
+  .wau-section-wrapper .wau-section {
+    min-height: auto !important;
+    overflow: hidden !important; /* Keep clean boundaries on mobile */
+  }
+}
+
+/* Background image overlay control */
+#wau-{{ section.id }} .wau-bg-img {
   position: absolute;
   inset: 0;
   background-size: cover;
@@ -180,982 +311,1417 @@
   z-index: 0;
 }
 
-.wau-bg-overlay {
+#wau-{{ section.id }} .wau-bg-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(100deg, rgba(12,65,104,0.92) 0%, rgba(12,65,104,0.70) 55%, rgba(12,65,104,0.30) 100%);
+  background: linear-gradient(100deg, rgba(11,31,51,0.92) 0%, rgba(11,31,51,0.70) 55%, rgba(11,31,51,0.30) 100%);
   z-index: 1;
+  display: none !important;
 }
 
-/* ── Inner grid ── */
-.wau-inner {
+#wau-{{ section.id }} .wau-bg-img + .wau-bg-overlay {
+  display: block !important;
+}
+
+/* --- Inner grid --- */
+#wau-{{ section.id }} .wau-inner {
   position: relative;
   z-index: 2;
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0 60px var(--wau-pb, 80px);
-  display: grid;
-  grid-template-columns: 44% 1fr;
-  gap: 0;
-  align-items: center;
-  min-height: 500px;
+  max-width: var(--global-max-container-width-desktop, 1400px) !important;
+  margin: 0 auto !important;
+  padding: 0 var(--global-container-side-padding-desktop, 40px) 0 !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 40px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 500px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
-/* ══ LEFT ══════════════════════════════ */
-.wau-left {
-    gap: 10px;
-  color: var(--wb-color-white);
-  padding-right: 40px;
-      width: 82%;
-  margin: auto !important;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+@media (max-width: 900px) {
+  #wau-{{ section.id }} .wau-inner {
+    grid-template-columns: 1fr !important;
+    padding: 0 var(--global-container-side-padding-mobile, 20px) 0 !important;
+    gap: 50px !important;
+    min-height: auto !important;
+  }
 }
 
-.wau-heading {
-  font-family: {{ section.settings.section_font.family }}, {{ section.settings.section_font.fallback_families }};
-  font-size: var(--wau-heading-size);
-  font-weight: var(--wau-heading-weight);
-  color: var(--wau-heading-color);
-  line-height: 1.1;
-  text-transform: uppercase;
-  margin-bottom: 28px;
+/* --- LEFT Column --- */
+#wau-{{ section.id }} .wau-left {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  padding-right: 40px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
 }
 
-.wau-section.wau-visible .wau-heading {
-  opacity: 1;
-  transform: translateX(0);
+@media (max-width: 900px) {
+  #wau-{{ section.id }} .wau-left {
+    padding-right: 0 !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+}
+#wau-{{ section.id }} .wau-heading {
+  color: white !important;
+  line-height: 1.2 !important;
+  text-transform: uppercase !important;
+  margin: 0 0 20px 0 !important;
+  letter-spacing: 0.05em !important;
 }
 
-.wau-body {
-  font-family: {{ section.settings.section_font.family }}, {{ section.settings.section_font.fallback_families }};
-  font-size: var(--wau-body-size);
-  font-weight: var(--wau-body-weight);
-  color: var(--wau-body-color);
-  line-height: 1.7;
-  max-width: 450px;
-  margin-bottom: 36px;
+{% comment %}
+
+#wau-{{ section.id }} .wau-heading {
+  font-family: var(--font-heading--family), "Canela", "Freight Display", serif !important;
+  font-size: var(--wau-heading-size) !important;
+  font-weight: var(--wau-heading-weight) !important;
+  color: var(--wau-heading-color) !important;
+  line-height: 1.2 !important;
+  text-transform: uppercase !important;
+  margin: 0 0 20px 0 !important;
+  letter-spacing: 0.05em !important;
 }
 
-.wau-section.wau-visible .wau-body {
-  opacity: 1;
-  transform: translateX(0);
+{% endcomment %}
+
+#wau-{{ section.id }} .wau-body {
+  font-family: var(--font-body--family), "Inter", sans-serif !important;
+/*  font-size: var(--wau-body-size) !important; */
+  font-weight: var(--wau-body-weight) !important;
+  color: var(--wau-body-color) !important;
+  line-height: 1.6 !important;
+  max-width: 480px !important;
+  margin: 0 0 30px 0 !important;
 }
 
-/* CTA */
-.wau-cta:hover {
-  background: var(--wau-button-hover-bg);
-  color: var(--wau-button-hover-text);
-}
-.wau-stat-pill strong,
-.wau-stat-pill span {
-  font-family: Helvetica;
-}
-.wau-pcard__caption {
-  font-family: Helvetica;
-}
-.wau-cta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  text-decoration: none;
-
-  font-family: Helvetica;
-  font-size: var(--wau-button-size);
-  font-weight: var(--wau-button-weight);
-  width: var(--wau-button-width);
-  min-width: var(--wau-button-width);
-  height: var(--wau-button-height);
-  min-height: var(--wau-button-height);
-  background: var(--wau-button-bg);
-  color: var(--wau-button-text);
-  padding: 0 14px;
-  transition: all .3s ease;
-  box-sizing: border-box;
+@media (max-width: 900px) {
+  #wau-{{ section.id }} .wau-body {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
 }
 
-.wau-cta::after {
-  /* content: ''; */
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0.18);
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
+#wau-{{ section.id }} .wau-cta {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  text-decoration: none !important;
+  font-family: var(--font-body--family), "Inter", sans-serif !important;
+/*  font-size: var(--wau-button-size) !important; */ 
+  font-weight: var(--wau-button-weight) !important;
+  background: var(--wau-button-bg) !important;
+  color: var(--wau-button-text) !important;
+  padding: 12px 28px !important;
+  border: none !important;
+  border-radius: 0 !important;
+  height: auto !important;
+  min-height: auto !important;
+  width: auto !important;
+  min-width: auto !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  transition: opacity 0.3s ease, background-color 0.3s ease, color 0.3s ease !important;
+  box-sizing: border-box !important;
 }
 
-.wau-cta:hover::after {
-  transform: translateX(0);
+#wau-{{ section.id }} .wau-cta:hover {
+  background: var(--wau-button-hover-bg) !important;
+  color: var(--wau-button-hover-text) !important;
+  opacity: 0.9 !important;
 }
 
+#wau-{{ section.id }} .wau-cta svg {
+  stroke: var(--wau-button-text) !important;
+  transition: transform 0.3s ease !important;
+}
 
-.wau-section.wau-visible .wau-cta {
-  opacity: 1;
-  transform: translateY(0);
+#wau-{{ section.id }} .wau-cta:hover svg {
+  transform: translateX(4px) !important;
+}
+
+#wau-{{ section.id }} .wau-cta::after {
+  display: none !important;
 }
 
 /* Stats */
-.wau-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 36px;
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.8s ease 0.38s, transform 0.8s ease 0.38s;
+#wau-{{ section.id }} .wau-stats {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 16px !important;
+  margin-top: 40px !important;
+  width: 100% !important;
 }
 
-.wau-section.wau-visible .wau-stats {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.wau-stat-pill {
-  background: rgba(255,255,255,0.07);
-  border: 1px solid rgba(255,255,255,0.13);
-
-  padding: 14px 20px !important;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+#wau-{{ section.id }} .wau-stat-pill {
+  flex: 1 1 0% !important;
+  background: rgba(11, 31, 51, 0.45) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  padding: 16px 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  align-items: flex-start !important;
+  border-radius: 0 !important;
+  box-sizing: border-box !important;
+  text-align: left !important;
   backdrop-filter: blur(10px);
-  transition: background 0.25s, border-color 0.25s;
+  transition: background-color 0.25s, border-color 0.25s !important;
 }
 
-.wau-stat-pill:hover {
-  background: rgba(255,255,255,0.13);
-  border-color: var(--wb-color-lime, #21F010);
+#wau-{{ section.id }} .wau-stat-pill:hover {
+  background: rgba(11, 31, 51, 0.55) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
-.wau-stat-pill strong {
-  font-family: var(--wb-font-heading, sans-serif);
-  font-size: var(--wau-stats-number-size);
-  font-weight: var(--wau-stats-number-weight);
-  color: var(--wau-accent);
-  line-height: 1;
+#wau-{{ section.id }} .wau-stat-pill strong {
+  font-family: var(--font-heading--family), "Canela", "Freight Display", serif !important;
+  font-size: var(--wau-stats-number-size) !important;
+  font-weight: 300 !important;
+  color: var(--wau-stats-number-color) !important;
+  line-height: 1.1 !important;
 }
 
-.wau-stat-pill span {
-  font-size: var(--wau-stats-label-size);
-  font-weight: var(--wau-stats-label-weight);
-  letter-spacing: var(--wb-letter-wide, 0.1em);
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
-  font-family: Helvetica;
+#wau-{{ section.id }} .wau-stat-pill span {
+  font-family: var(--font-body--family), "Inter", sans-serif !important;
+  font-size: var(--wau-stats-label-size) !important;
+  font-weight: var(--wau-stats-label-weight) !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--wau-stats-label-color) !important;
+  line-height: 1.3 !important;
 }
 
-/* ══ RIGHT — Fan cards ══════════════════ */
-.wau-right {
-  position: relative;
-  z-index: 2;
+@media (max-width: 900px) {
+  #wau-{{ section.id }} .wau-stats {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 12px !important;
+  }
+
+  #wau-{{ section.id }} .wau-stat-pill {
+    flex: 1 1 calc(33.33% - 8px) !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 12px 10px !important;
+  }
 }
 
-.wau-fan-wrap {
-  position: relative;
-  width: 50%;
-  height: 520px;
-  margin: auto !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@media (max-width: 480px) {
+  #wau-{{ section.id }} .wau-stat-pill {
+    flex: 1 1 100% !important;
+  }
 }
 
-/* Base polaroid card */
-.wau-pcard {
-  position: absolute;
-  width: 220px;
-  background: var(--wb-color-white, #fff);
-  padding: 10px 10px 36px;
-  box-shadow: var(--wb-shadow-md, 0 24px 60px rgba(0,0,0,0.38));
-  cursor: pointer;
-  transform-origin: center bottom;
-  will-change: transform;
-  transition: box-shadow 0.35s ease;
+/* --- RIGHT Column (Polaroid Fan Cards) --- */
+#wau-{{ section.id }} .wau-right {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  position: relative !important;
 }
 
-.wau-pcard:hover {
-  box-shadow: 0 36px 80px rgba(0,0,0,0.55);
+#wau-{{ section.id }} .wau-fan-wrap {
+  position: relative !important;
+  width: 100% !important;
+  max-width: 480px !important;
+  height: 520px !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2 !important;
+}
+
+#wau-{{ section.id }} .wau-pcard {
+  position: absolute !important;
+  width: 240px !important;
+  background: var(--color-off-white, #F8F6F2) !important;
+  padding: 12px 12px 24px !important;
+  box-shadow: 0 20px 40px rgba(11, 31, 51, 0.25) !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  border-radius: 0 !important;
+  transform-origin: center bottom !important;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease !important;
+  z-index: 10 !important;
+  box-sizing: border-box !important;
+}
+
+#wau-{{ section.id }} .wau-pcard:hover {
   z-index: 20 !important;
+  box-shadow: 0 30px 60px rgba(11, 31, 51, 0.4) !important;
 }
 
-/* Fan positions — staggered like scattered photos */
-.wau-pcard--0 {
-  left: 50px;
-  top: 50px;
-  z-index: 10;
+#wau-{{ section.id }} .wau-pcard--0 {
+  left: 20px !important;
+  top: 60px !important;
   --base-rot: -12deg;
+  transform: rotate(-12deg);
 }
 
-.wau-pcard--1 {
-  left: 160px;
-  top: 20px;
-  z-index: 11;
+#wau-{{ section.id }} .wau-pcard--1 {
+  left: 120px !important;
+  top: 20px !important;
+  z-index: 11 !important;
   --base-rot: 2deg;
+  transform: rotate(2deg);
 }
 
-.wau-pcard--2 {
-  left: 270px;
-  top: 60px;
-  z-index: 12;
+#wau-{{ section.id }} .wau-pcard--2 {
+  left: 220px !important;
+  top: 70px !important;
+  z-index: 12 !important;
   --base-rot: 14deg;
+  transform: rotate(14deg);
 }
 
-.wau-pcard__inner {
-  width: 100%;
-  overflow: hidden;
-
+#wau-{{ section.id }} .wau-pcard__inner {
+  width: 100% !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
-.wau-pcard__img {
-  width: 100%;
-  aspect-ratio: 3/4;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.5s ease;
+#wau-{{ section.id }} .wau-pcard__img {
+  width: 100% !important;
+  aspect-ratio: 3/4 !important;
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 0 !important;
+  transition: transform 0.5s ease !important;
 }
 
-.wau-pcard:hover .wau-pcard__img {
-  transform: scale(1.04);
+#wau-{{ section.id }} .wau-pcard:hover .wau-pcard__img {
+  transform: scale(1.04) !important;
 }
 
-.wau-pcard__img--ph {
-  opacity: 0.25;
-  background: #aac;
+#wau-{{ section.id }} .wau-pcard__caption {
+  text-align: center !important;
+  margin-top: 14px !important;
+  font-family: var(--font-body--family), "Inter", sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: var(--color-deep-navy, #0B1F33) !important;
 }
 
-.wau-pcard__caption {
-  text-align: center;
-  margin-top: 10px;
-  font-family: var(--wb-font-body, sans-serif);
-  font-size: 9px;
-  font-weight: var(--wb-fw-bold, 700);
-  letter-spacing: var(--wb-letter-wide, 0.09em);
-  text-transform: uppercase;
-  color: var(--wb-color-blue, #333);
+@media (max-width: 900px) {
+  #wau-{{ section.id }} .wau-fan-wrap {
+    height: 380px !important;
+    max-width: 360px !important;
+  }
+
+  #wau-{{ section.id }} .wau-pcard {
+    width: 170px !important;
+    padding: 8px 8px 18px !important;
+  }
+
+  #wau-{{ section.id }} .wau-pcard--0 {
+    left: 10px !important;
+    top: 40px !important;
+  }
+
+  #wau-{{ section.id }} .wau-pcard--1 {
+    left: 95px !important;
+    top: 15px !important;
+  }
+
+  #wau-{{ section.id }} .wau-pcard--2 {
+    left: 180px !important;
+    top: 50px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  #wau-{{ section.id }} .wau-fan-wrap {
+    height: 280px !important;
+    max-width: 280px !important;
+  }
+
+  #wau-{{ section.id }} .wau-pcard {
+    width: 130px !important;
+    padding: 6px 6px 14px !important;
+  }
+
+  #wau-{{ section.id }} .wau-pcard--0 {
+    left: 5px !important;
+    top: 30px !important;
+  }
+
+  #wau-{{ section.id }} .wau-pcard--1 {
+    left: 75px !important;
+    top: 10px !important;
+  }
+
+  #wau-{{ section.id }} .wau-pcard--2 {
+    left: 145px !important;
+    top: 40px !important;
+  }
 }
 
 /* Blobs */
-.wau-blob {
-  position: absolute;
-  filter: blur(70px);
-  pointer-events: none;
-  z-index: 0;
+#wau-{{ section.id }} .wau-blob {
+  position: absolute !important;
+  filter: blur(70px) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
 }
 
-.wau-blob--1 {
-  width: 280px;
-  height: 280px;
-background: var(--wau-accent);
-  opacity: 0.07;
-  top: -20px;
-  right: -40px;
-  animation: wau-pulse 7s ease-in-out infinite alternate;
+#wau-{{ section.id }} .wau-blob--1 {
+  width: 280px !important;
+  height: 280px !important;
+  background: var(--wau-accent) !important;
+  opacity: 0.07 !important;
+  top: -20px !important;
+  right: -40px !important;
+  animation: wau-pulse 7s ease-in-out infinite alternate !important;
 }
 
-.wau-blob--2 {
-  width: 220px;
-  height: 220px;
-  background: #851828;
-  opacity: 0.1;
-  bottom: 30px;
-  left: 10px;
-  animation: wau-pulse 9s ease-in-out infinite alternate-reverse;
+#wau-{{ section.id }} .wau-blob--2 {
+  width: 220px !important;
+  height: 220px !important;
+  background: var(--wau-blob-color) !important;
+  opacity: 0.1 !important;
+  bottom: 30px !important;
+  left: 10px !important;
+  animation: wau-pulse 9s ease-in-out infinite alternate-reverse !important;
 }
 
 @keyframes wau-pulse {
   from { transform: scale(1); }
   to { transform: scale(1.3); }
 }
-
-/* ══ MARQUEE ══════════════════════════ */
-.wau-marquee-wrap {
-  position: relative;
-  z-index: 2;
-  overflow: hidden;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  background: rgba(0,0,0,0.2);
-  padding: 17px 0;
-  margin-top: 0;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
-}
-
-.wau-marquee-track {
-  display: flex;
-  white-space: nowrap;
-  animation: wau-scroll 32s linear infinite;
-  will-change: transform;
-}
-
-.wau-marquee-wrap:hover .wau-marquee-track {
-  animation-play-state: paused;
-}
-
-@keyframes wau-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-25%); }
-}
-
-.wau-ticker-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  padding: 0 26px;
-  font-family: var(--wb-font-heading, 'Bebas Neue', 'Arial Black', sans-serif);
-  font-size: var(--wb-h5, clamp(15px, 1.6vw, 21px));
-  font-weight: var(--wb-fw-extrabold, 900);
-  letter-spacing: var(--wb-letter-wide, 0.16em);
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.88);
-}
-
-.wau-ticker-star {
-  color: var(--wb-color-lime, #21F010);
-  font-size: 0.5em;
-  animation: wau-spin 5s linear infinite;
-  display: inline-block;
-}
-
-@keyframes wau-spin {
-  to { transform: rotate(360deg); }
-}
-
-
-  .shopify-section.wau-section-wrapper{
-    padding-top: {{ section.settings.padding_desktop-top }}px;
-  padding-bottom: {{ section.settings.padding_desktop-bottom }}px;
-  }
-
-/* ══ RESPONSIVE ═══════════════════════ */
-@media (max-width: 900px) {
-  .wau-inner {
-    grid-template-columns: 1fr;
-    padding: 0 24px 60px;
-    gap: 52px;
-    min-height: unset;
-  }
-
-
-  .shopify-section.wau-section-wrapper{
-    padding-top: {{ section.settings.padding_top_mobile }}px;
-  padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
-  }
-  {% comment %} .wau-section {
-  padding-top: var(--wau-pt-mobile);
-  padding-bottom: var(--wau-pb-mobile);
-} {% endcomment %}
-  .wau-stat-pill span{
-  font-size: 10px;
-}
-
-
-  .wau-left {
-    padding-right: 0;
-  }
-
-  .wau-fan-wrap {
-    height: 380px;
-    width: 77% !important;
-  }
-
-  .wau-pcard {
-    width: 165px;
-  }
-
-  .wau-pcard--0 {
-    left: 20px;
-    top: 40px;
-  }
-
-  .wau-pcard--1 {
-    left: 110px;
-    top: 15px;
-  }
-
-  .wau-pcard--2 {
-    left: 200px;
-    top: 50px;
-  }
-}
-
-@media (max-width: 768px) {
-  .wau-heading {
-    font-size: var(--wau-heading-size-mobile) !important;
-  }
-
-  .wau-body {
-    font-size: var(--wau-body-size-mobile);
-  }
-
-  .wau-stat-pill strong {
-    font-size: var(--wau-stats-number-size-mobile);
-  }
-
-  .wau-stat-pill span {
-    font-size: var(--wau-stats-label-size-mobile);
-  }
-
-  .wau-cta {
-    width: var(--wau-button-width-mobile);
-    min-width: var(--wau-button-width-mobile);
-    height: var(--wau-button-height-mobile);
-    min-height: var(--wau-button-height-mobile);
-    font-size: var(--wau-button-size-mobile);
-    padding: 0 8px;
-    gap: 6px;
-  }
-}
-
-@media (max-width: 480px) {
-  .wau-fan-wrap {
-    height: 300px;
-  }
-
-  .wau-pcard {
-    width: 130px;
-    padding: 7px 7px 28px;
-  }
-
-  .wau-pcard--0 {
-    left: 10px;
-    top: 30px;
-  }
-
-  .wau-pcard--1 {
-    left: 82px;
-    top: 10px;
-  }
-
-  .wau-pcard--2 {
-    left: 155px;
-    top: 45px;
-  }
-
-  .wau-heading {
-    font-size: clamp(32px, 9vw, 42px);
-    
-  }
-
-  .wau-body {
-    font-size: 14px;
-  }
-
-  .wau-ticker-item {
-    font-size: 15px;
-  }
-}
-
 </style>
 
+
+
+
 <!-- ════════════════════════════
+
   JAVASCRIPT
+
 ════════════════════════════ -->
+
 <script>
+
 (function () {
+
   const SEC = document.getElementById('wau-{{ section.id }}');
+
   if (!SEC) return;
 
+
+
   /* 1 — Scroll reveal */
+
   const io = new IntersectionObserver(([e]) => {
+
     if (e.isIntersecting) { SEC.classList.add('wau-visible'); io.disconnect(); }
+
   }, { threshold: 0.12 });
+
   io.observe(SEC);
 
+
+
   /* 2 — Gentle 3D Y-axis rotate per card, staggered phase */
+
   const cards = SEC.querySelectorAll('.wau-pcard');
+
   const DUR = 7.0; // seconds per full cycle
+
   const MAX_Y = 16; // degrees
+
   const MAX_X = 5;
 
+
+
   // Read the base static rotation from CSS var
+
   const baseRots = [-12, 2, 14];
 
+
+
   cards.forEach((card, i) => {
+
     const phaseOffset = (i / cards.length) * DUR; // stagger 1/3 cycle each
+
     let startTs = null;
+
     let isHovered = false;
 
+
+
     card.addEventListener('mouseenter', () => { isHovered = true; });
+
     card.addEventListener('mouseleave', () => { isHovered = false; });
 
+
+
     function tick(ts) {
+
       if (!startTs) startTs = ts;
+
       const elapsed = ((ts - startTs) / 1000) + phaseOffset;
+
       const angle = (elapsed / DUR) * Math.PI * 2;
 
+
+
       if (!isHovered) {
+
         const rotY = Math.sin(angle) * MAX_Y;
+
         const rotX = Math.cos(angle) * MAX_X;
+
         const baseZ = baseRots[i] || 0;
+
         card.style.transform = `rotate(${baseZ}deg) perspective(800px) rotateY(${rotY}deg) rotateX(${rotX}deg)`;
+
       } else {
+
         // On hover: straighten and lift
+
         card.style.transform = `rotate(0deg) perspective(800px) rotateY(0deg) rotateX(0deg) translateY(-8px) scale(1.05)`;
+
       }
+
       requestAnimationFrame(tick);
+
     }
+
     requestAnimationFrame(tick);
+
   });
 
+
+
   /* 3 — Duplicate ticker for seamless loop */
+
   const track = document.getElementById('wau-ticker-{{ section.id }}');
+
   if (track) {
+
     while (track.scrollWidth < window.innerWidth * 4) {
+
       track.innerHTML += track.innerHTML;
+
     }
+
   }
+
 })();
+
 </script>
 
+
+
 <!-- ════════════════════════════
+
   SCHEMA
+
 ════════════════════════════ -->
+
 {% schema %}
+
 {
-  "name": "About Us — Fan Cards",
+
+  "name": "About Us - Fan Cards",
+
   "tag": "section",
+
   "class": "wau-section-wrapper",
+
   "settings": [
+
     {
+
       "type": "header",
+
       "content": "Content"
+
     },
+
     {
+
       "type": "textarea",
+
       "id": "heading",
+
       "label": "Heading",
+
       "default": "ABOUT US"
+
     },
+
     {
+
       "type": "textarea",
+
       "id": "body_text",
+
       "label": "Description",
+
       "default": "Be bold, be you. Born from a belief that every woman deserves confidence in everything she wears."
+
     },
+
     {
+
       "type": "text",
+
       "id": "cta_text",
+
       "label": "Button Text",
+
       "default": "OUR STORY"
+
     },
+
     {
+
       "type": "url",
+
       "id": "cta_url",
+
       "label": "Button Link"
+
     },
 
+
+
     {
+
       "type": "header",
+
       "content": "Typography"
+
     },
+
     {
+
       "type": "font_picker",
+
       "id": "section_font",
+
       "label": "Font Family",
+
       "default": "helvetica_n4"
+
     },
+
     {
+
       "type": "color",
+
       "id": "heading_color",
+
       "label": "Heading Color",
+
       "default": "#FFFFFF"
+
     },
+
     {
+
       "type": "range",
+
       "id": "heading_size",
+
       "label": "Heading Font Size",
+
       "min": 20,
+
       "max": 120,
+
       "step": 2,
+
       "unit": "px",
+
       "default": 40
+
     },
+
     {
+
       "type": "range",
+
       "id": "heading_size_mobile",
+
       "label": "Heading Font Size Mobile",
+
       "min": 16,
+
       "max": 80,
+
       "step": 1,
+
       "unit": "px",
+
       "default": 24
+
     },
+
     {
+
       "type": "range",
+
       "id": "heading_weight",
+
       "label": "Heading Font Weight",
+
       "min": 100,
+
       "max": 900,
+
       "step": 100,
+
       "default": 700
+
     },
+
     {
+
       "type": "color",
+
       "id": "body_color",
+
       "label": "Body Text Color",
+
       "default": "#FFFFFF"
+
     },
+
     {
+
       "type": "range",
+
       "id": "body_size",
+
       "label": "Body Font Size",
+
       "min": 12,
+
       "max": 40,
+
       "step": 1,
+
       "unit": "px",
+
       "default": 14
+
     },
+
     {
+
       "type": "range",
+
       "id": "body_size_mobile",
+
       "label": "Body Font Size Mobile",
+
       "min": 12,
+
       "max": 30,
+
       "step": 1,
+
       "unit": "px",
+
       "default": 14
+
     },
+
     {
+
       "type": "range",
+
       "id": "body_weight",
+
       "label": "Body Font Weight",
+
       "min": 100,
+
       "max": 900,
+
       "step": 100,
+
       "default": 400
+
     },
 
+
+
     {
+
       "type": "header",
+
       "content": "Button Settings"
+
     },
+
     {
+
       "type": "color",
+
       "id": "button_bg",
+
       "label": "Button Background Color",
+
       "default": "#FFFFFF"
+
     },
+
     {
+
       "type": "color",
+
       "id": "button_text",
+
       "label": "Button Text Color",
+
       "default": "#0C4168"
+
     },
+
     {
+
       "type": "color",
+
       "id": "button_hover_bg",
+
       "label": "Button Hover Background",
+
       "default": "#0C4168"
+
     },
+
     {
+
       "type": "color",
+
       "id": "button_hover_text",
+
       "label": "Button Hover Text Color",
+
       "default": "#FFFFFF"
+
     },
+
     {
+
       "type": "range",
+
       "id": "button_font_size",
+
       "label": "Button Font Size",
+
       "min": 10,
+
       "max": 30,
+
       "step": 1,
+
       "unit": "px",
+
       "default": 14
+
     },
+
     {
+
       "type": "range",
+
       "id": "button_font_size_mobile",
+
       "label": "Button Font Size Mobile",
+
       "min": 8,
+
       "max": 24,
+
       "step": 1,
+
       "unit": "px",
+
       "default": 14
+
     },
+
     {
+
       "type": "range",
+
       "id": "button_font_weight",
+
       "label": "Button Font Weight",
+
       "min": 100,
+
       "max": 900,
+
       "step": 100,
+
       "default": 700
+
     },
+
     {
+
       "type": "range",
+
       "id": "button_width_desktop",
+
       "label": "Button Width Desktop",
+
       "min": 80,
+
       "max": 220,
+
       "step": 2,
+
       "unit": "px",
+
       "default": 150
+
     },
+
     {
+
       "type": "range",
+
       "id": "button_height_desktop",
+
       "label": "Button Height Desktop",
+
       "min": 24,
+
       "max": 100,
+
       "step": 2,
+
       "unit": "px",
+
       "default": 40
+
     },
+
     {
+
       "type": "range",
+
       "id": "button_width_mobile",
+
       "label": "Button Width Mobile",
+
       "min": 60,
+
       "max": 220,
+
       "step": 2,
+
       "unit": "px",
+
       "default": 100
+
     },
+
     {
+
       "type": "range",
+
       "id": "button_height_mobile",
+
       "label": "Button Height Mobile",
+
       "min": 24,
+
       "max": 100,
+
       "step": 2,
+
       "unit": "px",
+
       "default": 40
+
     },
 
+
+
     {
+
       "type": "header",
+
       "content": "Statistics"
+
     },
+
     {
+
       "type": "color",
+
       "id": "stats_number_color",
+
       "label": "Stats Number Color",
+
       "default": "#21F010"
+
     },
+
     {
+
       "type": "color",
+
       "id": "stats_label_color",
+
       "label": "Stats Label Color",
+
       "default": "#B7C1CC"
+
     },
+
     {
+
       "type": "range",
+
       "id": "stats_number_size",
+
       "label": "Stats Number Font Size Desktop",
+
       "min": 12,
+
       "max": 40,
+
       "step": 1,
+
       "unit": "px",
+
       "default": 20
+
     },
+
     {
+
       "type": "range",
+
       "id": "stats_number_size_mobile",
+
       "label": "Stats Number Font Size Mobile",
+
       "min": 12,
+
       "max": 32,
+
       "step": 1,
+
       "unit": "px",
+
       "default": 18
+
     },
+
     {
+
       "type": "range",
+
       "id": "stats_number_weight",
+
       "label": "Stats Number Font Weight",
+
       "min": 100,
+
       "max": 900,
+
       "step": 100,
+
       "default": 800
+
     },
+
     {
+
       "type": "range",
+
       "id": "stats_label_size",
+
       "label": "Stats Label Font Size Desktop",
+
       "min": 8,
+
       "max": 24,
+
       "step": 1,
+
       "unit": "px",
+
       "default": 12
+
     },
+
     {
+
       "type": "range",
+
       "id": "stats_label_size_mobile",
+
       "label": "Stats Label Font Size Mobile",
+
       "min": 8,
+
       "max": 20,
+
       "step": 1,
+
       "unit": "px",
+
       "default": 10
+
     },
+
     {
+
       "type": "range",
+
       "id": "stats_label_weight",
+
       "label": "Stats Label Font Weight",
+
       "min": 100,
+
       "max": 900,
+
       "step": 100,
+
       "default": 400
+
     },
 
+
+
     {
+
       "type": "header",
+
       "content": "Background & Glow"
-    },
-    {
-      "type": "image_picker",
-      "id": "bg_image",
-      "label": "Background Image"
-    },
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background Color",
-      "default": "#0C4168"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent Color",
-      "default": "#21F010"
-    },
-    {
-      "type": "color",
-      "id": "blob_color",
-      "label": "Glow Blur Color",
-      "default": "#21F010"
+
     },
 
     {
+
+      "type": "image_picker",
+
+      "id": "bg_image",
+
+      "label": "Background Image"
+
+    },
+
+    {
+
+      "type": "color",
+
+      "id": "background_color",
+
+      "label": "Background Color",
+
+      "default": "#0C4168"
+
+    },
+
+    {
+
+      "type": "color",
+
+      "id": "accent_color",
+
+      "label": "Accent Color",
+
+      "default": "#21F010"
+
+    },
+
+    {
+
+      "type": "color",
+
+      "id": "blob_color",
+
+      "label": "Glow Blur Color",
+
+      "default": "#21F010"
+
+    },
+
+
+
+    {
+
       "type": "header",
+
       "content": "Spacing"
+
     },
+
     {
+
   "type": "range",
+
   "id": "padding_desktop-top",
+
   "label": "Desktop Section Padding top",
+
   "min": 0,
+
   "max": 200,
+
   "step": 2,
+
   "unit": "px",
+
   "default": 60
+
 },
+
 {
+
   "type": "range",
+
   "id": "padding_desktop-bottom",
+
   "label": "Desktop Section Padding bottom",
+
   "min": 0,
+
   "max": 200,
+
   "step": 2,
+
   "unit": "px",
+
   "default": 60
+
 },
+
 {
+
   "type": "range",
+
   "id": "padding_top_mobile",
+
   "label": "Mobile Section Padding Top",
+
   "min": 0,
+
   "max": 200,
+
   "step": 2,
+
   "unit": "px",
+
   "default": 30
+
 },
+
 {
+
   "type": "range",
+
   "id": "padding_bottom_mobile",
+
   "label": "Mobile Section Padding Bottom",
+
   "min": 0,
+
   "max": 200,
+
   "step": 2,
+
   "unit": "px",
+
   "default": 30
+
 },
+
     {
+
       "type": "range",
+
       "id": "padding_top",
+
       "label": "Content Padding Top",
+
       "min": 0,
+
       "max": 200,
+
       "step": 4,
+
       "unit": "px",
+
       "default": 80
+
     },
+
     {
+
       "type": "range",
+
       "id": "padding_bottom",
+
       "label": "Content Padding Bottom",
+
       "min": 0,
+
       "max": 200,
+
       "step": 4,
+
       "unit": "px",
+
       "default": 80
+
     }
+
   ],
+
+
 
   "blocks": [
+
     {
+
       "type": "card",
+
       "name": "Image Card",
+
       "limit": 3,
+
       "settings": [
+
         {
+
           "type": "image_picker",
+
           "id": "card_image",
+
           "label": "Card Image"
+
         },
+
         {
+
           "type": "text",
+
           "id": "card_label",
+
           "label": "Card Caption",
+
           "default": "OUR STYLE"
+
         }
+
       ]
+
     },
+
     {
+
       "type": "stat",
+
       "name": "Statistics",
+
       "settings": [
+
         {
+
           "type": "text",
+
           "id": "stat_value",
+
           "label": "Value",
+
           "default": "10K+"
+
         },
+
         {
+
           "type": "text",
+
           "id": "stat_label",
+
           "label": "Label",
+
           "default": "Happy Customers"
+
         }
+
       ]
+
     }
+
   ],
+
+
 
   "presets": [
     {
-      "name": "About Us — Fan Cards",
+      "name": "About Us - Fan Cards",
       "blocks": [
         {
-          "type": "card"
+          "type": "card",
+          "settings": {
+            "card_label": "PURE CONFIDENCE"
+          }
         },
         {
-          "type": "card"
+          "type": "card",
+          "settings": {
+            "card_label": "BORN BOLD"
+          }
         },
         {
-          "type": "card"
+          "type": "card",
+          "settings": {
+            "card_label": "FEARLESS SPIRIT"
+          }
         },
         {
-          "type": "stat"
+          "type": "stat",
+          "settings": {
+            "stat_value": "10K+",
+            "stat_label": "HAPPY CUSTOMERS"
+          }
         },
         {
-          "type": "stat"
+          "type": "stat",
+          "settings": {
+            "stat_value": "4.9★",
+            "stat_label": "AVG. RATING"
+          }
         },
         {
-          "type": "stat"
+          "type": "stat",
+          "settings": {
+            "stat_value": "100%",
+            "stat_label": "MADE WITH LOVE"
+          }
         }
       ]
     }
   ]
+
 }
+
 {% endschema %}
+

@@ -1,3 +1,4 @@
+{%- comment -%} theme-check-disable UndefinedObject {%- endcomment -%}
 {%- comment -%}
   Intended for blocks and sections that provide values for all the referenced settings.
 
@@ -7,5 +8,11 @@
       settings: {block.settings || section.settings}
 {%- endcomment -%}
 
---padding-block-start: {{ settings.padding-block-start | default: 0 }}px; --padding-block-end:{{- settings.padding-block-end | default: 0 -}}px; 
---padding-inline-start:{{ settings.padding-inline-start | default: 0 }}px; --padding-inline-end:{{- settings.padding-inline-end | default: 0 -}}px; 
+{%- liquid
+  assign padding_top = settings['padding-block-start']
+  assign padding_bottom = settings['padding-block-end']
+  assign padding_left = settings['padding-inline-start'] | default: 0
+  assign padding_right = settings['padding-inline-end'] | default: 0
+-%}
+--padding-block-start: {% if padding_top != blank and padding_top != 0 %}{{ padding_top }}px{% else %}{% if settings == section.settings %}var(--global-section-padding-top){% else %}0px{% endif %}{% endif %}; --padding-block-end:{%- if padding_bottom != blank and padding_bottom != 0 -%}{{ padding_bottom }}px{%- else -%}{% if settings == section.settings %}var(--global-section-padding-bottom){% else %}0px{% endif %}{%- endif -%}; 
+--padding-inline-start:{{ padding_left }}px; --padding-inline-end:{{- padding_right -}}px; 

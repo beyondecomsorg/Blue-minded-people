@@ -4,26 +4,27 @@
 
 <style>
   #shopify-section-{{ section.id }} {
-    background-color: {{ section.settings.bg_color }};
-    padding-top: {{ section.settings.padding_top }}px;
-    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: var(--color-off-white);
+    padding-top: var(--global-section-padding-top);
+    padding-bottom: var(--global-section-padding-bottom);
   }
 
   .sbc-container {
-    max-width: {{ section.settings.container_width }}px;
+    max-width: var(--global-max-container-width-desktop);
     margin: 0 auto;
     padding: 0 20px;
   }
 
   .sbc-heading {
     text-align: center;
-    font-family: {{ section.settings.font_family }};
-    font-size: {{ section.settings.heading_size }}px;
-    font-weight: 800;
-    letter-spacing: 0.04em;
+    font-family: var(--font-heading--family);
+    font-size: var(--font-h2--size);
+    line-height: var(--font-h2--line-height);
+    letter-spacing: var(--font-h2--letter-spacing);
+    font-weight: var(--font-h2--weight);
+    color: var(--color-deep-navy);
+    margin: 0 0 28px;
     text-transform: uppercase;
-    color: {{ section.settings.heading_color }};
-    margin: 0 0 {{ section.settings.heading_gap }}px;
   }
 
   .sbc-grid {
@@ -33,8 +34,8 @@
   }
 
   .sbc-card {
-    border: 1.5px solid {{ section.settings.card_border_color }};
-    background: {{ section.settings.card_bg_color }};
+    border: 1.5px solid var(--color-border-grey);
+    background: var(--color-off-white);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -71,12 +72,12 @@
   }
 
   .sbc-card-title {
-    font-family: {{ section.settings.font_family }};
-    font-size: {{ section.settings.card_title_size }}px;
-    font-weight: 800;
+    font-family: var(--font-body--family);
+    font-size: var(--font-paragraph--size);
+    font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: {{ section.settings.card_title_color }};
+    color: var(--color-deep-navy);
     text-align: center;
     line-height: 1.3;
     margin: 0;
@@ -84,25 +85,25 @@
 
   .sbc-card-btn {
     display: inline-block;
-    font-family: {{ section.settings.font_family }};
+    font-family: var(--font-body--family);
     font-size: 13px;
     font-weight: 500;
     letter-spacing: 0.04em;
-    color: {{ section.settings.btn_text_color }};
-    background: {{ section.settings.btn_bg_color }};
-    border: 1.5px solid {{ section.settings.btn_border_color }};
+    color: var(--color-deep-navy);
+    background: var(--color-off-white);
+    border: 1.5px solid var(--color-deep-navy);
     padding: 9px 28px;
     text-decoration: none;
     text-align: center;
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
     white-space: nowrap;
   }
 
   .sbc-card:hover .sbc-card-btn {
-    background: {{ section.settings.btn_hover_bg }};
-    color: {{ section.settings.btn_hover_text }};
-    border-color: {{ section.settings.btn_hover_bg }};
+    background: var(--color-copper-rivet);
+    color: var(--color-off-white);
+    border-color: var(--color-copper-rivet);
   }
 
   @media (max-width: 1024px) {
@@ -115,10 +116,6 @@
     .sbc-grid {
       grid-template-columns: repeat({{ section.settings.columns_mobile }}, 1fr);
       gap: 12px;
-    }
-
-    .sbc-heading {
-      font-size: {{ section.settings.heading_size | times: 0.7 | round }}px;
     }
   }
 </style>

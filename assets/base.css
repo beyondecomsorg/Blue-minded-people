@@ -327,7 +327,7 @@ p:empty {
 .page-width-normal,
 .page-width-narrow,
 .page-width-content {
-  --page-margin: 16px;
+  --page-margin: var(--global-container-side-padding-mobile, 20px);
 }
 
 @media screen and (min-width: 750px) {
@@ -335,7 +335,7 @@ p:empty {
   .page-width-normal,
   .page-width-narrow,
   .page-width-content {
-    --page-margin: 40px;
+    --page-margin: var(--global-container-side-padding-desktop, 80px);
   }
 }
 

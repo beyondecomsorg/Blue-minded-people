@@ -25,6 +25,311 @@
       >
     {% endif %}
 
+    {% style %}
+
+@media only screen and (min-width: 768px){
+.header__column--left,
+.header__column--right,
+.header__column--center{
+  width: 33% !important;
+}
+.header__columns.spacing-style {
+  width: 100%;
+}
+}
+
+@media only screen and (max-width: 767px){
+  .section--full-width.section--full-width-margin>*{
+    padding: 0 !important;
+  }
+   header-component button, #header-component button{
+    padding: 0 !important;
+   }
+   .header__columns.spacing-style {
+      width: 100%;
+      justify-content: space-between;
+    }
+    header-component .header-actions__action{
+      padding: 0 !important;
+    }
+}
+
+/* ============================================================================
+   BRAND TYPOGRAPHY SYSTEM - BLUE MINDED PEOPLE
+   ============================================================================ */
+
+/* 1. Load Canela Custom Font */
+@font-face {
+  font-family: 'Canela';
+  src: url('{{ "Canela-Light.woff2" | asset_url }}') format('woff2'),
+       url('{{ "Canela-Light.woff" | asset_url }}') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Canela';
+  src: url('{{ "Canela-Regular.woff2" | asset_url }}') format('woff2'),
+       url('{{ "Canela-Regular.woff" | asset_url }}') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Canela';
+  src: url('{{ "Canela-Medium.woff2" | asset_url }}') format('woff2'),
+       url('{{ "Canela-Medium.woff" | asset_url }}') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 2. Global Custom Properties */
+:root {
+  --font-heading: 'Canela', 'Freight Display', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  /* Propagate to Shopify theme tokens */
+  --font-heading--family: var(--font-heading) !important;
+  --font-body--family: var(--font-body) !important;
+  --font-paragraph--family: var(--font-body) !important;
+  --font-h1--family: var(--font-heading) !important;
+  --font-h2--family: var(--font-heading) !important;
+  --font-h3--family: var(--font-heading) !important;
+  --font-h4--family: var(--font-heading) !important;
+  --font-h5--family: var(--font-heading) !important;
+  --font-h6--family: var(--font-heading) !important;
+}
+
+/* 3. Global CSS Applications */
+h1, h2, h3, .h1, .h2, .h3, .editorial-headline, .hero-title, .section-title, .display-text {
+  font-family: var(--font-heading) !important;
+  letter-spacing: 0.02em !important;
+  font-weight: 300 !important;
+}
+
+body, p, a, span, li, button, input, label, select, textarea, .nav-link, .product-title, .price {
+  font-family: var(--font-body);
+}
+
+/* 4. Section-by-Section Specific Typography Overrides */
+
+/* HEADER SECTION */
+.header__logo-text, .header__logo a, .logo-text, .header-wordmark {
+  font-family: var(--font-heading) !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  font-weight: 300 !important;
+}
+.menu-list__link, .nav-link, .header-actions__action, .header-actions__action-label {
+  font-family: var(--font-body) !important;
+}
+
+/* HERO SECTIONS (all four hero sections) */
+.hero-section h1, .hero-section h2, .hero-section .h1, .hero-section .h2,
+.hero h1, .hero h2, .hero .h1, .hero .h2 {
+  font-family: var(--font-heading) !important;
+  font-weight: 300 !important;
+  letter-spacing: 0.02em !important;
+}
+.hero-section p, .hero-section .paragraph, .hero-section .rte,
+.hero p, .hero .paragraph, .hero .rte {
+  font-family: var(--font-body) !important;
+}
+.hero-section .button, .hero-section a.button, .hero .button, .hero a.button {
+  font-family: var(--font-body) !important;
+}
+
+
+
+
+
+ body .wnt-eyebrow,
+ body .wnt-product-brand,
+  body .sfc-card-title,
+  body .bpc-card-label,
+  body .ebs-card-label {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  }  
+  body sfc-subheading{
+  font-size: 16px !important;
+  }
+
+  body .sbc-heading,
+  body .sfc-heading,
+  body .timeline-tabs__heading,
+  body .timeline-tabs__title,
+  body .ebs-heading,
+  body .wau-heading,
+  body .war-static,
+  body .war-word{
+    font-size: 40px !important;
+  }
+
+
+@media only screen and (max-width: 768px){
+    body .sbc-heading,
+  body .sfc-heading,
+  body .timeline-tabs__heading,
+  body .timeline-tabs__title,
+  body .ebs-heading,
+  body .wau-heading,
+  body .war-static,
+  body .war-word{
+    font-size: 28px !important;
+  }
+
+}
+
+  
+
+.trust-strip__heading{
+  font-family: var(--font-heading) !important;
+}
+
+
+
+    body .wau-heading{
+   font-weight: 300 !important;
+    }
+ body .sbc-card-btn,
+ body .wau-cta{
+   font-size: 12px !important;
+ }
+  
+ body .wnt-subtext,
+ body .sfc-card-subtitle,
+ body .timeline-tabs__tab,
+  .timeline-tabs__tab,
+  body .timeline-tabs__text.rte p,
+  body .wau-left .wau-body{
+    font-size: 14px !important;
+  }
+
+
+
+
+
+
+/* WHAT'S NEW TODAY SECTION */
+.wnt-eyebrow, .wnt-count {
+  font-family: var(--font-heading) !important;
+  font-weight: 300 !important;
+}
+.wnt-subtext, .wnt-cta, .wnt-product-brand, .wnt-arrow {
+  font-family: var(--font-body) !important;
+}
+
+/* SHOP BY CATEGORY SECTION */
+.sbc-heading {
+  font-family: var(--font-heading) !important;
+  font-weight: 300 !important;
+}
+.sbc-card-title, .sbc-card-btn {
+  font-family: var(--font-body) !important;
+}
+
+/* FABRIC CATEGORY CAROUSEL */
+.sfc-heading {
+  font-family: var(--font-heading) !important;
+  font-weight: 300 !important;
+}
+.sfc-subheading, .sfc-card-title, .sfc-card-subtitle, .sfc-arrow-btn, .sfc-pagination {
+  font-family: var(--font-body) !important;
+}
+
+/* BRAND PRODUCT CAROUSEL */
+.bpc-heading {
+  font-family: var(--font-heading) !important;
+  font-weight: 300 !important;
+}
+.bpc-card-label, .bpc-arrow {
+  font-family: var(--font-body) !important;
+}
+
+/* OUR FAVOURITES HERO SECTION */
+.orf-title {
+  font-family: var(--font-heading) !important;
+  font-weight: 300 !important;
+}
+.orf-eyebrow, .orf-subtitle, .orf-card-label {
+  font-family: var(--font-body) !important;
+}
+
+/* TIMELINE TABS SECTION */
+.timeline-tabs__heading, .timeline-tabs__title, .timeline-tabs__tab {
+  font-family: var(--font-heading) !important;
+  font-weight: 300 !important;
+}
+.timeline-tabs__text, .timeline-tabs__text p {
+  font-family: var(--font-body) !important;
+}
+
+/* EXPLORE SELECTIONS GRID */
+.ebs-heading, .ebs-card-label {
+  font-family: var(--font-heading) !important;
+  font-weight: 300 !important;
+}
+
+/* THREE-PANEL EDITORIAL SECTION */
+.tpb-line2 {
+  font-family: var(--font-heading) !important;
+  font-weight: 300 !important;
+}
+.tpb-line1 {
+  font-family: var(--font-body) !important;
+}
+
+/* ABOUT US / FAN CARDS SECTION */
+.wau-heading {
+  font-family: var(--font-heading) !important;
+  font-weight: 300 !important;
+}
+.wau-stat-pill strong {
+  font-family: var(--font-heading) !important;
+  font-weight: 300 !important;
+  color: var(--color-copper-rivet, #B87333) !important;
+}
+.wau-body, .wau-stat-pill span, .wau-cta, .wau-pcard__caption {
+  font-family: var(--font-body) !important;
+}
+
+/* WE ARE ROTATING BANNER */
+.war-static, .war-word {
+  font-family: var(--font-heading) !important;
+  font-weight: 300 !important;
+}
+.war-sub {
+  font-family: var(--font-body) !important;
+}
+
+/* CUSTOM EDITORIAL SPLIT SECTION */
+.ess-cta {
+  font-family: var(--font-heading) !important;
+  font-weight: 300 !important;
+}
+.ess-stats, .ess-body, .ess-caption, .ess-explore {
+  font-family: var(--font-body) !important;
+}
+
+/* TRUST SCROLL STRIP */
+.trust-strip, .trust-strip *, .trust-strip__heading, .trust-strip__subheading, .trust-strip__title, .trust-strip__text {
+ /* font-family: var(--font-body) !important; */
+}
+
+/* CUSTOM FOOTER / FOOTER */
+.custom-footer, .custom-footer *, .custom-footer h1, .custom-footer h2, .custom-footer h3, .custom-footer h4, .custom-footer h5, .custom-footer h6,
+footer, footer *, .footer, .footer-heading {
+  font-family: var(--font-body) !important;
+}
+.custom-footer h1, .custom-footer h2, .custom-footer h3, .custom-footer h4, .custom-footer h5, .custom-footer h6,
+.footer-heading {
+  font-weight: 500 !important;
+}
+
+    {% endstyle %}
+
     {%- render 'meta-tags' -%}
     {%- render 'stylesheets' -%}
     {%- render 'fonts' -%}

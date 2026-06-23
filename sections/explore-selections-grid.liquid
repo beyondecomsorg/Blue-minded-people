@@ -3,29 +3,41 @@
 {% endcomment %}
 
 <style>
+
+@media only screen and (max-width: 749px){
+.shopify-section.explore-selections-grid{ 
+ padding-top: 0 !important;
+}
+}
   #shopify-section-{{ section.id }} {
-    background-color: {{ section.settings.bg_color }};
-    padding-top: {{ section.settings.padding_top }}px;
-    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: var(--color-off-white);
+    padding-top: var(--global-section-padding-top);
+    padding-bottom: var(--global-section-padding-bottom);
   }
 
   .ebs-wrap {
-    max-width: {{ section.settings.container_width }}px;
+    max-width: var(--global-max-container-width-desktop);
     margin: 0 auto;
-    padding: 0 {{ section.settings.side_padding }}px;
+    padding: 0 var(--global-container-side-padding-desktop);
+  }
+
+  @media screen and (max-width: 749px) {
+    .ebs-wrap {
+      padding: 0 var(--global-container-side-padding-mobile);
+    }
   }
 
   /* Heading */
   .ebs-heading {
-    font-family: {{ section.settings.font_family }};
-    font-size: {{ section.settings.heading_size }}px;
-    font-weight: {{ section.settings.heading_weight }};
-    color: {{ section.settings.heading_color }};
-    text-align: {{ section.settings.heading_align }};
-    font-style: {{ section.settings.heading_style }};
-    letter-spacing: {{ section.settings.heading_tracking }}em;
-    margin: 0 0 {{ section.settings.heading_gap }}px;
-    line-height: 1.2;
+    font-family: var(--font-heading--family);
+    font-size: var(--font-h2--size);
+    font-weight: var(--font-h2--weight);
+    color: var(--color-deep-navy);
+    text-align: center;
+    letter-spacing: var(--font-h2--letter-spacing);
+    margin: 0 0 28px;
+    line-height: var(--font-h2--line-height);
+    text-transform: uppercase;
   }
 
   /* Grid */
@@ -45,7 +57,8 @@
     width: 100%;
     aspect-ratio: {{ section.settings.card_ratio }};
     overflow: hidden;
-    background: {{ section.settings.card_bg }};
+    background: var(--color-off-white);
+    border: 1px solid var(--color-border-grey);
     display: block;
   }
 
@@ -63,13 +76,13 @@
   }
 
   .ebs-card-label {
-    font-family: {{ section.settings.font_family }};
-    font-size: {{ section.settings.label_size }}px;
-    font-weight: {{ section.settings.label_weight }};
-    color: {{ section.settings.label_color }};
-    text-align: {{ section.settings.label_align }};
-    margin: {{ section.settings.label_gap }}px 0 0;
-    font-style: {{ section.settings.label_style }};
+    font-family: var(--font-body--family);
+    font-size: var(--font-paragraph--size);
+    font-weight: 600;
+    color: var(--color-deep-navy);
+    text-align: center;
+    margin: 12px 0 0;
+    text-transform: uppercase;
     line-height: 1.4;
   }
 
@@ -85,10 +98,6 @@
     .ebs-grid {
       grid-template-columns: repeat({{ section.settings.columns_mobile }}, 1fr);
       gap: {{ section.settings.row_gap | times: 0.75 | round }}px {{ section.settings.col_gap | times: 0.75 | round }}px;
-    }
-
-    .ebs-heading {
-      font-size: {{ section.settings.heading_size | times: 0.72 | round }}px;
     }
   }
 </style>

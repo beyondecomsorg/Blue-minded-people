@@ -409,9 +409,19 @@
 
 {% stylesheet %}
   body {
-    --header-height: 60px;
+    --header-height: 76px; /* Increased for premium luxury appearance */
     --header-group-height: var(--header-height);
     --transparent-header-offset-boolean: 0; /* stylelint-disable-line declaration-property-value-disallowed-list */
+
+    /* ── Luxury header design tokens ── */
+    --lux-navy:       #061A35;
+    --lux-gold:       #C9A96E;
+    --lux-white:      #F8F6F2;
+    --lux-white-dim:  rgba(248, 246, 242, 0.55);
+    --lux-border:     rgba(201, 169, 110, 0.25); /* gold tint border */
+    --lux-nav-size:   0.7rem;
+    --lux-nav-track:  0.14em;
+    --lux-transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .header {
@@ -1112,6 +1122,216 @@
   .dropdown-localization:not(dropdown-localization-component) .language-selector {
     font-family: var(--menu-localization-font);
     font-size: var(--menu-localization-font-size);
+  }
+
+  /* ============================================================
+   *  LUXURY HEADER REDESIGN — Premium 3-Column Layout
+   * ============================================================ */
+
+  /* ── 1. Deep-navy background forced via colour-scheme vars ── */
+  #header-component {
+    --color-scheme-top-row:    #{var(--lux-navy)};
+    --color-scheme-bottom-row: #{var(--lux-navy)};
+  }
+
+  .header__underlay-closed,
+  .header__underlay-open {
+    background: var(--lux-navy);
+  }
+
+  /* ── 2. Row height & separation ── */
+  .header__row--top {
+    /* Thin gold-tinted bottom border */
+    border-bottom: 1px solid var(--lux-border) !important;
+    /* Soft downward shadow for depth */
+    box-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
+  }
+
+  /* ── 3. Three-column grid — perfectly balanced ── */
+  .header__columns {
+    /* Force the true 3-column balance: left nav = right icons, logo is centre */
+    grid-template-columns: 1fr auto 1fr !important;
+    grid-template-areas: 'left center right' !important;
+    padding-inline: 40px !important;
+    height: var(--header-height);
+    align-items: center;
+  }
+
+  /* Drawer mode keeps mobile layout (overrides grid above on small screens) */
+  #header-component[data-menu-style='drawer'] .header__columns {
+    grid-template-columns: var(--header-mobile-bookend) var(--header-mobile-bookend) 1fr
+      var(--header-mobile-bookend) var(--header-mobile-bookend) !important;
+    grid-template-areas: 'leftA leftB center rightA rightB' !important;
+    padding-inline: 16px 8px !important;
+  }
+
+  /* ── 4. Column alignment ── */
+  .header__column--left {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+
+  .header__column--center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .header__column--right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+  }
+
+  /* ── 5. Navigation links — luxury typography ── */
+  .menu-list__link {
+    position: relative;
+    padding-inline: 0 !important;
+    letter-spacing: var(--lux-nav-track);
+    text-transform: uppercase;
+    font-size: var(--lux-nav-size) !important;
+    font-weight: 500;
+    color: var(--lux-white) !important;
+    opacity: 1;
+    transition: color var(--lux-transition);
+  }
+
+  .menu-list__link-title {
+    /* Even left-right breathing room between nav items */
+    padding-inline: 14px !important;
+  }
+
+  /* Animated underline on hover */
+  .menu-list__link-title::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;          /* sit on the border */
+    left: 14px;
+    right: 14px;
+    height: 1px;
+    background: var(--lux-gold);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform var(--lux-transition);
+  }
+
+  .menu-list__list-item:hover .menu-list__link-title::after,
+  .menu-list__link--active .menu-list__link-title::after {
+    transform: scaleX(1);
+  }
+
+  /* Subdue non-hovered links with the theme's built-in opacity cascade */
+  .menu-list:has(.menu-list__list-item:hover) .menu-list__link {
+    color: var(--lux-white-dim) !important;
+  }
+
+  .menu-list:has(.menu-list__list-item:hover)
+    .menu-list__list-item:hover .menu-list__link {
+    color: var(--lux-white) !important;
+  }
+
+  /* ── 6. Header action icons ── */
+  .header-actions__action {
+    color: var(--lux-white) !important;
+    opacity: 0.82;
+    padding: 10px 10px !important;
+    transition: opacity var(--lux-transition), color var(--lux-transition);
+  }
+
+  .header-actions__action:hover {
+    opacity: 1;
+    color: var(--lux-gold) !important;
+  }
+
+  .header-actions__action .svg-wrapper svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Tighten gap between icons */
+  header-actions {
+    gap: 2px !important;
+    margin-inline-start: 0 !important;
+  }
+
+  /* ── 7. Logo sizing & centering ── */
+  .header-logo {
+    /* Prevent logo from shrinking and guarantee it sits dead-centre */
+    flex-shrink: 0;
+    padding-inline: 24px !important; /* breathing room either side */
+  }
+
+  .header-logo__image {
+    max-height: 40px !important;
+    width: auto !important;
+  }
+
+  /* ── 8. Drawer hamburger icon ── */
+  .header__icon--menu svg {
+    color: var(--lux-white);
+  }
+
+  .header__icon--menu:hover svg {
+    color: var(--lux-gold);
+  }
+
+  /* ── 9. Search icon wrapper ── */
+  .search-action {
+    color: var(--lux-white);
+    transition: color var(--lux-transition);
+  }
+
+  .search-action:hover {
+    color: var(--lux-gold);
+  }
+
+  /* ── 10. Tablet layout (750–989 px) — keep desktop grid ── */
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .header__columns {
+      padding-inline: 24px !important;
+    }
+
+    .menu-list__link-title {
+      padding-inline: 10px !important;
+    }
+
+    .menu-list__link-title::after {
+      left: 10px;
+      right: 10px;
+    }
+  }
+
+  /* ── 11. Mobile (< 750 px) ── */
+  @media screen and (max-width: 749px) {
+    .header-logo {
+      padding-inline: 0 !important;
+    }
+
+    .header-logo__image {
+      max-height: 28px !important;
+    }
+
+    /* Keep gold border on mobile */
+    .header__row--top {
+      border-bottom: 1px solid var(--lux-border) !important;
+    }
+  }
+
+  /* ── 12. Sticky header — keep navy, remove transparent bleed ── */
+  #header-component[data-sticky-state='active'] .header__underlay-closed {
+    background: var(--lux-navy);
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.55);
+  }
+
+  /* ── 13. Cart bubble — gold accent ── */
+  .cart-bubble__background {
+    background-color: var(--lux-gold) !important;
+  }
+
+  .cart-bubble__text {
+    color: #061A35 !important;
   }
 {% endstylesheet %}
 

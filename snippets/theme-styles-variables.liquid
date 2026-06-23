@@ -684,5 +684,279 @@
     --cart-secondary-font-family: var(--font-{{ settings.cart_price_font }}--family);
     --cart-secondary-font-style: var(--font-{{ settings.cart_price_font }}--style);
     --cart-secondary-font-weight: var(--font-{{ settings.cart_price_font }}--weight);
+
+    /* --- GLOBAL THEME SETTINGS OVERRIDES --- */
+    
+    /* Brand Colors */
+    --color-deep-navy: {{ settings.color_primary_deep_navy | default: '#0B1F33' }};
+    --color-indigo-blue: {{ settings.color_primary_indigo_blue | default: '#1E3A5F' }};
+    --color-off-white: {{ settings.color_primary_off_white | default: '#F8F6F2' }};
+    --color-raw-denim-blue: {{ settings.color_secondary_raw_denim | default: '#345E8A' }};
+    --color-vintage-stone: {{ settings.color_secondary_vintage_stone | default: '#CFC8BE' }};
+    --color-charcoal-grey: {{ settings.color_secondary_charcoal_grey | default: '#222222' }};
+    --color-medium-grey: {{ settings.color_secondary_medium_grey | default: '#666666' }};
+    --color-border-grey: {{ settings.color_secondary_border_grey | default: '#E5E5E5' }};
+    --color-copper-rivet: {{ settings.color_accent_copper_rivet | default: '#B87333' }};
+
+    /* Specific UI Color Overrides */
+    --ui-color-site-bg: {{ settings.ui_color_site_bg | default: '#F8F6F2' }};
+    --ui-color-header-bg: {{ settings.ui_color_header_bg | default: '#0B1F33' }};
+    --ui-color-header-text: {{ settings.ui_color_header_text | default: '#F8F6F2' }};
+    --ui-color-headings: {{ settings.ui_color_headings | default: '#0B1F33' }};
+    --ui-color-body-text: {{ settings.ui_color_body_text | default: '#222222' }};
+    --ui-color-link: {{ settings.ui_color_link | default: '#1E3A5F' }};
+    --ui-color-link-hover: {{ settings.ui_color_link_hover | default: '#B87333' }};
+    --ui-color-button-bg: {{ settings.ui_color_button_bg | default: '#B87333' }};
+    --ui-color-button-text: {{ settings.ui_color_button_text | default: '#F8F6F2' }};
+    --ui-color-button-hover-bg: {{ settings.ui_color_button_hover_bg | default: '#0B1F33' }};
+    --ui-color-button-border-radius: {{ settings.ui_color_button_border_radius | default: 0 }}px;
+    --ui-color-secondary-button-bg: {{ settings.ui_color_secondary_button_bg | default: '#1E3A5F' }};
+    --ui-color-border-divider: {{ settings.ui_color_border_divider | default: '#E5E5E5' }};
+    --ui-color-footer-bg: {{ settings.ui_color_footer_bg | default: '#0B1F33' }};
+    --ui-color-footer-text: {{ settings.ui_color_footer_text | default: '#F8F6F2' }};
+
+    /* Layout Widths & Side Paddings */
+    --global-max-container-width-desktop: {{ settings.layout_max_container_width_desktop | default: 1440 }}px;
+    --global-content-width-desktop: {{ settings.layout_content_width_desktop | default: 1280 }}px;
+    --global-content-width-mobile: {{ settings.layout_content_width_mobile | default: '100%' }};
+    --global-container-side-padding-desktop: {{ settings.layout_container_side_padding_desktop | default: 80 }}px;
+    --global-container-side-padding-mobile: {{ settings.layout_container_side_padding_mobile | default: 20 }}px;
+
+    /* Override standard layout variables */
+    --narrow-page-width: var(--global-content-width-desktop);
+    --normal-page-width: var(--global-max-container-width-desktop);
+    --wide-page-width: var(--global-max-container-width-desktop);
+
+    /* Section Spacing Variables */
+    --global-section-padding-top-desktop: {{ settings.global_section_padding_top_desktop | default: 80 }}px;
+    --global-section-padding-bottom-desktop: {{ settings.global_section_padding_bottom_desktop | default: 80 }}px;
+    --global-section-padding-top-mobile: {{ settings.global_section_padding_top_mobile | default: 40 }}px;
+    --global-section-padding-bottom-mobile: {{ settings.global_section_padding_bottom_mobile | default: 40 }}px;
+
+    /* Header Layout & Sizing Overrides */
+    --global-header-height-desktop: {{ settings.global_header_height_desktop | default: 72 }}px;
+    --global-header-height-mobile: {{ settings.global_header_height_mobile | default: 60 }}px;
+    --global-header-height: var(--global-header-height-mobile);
+
+    --global-header-nav-font: {{ settings.global_header_nav_font | default: 'Inter, sans-serif' }};
+    --global-header-nav-text-color: {{ settings.ui_color_header_nav_text | default: '#F8F6F2' }};
+    --global-header-nav-font-size: {{ settings.global_header_nav_font_size | default: 14 }}px;
+    --global-header-nav-letter-spacing: {{ settings.global_header_nav_letter_spacing | default: '0.08em' }};
+
+    --global-section-padding-top: var(--global-section-padding-top-mobile);
+    --global-section-padding-bottom: var(--global-section-padding-bottom-mobile);
+
+    @media screen and (min-width: 750px) {
+      --global-section-padding-top: var(--global-section-padding-top-desktop);
+      --global-section-padding-bottom: var(--global-section-padding-bottom-desktop);
+    }
+
+    /* Mapping Core Color Theme Variables */
+    --color-background: var(--ui-color-site-bg);
+    --color-background-rgb: {% if settings.ui_color_site_bg != blank %}{{ settings.ui_color_site_bg.rgb }}{% else %}248 246 242{% endif %};
+    --color-foreground: var(--ui-color-body-text);
+    --color-foreground-rgb: {% if settings.ui_color_body_text != blank %}{{ settings.ui_color_body_text.rgb }}{% else %}34 34 34{% endif %};
+    --color-foreground-heading: var(--ui-color-headings);
+    --color-foreground-heading-rgb: {% if settings.ui_color_headings != blank %}{{ settings.ui_color_headings.rgb }}{% else %}11 31 51{% endif %};
+    
+    --color-primary: var(--ui-color-link);
+    --color-primary-rgb: {% if settings.ui_color_link != blank %}{{ settings.ui_color_link.rgb }}{% else %}30 58 95{% endif %};
+    --color-primary-hover: var(--ui-color-link-hover);
+    --color-primary-hover-rgb: {% if settings.ui_color_link_hover != blank %}{{ settings.ui_color_link_hover.rgb }}{% else %}184 115 51{% endif %};
+
+    --color-border: var(--ui-color-border-divider);
+    --color-border-rgb: {% if settings.ui_color_border_divider != blank %}{{ settings.ui_color_border_divider.rgb }}{% else %}229 229 229{% endif %};
+
+    /* Button specific variables */
+    --color-primary-button-background: var(--ui-color-button-bg);
+    --color-primary-button-text: var(--ui-color-button-text);
+    --color-primary-button-border: var(--ui-color-button-bg);
+    --color-primary-button-hover-background: var(--ui-color-button-hover-bg);
+    --color-primary-button-hover-text: var(--ui-color-button-text);
+    --color-primary-button-hover-border: var(--ui-color-button-hover-bg);
+
+    --style-border-radius-buttons-primary: var(--ui-color-button-border-radius);
+    --style-border-radius-buttons-secondary: var(--ui-color-button-border-radius);
+    --color-secondary-button-background: var(--ui-color-secondary-button-bg);
+
+    /* Font Variables Overrides */
+    --font-heading--family: {{ settings.global_font_heading_family | default: "Canela, 'Freight Display', serif" }};
+    --font-body--family: {{ settings.global_font_body_family | default: "Inter, sans-serif" }};
+    --font-logo-family: {{ settings.global_font_logo_family | default: "Acumin Variable Concept, sans-serif" }};
+    
+    --font-h1--family: var(--font-heading--family);
+    --font-h2--family: var(--font-heading--family);
+    --font-h3--family: var(--font-heading--family);
+    --font-h4--family: var(--font-heading--family);
+    --font-h5--family: var(--font-heading--family);
+    --font-h6--family: var(--font-heading--family);
+    --font-paragraph--family: var(--font-body--family);
+
+    /* Responsive Font Sizes, Weights, Line Heights, Letter Spacing */
+    /* H1 */
+    --font-h1--size: {{ settings.global_h1_size_mobile | default: 40 }}px;
+    --font-h1--line-height: {{ settings.global_h1_line_height | default: '1.1' }};
+    --font-h1--letter-spacing: {{ settings.global_h1_letter_spacing | default: '-0.02em' }};
+    --font-h1--weight: {{ settings.global_h1_font_weight | default: '400' }};
+
+    /* H2 */
+    --font-h2--size: {{ settings.global_h2_size_mobile | default: 32 }}px;
+    --font-h2--line-height: {{ settings.global_h2_line_height | default: '1.2' }};
+    --font-h2--letter-spacing: {{ settings.global_h2_letter_spacing | default: '-0.01em' }};
+    --font-h2--weight: {{ settings.global_h2_font_weight | default: '400' }};
+
+    /* H3 */
+    --font-h3--size: {{ settings.global_h3_size_mobile | default: 24 }}px;
+    --font-h3--line-height: {{ settings.global_h3_line_height | default: '1.2' }};
+    --font-h3--letter-spacing: {{ settings.global_h3_letter_spacing | default: '0em' }};
+    --font-h3--weight: {{ settings.global_h3_font_weight | default: '400' }};
+
+    /* H4 */
+    --font-h4--size: {{ settings.global_h4_size_mobile | default: 20 }}px;
+    --font-h4--line-height: {{ settings.global_h4_line_height | default: '1.3' }};
+    --font-h4--letter-spacing: {{ settings.global_h4_letter_spacing | default: '0em' }};
+    --font-h4--weight: {{ settings.global_h4_font_weight | default: '400' }};
+
+    /* H5 */
+    --font-h5--size: {{ settings.global_h5_size_mobile | default: 18 }}px;
+    --font-h5--line-height: {{ settings.global_h5_line_height | default: '1.3' }};
+    --font-h5--letter-spacing: {{ settings.global_h5_letter_spacing | default: '0.02em' }};
+    --font-h5--weight: {{ settings.global_h5_font_weight | default: '400' }};
+
+    /* H6 */
+    --font-h6--size: {{ settings.global_h6_size_mobile | default: 14 }}px;
+    --font-h6--line-height: {{ settings.global_h6_line_height | default: '1.3' }};
+    --font-h6--letter-spacing: {{ settings.global_h6_letter_spacing | default: '0.04em' }};
+    --font-h6--weight: {{ settings.global_h6_font_weight | default: '400' }};
+
+    /* Paragraph */
+    --font-paragraph--size: {{ settings.global_paragraph_size_mobile | default: 14 }}px;
+    --font-paragraph--line-height: {{ settings.global_paragraph_line_height | default: '1.7' }};
+    --font-paragraph--letter-spacing: {{ settings.global_paragraph_letter_spacing | default: '0em' }};
+    --font-paragraph--weight: {{ settings.global_paragraph_font_weight | default: '400' }};
+
+    @media screen and (min-width: 750px) {
+      --font-h1--size: {{ settings.global_h1_size_desktop | default: 72 }}px;
+      --font-h2--size: {{ settings.global_h2_size_desktop | default: 48 }}px;
+      --font-h3--size: {{ settings.global_h3_size_desktop | default: 32 }}px;
+      --font-h4--size: {{ settings.global_h4_size_desktop | default: 24 }}px;
+      --font-h5--size: {{ settings.global_h5_size_desktop | default: 20 }}px;
+      --font-h6--size: {{ settings.global_h6_size_desktop | default: 16 }}px;
+      --font-paragraph--size: {{ settings.global_paragraph_size_desktop | default: 16 }}px;
+      --global-header-height: var(--global-header-height-desktop);
+    }
+  }
+
+  /* Site background globally */
+  body,
+  .content-for-layout {
+    background-color: var(--ui-color-site-bg) !important;
+    color: var(--ui-color-body-text) !important;
+  }
+
+  /* Header & Navigation Overrides */
+  header-component,
+  #header-component,
+  .header,
+  .header__row,
+  .header-section {
+    background-color: var(--ui-color-header-bg) !important;
+    --color-background: var(--ui-color-header-bg) !important;
+    --color-foreground: var(--ui-color-header-text) !important;
+    color: var(--ui-color-header-text) !important;
+  }
+  header-component a,
+  #header-component a,
+  header-component button,
+  #header-component button,
+  header-component summary,
+  #header-component summary,
+  header-component span,
+  #header-component span,
+  header-component svg,
+  #header-component svg {
+    color: var(--ui-color-header-text) !important;
+    --color-primary: var(--ui-color-header-text) !important;
+    --color-foreground: var(--ui-color-header-text) !important;
+  }
+
+  /* Footer Overrides */
+  footer,
+  .footer,
+  .footer-section,
+  .footer-utilities {
+    background-color: var(--ui-color-footer-bg) !important;
+    --color-background: var(--ui-color-footer-bg) !important;
+    --color-foreground: var(--ui-color-footer-text) !important;
+    color: var(--ui-color-footer-text) !important;
+  }
+  footer a,
+  .footer a,
+  footer button,
+  .footer button,
+  footer p,
+  .footer p,
+  footer span,
+  .footer span,
+  footer svg,
+  .footer svg {
+    color: var(--ui-color-footer-text) !important;
+    --color-primary: var(--ui-color-footer-text) !important;
+    --color-foreground: var(--ui-color-footer-text) !important;
+  }
+
+  /* Override header height globally across all states */
+  :root, body {
+    --header-height: var(--global-header-height) !important;
+  }
+
+  /* Enforce height constraints and centering */
+  #header-component,
+  .header,
+  .header__row,
+  .header__columns {
+    height: var(--global-header-height) !important;
+    min-height: var(--global-header-height) !important;
+    max-height: var(--global-header-height) !important;
+    box-sizing: border-box !important;
+  }
+  .header,
+  .header__row,
+  .header__columns {
+    display: flex !important;
+    align-items: center !important;
+  }
+  .header__columns {
+    padding-block-start: 0 !important;
+    padding-block-end: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Header navigation font overrides */
+  .menu-list__link,
+  .menu-list__item,
+  .menu-list__link-title {
+    font-family: var(--global-header-nav-font) !important;
+    font-size: var(--global-header-nav-font-size) !important;
+    color: var(--global-header-nav-text-color) !important;
+    letter-spacing: var(--global-header-nav-letter-spacing) !important;
+  }
+
+  #header-component,
+  .header-menu,
+  .menu-list {
+    --menu-top-level-font-family: var(--global-header-nav-font) !important;
+    --menu-top-level-font-size: var(--global-header-nav-font-size) !important;
+    --menu-top-level-font-color: var(--global-header-nav-text-color) !important;
+    --menu-top-level-font-size-desktop: var(--global-header-nav-font-size) !important;
+  }
+
+  /* Remove logo image black background box */
+  .header-logo__image,
+  .header-logo__image-container img {
+    mix-blend-mode: screen !important;
+    background-color: transparent !important;
   }
 {% endstyle %}
+

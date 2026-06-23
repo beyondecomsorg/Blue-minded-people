@@ -5,9 +5,15 @@
 
 <style>
   #shopify-section-{{ section.id }} {
-    background-color: {{ section.settings.bg_color }};
-    padding-top: {{ section.settings.padding_top }}px;
-    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: var(--color-off-white);
+    padding-top: var(--global-section-padding-top-mobile);
+    padding-bottom: var(--global-section-padding-bottom-mobile);
+  }
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: var(--global-section-padding-top-desktop);
+      padding-bottom: var(--global-section-padding-bottom-desktop);
+    }
   }
 
   .wnt-wrapper {
@@ -26,38 +32,38 @@
   }
 
   .wnt-eyebrow {
-    font-family: {{ section.settings.font_family }};
-    font-size: 11px;
+    font-family: var(--font-body--family);
+    font-size: 16px;
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: {{ section.settings.eyebrow_color }};
+    color: var(--color-deep-navy);
     margin: 0 0 12px;
   }
 
   .wnt-count {
-    font-family: {{ section.settings.font_family }};
+    font-family: var(--font-body--family);
     font-size: 72px;
     font-weight: 300;
     line-height: 1;
-    color: {{ section.settings.count_color }};
+    color: var(--color-deep-navy);
     margin: 0 0 16px;
     letter-spacing: -0.02em;
   }
 
   .wnt-subtext {
-    font-family: {{ section.settings.font_family }};
+    font-family: var(--font-body--family);
     font-size: 13px;
-    color: {{ section.settings.subtext_color }};
+    color: var(--color-medium-grey);
     margin: 0 0 24px;
     line-height: 1.5;
   }
 
   .wnt-cta {
     display: inline-block;
-    background-color: {{ section.settings.btn_bg_color }};
-    color: {{ section.settings.btn_text_color }};
-    font-family: {{ section.settings.font_family }};
+    background-color: var(--color-copper-rivet);
+    color: var(--color-off-white);
+    font-family: var(--font-body--family);
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -98,14 +104,14 @@
     flex: 0 0 calc(25% - 2px);
     min-width: 180px;
     scroll-snap-align: start;
-    background: #f5f5f3;
+    background: var(--color-off-white);
     position: relative;
   }
 
   .wnt-product-img-wrap {
     aspect-ratio: 3 / 4;
     overflow: hidden;
-    background: #f5f5f3;
+    background: var(--color-off-white);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -119,12 +125,12 @@
   }
 
   .wnt-product-brand {
-    font-family: {{ section.settings.font_family }};
+    font-family: var(--font-body--family);
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: {{ section.settings.brand_label_color }};
+    color: var(--color-charcoal-grey);
     text-align: center;
     padding: 10px 8px 8px;
   }
@@ -137,7 +143,7 @@
     transform: translateY(-50%);
     width: 36px;
     height: 36px;
-    background: {{ section.settings.bg_color }};
+    background: var(--color-off-white);
     border: none;
     cursor: pointer;
     display: flex;
@@ -149,13 +155,13 @@
   }
 
   .wnt-arrow:hover {
-    background: #f0f0f0;
+    background: var(--color-border-grey);
   }
 
   .wnt-arrow svg {
     width: 16px;
     height: 16px;
-    stroke: {{ section.settings.count_color }};
+    stroke: var(--color-deep-navy);
     fill: none;
     stroke-width: 1.5;
   }

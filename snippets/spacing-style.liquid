@@ -1,3 +1,4 @@
+{%- comment -%} theme-check-disable UndefinedObject {%- endcomment -%}
 {%- doc -%}
   Renders CSS variables for spacing (padding and margin) styles with responsive scaling.
   Intended for blocks and sections that provide values for all the referenced settings.
@@ -14,23 +15,53 @@
   for key in keys
     assign value = settings[key]
 
-    if value != blank
-      echo '--'
-      echo key
-      echo ': '
-
-      if value > scale_min
-        echo 'max('
-        echo scale_min
-        echo 'px, calc(var(--spacing-scale) * '
-        echo value
-        echo 'px))'
+    if key == 'padding-block-start'
+      if value != blank and value != 0
+        if value > scale_min
+          echo '--padding-block-start: max(' | append: scale_min | append: 'px, calc(var(--spacing-scale) * ' | append: value | append: 'px));'
+        else
+          echo '--padding-block-start: ' | append: value | append: 'px;'
+        endif
       else
-        echo value
-        echo 'px'
+        if settings == section.settings
+          echo '--padding-block-start: var(--global-section-padding-top);'
+        else
+          echo '--padding-block-start: 0px;'
+        endif
       endif
+    elsif key == 'padding-block-end'
+      if value != blank and value != 0
+        if value > scale_min
+          echo '--padding-block-end: max(' | append: scale_min | append: 'px, calc(var(--spacing-scale) * ' | append: value | append: 'px));'
+        else
+          echo '--padding-block-end: ' | append: value | append: 'px;'
+        endif
+      else
+        if settings == section.settings
+          echo '--padding-block-end: var(--global-section-padding-bottom);'
+        else
+          echo '--padding-block-end: 0px;'
+        endif
+      endif
+    else
+      if value != blank
+        echo '--'
+        echo key
+        echo ': '
 
-      echo ';'
+        if value > scale_min
+          echo 'max('
+          echo scale_min
+          echo 'px, calc(var(--spacing-scale) * '
+          echo value
+          echo 'px))'
+        else
+          echo value
+          echo 'px'
+        endif
+
+        echo ';'
+      endif
     endif
   endfor
 -%}

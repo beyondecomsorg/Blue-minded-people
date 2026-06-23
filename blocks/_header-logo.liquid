@@ -12,12 +12,13 @@
     assign use_inverse_logo = true
   endif
 
-  if use_inverse_logo
-    if settings.logo_inverse != blank
-      assign inverse_logo = settings.logo_inverse
-    else
-      assign inverse_logo = settings.logo
-    endif
+  # Always resolve inverse_logo so both containers can be rendered.
+  # Priority: dedicated inverse logo → fall back to the default logo.
+  # This ensures the CSS :has() guard works correctly on dark/transparent headers.
+  if settings.logo_inverse != blank
+    assign inverse_logo = settings.logo_inverse
+  else
+    assign inverse_logo = settings.logo
   endif
 
   assign alt_text_fallback = 'accessibility.home_logo_alt' | t: store_name: shop.name
@@ -25,7 +26,10 @@
 
 {% comment %}
   Output all logo variants, use CSS to hide/show the appropriate one
-  based on the .header[transparent] selector
+  based on the .header[transparent] selector.
+  Both containers are always rendered so the :has() CSS guard functions
+  correctly and --header-logo-display / --header-logo-inverse-display
+  can toggle the correct logo on dark/navy/transparent backgrounds.
 {% endcomment %}
 <a
   {% if template.name == 'index' and block_settings.hide_logo_on_home_page %}
@@ -43,12 +47,17 @@
   {{ block.shopify_attributes }}
 >
   {% liquid
-    assign logo_width = settings.logo_height | times: settings.logo.aspect_ratio | ceil
-    assign logo_width_mobile = settings.logo_height_mobile | times: settings.logo.aspect_ratio | ceil
-    assign inverse_logo_width = settings.logo_height | times: inverse_logo.aspect_ratio | ceil
-    assign inverse_logo_width_mobile = settings.logo_height_mobile | times: inverse_logo.aspect_ratio | ceil
-    assign logo_style = '--header-logo-image-width: ' | append: logo_width | append: 'px;' | append: '--header-logo-image-width-mobile: ' | append: logo_width_mobile | append: 'px; --header-logo-image-height: ' | append: settings.logo_height | append: 'px; --header-logo-image-height-mobile: ' | append: settings.logo_height_mobile | append: 'px;'
-    assign inverse_logo_style = '--header-logo-image-width: ' | append: inverse_logo_width | append: 'px;' | append: '--header-logo-image-width-mobile: ' | append: inverse_logo_width_mobile | append: 'px; --header-logo-image-height: ' | append: settings.logo_height | append: 'px; --header-logo-image-height-mobile: ' | append: settings.logo_height_mobile | append: 'px;'
+    # Compute widths — guard against nil aspect_ratio (logo not yet uploaded)
+    assign logo_aspect = settings.logo.aspect_ratio | default: 1
+    assign inverse_aspect = inverse_logo.aspect_ratio | default: logo_aspect
+
+    assign logo_width = settings.logo_height | times: logo_aspect | ceil
+    assign logo_width_mobile = settings.logo_height_mobile | times: logo_aspect | ceil
+    assign inverse_logo_width = settings.logo_height | times: inverse_aspect | ceil
+    assign inverse_logo_width_mobile = settings.logo_height_mobile | times: inverse_aspect | ceil
+
+    assign logo_style = '--header-logo-image-width: ' | append: logo_width | append: 'px; --header-logo-image-width-mobile: ' | append: logo_width_mobile | append: 'px; --header-logo-image-height: ' | append: settings.logo_height | append: 'px; --header-logo-image-height-mobile: ' | append: settings.logo_height_mobile | append: 'px;'
+    assign inverse_logo_style = '--header-logo-image-width: ' | append: inverse_logo_width | append: 'px; --header-logo-image-width-mobile: ' | append: inverse_logo_width_mobile | append: 'px; --header-logo-image-height: ' | append: settings.logo_height | append: 'px; --header-logo-image-height-mobile: ' | append: settings.logo_height_mobile | append: 'px;'
   %}
 
   <span
@@ -65,21 +74,25 @@
     %}
   </span>
 
-  {% if use_inverse_logo %}
-    <span
-      class="header-logo__image-container header-logo__image-container--inverse"
-      data-testid="header-logo-inverse"
-    >
-      {% render 'image',
-        image: inverse_logo,
-        class: 'header-logo__image',
-        height: settings.logo_height,
-        alt_text_fallback: alt_text_fallback,
-        text_fallback: shop.name,
-        style: inverse_logo_style
-      %}
-    </span>
-  {% endif %}
+  {% comment %}
+    Always render the inverse container so the CSS :has() guard works.
+    When use_inverse_logo is false (non-transparent header), the container
+    is rendered but hidden via --header-logo-inverse-display: none.
+    When transparent + inverse mode is active, it becomes visible.
+  {% endcomment %}
+  <span
+    class="header-logo__image-container header-logo__image-container--inverse{% unless use_inverse_logo %} header-logo__image-container--inverse-fallback{% endunless %}"
+    data-testid="header-logo-inverse"
+  >
+    {% render 'image',
+      image: inverse_logo,
+      class: 'header-logo__image',
+      height: settings.logo_height,
+      alt_text_fallback: alt_text_fallback,
+      text_fallback: shop.name,
+      style: inverse_logo_style
+    %}
+  </span>
 </a>
 
 {% stylesheet %}
@@ -122,21 +135,55 @@
 
   .header-logo__image {
     object-fit: contain;
-    height: var(--header-logo-image-height-mobile);
-    width: var(--header-logo-image-width-mobile);
+    /* Guard: fall back to auto if the CSS variable is empty / zero */
+    height: var(--header-logo-image-height-mobile, auto);
+    width: var(--header-logo-image-width-mobile, auto);
+    max-height: 80px; /* safety cap so a 0-height var doesn't collapse the image */
 
     @media screen and (min-width: 750px) {
-      height: var(--header-logo-image-height);
-      width: var(--header-logo-image-width);
+      height: var(--header-logo-image-height, auto);
+      width: var(--header-logo-image-width, auto);
     }
   }
 
+  /*
+   * Logo visibility logic:
+   * - Both containers are always in the DOM (see Liquid above).
+   * - On non-transparent headers: original = block, inverse = none.
+   * - On transparent/inverse headers: CSS vars flip them via --header-logo-display
+   *   and --header-logo-inverse-display (set in header.liquid stylesheet).
+   * - The --inverse-fallback class marks containers that re-use the default logo;
+   *   they follow the same toggle so switching colour schemes still works.
+   */
   .header-logo:has(.header-logo__image-container--inverse) .header-logo__image-container--original {
     display: var(--header-logo-display, block);
   }
 
   .header-logo__image-container--inverse {
     display: var(--header-logo-inverse-display, none);
+  }
+
+  /*
+   * Safety override: when the header is NOT transparent (no [transparent] attr)
+   * always force the original logo visible and the inverse hidden,
+   * regardless of any lingering CSS variable values.
+   */
+  #header-component:not([transparent]) .header-logo__image-container--original {
+    display: block !important;
+  }
+
+  #header-component:not([transparent]) .header-logo__image-container--inverse {
+    display: none !important;
+  }
+
+  /*
+   * When the transparent header becomes "sticky-active" (user scrolled),
+   * both containers switch back to their natural display so the
+   * theme colour scheme takes over cleanly.
+   */
+  #header-component[transparent='not-sticky'][data-sticky-state='active'] .header-logo__image-container--original,
+  #header-component[transparent='always'][data-sticky-state='active'] .header-logo__image-container--original {
+    display: block;
   }
 {% endstylesheet %}
 
