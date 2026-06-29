@@ -335,7 +335,7 @@
                 "accordion_row_XMFatY": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Care & Maintenance",
+                    "heading": "How to wear",
                     "open_by_default": false,
                     "icon": "none",
                     "width": 20
@@ -344,7 +344,7 @@
                     "text_wbGpVU": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>To maintain the beauty and integrity of your purchase, we recommend treating it with care. Simple maintenance practices, such as gentle washing and proper storage, can effectively preserve the longevity of your favorites. We encourage you to refer to the care instructions included with each item, designed to help you keep your purchase in top condition.</p>",
+                        "text": "<p>{{ closest.product.metafields.custom.how_to_wear.value }}</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -374,7 +374,7 @@
                 "accordion_row_kmdwc8": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "Size & Fit",
+                    "heading": "Where to wear",
                     "open_by_default": false,
                     "icon": "none",
                     "width": 20
@@ -383,7 +383,7 @@
                     "text_hYWKPd": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>Our products are crafted to fit true to size, ensuring that you can confidently select your usual size with ease. Whether you’re looking for a relaxed or tailored fit, our designs are made to complement your unique shape and style.</p>",
+                        "text": "<p>{{ closest.product.metafields.custom.where_to_wear.value }}</p>",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
