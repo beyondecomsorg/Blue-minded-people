@@ -4226,6 +4226,11 @@ related-products-carousel{
   .resource-list__carousel slideshow-slides{
     padding-left: 6px !important;
   }
+  body #header-component.header .header__main-row .header-actions__action.wishlist-button.button-unstyled,
+  body #header-component.header .wishlist-button,
+  body #header-component.header .header__nav-row{
+    display: none !important;
+  }
 }
 
 @media only screen and (min-width: 769px){
