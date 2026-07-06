@@ -4,15 +4,7 @@
 {% endcomment %}
 
 <style>
- .shopify-section.our-favourites-hero{
-    padding-top: 0 !important;
-  }
-@media only screen and (min-width: 768px){
-
-}
   #shopify-section-{{ section.id }} {
-    padding-top: var(--global-section-padding-top);
-    padding-bottom: var(--global-section-padding-bottom);
     background-color: var(--color-off-white);
   }
 
@@ -174,6 +166,7 @@
   }
 </style>
 
+<div class="section-wrapper" style="--section-padding-top: {{ section.settings.padding_top }}px; --section-padding-bottom: {{ section.settings.padding_bottom }}px; --section-padding-top-mobile: {{ section.settings.padding_top_mobile }}px; --section-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;">
 <div class="orf-hero">
 
   {%- if section.settings.bg_image != blank -%}
@@ -231,6 +224,7 @@
     {%- endfor -%}
   </div>
 
+</div>
 </div>
 
 {% schema %}
@@ -534,22 +528,38 @@
     {
       "type": "range",
       "id": "padding_top",
-      "label": "Section Padding Top",
+      "label": "Section top padding — desktop (px)",
       "min": 0,
-      "max": 80,
+      "max": 120,
       "step": 4,
-      "unit": "px",
-      "default": 0
+      "default": 60
     },
     {
       "type": "range",
       "id": "padding_bottom",
-      "label": "Section Padding Bottom",
+      "label": "Section bottom padding — desktop (px)",
       "min": 0,
-      "max": 80,
+      "max": 120,
       "step": 4,
-      "unit": "px",
-      "default": 0
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Section top padding — mobile (px)",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Section bottom padding — mobile (px)",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "default": 30
     }
   ],
   "blocks": [

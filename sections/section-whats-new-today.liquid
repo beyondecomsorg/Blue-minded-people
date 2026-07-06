@@ -6,14 +6,6 @@
 <style>
   #shopify-section-{{ section.id }} {
     background-color: var(--color-off-white);
-    padding-top: var(--global-section-padding-top-mobile);
-    padding-bottom: var(--global-section-padding-bottom-mobile);
-  }
-  @media screen and (min-width: 750px) {
-    #shopify-section-{{ section.id }} {
-      padding-top: var(--global-section-padding-top-desktop);
-      padding-bottom: var(--global-section-padding-bottom-desktop);
-    }
   }
 
   .wnt-wrapper {
@@ -194,7 +186,7 @@
   }
 </style>
 
-<div class="wnt-wrapper">
+<div class="wnt-wrapper section-wrapper" style="--section-padding-top: {{ section.settings.padding_top }}px; --section-padding-bottom: {{ section.settings.padding_bottom }}px; --section-padding-top-mobile: {{ section.settings.padding_top_mobile }}px; --section-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;">
   <!-- Left Panel -->
   <div class="wnt-left">
     <p class="wnt-eyebrow">{{ section.settings.eyebrow_text }}</p>
@@ -370,22 +362,38 @@
     {
       "type": "range",
       "id": "padding_top",
-      "label": "Padding Top",
+      "label": "Section top padding — desktop (px)",
       "min": 0,
       "max": 120,
       "step": 4,
-      "unit": "px",
-      "default": 48
+      "default": 60
     },
     {
       "type": "range",
       "id": "padding_bottom",
-      "label": "Padding Bottom",
+      "label": "Section bottom padding — desktop (px)",
       "min": 0,
       "max": 120,
       "step": 4,
-      "unit": "px",
-      "default": 48
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Section top padding — mobile (px)",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Section bottom padding — mobile (px)",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "default": 30
     }
   ],
   "blocks": [

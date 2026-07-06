@@ -27,12 +27,14 @@
 
 <div
   id="{{ section_id }}"
-  class="category-explore-banner-wrapper"
+  class="category-explore-banner-wrapper section-wrapper"
   style="
-    --section-padding-top-desktop: {{ section.settings.padding_top_desktop }}px;
-    --section-padding-bottom-desktop: {{ section.settings.padding_bottom_desktop }}px;
+    --section-padding-top: {{ section.settings.padding_top }}px;
+    --section-padding-bottom: {{ section.settings.padding_bottom }}px;
     --section-padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
     --section-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    --section-padding-top-desktop: var(--section-padding-top);
+    --section-padding-bottom-desktop: var(--section-padding-bottom);
     --banner-height-desktop: {{ section.settings.banner_height_desktop }}px;
     --banner-height-mobile: {{ section.settings.banner_height_mobile }}px;
     --gap-overlay: {{ section.settings.gap_overlay }}px;
@@ -404,43 +406,39 @@
     },
     {
       "type": "range",
-      "id": "padding_top_desktop",
-      "label": "Desktop Padding Top",
+      "id": "padding_top",
+      "label": "Section top padding — desktop (px)",
       "min": 0,
       "max": 120,
-      "step": 5,
-      "default": 60,
-      "unit": "px"
+      "step": 4,
+      "default": 60
     },
     {
       "type": "range",
-      "id": "padding_bottom_desktop",
-      "label": "Desktop Padding Bottom",
+      "id": "padding_bottom",
+      "label": "Section bottom padding — desktop (px)",
       "min": 0,
       "max": 120,
-      "step": 5,
-      "default": 60,
-      "unit": "px"
+      "step": 4,
+      "default": 60
     },
     {
       "type": "range",
       "id": "padding_top_mobile",
-      "label": "Mobile Padding Top",
+      "label": "Section top padding — mobile (px)",
       "min": 0,
-      "max": 80,
+      "max": 100,
       "step": 2,
-      "default": 40,
-      "unit": "px"
+      "default": 30
     },
     {
       "type": "range",
       "id": "padding_bottom_mobile",
-      "label": "Mobile Padding Bottom",
+      "label": "Section bottom padding — mobile (px)",
       "min": 0,
-      "max": 80,
+      "max": 100,
       "step": 2,
-      "default": 40,
-      "unit": "px"
+      "default": 30
     },
     {
       "type": "range",

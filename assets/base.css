@@ -4243,8 +4243,35 @@ related-products-carousel{
 }
 
 .template-collection .product-price-main-sale{
-   font-size: 20px;
+   font-size: 16px;
+}
+ body #header-component.header span:not(.cart-drawer__dialog *) {
+  color: white !important;
+ }
+.template-collection .group-block-content p {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  line-height: 1.5;
+  min-height: 3em; /* 2 × 1.5em */
+  max-height: 3em;
 }
 slideshow-component .product-price-main-sale{
    font-size: 16px !important;
+}
+
+/* Homepage Standard Section Wrapper Spacing */
+.section-wrapper {
+  padding-top: var(--section-padding-top) !important;
+  padding-bottom: var(--section-padding-bottom) !important;
+}
+
+@media screen and (max-width: 749px) {
+  .section-wrapper {
+    padding-top: var(--section-padding-top-mobile) !important;
+    padding-bottom: var(--section-padding-bottom-mobile) !important;
+  }
 }

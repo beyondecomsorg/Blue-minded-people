@@ -2,7 +2,7 @@
   assign section_id = 'trust-strip-' | append: section.id
 %}
 
-<section id="{{ section_id }}" class="trust-strip">
+<section id="{{ section_id }}" class="trust-strip section-wrapper" style="--section-padding-top: {{ section.settings.padding_top }}px; --section-padding-bottom: {{ section.settings.padding_bottom }}px; --section-padding-top-mobile: {{ section.settings.padding_top_mobile }}px; --section-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;">
 
   {%- comment -%} Header stays inside page-width padding {%- endcomment -%}
   {% if section.settings.heading != blank or section.settings.subheading != blank %}
@@ -298,8 +298,8 @@
 <style>
 #{{ section_id }}{
   background: {{ section.settings.section_bg }};
-  padding-top: {{ section.settings.padding_top_desktop }}px;
-  padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
+  padding-top: var(--section-padding-top) !important;
+  padding-bottom: var(--section-padding-bottom) !important;
 }
 
 #{{ section_id }} .trust-strip__heading,
@@ -340,8 +340,8 @@
 @media screen and (max-width:749px){
 
   #{{ section_id }}{
-    padding-top: {{ section.settings.padding_top_mobile }}px;
-    padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    padding-top: var(--section-padding-top-mobile) !important;
+    padding-bottom: var(--section-padding-bottom-mobile) !important;
   }
 
   #{{ section_id }} .trust-strip__heading{
@@ -463,43 +463,39 @@
 },
 {
   "type": "range",
-  "id": "padding_top_desktop",
-  "label": "Desktop Top Padding",
+  "id": "padding_top",
+  "label": "Section top padding — desktop (px)",
   "min": 0,
-  "max": 150,
-  "step": 5,
-  "default": 0,
-  "unit": "px"
+  "max": 120,
+  "step": 4,
+  "default": 60
 },
 {
   "type": "range",
-  "id": "padding_bottom_desktop",
-  "label": "Desktop Bottom Padding",
+  "id": "padding_bottom",
+  "label": "Section bottom padding — desktop (px)",
   "min": 0,
-  "max": 150,
-  "step": 5,
-  "default": 10,
-  "unit": "px"
+  "max": 120,
+  "step": 4,
+  "default": 60
 },
 {
   "type": "range",
   "id": "padding_top_mobile",
-  "label": "Mobile Top Padding",
+  "label": "Section top padding — mobile (px)",
   "min": 0,
   "max": 100,
   "step": 2,
-  "default": 16,
-  "unit": "px"
+  "default": 30
 },
 {
   "type": "range",
   "id": "padding_bottom_mobile",
-  "label": "Mobile Bottom Padding",
+  "label": "Section bottom padding — mobile (px)",
   "min": 0,
   "max": 100,
   "step": 2,
-  "default": 14,
-  "unit": "px"
+  "default": 30
 },
 
 {

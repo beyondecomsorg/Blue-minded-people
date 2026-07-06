@@ -7,9 +7,7 @@
 
 <style>
   #shopify-section-{{ section.id }} {
-    background-color: var(--color-off-white);
-    padding-top: var(--global-section-padding-top);
-    padding-bottom: var(--global-section-padding-bottom);
+    background-color: {{ section.settings.bg_color }};
   }
 
   .bpc-wrap {
@@ -155,7 +153,7 @@
   }
 </style>
 
-<div class="bpc-wrap">
+<div class="bpc-wrap section-wrapper" style="--section-padding-top: {{ section.settings.padding_top }}px; --section-padding-bottom: {{ section.settings.padding_bottom }}px; --section-padding-top-mobile: {{ section.settings.padding_top_mobile }}px; --section-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;">
   {% if section.settings.heading != blank %}
     <h2 class="bpc-heading">{{ section.settings.heading }}</h2>
   {% endif %}
@@ -530,22 +528,38 @@ document.addEventListener('DOMContentLoaded', function () {
     {
       "type": "range",
       "id": "padding_top",
-      "label": "Padding Top",
+      "label": "Section top padding — desktop (px)",
       "min": 0,
       "max": 120,
       "step": 4,
-      "unit": "px",
-      "default": 32
+      "default": 60
     },
     {
       "type": "range",
       "id": "padding_bottom",
-      "label": "Padding Bottom",
+      "label": "Section bottom padding — desktop (px)",
       "min": 0,
       "max": 120,
       "step": 4,
-      "unit": "px",
-      "default": 32
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Section top padding — mobile (px)",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Section bottom padding — mobile (px)",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "default": 30
     }
   ],
   "blocks": [

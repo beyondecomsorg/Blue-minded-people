@@ -284,8 +284,8 @@
       {
         "type": "color",
         "id": "color_primary_off_white",
-        "label": "Primary Color: Off White",
-        "default": "#F8F6F2"
+        "label": "Off White Color",
+        "default": "#FFFFFF"
       },
       {
         "type": "color",
@@ -331,7 +331,7 @@
         "type": "color",
         "id": "ui_color_site_bg",
         "label": "Site Background Color",
-        "default": "#F8F6F2"
+        "default": "#FFFFFF"
       },
       {
         "type": "color",

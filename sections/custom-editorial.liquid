@@ -4,7 +4,7 @@
   - Right: 2x2 grid of images each with caption + EXPLORE link
 {% endcomment %}
 
-<section class="ess-section" id="ess-{{ section.id }}">
+<section class="ess-section section-wrapper" id="ess-{{ section.id }}" style="--section-padding-top: {{ section.settings.padding_top }}px; --section-padding-bottom: {{ section.settings.padding_bottom }}px; --section-padding-top-mobile: {{ section.settings.padding_top_mobile }}px; --section-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;">
   <div class="ess-inner">
 
     {% comment %} LEFT PANEL {% endcomment %}
@@ -110,10 +110,10 @@
   --ess-overlay-start: {{ section.settings.overlay_start_color }};
   --ess-overlay-end: {{ section.settings.overlay_end_color }};
 
-  --ess-padding-top: {{ section.settings.padding_top }}px;
-  --ess-padding-bottom: {{ section.settings.padding_bottom }}px;
-   --ess-padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
-  --ess-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
+  --ess-padding-top: var(--section-padding-top);
+  --ess-padding-bottom: var(--section-padding-bottom);
+  --ess-padding-top-mobile: var(--section-padding-top-mobile);
+  --ess-padding-bottom-mobile: var(--section-padding-bottom-mobile);
   --ess-left-min-height: {{ section.settings.left_min_height }}px;
   --ess-left-min-height-mobile: {{ section.settings.left_min_height_mobile }}px;
   --ess-left-min-height-small: {{ section.settings.left_min_height_small_mobile }}px;
@@ -527,38 +527,38 @@
     {
       "type": "range",
       "id": "padding_top",
-      "label": "Section top padding (px)",
+      "label": "Section top padding — desktop (px)",
       "min": 0,
       "max": 120,
       "step": 4,
-      "default": 40
+      "default": 60
     },
     {
       "type": "range",
       "id": "padding_bottom",
-      "label": "Section bottom padding (px)",
+      "label": "Section bottom padding — desktop (px)",
       "min": 0,
       "max": 120,
       "step": 4,
-      "default": 40
+      "default": 60
     },
-        {
+    {
       "type": "range",
       "id": "padding_top_mobile",
-      "label": "Section Top padding mobile (px)",
+      "label": "Section top padding — mobile (px)",
       "min": 0,
-      "max": 80,
+      "max": 100,
       "step": 2,
-      "default": 0
+      "default": 30
     },
     {
       "type": "range",
       "id": "padding_bottom_mobile",
-      "label": "Section bottom padding mobile (px)",
+      "label": "Section bottom padding — mobile (px)",
       "min": 0,
-      "max": 80,
+      "max": 100,
       "step": 2,
-      "default": 0
+      "default": 30
     },
     {
       "type": "header",

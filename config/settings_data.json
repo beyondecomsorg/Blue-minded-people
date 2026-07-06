@@ -36,14 +36,14 @@
     "global_paragraph_font_weight": "400",
     "color_primary_deep_navy": "#0B1F33",
     "color_primary_indigo_blue": "#1E3A5F",
-    "color_primary_off_white": "#F8F6F2",
+    "color_primary_off_white": "#FFFFFF",
     "color_secondary_raw_denim": "#345E8A",
     "color_secondary_vintage_stone": "#CFC8BE",
     "color_secondary_charcoal_grey": "#222222",
     "color_secondary_medium_grey": "#666666",
     "color_secondary_border_grey": "#E5E5E5",
     "color_accent_copper_rivet": "#B87333",
-    "ui_color_site_bg": "#F8F6F2",
+    "ui_color_site_bg": "#FFFFFF",
     "ui_color_header_bg": "#0B1F33",
     "ui_color_header_text": "#F8F6F2",
     "ui_color_headings": "#0B1F33",
@@ -152,6 +152,18 @@
     "global_h6_font_weight": "400",
     "global_paragraph_letter_spacing": "0em",
     "content_for_index": [],
+    "blocks": {
+      "1744347199190486471": {
+        "type": "shopify://apps/advanced-wishlist/blocks/app/330d9272-08ea-4193-b3e0-475a69fa65fa",
+        "disabled": false,
+        "settings": {}
+      },
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {}
+      }
+    },
     "color_schemes": {
       "scheme-1": {
         "settings": {
@@ -194,7 +206,7 @@
       },
       "scheme-2": {
         "settings": {
-          "background": "#F8F6F2",
+          "background": "#ffffff",
           "foreground_heading": "#0b1f33",
           "foreground": "#0b1f33",
           "primary": "#0b1f33",
@@ -205,20 +217,20 @@
           "primary_button_text": "#ffffff",
           "primary_button_border": "#000000",
           "primary_button_hover_background": "rgba(0,0,0,0)",
-          "primary_button_hover_text": "#0B1F33",
-          "primary_button_hover_border": "#0B1F33",
+          "primary_button_hover_text": "#0b1f33",
+          "primary_button_hover_border": "#0b1f33",
           "secondary_button_background": "rgba(0,0,0,0)",
           "secondary_button_text": "#fefefe",
-          "secondary_button_border": "#0B1F33",
-          "secondary_button_hover_background": "#0B1F33",
+          "secondary_button_border": "#0b1f33",
+          "secondary_button_hover_background": "#0b1f33",
           "secondary_button_hover_text": "#ffffff",
-          "secondary_button_hover_border": "#0B1F33",
+          "secondary_button_hover_border": "#0b1f33",
           "input_background": "#ffffff",
-          "input_text_color": "#0B1F33",
-          "input_border_color": "#0B1F33",
+          "input_text_color": "#0b1f33",
+          "input_border_color": "#0b1f33",
           "input_hover_background": "#f5f5f5",
           "variant_background_color": "#ffffff",
-          "variant_text_color": "#0B1F33",
+          "variant_text_color": "#0b1f33",
           "variant_border_color": "#e6e6e6",
           "variant_hover_background_color": "#f5f5f5",
           "variant_hover_text_color": "#000000",

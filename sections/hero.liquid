@@ -452,8 +452,12 @@
 
 <div
   id="Hero-{{ section.id }}"
-  class="hero color-{{ section.settings.color_scheme }}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}"
+  class="hero section-wrapper color-{{ section.settings.color_scheme }}{% if section.blocks.size == 0 and section.settings.section_height == 'auto' %} hero--no-blocks-auto-height{% endif %}{% if section.settings.stack_media_on_mobile %} hero--stack-mobile{% endif %}"
   style="
+    --section-padding-top: {{ section.settings.padding_top }}px;
+    --section-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --section-padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
+    --section-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
     --hero-border-style: {{ section.settings.border }};
     --hero-border-width: {{ section.settings.border_width }}px;
     --hero-border-opacity: {{ section.settings.border_opacity }}%;
@@ -1221,23 +1225,39 @@
     },
     {
       "type": "range",
-      "id": "padding-block-start",
-      "label": "t:settings.top",
+      "id": "padding_top",
+      "label": "Section top padding — desktop (px)",
       "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
+      "max": 120,
+      "step": 4,
+      "default": 60
     },
     {
       "type": "range",
-      "id": "padding-block-end",
-      "label": "t:settings.bottom",
+      "id": "padding_bottom",
+      "label": "Section bottom padding — desktop (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Section top padding — mobile (px)",
       "min": 0,
       "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
+      "step": 2,
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Section bottom padding — mobile (px)",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "default": 30
     }
   ],
   "presets": [
@@ -1276,8 +1296,8 @@
         "gap": 16,
         "section_height": "large",
         "color_scheme": "scheme-5",
-        "padding-block-start": 40,
-        "padding-block-end": 40,
+        "padding_top": 40,
+        "padding_bottom": 40,
         "toggle_overlay": true,
         "overlay_style": "gradient"
       }
@@ -1321,8 +1341,8 @@
         "gap": 32,
         "section_height": "large",
         "color_scheme": "scheme-5",
-        "padding-block-start": 0,
-        "padding-block-end": 40,
+        "padding_top": 0,
+        "padding_bottom": 40,
         "toggle_overlay": true,
         "overlay_style": "gradient"
       }
@@ -1487,8 +1507,8 @@
         "gap": 16,
         "section_height": "large",
         "color_scheme": "scheme-5",
-        "padding-block-start": 40,
-        "padding-block-end": 40,
+        "padding_top": 40,
+        "padding_bottom": 40,
         "toggle_overlay": true,
         "overlay_style": "gradient",
         "gradient_direction": "to top"
