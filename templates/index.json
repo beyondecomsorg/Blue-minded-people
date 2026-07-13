@@ -226,6 +226,7 @@
         "text_zGUiEc",
         "button_3M4i7L"
       ],
+      "disabled": true,
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
