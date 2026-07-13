@@ -50,19 +50,19 @@
     "section_whats_new_today_aD9myK": {
       "type": "section-whats-new-today",
       "blocks": {
-        "product_card_gfweth": {
-          "type": "product_card",
-          "settings": {
-            "product_image": "shopify://shop_images/2_3_fd2df54c-679c-4f9d-9d23-5b997ccb09df.webp",
-            "brand_name": "BRAND",
-            "product_url": ""
-          }
-        },
         "product_card_xLwBpc": {
           "type": "product_card",
           "settings": {
             "product_image": "shopify://shop_images/6_3_6e211781-198b-4aad-8414-78ef863bd8a4.webp",
-            "brand_name": "BRAND",
+            "brand_name": "Jeans",
+            "product_url": ""
+          }
+        },
+        "product_card_gfweth": {
+          "type": "product_card",
+          "settings": {
+            "product_image": "shopify://shop_images/Whitebackground_216e6140-da49-4f51-8192-9fda36aca0a5.jpg",
+            "brand_name": "Shirts",
             "product_url": ""
           }
         },
@@ -70,7 +70,7 @@
           "type": "product_card",
           "settings": {
             "product_image": "shopify://shop_images/3_4_7c01ba11-02ba-492a-83be-1a807f67a517.webp",
-            "brand_name": "BRAND",
+            "brand_name": "T-Shirts",
             "product_url": ""
           }
         },
@@ -116,8 +116,8 @@
         }
       },
       "block_order": [
-        "product_card_gfweth",
         "product_card_xLwBpc",
+        "product_card_gfweth",
         "product_card_kEktML",
         "product_card_6yVGCm",
         "product_card_H8Cn9w",
