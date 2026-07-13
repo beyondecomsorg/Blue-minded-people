@@ -272,6 +272,10 @@
               },
               "block_order": []
             },
+            "notify_me_preorder_selling_plan_bLTU8B": {
+              "type": "shopify://apps/notify-me/blocks/preorder-selling-plan/b399b727-6c85-44fc-9e21-63114bd72054",
+              "settings": {}
+            },
             "accordion_iWQwkW": {
               "type": "accordion",
               "name": "t:names.accordion",
@@ -660,6 +664,7 @@
             "group_8fkkWP",
             "variant_picker_3Nha6V",
             "buy_buttons_NmYpFG",
+            "notify_me_preorder_selling_plan_bLTU8B",
             "accordion_iWQwkW"
           ]
         }
@@ -1130,8 +1135,8 @@
         "button_font_size": 12,
         "button_padding_vertical": 12,
         "button_padding_horizontal": 24,
-        "padding_top_desktop": 20,
-        "padding_bottom_desktop": 60,
+        "padding_top": 60,
+        "padding_bottom": 60,
         "padding_top_mobile": 40,
         "padding_bottom_mobile": 40,
         "gap_overlay": 20,
@@ -1183,7 +1188,7 @@
         "desc_size_mobile": 12,
         "desc_color": "#666666",
         "show_top_border": true,
-        "border_color": "#E5E5E5",
+        "border_color": "#e5e5e5",
         "bg_color": "#ffffff",
         "padding_top_desktop": 20,
         "padding_bottom_desktop": 20,

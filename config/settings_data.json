@@ -163,6 +163,22 @@
         "disabled": false,
         "settings": {}
       },
+      "16510219240223340300": {
+        "type": "shopify://apps/whatmore-shoppable-videos/blocks/app-embed/20db8a72-315a-4364-8885-64219ee48303",
+        "disabled": true,
+        "settings": {
+          "minimized_video_position": "right",
+          "horizontal-padding": 5,
+          "vertical-padding": 150,
+          "app-size": 50,
+          "minimized_video_position_landscape": "right",
+          "horizontal-padding-landscape": 5,
+          "vertical-padding-landscape": 150,
+          "app-size-landscape": 50,
+          "video-title": "",
+          "use-variant": "false"
+        }
+      },
       "11349500561483629931": {
         "type": "shopify://apps/notify-me/blocks/app-embed/b399b727-6c85-44fc-9e21-63114bd72054",
         "disabled": false,
