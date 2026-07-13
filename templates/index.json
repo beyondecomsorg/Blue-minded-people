@@ -1063,15 +1063,15 @@
         "stat_AmBTXt": {
           "type": "stat",
           "settings": {
-            "stat_value": "10K+",
-            "stat_label": "Happy Customers"
+            "stat_value": "#1",
+            "stat_label": "One of the Largest manufacturer"
           }
         },
         "stat_Egn3Qi": {
           "type": "stat",
           "settings": {
-            "stat_value": "10K+",
-            "stat_label": "Happy Customers"
+            "stat_value": "100%",
+            "stat_label": "Denim expert"
           }
         }
       },
