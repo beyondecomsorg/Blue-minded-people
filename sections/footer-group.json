@@ -15,9 +15,9 @@
       "type": "custom-footer",
       "name": "Custom footer",
       "settings": {
-        "background_color": "#0B1F33",
-        "text_color": "#FBFBFB",
-        "heading_color": "#FFFFFF",
+        "background_color": "#0b1f33",
+        "text_color": "#fbfbfb",
+        "heading_color": "#ffffff",
         "link_color": "#6b6b6b",
         "link_hover_color": "#111111",
         "heading_font_size": 14,
@@ -86,7 +86,7 @@
         "brand_description": "<p>Premium luxury fashion and lifestyle products.</p>",
         "brand_link_text": "Shop on MARIA NUALART",
         "brand_link_url": "/",
-        "copyright_text": "© 2026 MARIA NUALART"
+        "copyright_text": "© 2026 BLUE MINDED PEOPLE"
       }
     },
     "section_9FjKrC": {
