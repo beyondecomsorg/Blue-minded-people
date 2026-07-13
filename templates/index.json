@@ -1244,6 +1244,7 @@
         "grid_item_PF4rVq",
         "grid_item_aEVNec"
       ],
+      "disabled": true,
       "name": "Custom Editorial Split",
       "settings": {
         "max_width": 1400,
@@ -1319,6 +1320,7 @@
     },
     "hero_Fr6tr6": {
       "type": "hero",
+      "disabled": true,
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
