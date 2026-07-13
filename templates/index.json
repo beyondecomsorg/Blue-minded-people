@@ -70,23 +70,23 @@
           "type": "product_card",
           "settings": {
             "product_image": "shopify://shop_images/3_7d15e0d0-5e0a-477b-bdfd-ba7be0fec63a.jpg",
-            "brand_name": "T-Shirts",
-            "product_url": ""
+            "brand_name": "Knitted shirts",
+            "product_url": "shopify://collections/all-products"
           }
         },
         "product_card_6yVGCm": {
           "type": "product_card",
           "settings": {
             "product_image": "shopify://shop_images/navy_blue_0ef80fd7-05f7-4a0c-b9b0-dc6b09e495b4.webp",
-            "brand_name": "BRAND",
-            "product_url": ""
+            "brand_name": "Canali",
+            "product_url": "shopify://collections/all"
           }
         },
         "product_card_H8Cn9w": {
           "type": "product_card",
           "settings": {
             "product_image": "shopify://shop_images/Untitled-1_copy_b5e7f71b-7c25-45cc-baed-a03d903c8e8b.jpg",
-            "brand_name": "BRAND",
+            "brand_name": "brunello cucinelli",
             "product_url": ""
           }
         },
