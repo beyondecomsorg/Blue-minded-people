@@ -92,6 +92,7 @@
         },
         "product_card_hMgJGr": {
           "type": "product_card",
+          "disabled": true,
           "settings": {
             "product_image": "shopify://shop_images/navy_blue_0ef80fd7-05f7-4a0c-b9b0-dc6b09e495b4.webp",
             "brand_name": "BRAND",
@@ -100,6 +101,7 @@
         },
         "product_card_pXRMej": {
           "type": "product_card",
+          "disabled": true,
           "settings": {
             "product_image": "shopify://shop_images/navy_blue_0ef80fd7-05f7-4a0c-b9b0-dc6b09e495b4.webp",
             "brand_name": "BRAND",
@@ -108,6 +110,7 @@
         },
         "product_card_Fqi49x": {
           "type": "product_card",
+          "disabled": true,
           "settings": {
             "product_image": "shopify://shop_images/navy_blue_0ef80fd7-05f7-4a0c-b9b0-dc6b09e495b4.webp",
             "brand_name": "BRAND",
