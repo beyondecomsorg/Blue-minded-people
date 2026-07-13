@@ -15,7 +15,7 @@
       "type": "header",
       "settings": {
         "announcement_text": "Free shipping above INR 2500",
-        "menu": "main-menu",
+        "menu": "menu",
         "highlight_item_index": 0,
         "highlight_color": "var(--color-copper-rivet)",
         "logo_position": "center",
