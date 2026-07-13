@@ -804,6 +804,7 @@
         "timeline_item_dQPdir",
         "timeline_item_yMVDbJ"
       ],
+      "disabled": true,
       "name": "Timeline tabs",
       "settings": {
         "heading": "About us",
@@ -1055,8 +1056,8 @@
         "stat_RVH3ky": {
           "type": "stat",
           "settings": {
-            "stat_value": "10K+",
-            "stat_label": "Happy Customers"
+            "stat_value": "30+",
+            "stat_label": "years of exp"
           }
         },
         "stat_AmBTXt": {
