@@ -11,10 +11,55 @@
   "type": "header",
   "name": "Header",
   "sections": {
+    "header_announcements_9c4bwC": {
+      "type": "header-announcements",
+      "blocks": {
+        "announcement_FxbWM3": {
+          "type": "_announcement",
+          "name": "t:names.announcement",
+          "settings": {
+            "text": "Easy return within 7 days",
+            "link": "",
+            "font": "var(--font-subheading--family)",
+            "font_size": "0.75rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none"
+          },
+          "blocks": {}
+        },
+        "announcement_p87yQT": {
+          "type": "_announcement",
+          "settings": {
+            "text": "Free shipping above 2500",
+            "link": "",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "announcement_FxbWM3",
+        "announcement_p87yQT"
+      ],
+      "name": "t:names.announcement_bar",
+      "settings": {
+        "speed": 5,
+        "section_width": "page-width",
+        "color_scheme": "",
+        "divider_width": 0,
+        "padding-block-start": 15,
+        "padding-block-end": 15
+      }
+    },
     "header_section": {
       "type": "header",
       "settings": {
-        "announcement_text": "Free shipping above INR 2500",
+        "announcement_text": "",
         "menu": "menu",
         "highlight_item_index": 0,
         "highlight_color": "var(--color-copper-rivet)",
@@ -53,6 +98,7 @@
     }
   },
   "order": [
+    "header_announcements_9c4bwC",
     "header_section"
   ]
 }
