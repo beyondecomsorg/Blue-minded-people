@@ -71,7 +71,7 @@
                 </span>
               </span>
               {%- assign option_name_downcase = product_option.name | downcase -%}
-              {%- if option_name_downcase == 'size' and product_resource.metafields.custom.size_chart.value != blank -%}
+              {%- if option_name_downcase == 'size' -%}
                 <button
                   type="button"
                   class="size-chart-trigger"
@@ -109,7 +109,7 @@
                   {%- endif %}
                 </span>
                 {%- assign option_name_downcase = product_option.name | downcase -%}
-                {%- if option_name_downcase == 'size' and product_resource.metafields.custom.size_chart.value != blank -%}
+                {%- if option_name_downcase == 'size' -%}
                   <button
                     type="button"
                     class="size-chart-trigger"
@@ -222,7 +222,7 @@
             <div class="variant-option__legend-header" style="width: 100%;">
               <label for="Option-{{ block.id }}-{{ forloop.index0 }}">{{ product_option.name | escape }}</label>
               {%- assign option_name_downcase = product_option.name | downcase -%}
-              {%- if option_name_downcase == 'size' and product_resource.metafields.custom.size_chart.value != blank -%}
+              {%- if option_name_downcase == 'size' -%}
                 <button
                   type="button"
                   class="size-chart-trigger"
@@ -291,85 +291,196 @@
         {{ product_resource.selected_or_first_available_variant | json }}
       </script>
     </form>
+    {%- assign has_size_option = false -%}
+    {%- for option in product_resource.options_with_values -%}
+      {%- assign option_name_downcase = option.name | downcase -%}
+      {%- if option_name_downcase == 'size' -%}
+        {%- assign has_size_option = true -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if has_size_option -%}
+      <div class="size-chart-modal-wrapper" data-product-id="{{ product_resource.id }}">
+        <dialog
+          id="SizeChartModal-{{ block.id }}-{{ product_resource.id }}"
+          class="size-chart-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Size Chart"
+        >
+          <div class="size-chart-modal__inner">
+            <div class="size-chart-modal__header">
+              <h3 class="size-chart-modal__title">Size Chart</h3>
+              <button
+                type="button"
+                class="size-chart-modal__close-btn"
+                aria-label="Close size chart"
+                data-size-chart-close
+              >
+                <svg class="icon icon-close" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+            <div class="size-chart-modal__body">
+              {%- if product_resource.metafields.custom.size_chart.value != blank -%}
+                {%- assign size_chart_img = product_resource.metafields.custom.size_chart.value -%}
+                {%- assign size_chart_alt = 'Size chart for ' | append: product_resource.title -%}
+                <div class="size-chart-modal__image-card" style="display: flex; justify-content: center; align-items: center; width: 100%;">
+                  {{ size_chart_img | image_url: width: 1000 | image_tag: loading: 'lazy', alt: size_chart_alt, style: 'max-width: 100%; height: auto; display: block; border-radius: 4px;' }}
+                </div>
+              {%- else -%}
+                <div class="size-chart-modal__tabs">
+                  <button type="button" class="size-chart-unit-btn active" data-unit="cm">cm</button>
+                  <button type="button" class="size-chart-unit-btn" data-unit="inch">inches</button>
+                </div>
+                
+                <div class="size-chart-modal__table-container">
+                  {%- assign product_type_downcase = product_resource.type | downcase -%}
+                  {%- assign product_title_downcase = product_resource.title | downcase -%}
+                  
+                  {%- if product_type_downcase contains 'jeans' or product_title_downcase contains 'jeans' or product_type_downcase contains 'pants' or product_title_downcase contains 'pants' -%}
+                    <table class="size-chart-table">
+                      <thead>
+                        <tr>
+                          <th>Size</th>
+                          <th>Waist</th>
+                          <th>Hip</th>
+                          <th>Inseam</th>
+                          <th>Thigh</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>30 / S</td>
+                          <td class="size-val" data-cm="76" data-inch="30.0">76</td>
+                          <td class="size-val" data-cm="96" data-inch="37.8">96</td>
+                          <td class="size-val" data-cm="78" data-inch="30.7">78</td>
+                          <td class="size-val" data-cm="56" data-inch="22.0">56</td>
+                        </tr>
+                        <tr>
+                          <td>32 / M</td>
+                          <td class="size-val" data-cm="81" data-inch="32.0">81</td>
+                          <td class="size-val" data-cm="101" data-inch="39.8">101</td>
+                          <td class="size-val" data-cm="79" data-inch="31.1">79</td>
+                          <td class="size-val" data-cm="58" data-inch="22.8">58</td>
+                        </tr>
+                        <tr>
+                          <td>34 / L</td>
+                          <td class="size-val" data-cm="86" data-inch="34.0">86</td>
+                          <td class="size-val" data-cm="106" data-inch="41.7">106</td>
+                          <td class="size-val" data-cm="80" data-inch="31.5">80</td>
+                          <td class="size-val" data-cm="60" data-inch="23.6">60</td>
+                        </tr>
+                        <tr>
+                          <td>36 / XL</td>
+                          <td class="size-val" data-cm="91" data-inch="36.0">91</td>
+                          <td class="size-val" data-cm="111" data-inch="43.7">111</td>
+                          <td class="size-val" data-cm="81" data-inch="31.9">81</td>
+                          <td class="size-val" data-cm="62" data-inch="24.4">62</td>
+                        </tr>
+                        <tr>
+                          <td>38 / 2XL</td>
+                          <td class="size-val" data-cm="96" data-inch="38.0">96</td>
+                          <td class="size-val" data-cm="116" data-inch="45.7">116</td>
+                          <td class="size-val" data-cm="82" data-inch="32.3">82</td>
+                          <td class="size-val" data-cm="64" data-inch="25.2">64</td>
+                        </tr>
+                        <tr>
+                          <td>40 / 3XL</td>
+                          <td class="size-val" data-cm="101" data-inch="40.0">101</td>
+                          <td class="size-val" data-cm="121" data-inch="47.6">121</td>
+                          <td class="size-val" data-cm="83" data-inch="32.7">83</td>
+                          <td class="size-val" data-cm="66" data-inch="26.0">66</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  {%- else -%}
+                    <table class="size-chart-table">
+                      <thead>
+                        <tr>
+                          <th>Size</th>
+                          <th>Length</th>
+                          <th>Chest (Width)</th>
+                          <th>Shoulder</th>
+                          <th>Sleeve Length</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>S</td>
+                          <td class="size-val" data-cm="70" data-inch="27.5">70</td>
+                          <td class="size-val" data-cm="100" data-inch="39.4">100</td>
+                          <td class="size-val" data-cm="44" data-inch="17.3">44</td>
+                          <td class="size-val" data-cm="61" data-inch="24.0">61</td>
+                        </tr>
+                        <tr>
+                          <td>M</td>
+                          <td class="size-val" data-cm="72" data-inch="28.3">72</td>
+                          <td class="size-val" data-cm="106" data-inch="41.7">106</td>
+                          <td class="size-val" data-cm="46" data-inch="18.1">46</td>
+                          <td class="size-val" data-cm="62" data-inch="24.4">62</td>
+                        </tr>
+                        <tr>
+                          <td>L</td>
+                          <td class="size-val" data-cm="74" data-inch="29.1">74</td>
+                          <td class="size-val" data-cm="112" data-inch="44.1">112</td>
+                          <td class="size-val" data-cm="48" data-inch="18.9">48</td>
+                          <td class="size-val" data-cm="63" data-inch="24.8">63</td>
+                        </tr>
+                        <tr>
+                          <td>XL</td>
+                          <td class="size-val" data-cm="76" data-inch="29.9">76</td>
+                          <td class="size-val" data-cm="118" data-inch="46.5">118</td>
+                          <td class="size-val" data-cm="50" data-inch="19.7">50</td>
+                          <td class="size-val" data-cm="64" data-inch="25.2">64</td>
+                        </tr>
+                        <tr>
+                          <td>2XL</td>
+                          <td class="size-val" data-cm="78" data-inch="30.7">78</td>
+                          <td class="size-val" data-cm="124" data-inch="48.8">124</td>
+                          <td class="size-val" data-cm="52" data-inch="20.5">52</td>
+                          <td class="size-val" data-cm="65" data-inch="25.6">65</td>
+                        </tr>
+                        <tr>
+                          <td>3XL</td>
+                          <td class="size-val" data-cm="80" data-inch="31.5">80</td>
+                          <td class="size-val" data-cm="130" data-inch="51.2">130</td>
+                          <td class="size-val" data-cm="54" data-inch="21.3">54</td>
+                          <td class="size-val" data-cm="66" data-inch="26.0">66</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        </dialog>
+      </div>
+    {%- endif -%}
+
+    <script type="application/json" data-variant-inventory-json>
+      {
+        {%- for variant in product_resource.variants -%}
+          "{{ variant.id }}": {
+            "inventory_quantity": {{ variant.inventory_quantity | default: 0 }},
+            "inventory_management": "{{ variant.inventory_management }}",
+            "inventory_policy": "{{ variant.inventory_policy }}"
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      }
+    </script>
+    
+    <div class="variant-picker__inventory-status" data-variant-inventory-status style="display: none; align-items: center; gap: 8px; margin-block: var(--margin-xs); font-size: 13px; font-weight: 500;">
+      <svg class="icon icon-inventory-fire" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: currentColor;">
+        <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
+      </svg>
+      <span class="inventory-status-text"></span>
+    </div>
   </variant-picker>
 {% endunless %}
-
-{%- if product_resource.metafields.custom.size_chart.value != blank -%}
-  {%- assign size_chart_img = product_resource.metafields.custom.size_chart.value -%}
-  <div class="size-chart-modal-wrapper" data-product-id="{{ product_resource.id }}">
-    <dialog
-      id="SizeChartModal-{{ block.id }}-{{ product_resource.id }}"
-      class="size-chart-modal"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Size Chart"
-    >
-      <div class="size-chart-modal__inner">
-        <div class="size-chart-modal__header">
-          <h3 class="size-chart-modal__title"> Size Chart</h3>
-          <button
-            type="button"
-            class="size-chart-modal__close-btn"
-            aria-label="Close size chart"
-            data-size-chart-close
-          >
-            <svg class="icon icon-close" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-        </div>
-        <div class="size-chart-modal__body">
-          <div class="size-chart-modal__image-card">
-            {%- assign size_chart_alt = 'Size chart for ' | append: product_resource.title -%}
-            {{ size_chart_img | image_url: width: 800 | image_tag: loading: 'lazy', alt: size_chart_alt }}
-          </div>
-        </div>
-      </div>
-    </dialog>
-
-    <script>
-      (function() {
-        const wrapper = document.currentScript.closest('.size-chart-modal-wrapper');
-        const dialog = wrapper.querySelector('.size-chart-modal');
-        const trigger = document.querySelector(`[data-size-chart-trigger][data-product-id="${wrapper.dataset.productId}"]`);
-
-        if (!trigger || !dialog) return;
-
-        const closeButtons = dialog.querySelectorAll('[data-size-chart-close]');
-
-        const openModal = () => {
-          dialog.showModal();
-          document.body.style.overflow = 'hidden';
-          const closeBtn = dialog.querySelector('.size-chart-modal__close-btn');
-          if (closeBtn) closeBtn.focus();
-        };
-
-        const closeModal = () => {
-          dialog.close();
-          document.body.style.overflow = '';
-          trigger.focus();
-        };
-
-        trigger.addEventListener('click', openModal);
-
-        closeButtons.forEach(btn => {
-          btn.addEventListener('click', closeModal);
-        });
-
-        dialog.addEventListener('click', (event) => {
-          if (event.target === dialog) {
-            closeModal();
-          }
-        });
-
-        dialog.addEventListener('close', () => {
-          document.body.style.overflow = '';
-        });
-      })();
-    </script>
-  </div>
-{%- endif -%}
 
 {% stylesheet %}
   /* Variant picker container styles - unique to main variant picker */
@@ -466,15 +577,22 @@
     margin-bottom: var(--margin-xs);
   }
 
+  .variant-option__legend-header:has(.size-chart-trigger) {
+    justify-content: space-between;
+    gap: 12px;
+  }
+
   .variant-option--buttons legend {
     margin-block-end: 0 !important;
     width: 100%;
   }
 
   .size-chart-trigger {
-    background: none;
-    border: none;
-    padding: 0;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
     cursor: pointer;
     font-family: var(--font-body--family);
     font-size: 13px;
@@ -503,45 +621,83 @@
     to { opacity: 1; }
   }
 
+  @keyframes sizeChartFadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
   @keyframes sizeChartZoomIn {
-    from { transform: translate(-50%, -50%) scale(0.96); opacity: 0; }
-    to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    from { transform: scale(0.96); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes sizeChartZoomOut {
+    from { transform: scale(1); opacity: 1; }
+    to { transform: scale(0.96); opacity: 0; }
+  }
+
+  @keyframes sizeChartSlideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  @keyframes sizeChartSlideDown {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(100%); opacity: 0; }
   }
 
   .size-chart-modal {
     border: none;
-    border-radius: 12px;
+    border-radius: 8px;
     background: #ffffff;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
     padding: 0;
-    max-width: 60%;
-    width: calc(100% - 32px);
-    overflow: hidden;
+    max-width: min(640px, 90vw);
+    width: 100%;
+    max-height: 85vh;
+    box-sizing: border-box;
     margin: auto;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    pointer-events: none;
-    display: block;
+    overflow: hidden;
   }
-  @media only screen and (max-width: 679px){
-    .size-chart-modal {
-    max-width: 100%;
-  }
-  .size-chart-modal__image-card img{
-    height: 40vh !important;
-  }
-  }
+
   .size-chart-modal[open] {
     opacity: 1;
     pointer-events: auto;
     animation: sizeChartZoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
+  .size-chart-modal.dialog-closing {
+    animation: sizeChartZoomOut 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @media screen and (max-width: 749px) {
+    .size-chart-modal {
+      position: fixed;
+      inset: auto 0 0 0;
+      margin: 0;
+      width: 100%;
+      max-width: 100%;
+      height: 70vh;
+      max-height: 85vh;
+      border-radius: 16px 16px 0 0;
+      transform: translateY(100%);
+      opacity: 0;
+    }
+
+    .size-chart-modal[open] {
+      transform: translateY(0);
+      opacity: 1;
+      animation: sizeChartSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .size-chart-modal.dialog-closing {
+      animation: sizeChartSlideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  }
+
   .size-chart-modal::backdrop {
     background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
     opacity: 0;
     transition: opacity 0.25s ease;
   }
@@ -550,29 +706,38 @@
     animation: sizeChartFadeIn 0.25s ease forwards;
   }
 
+  .size-chart-modal.dialog-closing::backdrop {
+    animation: sizeChartFadeOut 0.25s ease forwards;
+  }
+
   .size-chart-modal__inner {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    padding: 24px;
+    max-height: 85vh;
+    box-sizing: border-box;
+  }
+
+  @media screen and (max-width: 749px) {
+    .size-chart-modal__inner {
+      max-height: 70vh;
+    }
   }
 
   .size-chart-modal__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--color-border-grey, #e5e5e5);
-    padding-bottom: 12px;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 16px 20px;
+    background: #ffffff;
   }
 
   .size-chart-modal__title {
-    font-family: var(--font-heading--family);
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--color-foreground);
+    font-family: var(--font-heading) !important;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-foreground, #222222);
     margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
   }
 
   .size-chart-modal__close-btn {
@@ -580,38 +745,98 @@
     border: none;
     padding: 6px;
     cursor: pointer;
-    color: var(--color-foreground);
+    color: var(--color-foreground, #222222);
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    transition: background-color 0.2s, color 0.2s;
+    transition: background-color 0.2s;
   }
 
   .size-chart-modal__close-btn:hover {
-    background-color: var(--color-border-grey, #f0f0f0);
-    color: var(--color-copper-rivet, #b87333);
+    background-color: #f0f0f0;
   }
 
   .size-chart-modal__body {
+    padding: 20px;
     overflow-y: auto;
-    max-height: 70vh;
-  }
-
-  .size-chart-modal__image-card {
-    background: var(--color-off-white, #f9f9f9);
-    border: 1px solid var(--color-border-grey, #e5e5e5);
-    border-radius: 8px;
-    padding: 12px;
+    box-sizing: border-box;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
   }
 
-  .size-chart-modal__image-card img {
-    max-width: 100%;
-    height: auto;
-    display: block;
+  .size-chart-modal__tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--color-border, #e5e5e5);
+    padding-bottom: 12px;
+  }
+
+  .size-chart-unit-btn {
+    background: none;
+    border: none;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-family: var(--font-body--family);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-foreground-secondary, #666);
     border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+
+  .size-chart-unit-btn:hover {
+    background-color: var(--color-background-secondary, #f5f5f5);
+    color: var(--color-foreground);
+  }
+
+  .size-chart-unit-btn.active {
+    background-color: var(--color-foreground, #222);
+    color: var(--color-background, #fff);
+  }
+
+  .size-chart-modal__table-container {
+    overflow-x: auto;
+    width: 100%;
+    border-radius: var(--style-border-radius-inputs, 4px);
+    border: 1px solid var(--color-border, #e5e5e5);
+  }
+
+  .size-chart-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-body--family);
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: left;
+  }
+
+  .size-chart-table th,
+  .size-chart-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--color-border, #e5e5e5);
+  }
+
+  .size-chart-table th {
+    font-weight: 600;
+    color: var(--color-foreground);
+    background-color: var(--color-background-secondary, #f9f9f9);
+  }
+
+  .size-chart-table td {
+    color: var(--color-foreground);
+  }
+
+  .size-chart-table tbody tr:nth-child(even) {
+    background-color: var(--color-background-secondary, #fafafa);
+  }
+
+  .size-chart-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .size-chart-table tbody tr:hover {
+    background-color: var(--color-background-secondary, #fafafa);
   }
 {% endstylesheet %}

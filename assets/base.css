@@ -4273,10 +4273,46 @@ slideshow-component .product-price-main-sale{
  text-align: center;
 }
 
+dialog.size-chart-modal{
+  width: 60%;
+}
+#quick-add-dialog .variant-option__legend-header{
+  display: flex;
+  justify-content: space-between;
+}
+.size-chart-trigger{
+  display: flex;
+  gap: 10px;
+}
 @media screen and (max-width: 749px) {
-  .section-wrapper {
-    padding-top: var(--section-padding-top-mobile) !important;
-    padding-bottom: var(--section-padding-bottom-mobile) !important;
+  .size-chart-modal[open]{
+    width: 100%;
+  }
+  p.announcement-bar__text{
+    font-size: 12px;
+  }
+
+   .wnt-wrapper{
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+  } 
+
+.shopify-section.brand-product-carousel .bpc-wrap.section-wrapper {
+     padding-top: 0px !important;
+    padding-bottom: 30px !important;
+}
+.bpc-progress-wrap{
+  display: none !important;
+}
+  .hero.section-wrapper.color-scheme-2,
+  .sbc-container,
+  .sfc-wrap{
+    padding-bottom: 30px !important;
+  }
+  .shopify-section.our-favourites-hero .section-wrapper,
+  .shopify-section.explore-selections-grid .section-wrapper,
+  .shopify-section.three-panel-editorial .section-wrapper {
+    padding-bottom: 30px !important;
   }
   .product-details{
     overflow: visible;

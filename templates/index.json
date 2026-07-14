@@ -54,16 +54,16 @@
         "slide_RV7Dct": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Banner_1.webp",
+            "image": "shopify://shop_images/Artboard_1_copy_2_2x_68d525ea-7c8f-464b-9290-a3b90e1cef57.png",
             "image_focal_point": "center center",
-            "mobile_image": "shopify://shop_images/Banner_1_mob.webp",
+            "mobile_image": "shopify://shop_images/Artboard_2_copy_2_2x_9ac89717-2089-4f34-ac6a-1277c32bea02.png",
             "mobile_image_focal_point": "center center",
             "video_url_mp4": "",
             "video_url_webm": "",
             "hide_content": false,
             "eyebrow": "",
-            "heading": "New for Summer",
-            "subtext": "Cobblestone streets, sunbaked rooftops, and Lisbon as our guide.\nLet adventure lead the way in relaxed linen and packable new arrivals.",
+            "heading": "",
+            "subtext": "",
             "btn1_label": "",
             "btn1_link": "",
             "btn1_new_tab": false,
@@ -84,16 +84,78 @@
         "slide_B6prei": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Banner_2_web.webp",
+            "image": "shopify://shop_images/Artboard_1_2x_1402c2f5-0974-4e3d-a9a4-69d952717977.png",
             "image_focal_point": "center center",
-            "mobile_image": "shopify://shop_images/Banner_2_mob.webp",
+            "mobile_image": "shopify://shop_images/Artboard_2_2x_35404993-4196-4866-b989-9ebabf69ee5e.png",
             "mobile_image_focal_point": "center center",
             "video_url_mp4": "",
             "video_url_webm": "",
             "hide_content": false,
             "eyebrow": "",
-            "heading": "New for Summer",
-            "subtext": "Cobblestone streets, sunbaked rooftops, and Lisbon as our guide.\nLet adventure lead the way in relaxed linen and packable new arrivals.",
+            "heading": "",
+            "subtext": "",
+            "btn1_label": "",
+            "btn1_link": "",
+            "btn1_new_tab": false,
+            "btn1_custom_bg": "",
+            "btn1_custom_text": "",
+            "btn2_label": "",
+            "btn2_link": "",
+            "btn2_new_tab": false,
+            "btn2_custom_bg": "",
+            "btn2_custom_text": "",
+            "btn3_label": "",
+            "btn3_link": "",
+            "btn3_new_tab": false,
+            "btn3_custom_bg": "",
+            "btn3_custom_text": ""
+          }
+        },
+        "slide_wmFEwc": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/Artboard_1_copy_3_2x_42e39aab-cfe7-4c47-bd05-924ecfe8db44.png",
+            "image_focal_point": "center center",
+            "mobile_image": "shopify://shop_images/Artboard_2_copy_3_2x_d03eaa26-2202-4956-b8a2-c25b0aaeec8c.png",
+            "mobile_image_focal_point": "center center",
+            "video_url_mp4": "",
+            "video_url_webm": "",
+            "hide_content": false,
+            "eyebrow": "",
+            "heading": "",
+            "subtext": "",
+            "btn1_label": "",
+            "btn1_link": "",
+            "btn1_new_tab": false,
+            "btn1_custom_bg": "",
+            "btn1_custom_text": "",
+            "btn2_label": "",
+            "btn2_link": "",
+            "btn2_new_tab": false,
+            "btn2_custom_bg": "",
+            "btn2_custom_text": "",
+            "btn3_label": "",
+            "btn3_link": "",
+            "btn3_new_tab": false,
+            "btn3_custom_bg": "",
+            "btn3_custom_text": ""
+          }
+        },
+        "slide_zBDzXB": {
+          "type": "slide",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/Artboard_1_copy_2x_86250d12-534b-4bf8-b1a6-28446fdc4ef3.png",
+            "image_focal_point": "center center",
+            "mobile_image": "shopify://shop_images/Artboard_2_copy_2x_cf864a2e-608b-4650-912b-a3904948a636.png",
+            "mobile_image_focal_point": "center center",
+            "video_url_mp4": "",
+            "video_url_webm": "",
+            "hide_content": false,
+            "eyebrow": "",
+            "heading": "",
+            "subtext": "",
             "btn1_label": "",
             "btn1_link": "",
             "btn1_new_tab": false,
@@ -114,7 +176,9 @@
       },
       "block_order": [
         "slide_RV7Dct",
-        "slide_B6prei"
+        "slide_B6prei",
+        "slide_wmFEwc",
+        "slide_zBDzXB"
       ],
       "name": "Hero Slideshow Custom",
       "settings": {
@@ -137,7 +201,7 @@
         "content_offset_v": 8,
         "content_max_width": 600,
         "caption_bg_show": false,
-        "caption_bg_color": "rgba(0,0,0,0.4)",
+        "caption_bg_color": "#00000066",
         "button_width_desktop": 150,
         "button_height_desktop": 40,
         "button_width_mobile": 100,
@@ -146,7 +210,7 @@
         "button_bg_color": "#ffffff",
         "button_text_color": "#1a1a1a",
         "button_border_color": "#ffffff",
-        "button_hover_bg": "transparent",
+        "button_hover_bg": "rgba(0,0,0,0)",
         "button_hover_text": "#ffffff",
         "button_font_size": 12,
         "button_padding_v": 18,
@@ -155,8 +219,8 @@
         "button_gap": 16,
         "button_align": "left",
         "mobile_button_stack": "column",
-        "arrow_bg": "rgba(255,255,255,0.15)",
-        "arrow_hover_bg": "rgba(255,255,255,0.35)",
+        "arrow_bg": "#ffffff26",
+        "arrow_hover_bg": "#ffffff59",
         "arrow_color": "#ffffff",
         "dot_color": "#ffffff",
         "dot_active_color": "#ffffff",
@@ -170,7 +234,7 @@
         "product_card_gfweth": {
           "type": "product_card",
           "settings": {
-            "product_image": "shopify://shop_images/2_3_fd2df54c-679c-4f9d-9d23-5b997ccb09df.webp",
+            "product_image": "shopify://shop_images/Artboard_6_2x_087998c8-877c-4059-8c44-a54896417fdf.png",
             "brand_name": "Jeans",
             "product_url": ""
           }
@@ -178,7 +242,7 @@
         "product_card_xLwBpc": {
           "type": "product_card",
           "settings": {
-            "product_image": "shopify://shop_images/6_3_6e211781-198b-4aad-8414-78ef863bd8a4.webp",
+            "product_image": "shopify://shop_images/Artboard_5_2x_799e20f0-dcc5-4bcd-9efc-80d34abce427.png",
             "brand_name": "Shirts",
             "product_url": ""
           }
@@ -186,7 +250,7 @@
         "product_card_kEktML": {
           "type": "product_card",
           "settings": {
-            "product_image": "shopify://shop_images/3_4_7c01ba11-02ba-492a-83be-1a807f67a517.webp",
+            "product_image": "shopify://shop_images/Artboard_7_2x_b6236149-3f7b-488f-a0da-236f494c5552.png",
             "brand_name": "knitted shirts",
             "product_url": ""
           }
@@ -194,7 +258,7 @@
         "product_card_6yVGCm": {
           "type": "product_card",
           "settings": {
-            "product_image": "shopify://shop_images/navy_blue_0ef80fd7-05f7-4a0c-b9b0-dc6b09e495b4.webp",
+            "product_image": "shopify://shop_images/Artboard_4_2x_91864946-999b-49dd-bd2e-39df0a1d13c5.png",
             "brand_name": "Canali",
             "product_url": ""
           }
@@ -202,7 +266,7 @@
         "product_card_H8Cn9w": {
           "type": "product_card",
           "settings": {
-            "product_image": "shopify://shop_images/Untitled-1_copy_b5e7f71b-7c25-45cc-baed-a03d903c8e8b.jpg",
+            "product_image": "shopify://shop_images/Artboard_8_2x_cbefc8ca-167d-40e1-8fa2-eb18df044b53.png",
             "brand_name": "brunello cucinelli",
             "product_url": ""
           }
@@ -346,12 +410,12 @@
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
-        "image_1": "shopify://shop_images/Desktop_Banner_d28bd525-f4b6-4859-8dfd-ed167bf6d5f5.webp",
+        "image_1": "shopify://shop_images/Artboard_1_copy_2x_86250d12-534b-4bf8-b1a6-28446fdc4ef3.png",
         "media_type_2": "image",
-        "stack_media_on_mobile": false,
+        "stack_media_on_mobile": true,
         "custom_mobile_media": true,
         "media_type_1_mobile": "image",
-        "image_1_mobile": "shopify://shop_images/vahro_1.webp",
+        "image_1_mobile": "shopify://shop_images/Artboard_2_copy_2x_cf864a2e-608b-4650-912b-a3904948a636.png",
         "media_type_2_mobile": "image",
         "link": "",
         "open_in_new_tab": false,
@@ -363,9 +427,9 @@
         "horizontal_alignment_flex_direction_column": "center",
         "vertical_alignment_flex_direction_column": "center",
         "gap": 16,
-        "section_width": "page-width",
-        "section_height": "large",
-        "section_height_custom": 50,
+        "section_width": "full-width",
+        "section_height": "auto",
+        "section_height_custom": 100,
         "color_scheme": "scheme-2",
         "toggle_overlay": true,
         "overlay_color": "#00000026",
@@ -392,6 +456,7 @@
         "container_width": 1400,
         "columns_desktop": "6",
         "columns_mobile": "2",
+        "enable_carousel_mobile": true,
         "card_gap": 16,
         "image_ratio": "3/4",
         "card_bg_color": "#ffffff",
@@ -589,11 +654,12 @@
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
-        "image_1": "shopify://shop_images/Summer_website_26_new_jpg.webp",
+        "image_1": "shopify://shop_images/Artboard_1_copy_3_2x_42e39aab-cfe7-4c47-bd05-924ecfe8db44.png",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
-        "custom_mobile_media": false,
+        "custom_mobile_media": true,
         "media_type_1_mobile": "image",
+        "image_1_mobile": "shopify://shop_images/Artboard_2_copy_3_2x_d03eaa26-2202-4956-b8a2-c25b0aaeec8c.png",
         "media_type_2_mobile": "image",
         "link": "",
         "open_in_new_tab": false,
@@ -606,7 +672,7 @@
         "vertical_alignment_flex_direction_column": "center",
         "gap": 16,
         "section_width": "page-width",
-        "section_height": "large",
+        "section_height": "auto",
         "section_height_custom": 50,
         "color_scheme": "scheme-2",
         "toggle_overlay": true,
@@ -1459,8 +1525,8 @@
         "section_bg": "#ffffff",
         "padding_top": 40,
         "padding_bottom": 40,
-        "padding_top_mobile": 0,
-        "padding_bottom_mobile": 0,
+        "padding_top_mobile": 20,
+        "padding_bottom_mobile": 20,
         "font_family": "sans_serif_n4",
         "heading_size_desktop": 40,
         "heading_size_mobile": 24,

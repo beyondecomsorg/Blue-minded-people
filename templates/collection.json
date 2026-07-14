@@ -187,7 +187,11 @@
     },
     "collection_tabs_section": {
       "type": "collection-tabs",
-      "settings": {}
+      "settings": {
+        "bg_color": "#ffffff",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     },
     "main-collection": {
       "type": "main-collection",
@@ -363,7 +367,7 @@
       },
       "settings": {
         "layout_type": "grid",
-        "product_card_size": "large",
+        "product_card_size": "medium",
         "mobile_product_card_size": "small",
         "enable_infinite_scroll": false,
         "products_per_page": 24,

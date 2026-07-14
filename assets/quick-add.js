@@ -91,31 +91,59 @@ export class QuickAddComponent extends Component {
     event.preventDefault();
 
     const currentUrl = this.productPageUrl;
-
-    // Check if we have cached content for this URL
     let productGrid = this.#cachedContent.get(currentUrl);
 
     if (!productGrid) {
+      // Immediately render skeleton loader to prevent lag/layout jump
+      const modalContent = document.getElementById('quick-add-modal-content');
+      if (modalContent) {
+        modalContent.innerHTML = `
+          <div class="quick-add-skeleton">
+            <div class="quick-add-skeleton__gallery"></div>
+            <div class="quick-add-skeleton__details">
+              <div class="quick-add-skeleton__line title"></div>
+              <div class="quick-add-skeleton__line price"></div>
+              <div class="quick-add-skeleton__line swatch-label"></div>
+              <div class="quick-add-skeleton__swatches">
+                <div class="quick-add-skeleton__circle"></div>
+                <div class="quick-add-skeleton__circle"></div>
+                <div class="quick-add-skeleton__circle"></div>
+              </div>
+              <div class="quick-add-skeleton__line size-label"></div>
+              <div class="quick-add-skeleton__sizes">
+                <div class="quick-add-skeleton__square"></div>
+                <div class="quick-add-skeleton__square"></div>
+                <div class="quick-add-skeleton__square"></div>
+              </div>
+              <div class="quick-add-skeleton__line button"></div>
+            </div>
+          </div>
+        `;
+      }
+      this.#openQuickAddModal();
+
       // Fetch and cache the content
       const html = await this.fetchProductPage(currentUrl);
       if (html) {
         const gridElement = html.querySelector('[data-product-grid-content]');
         if (gridElement) {
-          // Cache the cloned element to avoid modifying the original
           productGrid = /** @type {Element} */ (gridElement.cloneNode(true));
           this.#cachedContent.set(currentUrl, productGrid);
         }
       }
-    }
 
-    if (productGrid) {
-      // Use a fresh clone from the cache
+      if (productGrid) {
+        const freshContent = /** @type {Element} */ (productGrid.cloneNode(true));
+        await this.updateQuickAddModal(freshContent);
+        this.#updateVariantPicker(productGrid);
+      }
+    } else {
+      // Open immediately if cached
       const freshContent = /** @type {Element} */ (productGrid.cloneNode(true));
       await this.updateQuickAddModal(freshContent);
       this.#updateVariantPicker(productGrid);
+      this.#openQuickAddModal();
     }
-
-    this.#openQuickAddModal();
   };
 
   #resetScroll() {
@@ -209,6 +237,8 @@ export class QuickAddComponent extends Component {
       const productFormComponent = productGrid.querySelector('product-form-component');
       const variantPicker = productGrid.querySelector('variant-picker');
       const productPrice = productGrid.querySelector('product-price');
+      const productQuantity = productGrid.querySelector('product-quantity');
+      
       const productTitle = document.createElement('a');
       productTitle.textContent = this.dataset.productTitle || '';
 
@@ -227,9 +257,18 @@ export class QuickAddComponent extends Component {
       if (variantPicker) {
         productGrid.appendChild(variantPicker);
       }
-      if (productFormComponent) {
-        productGrid.appendChild(productFormComponent);
+      
+      // Group quantity selector + Add to Cart + Buy it Now into sticky bar container
+      const stickyBar = document.createElement('div');
+      stickyBar.classList.add('quick-add-mobile-sticky-bar');
+      
+      if (productQuantity) {
+        stickyBar.appendChild(productQuantity);
       }
+      if (productFormComponent) {
+        stickyBar.appendChild(productFormComponent);
+      }
+      productGrid.appendChild(stickyBar);
 
       productDetails?.remove();
     }

@@ -31,19 +31,135 @@ export default class VariantPicker extends Component {
 
   #resizeObserver = new ResizeNotifier(() => this.updateVariantPickerCss());
 
-  connectedCallback() {
-    super.connectedCallback();
+  initRadiosAndCheckedIndices() {
+    this.#radios = [];
+    this.#checkedIndices = [];
     const fieldsets = /** @type {HTMLFieldSetElement[]} */ (this.refs.fieldsets || []);
 
     fieldsets.forEach((fieldset) => {
       const radios = Array.from(fieldset?.querySelectorAll('input') ?? []);
       this.#radios.push(radios);
 
-      const initialCheckedIndex = radios.findIndex((radio) => radio.dataset.currentChecked === 'true');
-      if (initialCheckedIndex !== -1) {
-        this.#checkedIndices.push([initialCheckedIndex]);
+      const initialCheckedIndex = radios.findIndex((radio) => radio.dataset.currentChecked === 'true' || radio.checked);
+      this.#checkedIndices.push(initialCheckedIndex !== -1 ? [initialCheckedIndex] : []);
+    });
+  }
+
+  initSizeChart() {
+    const trigger = this.querySelector('[data-size-chart-trigger]');
+    const dialog = this.querySelector('.size-chart-modal');
+
+    if (!trigger || !dialog) return;
+
+    if (this._openModalHandler) {
+      trigger.removeEventListener('click', this._openModalHandler);
+    }
+
+    this._openModalHandler = () => {
+      dialog.classList.remove('dialog-closing');
+      dialog.showModal();
+      document.body.style.overflow = 'hidden';
+      const closeBtn = dialog.querySelector('.size-chart-modal__close-btn');
+      if (closeBtn) closeBtn.focus();
+    };
+
+    trigger.addEventListener('click', this._openModalHandler);
+
+    const closeButtons = dialog.querySelectorAll('[data-size-chart-close]');
+
+    const closeModal = () => {
+      dialog.classList.add('dialog-closing');
+      
+      const handleTransitionEnd = () => {
+        dialog.close();
+        dialog.classList.remove('dialog-closing');
+        document.body.style.overflow = '';
+        trigger.focus();
+        dialog.removeEventListener('animationend', handleTransitionEnd);
+        dialog.removeEventListener('transitionend', handleTransitionEnd);
+      };
+      
+      dialog.addEventListener('animationend', handleTransitionEnd);
+      dialog.addEventListener('transitionend', handleTransitionEnd);
+      
+      // Fallback in case transition fails to trigger
+      setTimeout(() => {
+        if (dialog.open && dialog.classList.contains('dialog-closing')) {
+          dialog.close();
+          dialog.classList.remove('dialog-closing');
+          document.body.style.overflow = '';
+          trigger.focus();
+        }
+      }, 350);
+    };
+
+    closeButtons.forEach(btn => {
+      btn.onclick = closeModal;
+    });
+
+    dialog.onclick = (event) => {
+      if (event.target === dialog) {
+        closeModal();
+      }
+    };
+
+    dialog.onclose = () => {
+      document.body.style.overflow = '';
+    };
+
+    // Smooth exit animation on Escape key press
+    dialog.addEventListener('cancel', (e) => {
+      e.preventDefault();
+      closeModal();
+    });
+
+    // Accessibility: Focus trap within modal
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        const focusable = dialog.querySelectorAll('button, .size-chart-unit-btn, [tabindex]:not([tabindex="-1"])');
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            last.focus();
+            e.preventDefault();
+          }
+        } else {
+          if (document.activeElement === last) {
+            first.focus();
+            e.preventDefault();
+          }
+        }
       }
     });
+
+    // Unit toggle switcher (cm / inches)
+    const unitButtons = dialog.querySelectorAll('.size-chart-unit-btn');
+    unitButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        unitButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const unit = btn.dataset.unit;
+        const sizeVals = dialog.querySelectorAll('.size-val');
+        sizeVals.forEach(cell => {
+          if (unit === 'cm') {
+            cell.textContent = cell.dataset.cm;
+          } else {
+            cell.textContent = cell.dataset.inch;
+          }
+        });
+      });
+    });
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this._initTimeout = setTimeout(() => {
+      this.initRadiosAndCheckedIndices();
+      this.initSizeChart();
+      this.updateInventoryStatus();
+    }, 0);
 
     this.addEventListener('change', this.variantChanged.bind(this));
     this.#resizeObserver.observe(this);
@@ -51,7 +167,14 @@ export default class VariantPicker extends Component {
 
   disconnectedCallback() {
     super.disconnectedCallback();
+    if (this._initTimeout) {
+      clearTimeout(this._initTimeout);
+    }
     this.#resizeObserver.disconnect();
+    const trigger = this.querySelector('[data-size-chart-trigger]');
+    if (trigger && this._openModalHandler) {
+      trigger.removeEventListener('click', this._openModalHandler);
+    }
   }
 
   /**
@@ -112,6 +235,65 @@ export default class VariantPicker extends Component {
       yieldToMainThread().then(() => {
         history.replaceState({}, '', url.toString());
       });
+    }
+
+    this.updateInventoryStatus();
+  }
+
+  updateInventoryStatus() {
+    const selectedVariantId = this.dataset.selectedVariantId || 
+      this.querySelector('input[type="radio"]:checked')?.dataset.variantId || 
+      this.querySelector('select.variant-option__select')?.value;
+
+    const inventoryJsonElement = this.querySelector('[data-variant-inventory-json]');
+    const statusElement = this.querySelector('[data-variant-inventory-status]');
+    if (!inventoryJsonElement || !statusElement) return;
+
+    try {
+      const inventoryData = JSON.parse(inventoryJsonElement.textContent);
+      let variantData = inventoryData[selectedVariantId];
+      
+      if (!variantData) {
+        const checkedInput = this.querySelector('input[type="radio"]:checked');
+        if (checkedInput && checkedInput.dataset.variantId) {
+          variantData = inventoryData[checkedInput.dataset.variantId];
+        }
+      }
+      if (!variantData) {
+        const activeSelect = this.querySelector('select.variant-option__select');
+        if (activeSelect) {
+          const selectedOption = activeSelect.options[activeSelect.selectedIndex];
+          if (selectedOption && selectedOption.dataset.variantId) {
+            variantData = inventoryData[selectedOption.dataset.variantId];
+          }
+        }
+      }
+
+      if (variantData && variantData.inventory_management === 'shopify') {
+        const qty = variantData.inventory_quantity;
+        const policy = variantData.inventory_policy;
+        const textSpan = statusElement.querySelector('.inventory-status-text');
+
+        if (qty > 0 && qty <= 5) {
+          textSpan.textContent = `🔥 Only ${qty} left in stock - order soon!`;
+          statusElement.style.display = 'flex';
+          statusElement.style.color = 'var(--color-lowstock, #d24646)';
+        } else if (qty <= 0 && policy === 'continue') {
+          textSpan.textContent = 'In stock (backorder available)';
+          statusElement.style.display = 'flex';
+          statusElement.style.color = '#b87333';
+        } else if (qty <= 0) {
+          textSpan.textContent = 'Sold out';
+          statusElement.style.display = 'flex';
+          statusElement.style.color = '#888888';
+        } else {
+          statusElement.style.display = 'none';
+        }
+      } else {
+        statusElement.style.display = 'none';
+      }
+    } catch (e) {
+      console.error("Error parsing variant inventory data:", e);
     }
   }
 
@@ -404,6 +586,8 @@ export default class VariantPicker extends Component {
         return key;
       },
     });
+    this.initRadiosAndCheckedIndices();
+    this.initSizeChart();
     this.updateVariantPickerCss();
 
     return newProduct;
