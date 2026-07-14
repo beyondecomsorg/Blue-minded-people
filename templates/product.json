@@ -679,7 +679,7 @@
         "enable_sticky_add_to_cart": true,
         "color_scheme": "scheme-2",
         "padding-block-start": 0,
-        "padding-block-end": 0
+        "padding-block-end": 60
       }
     },
     "related_products_carousel": {
