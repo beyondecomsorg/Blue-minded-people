@@ -36,15 +36,86 @@
       padding: 0 20px;
     }
 
-    .ct-triggers {
+    .collection-tabs-wrapper {
       display: flex;
-      justify-content: center;
-      gap: 36px;
-      margin-bottom: 8px;
-      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 20px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none; /* Firefox */
+      -webkit-overflow-scrolling: touch;
+      width: 100%;
     }
 
-    .ct-trigger {
+    .collection-tabs-wrapper::-webkit-scrollbar {
+      display: none; /* Chrome/Safari */
+    }
+
+    .collection-tabs-active-panes {
+      flex: 0 0 auto;
+      min-width: 0;
+    }
+
+    .collection-tabs-active-pane {
+      display: none;
+    }
+
+    .collection-tabs-active-pane.is-active {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .collection-tabs-active-image-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 220px;
+      flex: 0 0 220px;
+    }
+
+    .collection-tabs-active-image {
+      width: 100%;
+      height: 220px;
+      border: 1.5px solid var(--color-copper-rivet, #b87333);
+      background-color: var(--color-off-white, #fcfcfc);
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    .collection-tabs-active-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .collection-tabs-active-content {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 24px;
+      font-family: var(--font-body--family);
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--color-deep-navy, #111111);
+      max-width: 280px;
+      text-align: left;
+    }
+
+    .collection-tabs-thumbnail-strip {
+      display: flex;
+      gap: 20px;
+      flex-wrap: nowrap;
+      flex: 0 0 auto;
+    }
+
+    .collection-tab-thumb {
       background: none;
       border: none;
       padding: 0;
@@ -52,116 +123,112 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
-      width: 100px;
+      width: 220px;
+      flex: 0 0 220px;
       text-decoration: none;
-      flex: 0 0 19%;
     }
 
-    .ct-trigger-icon {
+    .collection-tab-thumb.is-active {
+      display: none; /* Hide active thumbnail to avoid duplicate card in row */
+    }
+
+    .collection-tab-thumb-icon {
+      width: 100%;
+      height: 220px;
       border: 1.5px solid var(--color-border-grey, #dddddd);
       background-color: var(--color-off-white, #fcfcfc);
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
       transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+      aspect-ratio: 1 / 1;
     }
 
-    .ct-trigger-icon img {
+    .collection-tab-thumb-icon img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      padding: 10px;
+      object-fit: cover;
       display: block;
     }
 
-    .ct-trigger-label {
+    .active-label,
+    .thumb-label {
       font-family: var(--font-body--family);
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--color-deep-navy, #111111);
       text-align: center;
+      display: block;
+      margin-top: 12px;
+    }
+
+    .thumb-label {
+      color: var(--color-deep-navy, #111111);
       transition: color 0.25s ease;
     }
 
-    /* Active & Hover States */
-    .ct-trigger.is-active .ct-trigger-icon {
-      border-color: var(--color-copper-rivet, #b87333);
-      background-color: #ffffff;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
-    }
-
-    .ct-trigger.is-active .ct-trigger-label {
+    .active-label {
       color: var(--color-copper-rivet, #b87333);
     }
 
-    .ct-trigger:hover .ct-trigger-icon {
+    /* Hover States for Thumbnails */
+    .collection-tab-thumb:hover .collection-tab-thumb-icon {
       border-color: var(--color-copper-rivet, #b87333);
     }
 
-    .ct-trigger:hover .ct-trigger-label {
+    .collection-tab-thumb:hover .thumb-label {
       color: var(--color-copper-rivet, #b87333);
-    }
-
-    /* Panels */
-    .ct-panels {
-      position: relative;
-    }
-
-    .ct-panel {
-      display: none;
-      font-family: var(--font-body--family);
-      font-size: 15px;
-      line-height: 1.6;
-      color: var(--color-deep-navy, #111111);
-      max-width: 680px;
-      margin: 0 auto;
-      text-align: center;
-      padding: 28px 16px;
-      border-top: 1px solid var(--color-border-grey, #e5e5e5);
-      margin-top: 24px;
-    }
-
-    .ct-panel.is-active {
-      display: block;
     }
   </style>
 
   <div id="CollectionTabs-{{ section.id }}">
     <div class="ct-container">
-      <div class="ct-triggers">
-        {% for img in images_list limit: shortest_size %}
-          {% assign idx = forloop.index0 %}
-          {% assign txt = text_list[idx] %}
-          <button 
-            type="button" 
-            class="ct-trigger{% if forloop.first %} is-active{% endif %}" 
-            data-tab-index="{{ idx }}"
-            aria-label="{{ txt }}"
-          >
-           <div class="ct-trigger-icon">
-  {% if img != blank %}
-   {{ img | image_url: width: 1500 | image_tag: loading: 'lazy', alt: txt }}
-  {% endif %}
-</div>
-            <span class="ct-trigger-label">{{ txt }}</span>
-          </button>
-        {% endfor %}
-      </div>
+      <div class="collection-tabs-wrapper">
+        <div class="collection-tabs-active-panes">
+          {% for img in images_list limit: shortest_size %}
+            {% assign idx = forloop.index0 %}
+            {% assign txt = text_list[idx] %}
+            {% assign desc = description_list[idx] %}
+            <div 
+              class="collection-tabs-active-pane{% if forloop.first %} is-active{% endif %}" 
+              data-pane-index="{{ idx }}"
+            >
+              <div class="collection-tabs-active-image-container">
+                <div class="collection-tabs-active-image">
+                  {% if img != blank %}
+                    {{ img | image_url: width: 600 | image_tag: loading: 'lazy', alt: txt }}
+                  {% endif %}
+                </div>
+                <span class="active-label">{{ txt }}</span>
+              </div>
+              <div class="collection-tabs-active-content">
+                {{ desc }}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
 
-      <div class="ct-panels">
-        {% for desc in description_list limit: shortest_size %}
-          {% assign idx = forloop.index0 %}
-          <div 
-            class="ct-panel{% if forloop.first %} is-active{% endif %}" 
-            data-panel-index="{{ idx }}"
-          >
-            {{ desc }}
-          </div>
-        {% endfor %}
+        <div class="collection-tabs-thumbnail-strip">
+          {% for img in images_list limit: shortest_size %}
+            {% assign idx = forloop.index0 %}
+            {% assign txt = text_list[idx] %}
+            <button 
+              type="button" 
+              class="collection-tab-thumb{% if forloop.first %} is-active{% endif %}" 
+              data-tab-index="{{ idx }}"
+              aria-label="{{ txt }}"
+            >
+              <div class="collection-tab-thumb-icon">
+                {% if img != blank %}
+                  {{ img | image_url: width: 400 | image_tag: loading: 'lazy', alt: txt }}
+                {% endif %}
+              </div>
+              <span class="thumb-label">{{ txt }}</span>
+            </button>
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>
@@ -172,24 +239,30 @@
         const wrapper = document.getElementById('CollectionTabs-' + sectionId);
         if (!wrapper) return;
 
-        const triggers = wrapper.querySelectorAll('.ct-trigger');
-        const panels = wrapper.querySelectorAll('.ct-panel');
+        const thumbs = wrapper.querySelectorAll('.collection-tab-thumb');
+        const panes = wrapper.querySelectorAll('.collection-tabs-active-pane');
 
-        triggers.forEach(trigger => {
-          trigger.addEventListener('click', function() {
+        thumbs.forEach(thumb => {
+          thumb.addEventListener('click', function() {
             const targetIndex = this.getAttribute('data-tab-index');
 
             // Remove active classes
-            triggers.forEach(t => t.classList.remove('is-active'));
-            panels.forEach(p => p.classList.remove('is-active'));
+            thumbs.forEach(t => t.classList.remove('is-active'));
+            panes.forEach(p => p.classList.remove('is-active'));
 
-            // Add active class to clicked trigger
+            // Add active class to clicked thumbnail
             this.classList.add('is-active');
 
-            // Add active class to target panel
-            const targetPanel = wrapper.querySelector('.ct-panel[data-panel-index="' + targetIndex + '"]');
-            if (targetPanel) {
-              targetPanel.classList.add('is-active');
+            // Add active class to target pane
+            const targetPane = wrapper.querySelector('.collection-tabs-active-pane[data-pane-index="' + targetIndex + '"]');
+            if (targetPane) {
+              targetPane.classList.add('is-active');
+            }
+
+            // Smoothly scroll the container back to the start (left: 0) to align the active pane
+            const scrollContainer = wrapper.querySelector('.collection-tabs-wrapper');
+            if (scrollContainer) {
+              scrollContainer.scrollTo({ left: 0, behavior: 'smooth' });
             }
           });
         });
