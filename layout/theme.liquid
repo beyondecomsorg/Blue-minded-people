@@ -165,6 +165,21 @@ body, p, a, span, li, button, input, label, select, textarea, .nav-link, .produc
   font-size: 16px !important;
   }
 
+  @media only screen and (max-width: 767px){
+     body .wnt-product-brand{
+margin-top: 0px;
+       }
+ body .wnt-eyebrow,
+ body .wnt-product-brand,
+  body .sfc-card-title,
+  body .bpc-card-label,
+  body .ebs-card-label,
+  body sfc-subheading {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  }  
+  }
+
   body .sbc-heading,
   body .sfc-heading,
   body .timeline-tabs__heading,
@@ -543,7 +558,13 @@ details[open] [data-accordion-content],
 
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js" defer></script>
     {% # theme-check-enable RemoteAsset %}
-  </head>
+  <script type="text/javascript">if(typeof window.hulkappsWishlist === 'undefined') {
+                            window.hulkappsWishlist = {};
+                        }
+                        window.hulkappsWishlist.baseURL = '/apps/advanced-wishlist/api';
+                        window.hulkappsWishlist.hasAppBlockSupport = '1';
+                        </script>
+</head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }} page-{{ page_title | handle }} template-{{ template.name | handle }}" >
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
