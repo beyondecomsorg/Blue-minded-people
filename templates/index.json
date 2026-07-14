@@ -113,7 +113,6 @@
         },
         "slide_wmFEwc": {
           "type": "slide",
-          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/Artboard_1_copy_3_2x_42e39aab-cfe7-4c47-bd05-924ecfe8db44.png",
             "image_focal_point": "center center",
@@ -144,7 +143,6 @@
         },
         "slide_zBDzXB": {
           "type": "slide",
-          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/Artboard_1_copy_2x_86250d12-534b-4bf8-b1a6-28446fdc4ef3.png",
             "image_focal_point": "center center",
