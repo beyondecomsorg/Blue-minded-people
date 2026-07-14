@@ -185,6 +185,10 @@
         "padding_bottom_mobile": 0
       }
     },
+    "collection_tabs_section": {
+      "type": "collection-tabs",
+      "settings": {}
+    },
     "main-collection": {
       "type": "main-collection",
       "blocks": {
@@ -378,6 +382,7 @@
   "order": [
     "section",
     "hero_3BwwMV",
+    "collection_tabs_section",
     "main-collection"
   ]
 }

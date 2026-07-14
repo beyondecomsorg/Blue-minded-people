@@ -11,47 +11,75 @@
   "type": "header",
   "name": "Header",
   "sections": {
-    "header_section": {
-      "type": "header",
+    "header_announcements_jGz3eR": {
+      "type": "header-announcements",
       "blocks": {
-        "header-logo": {
-          "type": "_header-logo",
-          "static": true,
+        "announcement_67MUxj": {
+          "type": "_announcement",
+          "name": "t:names.announcement",
           "settings": {
-            "hide_logo_on_home_page": false,
-            "padding-block-start": 0,
-            "padding-block-end": 0
+            "text": "Welcome to blue minded people store",
+            "link": "",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none"
           },
           "blocks": {}
         },
-        "header-menu": {
-          "type": "_header-menu",
-          "static": true,
+        "announcement_jixYVn": {
+          "type": "_announcement",
+          "name": "t:names.announcement",
           "settings": {
-            "menu": "main-menu",
-            "color_scheme": "",
-            "type_font_primary_size": "0.75rem",
-            "menu_font_style": "inverse_large",
-            "type_font_primary_link": "body",
-            "type_case_primary_link": "uppercase",
-            "menu_style": "featured_collections",
-            "featured_products_aspect_ratio": "4 / 5",
-            "featured_collections_aspect_ratio": "1 / 1",
-            "image_border_radius": 2,
-            "navigation_bar": false,
-            "color_scheme_navigation_bar": "",
-            "drawer_accordion": false,
-            "drawer_accordion_expand_first": false,
-            "drawer_dividers": false
+            "text": "7 days easy return",
+            "link": "",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none"
+          },
+          "blocks": {}
+        },
+        "announcement_BemRCx": {
+          "type": "_announcement",
+          "settings": {
+            "text": "Free shipping above INR 2500",
+            "link": "",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none"
           },
           "blocks": {}
         }
       },
+      "block_order": [
+        "announcement_67MUxj",
+        "announcement_jixYVn",
+        "announcement_BemRCx"
+      ],
+      "name": "t:names.announcement_bar",
       "settings": {
+        "speed": 3,
+        "section_width": "page-width",
+        "color_scheme": "scheme-5",
+        "divider_width": 0,
+        "padding-block-start": 15,
+        "padding-block-end": 15
+      }
+    },
+    "header_section": {
+      "type": "header",
+      "settings": {
+        "announcement_text": "",
+        "menu": "menu",
+        "highlight_item_index": 0,
+        "highlight_color": "var(--color-copper-rivet)",
         "logo_position": "center",
-        "menu_position": "left",
-        "menu_row": "top",
-        "customer_account_menu": "customer-account-main-menu",
+        "customer_account_menu": "main-menu",
         "show_search": true,
         "search_position": "right",
         "search_row": "top",
@@ -85,6 +113,7 @@
     }
   },
   "order": [
+    "header_announcements_jGz3eR",
     "header_section"
   ]
 }

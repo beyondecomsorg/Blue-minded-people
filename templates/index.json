@@ -11,6 +11,7 @@
   "sections": {
     "hero_3rjkBF": {
       "type": "hero",
+      "disabled": true,
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
@@ -47,6 +48,122 @@
         "padding_bottom_mobile": 30
       }
     },
+    "custom_hero_section_eTTVbb": {
+      "type": "custom-hero-section",
+      "blocks": {
+        "slide_RV7Dct": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Banner_1.webp",
+            "image_focal_point": "center center",
+            "mobile_image": "shopify://shop_images/Banner_1_mob.webp",
+            "mobile_image_focal_point": "center center",
+            "video_url_mp4": "",
+            "video_url_webm": "",
+            "hide_content": false,
+            "eyebrow": "",
+            "heading": "New for Summer",
+            "subtext": "Cobblestone streets, sunbaked rooftops, and Lisbon as our guide.\nLet adventure lead the way in relaxed linen and packable new arrivals.",
+            "btn1_label": "",
+            "btn1_link": "",
+            "btn1_new_tab": false,
+            "btn1_custom_bg": "",
+            "btn1_custom_text": "",
+            "btn2_label": "",
+            "btn2_link": "",
+            "btn2_new_tab": false,
+            "btn2_custom_bg": "",
+            "btn2_custom_text": "",
+            "btn3_label": "",
+            "btn3_link": "",
+            "btn3_new_tab": false,
+            "btn3_custom_bg": "",
+            "btn3_custom_text": ""
+          }
+        },
+        "slide_B6prei": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Banner_2_web.webp",
+            "image_focal_point": "center center",
+            "mobile_image": "shopify://shop_images/Banner_2_mob.webp",
+            "mobile_image_focal_point": "center center",
+            "video_url_mp4": "",
+            "video_url_webm": "",
+            "hide_content": false,
+            "eyebrow": "",
+            "heading": "New for Summer",
+            "subtext": "Cobblestone streets, sunbaked rooftops, and Lisbon as our guide.\nLet adventure lead the way in relaxed linen and packable new arrivals.",
+            "btn1_label": "",
+            "btn1_link": "",
+            "btn1_new_tab": false,
+            "btn1_custom_bg": "",
+            "btn1_custom_text": "",
+            "btn2_label": "",
+            "btn2_link": "",
+            "btn2_new_tab": false,
+            "btn2_custom_bg": "",
+            "btn2_custom_text": "",
+            "btn3_label": "",
+            "btn3_link": "",
+            "btn3_new_tab": false,
+            "btn3_custom_bg": "",
+            "btn3_custom_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_RV7Dct",
+        "slide_B6prei"
+      ],
+      "name": "Hero Slideshow Custom",
+      "settings": {
+        "autoplay": true,
+        "autoplay_speed": 5000,
+        "transition_type": "slide",
+        "transition_speed": 700,
+        "show_arrows": true,
+        "show_dots": true,
+        "video_pause_autoplay": false,
+        "overlay_color": "#000000",
+        "overlay_opacity": 25,
+        "heading_font_size_desktop": 40,
+        "heading_font_size_mobile": 24,
+        "description_font_size": 14,
+        "button_font_size_desktop": 14,
+        "button_font_size_mobile": 10,
+        "caption_position": "bottom_left",
+        "content_offset_h": 4,
+        "content_offset_v": 8,
+        "content_max_width": 600,
+        "caption_bg_show": false,
+        "caption_bg_color": "rgba(0,0,0,0.4)",
+        "button_width_desktop": 150,
+        "button_height_desktop": 40,
+        "button_width_mobile": 100,
+        "button_height_mobile": 40,
+        "button_style": "sharp",
+        "button_bg_color": "#ffffff",
+        "button_text_color": "#1a1a1a",
+        "button_border_color": "#ffffff",
+        "button_hover_bg": "transparent",
+        "button_hover_text": "#ffffff",
+        "button_font_size": 12,
+        "button_padding_v": 18,
+        "button_padding_h": 40,
+        "button_border_width": 1,
+        "button_gap": 16,
+        "button_align": "left",
+        "mobile_button_stack": "column",
+        "arrow_bg": "rgba(255,255,255,0.15)",
+        "arrow_hover_bg": "rgba(255,255,255,0.35)",
+        "arrow_color": "#ffffff",
+        "dot_color": "#ffffff",
+        "dot_active_color": "#ffffff",
+        "mobile_caption_below": false,
+        "mobile_caption_bg": "#ffffff"
+      }
+    },
     "section_whats_new_today_aD9myK": {
       "type": "section-whats-new-today",
       "blocks": {
@@ -54,7 +171,7 @@
           "type": "product_card",
           "settings": {
             "product_image": "shopify://shop_images/2_3_fd2df54c-679c-4f9d-9d23-5b997ccb09df.webp",
-            "brand_name": "BRAND",
+            "brand_name": "Jeans",
             "product_url": ""
           }
         },
@@ -62,7 +179,7 @@
           "type": "product_card",
           "settings": {
             "product_image": "shopify://shop_images/6_3_6e211781-198b-4aad-8414-78ef863bd8a4.webp",
-            "brand_name": "BRAND",
+            "brand_name": "Shirts",
             "product_url": ""
           }
         },
@@ -70,7 +187,7 @@
           "type": "product_card",
           "settings": {
             "product_image": "shopify://shop_images/3_4_7c01ba11-02ba-492a-83be-1a807f67a517.webp",
-            "brand_name": "BRAND",
+            "brand_name": "knitted shirts",
             "product_url": ""
           }
         },
@@ -78,7 +195,7 @@
           "type": "product_card",
           "settings": {
             "product_image": "shopify://shop_images/navy_blue_0ef80fd7-05f7-4a0c-b9b0-dc6b09e495b4.webp",
-            "brand_name": "BRAND",
+            "brand_name": "Canali",
             "product_url": ""
           }
         },
@@ -86,12 +203,13 @@
           "type": "product_card",
           "settings": {
             "product_image": "shopify://shop_images/Untitled-1_copy_b5e7f71b-7c25-45cc-baed-a03d903c8e8b.jpg",
-            "brand_name": "BRAND",
+            "brand_name": "brunello cucinelli",
             "product_url": ""
           }
         },
         "product_card_hMgJGr": {
           "type": "product_card",
+          "disabled": true,
           "settings": {
             "product_image": "shopify://shop_images/navy_blue_0ef80fd7-05f7-4a0c-b9b0-dc6b09e495b4.webp",
             "brand_name": "BRAND",
@@ -100,6 +218,7 @@
         },
         "product_card_pXRMej": {
           "type": "product_card",
+          "disabled": true,
           "settings": {
             "product_image": "shopify://shop_images/navy_blue_0ef80fd7-05f7-4a0c-b9b0-dc6b09e495b4.webp",
             "brand_name": "BRAND",
@@ -108,6 +227,7 @@
         },
         "product_card_Fqi49x": {
           "type": "product_card",
+          "disabled": true,
           "settings": {
             "product_image": "shopify://shop_images/navy_blue_0ef80fd7-05f7-4a0c-b9b0-dc6b09e495b4.webp",
             "brand_name": "BRAND",
@@ -140,7 +260,7 @@
         "btn_bg_color": "#b87333",
         "btn_text_color": "#ffffff",
         "font_family": "inherit",
-        "padding_top": 0,
+        "padding_top": 60,
         "padding_bottom": 60,
         "padding_top_mobile": 0,
         "padding_bottom_mobile": 30
@@ -261,76 +381,14 @@
     },
     "shop_by_category_Y6HHJz": {
       "type": "shop-by-category",
-      "blocks": {
-        "category_card_NP8Pkc": {
-          "type": "category_card",
-          "settings": {
-            "card_image": "shopify://shop_images/4_4_e300b760-445a-4883-a1ff-0e430d950a61.jpg",
-            "card_title": "REGULAR TROUSER FABRIC",
-            "btn_label": "Shop Now",
-            "card_url": ""
-          }
-        },
-        "category_card_bt7dhP": {
-          "type": "category_card",
-          "settings": {
-            "card_image": "shopify://shop_images/white_t_e13d2baa-8669-453e-b3cf-f1ff3236d0a8.webp",
-            "card_title": "POLYWOOL TROUSER FABRIC",
-            "btn_label": "Shop Now",
-            "card_url": ""
-          }
-        },
-        "category_card_HRxyQA": {
-          "type": "category_card",
-          "settings": {
-            "card_image": "shopify://shop_images/2_3_fd2df54c-679c-4f9d-9d23-5b997ccb09df.webp",
-            "card_title": "LYCRA TROUSER FABRIC",
-            "btn_label": "Shop Now",
-            "card_url": ""
-          }
-        },
-        "category_card_JHQjtf": {
-          "type": "category_card",
-          "settings": {
-            "card_image": "shopify://shop_images/black.webp",
-            "card_title": "PURE COTTON TROUSER FABRIC",
-            "btn_label": "Shop Now",
-            "card_url": ""
-          }
-        },
-        "category_card_BPN67W": {
-          "type": "category_card",
-          "settings": {
-            "card_image": "shopify://shop_images/Untitled-1_copy_b5e7f71b-7c25-45cc-baed-a03d903c8e8b.jpg",
-            "card_title": "DENIM TROUSER FABRIC",
-            "btn_label": "Shop Now",
-            "card_url": ""
-          }
-        },
-        "category_card_bWYYTf": {
-          "type": "category_card",
-          "settings": {
-            "card_image": "shopify://shop_images/navy_blue_0ef80fd7-05f7-4a0c-b9b0-dc6b09e495b4.webp",
-            "card_title": "COURDRAY TROUSER FABRIC",
-            "btn_label": "Shop Now",
-            "card_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "category_card_NP8Pkc",
-        "category_card_bt7dhP",
-        "category_card_HRxyQA",
-        "category_card_JHQjtf",
-        "category_card_BPN67W",
-        "category_card_bWYYTf"
-      ],
       "name": "Shop By Category",
       "settings": {
         "heading": "SHOP TROUSERS FABRIC BY CATEGORY",
         "heading_size": 28,
         "heading_gap": 28,
         "heading_color": "#0b1f33",
+        "featured_collection": "all-products",
+        "products_to_show": 6,
         "container_width": 1400,
         "columns_desktop": "6",
         "columns_mobile": "2",
@@ -803,6 +861,7 @@
         "timeline_item_dQPdir",
         "timeline_item_yMVDbJ"
       ],
+      "disabled": true,
       "name": "Timeline tabs",
       "settings": {
         "heading": "About us",
@@ -1054,22 +1113,22 @@
         "stat_RVH3ky": {
           "type": "stat",
           "settings": {
-            "stat_value": "10K+",
-            "stat_label": "Happy Customers"
+            "stat_value": "30+",
+            "stat_label": "YEARs of experience"
           }
         },
         "stat_AmBTXt": {
           "type": "stat",
           "settings": {
-            "stat_value": "10K+",
-            "stat_label": "Happy Customers"
+            "stat_value": "#1",
+            "stat_label": "One of the largest manufacturer"
           }
         },
         "stat_Egn3Qi": {
           "type": "stat",
           "settings": {
-            "stat_value": "10K+",
-            "stat_label": "Happy Customers"
+            "stat_value": "100%",
+            "stat_label": "DEnim Expert"
           }
         }
       },
@@ -1084,7 +1143,7 @@
       "name": "About Us — Fan Cards",
       "settings": {
         "heading": "ABOUT US",
-        "body_text": "Be bold, be you. Born from a belief that every woman deserves confidence in everything she wears.",
+        "body_text": "Where Craftsmanship Meets Innovation\nAt Blue Minded People, every garment begins its journey at our state-of-the-art manufacturing facility in Doddaballapur, Karnataka, India. Established in 2010, our fully integrated production ecosystem brings together advanced technology, skilled craftsmanship, and responsible manufacturing practices to create premium denim and apparel for global fashion markets.\nBuilt on a foundation of quality, precision, and innovation, our facility manages every stage of the production process under one roof. From fabric preparation and garment construction to washing, finishing, quality assurance, and warehousing, each step is carefully monitored to ensure exceptional consistency and product excellence.",
         "cta_text": "OUR STORY",
         "cta_url": "",
         "section_font": "sans_serif_n4",
@@ -1118,7 +1177,7 @@
         "background_color": "#ffffff",
         "accent_color": "#b87333",
         "blob_color": "#b87333",
-        "padding_top": 0,
+        "padding_top": 60,
         "padding_bottom": 60,
         "padding_top_mobile": 30,
         "padding_bottom_mobile": 30
@@ -1242,6 +1301,7 @@
         "grid_item_PF4rVq",
         "grid_item_aEVNec"
       ],
+      "disabled": true,
       "name": "Custom Editorial Split",
       "settings": {
         "max_width": 1400,
@@ -1317,6 +1377,7 @@
     },
     "hero_Fr6tr6": {
       "type": "hero",
+      "disabled": true,
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
@@ -1396,7 +1457,7 @@
         "subheading": "Show your strongest product advantages in a premium, scrollable strip.",
         "scroll_speed": 60,
         "section_bg": "#ffffff",
-        "padding_top": 0,
+        "padding_top": 40,
         "padding_bottom": 40,
         "padding_top_mobile": 0,
         "padding_bottom_mobile": 0,
@@ -1459,6 +1520,7 @@
         "panel_2",
         "panel_3"
       ],
+      "disabled": true,
       "settings": {
         "heading": "Explore More Women's Fashion",
         "cta_label": "Explore Now",
@@ -1488,6 +1550,7 @@
   },
   "order": [
     "hero_3rjkBF",
+    "custom_hero_section_eTTVbb",
     "section_whats_new_today_aD9myK",
     "hero_CNU3UH",
     "shop_by_category_Y6HHJz",

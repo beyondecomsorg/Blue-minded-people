@@ -1,0 +1,253 @@
+{% comment %}
+  Collection Tabs Section — driven by collection metafield lists
+{% endcomment %}
+
+{% liquid
+  assign images_list = collection.metafields.custom.collection_images_list.value
+  assign text_list = collection.metafields.custom.collection_image_text.value
+  assign description_list = collection.metafields.custom.collection_description.value
+%}
+
+{% if images_list != blank and text_list != blank and description_list != blank %}
+  {% liquid
+    # Determine shortest list length to avoid index out of bounds errors
+    assign shortest_size = images_list.size
+
+    if text_list.size < shortest_size
+      assign shortest_size = text_list.size
+    endif
+
+    if description_list.size < shortest_size
+      assign shortest_size = description_list.size
+    endif
+  %}
+
+  {% if shortest_size > 0 %}
+  <style>
+    #CollectionTabs-{{ section.id }} {
+      background-color: {{ section.settings.bg_color }};
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .ct-container {
+      max-width: var(--global-max-container-width-desktop, 1400px);
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .ct-triggers {
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .ct-trigger {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      width: 100px;
+      text-decoration: none;
+      flex: 0 0 19%;
+    }
+
+    .ct-trigger-icon {
+      border: 1.5px solid var(--color-border-grey, #dddddd);
+      background-color: var(--color-off-white, #fcfcfc);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .ct-trigger-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 10px;
+      display: block;
+    }
+
+    .ct-trigger-label {
+      font-family: var(--font-body--family);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-deep-navy, #111111);
+      text-align: center;
+      transition: color 0.25s ease;
+    }
+
+    /* Active & Hover States */
+    .ct-trigger.is-active .ct-trigger-icon {
+      border-color: var(--color-copper-rivet, #b87333);
+      background-color: #ffffff;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    .ct-trigger.is-active .ct-trigger-label {
+      color: var(--color-copper-rivet, #b87333);
+    }
+
+    .ct-trigger:hover .ct-trigger-icon {
+      border-color: var(--color-copper-rivet, #b87333);
+    }
+
+    .ct-trigger:hover .ct-trigger-label {
+      color: var(--color-copper-rivet, #b87333);
+    }
+
+    /* Panels */
+    .ct-panels {
+      position: relative;
+    }
+
+    .ct-panel {
+      display: none;
+      font-family: var(--font-body--family);
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--color-deep-navy, #111111);
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 28px 16px;
+      border-top: 1px solid var(--color-border-grey, #e5e5e5);
+      margin-top: 24px;
+    }
+
+    .ct-panel.is-active {
+      display: block;
+    }
+  </style>
+
+  <div id="CollectionTabs-{{ section.id }}">
+    <div class="ct-container">
+      <div class="ct-triggers">
+        {% for img in images_list limit: shortest_size %}
+          {% assign idx = forloop.index0 %}
+          {% assign txt = text_list[idx] %}
+          <button 
+            type="button" 
+            class="ct-trigger{% if forloop.first %} is-active{% endif %}" 
+            data-tab-index="{{ idx }}"
+            aria-label="{{ txt }}"
+          >
+           <div class="ct-trigger-icon">
+  {% if img != blank %}
+   {{ img | image_url: width: 1500 | image_tag: loading: 'lazy', alt: txt }}
+  {% endif %}
+</div>
+            <span class="ct-trigger-label">{{ txt }}</span>
+          </button>
+        {% endfor %}
+      </div>
+
+      <div class="ct-panels">
+        {% for desc in description_list limit: shortest_size %}
+          {% assign idx = forloop.index0 %}
+          <div 
+            class="ct-panel{% if forloop.first %} is-active{% endif %}" 
+            data-panel-index="{{ idx }}"
+          >
+            {{ desc }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      function initCollectionTabs(sectionId) {
+        const wrapper = document.getElementById('CollectionTabs-' + sectionId);
+        if (!wrapper) return;
+
+        const triggers = wrapper.querySelectorAll('.ct-trigger');
+        const panels = wrapper.querySelectorAll('.ct-panel');
+
+        triggers.forEach(trigger => {
+          trigger.addEventListener('click', function() {
+            const targetIndex = this.getAttribute('data-tab-index');
+
+            // Remove active classes
+            triggers.forEach(t => t.classList.remove('is-active'));
+            panels.forEach(p => p.classList.remove('is-active'));
+
+            // Add active class to clicked trigger
+            this.classList.add('is-active');
+
+            // Add active class to target panel
+            const targetPanel = wrapper.querySelector('.ct-panel[data-panel-index="' + targetIndex + '"]');
+            if (targetPanel) {
+              targetPanel.classList.add('is-active');
+            }
+          });
+        });
+      }
+
+      // Initialize on load
+      document.addEventListener('DOMContentLoaded', function() {
+        initCollectionTabs('{{ section.id }}');
+      });
+
+      // Re-initialize for theme customizer live reload
+      document.addEventListener('shopify:section:load', function(event) {
+        if (event.detail.sectionId === '{{ section.id }}') {
+          initCollectionTabs('{{ section.id }}');
+        }
+      });
+    })();
+  </script>
+  {% endif %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Collection Tabs",
+  "tag": "section",
+  "class": "collection-tabs",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 36,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 36,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Tabs"
+    }
+  ]
+}
+{% endschema %}

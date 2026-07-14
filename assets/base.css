@@ -4269,9 +4269,16 @@ slideshow-component .product-price-main-sale{
   padding-bottom: var(--section-padding-bottom) !important;
 }
 
+.announcement-bar__text{
+ text-align: center;
+}
+
 @media screen and (max-width: 749px) {
   .section-wrapper {
     padding-top: var(--section-padding-top-mobile) !important;
     padding-bottom: var(--section-padding-bottom-mobile) !important;
+  }
+  .product-details{
+    overflow: visible;
   }
 }
