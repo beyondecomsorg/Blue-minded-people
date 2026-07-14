@@ -54,9 +54,9 @@
         "slide_RV7Dct": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/2_4_0dec461c-d2bf-486c-95d3-d4e921037ea0.webp",
+            "image": "shopify://shop_images/Artboard_1_copy_2_2x_68d525ea-7c8f-464b-9290-a3b90e1cef57.png",
             "image_focal_point": "center center",
-            "mobile_image": "shopify://shop_images/2_13_6ef1ed6f-c284-47f6-967d-fdf14b0e20a1.webp",
+            "mobile_image": "shopify://shop_images/Artboard_2_copy_2_2x_9ac89717-2089-4f34-ac6a-1277c32bea02.png",
             "mobile_image_focal_point": "center center",
             "video_url_mp4": "",
             "video_url_webm": "",
@@ -84,9 +84,69 @@
         "slide_B6prei": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/2_4_0dec461c-d2bf-486c-95d3-d4e921037ea0.webp",
+            "image": "shopify://shop_images/Artboard_1_2x_1402c2f5-0974-4e3d-a9a4-69d952717977.png",
             "image_focal_point": "center center",
-            "mobile_image": "shopify://shop_images/2_13_6ef1ed6f-c284-47f6-967d-fdf14b0e20a1.webp",
+            "mobile_image": "shopify://shop_images/Artboard_2_2x_35404993-4196-4866-b989-9ebabf69ee5e.png",
+            "mobile_image_focal_point": "center center",
+            "video_url_mp4": "",
+            "video_url_webm": "",
+            "hide_content": false,
+            "eyebrow": "",
+            "heading": "",
+            "subtext": "",
+            "btn1_label": "",
+            "btn1_link": "",
+            "btn1_new_tab": false,
+            "btn1_custom_bg": "",
+            "btn1_custom_text": "",
+            "btn2_label": "",
+            "btn2_link": "",
+            "btn2_new_tab": false,
+            "btn2_custom_bg": "",
+            "btn2_custom_text": "",
+            "btn3_label": "",
+            "btn3_link": "",
+            "btn3_new_tab": false,
+            "btn3_custom_bg": "",
+            "btn3_custom_text": ""
+          }
+        },
+        "slide_wmFEwc": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Artboard_1_copy_3_2x_42e39aab-cfe7-4c47-bd05-924ecfe8db44.png",
+            "image_focal_point": "center center",
+            "mobile_image": "shopify://shop_images/Artboard_2_copy_3_2x_d03eaa26-2202-4956-b8a2-c25b0aaeec8c.png",
+            "mobile_image_focal_point": "center center",
+            "video_url_mp4": "",
+            "video_url_webm": "",
+            "hide_content": false,
+            "eyebrow": "",
+            "heading": "",
+            "subtext": "",
+            "btn1_label": "",
+            "btn1_link": "",
+            "btn1_new_tab": false,
+            "btn1_custom_bg": "",
+            "btn1_custom_text": "",
+            "btn2_label": "",
+            "btn2_link": "",
+            "btn2_new_tab": false,
+            "btn2_custom_bg": "",
+            "btn2_custom_text": "",
+            "btn3_label": "",
+            "btn3_link": "",
+            "btn3_new_tab": false,
+            "btn3_custom_bg": "",
+            "btn3_custom_text": ""
+          }
+        },
+        "slide_zBDzXB": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Artboard_1_copy_2x_86250d12-534b-4bf8-b1a6-28446fdc4ef3.png",
+            "image_focal_point": "center center",
+            "mobile_image": "shopify://shop_images/Artboard_2_copy_2x_cf864a2e-608b-4650-912b-a3904948a636.png",
             "mobile_image_focal_point": "center center",
             "video_url_mp4": "",
             "video_url_webm": "",
@@ -114,7 +174,9 @@
       },
       "block_order": [
         "slide_RV7Dct",
-        "slide_B6prei"
+        "slide_B6prei",
+        "slide_wmFEwc",
+        "slide_zBDzXB"
       ],
       "name": "Hero Slideshow Custom",
       "settings": {
