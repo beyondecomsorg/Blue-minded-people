@@ -124,6 +124,25 @@
       grid-template-columns: repeat({{ section.settings.columns_mobile }}, 1fr);
       gap: 12px;
     }
+
+    .sbc-grid.sbc-grid--carousel-mobile {
+      display: flex !important;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      margin: 0 -20px;
+      padding: 0 20px 16px;
+    }
+
+    .sbc-grid.sbc-grid--carousel-mobile::-webkit-scrollbar {
+      display: none;
+    }
+
+    .sbc-grid.sbc-grid--carousel-mobile .sbc-card {
+      flex: 0 0 78%;
+      scroll-snap-align: start;
+    }
   }
 </style>
 
@@ -132,7 +151,7 @@
     <h2 class="sbc-heading">{{ section.settings.heading }}</h2>
   {% endif %}
 
-  <div class="sbc-grid">
+  <div class="sbc-grid{% if section.settings.enable_carousel_mobile %} sbc-grid--carousel-mobile{% endif %}">
     {% for product in collections[section.settings.featured_collection].products limit: section.settings.products_to_show %}
       <a
         href="{{ product.url }}"
@@ -255,6 +274,12 @@
         { "value": "1", "label": "1" },
         { "value": "2", "label": "2" }
       ]
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_carousel_mobile",
+      "label": "Enable carousel on mobile",
+      "default": true
     },
     {
       "type": "range",

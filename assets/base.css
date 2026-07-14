@@ -4281,4 +4281,16 @@ slideshow-component .product-price-main-sale{
   .product-details{
     overflow: visible;
   }
+  .ct-triggers{
+  flex-wrap: nowrap !important;
+  overflow: scroll !important;
+    justify-content: flex-start !important;
+  }
+  .ct-trigger{
+    gap: 0 !important;
+  
+  }
+  .ct-trigger{
+    flex: 0 0 45% !important;
+  }
 }
