@@ -66,10 +66,12 @@ class HeaderComponent extends Component {
   #updateTransparentState = () => {
     const isDesktop = window.innerWidth >= 750;
     const hasHero = this.#checkHeroOverlay();
+    const parentSection = this.closest('.header-section');
 
     if (isDesktop && hasHero) {
       if (!this.hasAttribute('transparent')) {
         this.setAttribute('transparent', '');
+        parentSection?.classList.add('header-section--transparent');
         updateAllHeaderCustomProperties();
       }
       this.#updateTransparentScroll();
@@ -78,6 +80,8 @@ class HeaderComponent extends Component {
         this.removeAttribute('transparent');
         this.classList.remove('header--transparent');
         this.classList.remove('header--scrolled');
+        parentSection?.classList.remove('header-section--transparent');
+        parentSection?.classList.remove('header-section--scrolled');
         updateAllHeaderCustomProperties();
       }
     }
@@ -88,17 +92,22 @@ class HeaderComponent extends Component {
 
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
     const threshold = parseInt(this.getAttribute('data-scroll-threshold')) || 80;
+    const parentSection = this.closest('.header-section');
 
     if (scrollTop > threshold) {
       if (!this.classList.contains('header--scrolled')) {
         this.classList.add('header--scrolled');
         this.classList.remove('header--transparent');
+        parentSection?.classList.add('header-section--scrolled');
+        parentSection?.classList.remove('header-section--transparent');
         updateAllHeaderCustomProperties();
       }
     } else {
       if (!this.classList.contains('header--transparent')) {
         this.classList.add('header--transparent');
         this.classList.remove('header--scrolled');
+        parentSection?.classList.add('header-section--transparent');
+        parentSection?.classList.remove('header-section--scrolled');
         updateAllHeaderCustomProperties();
       }
     }

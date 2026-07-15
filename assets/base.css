@@ -2328,9 +2328,9 @@ deferred-media[class] :is(.deferred-media__poster-button img, .deferred-media__p
 @media screen and (min-width: 750px) {
   .sticky-content--desktop,
   .sticky-content--desktop.full-height--desktop > .group-block {
-    position: sticky;
-    top: var(--sticky-header-offset, 0);
-    z-index: var(--layer-flat);
+    position: sticky !important;
+    top: calc(var(--sticky-header-offset, 0px) + 2rem) !important;
+    z-index: var(--layer-flat) !important;
   }
 }
 
@@ -4240,16 +4240,28 @@ related-products-carousel{
   body #header-component.header.header--transparent .header-nav-link{
     color: #fff !important;
   }
-  body #header-component.header .header-logo-link{
-    width: 100%;
+  body #header-component.header .header-logo-link {
+    background-color: var(--color-off-white, #FFFFFF) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    border-radius: 0px !important;
+    width: auto !important;
+    height: auto !important;
+    margin: auto !important;
   }
-  body.page-width-wide #header-component.header .header-logo-img{
-    width: 80% !important;
-    margin: auto;
+  body.page-width-wide #header-component.header .header-logo-img {
+    width: auto !important;
+    height: auto !important;
+    max-height: 65px !important;
+    object-fit: contain !important;
+    margin: auto !important;
+    display: block !important;
   }
 
 body.template-index #header-component.header .header__main-row {
-    padding-top: 2rem !important;
+    /* padding-top: 2rem !important; */
     transition: padding-top .3s ease;
 }
 
@@ -4309,7 +4321,7 @@ dialog.size-chart-modal{
 }
   @media only screen and (min-width: 768px){
   body:has(#header-group #header-component[data-sticky-state=active]) .product-details.sticky-content--desktop{
-        --sticky-header-offset: auto !important;
+        --sticky-header-offset: var(--header-height) !important;
   }
   .header__main-row {
   transition: padding 0.3s ease !important;

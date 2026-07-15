@@ -945,6 +945,7 @@
     grid-template-columns: 1fr 1fr 1fr !important;
     align-items: center !important;
     width: 100% !important;
+    background: white;
     max-width: var(--global-max-container-width-desktop, 1440px) !important;
     padding-block: var(--spacing-section) !important;
     padding-inline: var(--global-container-side-padding-mobile, 20px) !important;
@@ -1368,7 +1369,8 @@
     /* Transparent state style */
     body #header-component.header[transparent].header--transparent {
       position: absolute !important;
-      top: 0 !important;
+      top: auto !important;
+      
       left: 0 !important;
       width: 100% !important;
       background-color: transparent !important;
@@ -1378,8 +1380,12 @@
       z-index: 100 !important;
     }
 
-    body #header-component.header[transparent].header--transparent .header__main-row {
+    .header-section.header-section--transparent {
       background-color: transparent !important;
+      --color-background: transparent !important;
+    }
+
+    body #header-component.header[transparent].header--transparent .header__main-row {
       border-bottom: none !important;
       transition: background-color 250ms ease !important;
     }
@@ -1431,6 +1437,11 @@
       --color-background: var(--color-off-white, #FFFFFF) !important;
       z-index: 100 !important;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+    }
+
+    .header-section.header-section--scrolled {
+      background-color: var(--color-off-white, #FFFFFF) !important;
+      --color-background: var(--color-off-white, #FFFFFF) !important;
     }
 
     body #header-component.header[transparent].header--scrolled .header__announcement-bar {
