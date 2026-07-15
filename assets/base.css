@@ -4237,6 +4237,25 @@ related-products-carousel{
   .resource-list__carousel slideshow-slides{
     padding-left: 16px !important;
   }
+  body #header-component.header .header-nav-link{
+    color: #fff !important;
+  }
+  body #header-component.header .header-logo-link{
+    width: 100%;
+  }
+  body.page-width-wide #header-component.header .header-logo-img{
+    width: 80% !important;
+    margin: auto;
+  }
+
+body #header-component.header .header__main-row {
+    padding-top: 2rem !important;
+    transition: padding-top .3s ease;
+}
+
+body #header-component.header .header__main-row.remove-padding {
+    padding-top: 0 !important;
+}
   .section-resource-list__content{
     margin-left: -40px;
   }
@@ -4284,19 +4303,60 @@ dialog.size-chart-modal{
   display: flex;
   gap: 10px;
 }
+.size-chart-trigger{
+  background-color: transparent;
+  border: none;
+}
+  @media only screen and (min-width: 768px){
+  body:has(#header-group #header-component[data-sticky-state=active]) .product-details.sticky-content--desktop{
+        --sticky-header-offset: auto !important;
+  }
+  .header__main-row {
+  padding-top: 2rem !important;
+  transition: padding 0.3s ease !important;
+}
+
+.header__main-row.scrolled {
+  padding-top: 0 !important;
+}
+}
+
 @media screen and (max-width: 749px) {
   .size-chart-modal[open]{
     width: 100%;
   }
+  
   p.announcement-bar__text{
     font-size: 12px;
   }
+
+        .section-resource-list{
+          padding-top: 30px !important
+        }
 
    .wnt-wrapper{
     padding-top: 30px !important;
     padding-bottom: 30px !important;
   } 
+   .category-explore-banner-wrapper.section-wrapper{
+    padding-top: 0px !important;
+    padding-bottom: 30px !important;
+  } 
+product-recommendations .text-block:not(.text-block--full-width).rte p,
+product-recommendations .text-block:not(.text-block--full-width).paragraph p {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.product-information.section.section--page-width.spacing-style.color-scheme-2.relative{
+  padding-bottom: 30px !important;
+}
 
+.sbc-container.section-wrapper{
+  padding-top: 0 !important;
+}
 .shopify-section.brand-product-carousel .bpc-wrap.section-wrapper {
      padding-top: 0px !important;
     padding-bottom: 30px !important;

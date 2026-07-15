@@ -656,6 +656,26 @@ details[open] [data-accordion-content],
       {% sections 'footer-group' %}
     </footer>
 
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const header = document.querySelector("#header-component .header__main-row");
+
+    if (!header) return;
+
+    function updateHeaderPadding() {
+        if (window.scrollY > 10) {
+            header.classList.add("remove-padding");
+        } else {
+            header.classList.remove("remove-padding");
+        }
+    }
+
+    updateHeaderPadding();
+
+    window.addEventListener("scroll", updateHeaderPadding);
+});
+    </script>
+
     {% render 'search-modal' %}
 
     {% if settings.quick_add or settings.mobile_quick_add %}

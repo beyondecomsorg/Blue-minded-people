@@ -993,7 +993,7 @@
         "section_width": "page-width",
         "gap": 28,
         "color_scheme": "scheme-2",
-        "padding-block-start": 24,
+        "padding-block-start": 60,
         "padding-block-end": 24
       }
     },
@@ -1177,10 +1177,10 @@
         "button_font_size": 12,
         "button_padding_vertical": 12,
         "button_padding_horizontal": 24,
-        "padding_top": 60,
+        "padding_top": 12,
         "padding_bottom": 60,
-        "padding_top_mobile": 40,
-        "padding_bottom_mobile": 40,
+        "padding_top_mobile": 10,
+        "padding_bottom_mobile": 20,
         "gap_overlay": 20,
         "mobile_layout": "collage"
       }

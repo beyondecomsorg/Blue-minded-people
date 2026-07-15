@@ -1,5 +1,5 @@
 import { Component } from '@theme/component';
-import { onDocumentLoaded, changeMetaThemeColor, setHeaderMenuStyle } from '@theme/utilities';
+import { onDocumentLoaded, changeMetaThemeColor, setHeaderMenuStyle, updateAllHeaderCustomProperties } from '@theme/utilities';
 
 /**
  * @typedef {Object} HeaderComponentRefs
@@ -56,6 +56,78 @@ class HeaderComponent extends Component {
    * @type {number | null}
    */
   #scrollRafId = null;
+
+  #initTransparentHeader = () => {
+    this.#updateTransparentState();
+    window.addEventListener('resize', this.#updateTransparentState);
+    window.addEventListener('scroll', this.#updateTransparentScroll);
+  };
+
+  #updateTransparentState = () => {
+    const isDesktop = window.innerWidth >= 750;
+    const hasHero = this.#checkHeroOverlay();
+
+    if (isDesktop && hasHero) {
+      if (!this.hasAttribute('transparent')) {
+        this.setAttribute('transparent', '');
+        updateAllHeaderCustomProperties();
+      }
+      this.#updateTransparentScroll();
+    } else {
+      if (this.hasAttribute('transparent')) {
+        this.removeAttribute('transparent');
+        this.classList.remove('header--transparent');
+        this.classList.remove('header--scrolled');
+        updateAllHeaderCustomProperties();
+      }
+    }
+  };
+
+  #updateTransparentScroll = () => {
+    if (!this.hasAttribute('transparent')) return;
+
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const threshold = parseInt(this.getAttribute('data-scroll-threshold')) || 80;
+
+    if (scrollTop > threshold) {
+      if (!this.classList.contains('header--scrolled')) {
+        this.classList.add('header--scrolled');
+        this.classList.remove('header--transparent');
+        updateAllHeaderCustomProperties();
+      }
+    } else {
+      if (!this.classList.contains('header--transparent')) {
+        this.classList.add('header--transparent');
+        this.classList.remove('header--scrolled');
+        updateAllHeaderCustomProperties();
+      }
+    }
+  };
+
+  #checkHeroOverlay = () => {
+    const enableHome = this.getAttribute('data-enable-transparent-home') === 'true';
+    const enableProduct = this.getAttribute('data-enable-transparent-product') === 'true';
+    const enableCollection = this.getAttribute('data-enable-transparent-collection') === 'true';
+    const templateName = this.getAttribute('data-template-name');
+
+    let isEnabled = false;
+    if (templateName === 'index' && enableHome) isEnabled = true;
+    else if (templateName === 'product' && enableProduct) isEnabled = true;
+    else if (templateName === 'collection' && enableCollection) isEnabled = true;
+
+    if (!isEnabled) return false;
+
+    const mainContent = document.querySelector('#MainContent');
+    if (!mainContent) return false;
+
+    const firstSection = mainContent.querySelector('.shopify-section');
+    if (!firstSection) return false;
+
+    const heroSelectors = '.hero, .hs-section, .orf-hero, .slideshow-section, .layered-slideshow-section, .category-explore-banner-wrapper';
+    const hasHero = firstSection.querySelector(heroSelectors) || firstSection.matches(heroSelectors);
+
+    return !!hasHero;
+  };
 
   /**
    * Keeps the global `--header-height` custom property up to date,
@@ -195,6 +267,8 @@ class HeaderComponent extends Component {
         document.addEventListener('scroll', this.#handleWindowScroll);
       }
     }
+
+    this.#initTransparentHeader();
   }
 
   disconnectedCallback() {
@@ -203,6 +277,8 @@ class HeaderComponent extends Component {
     this.#intersectionObserver?.disconnect();
     this.removeEventListener('overflowMinimum', this.#handleOverflowMinimum);
     document.removeEventListener('scroll', this.#handleWindowScroll);
+    window.removeEventListener('resize', this.#updateTransparentState);
+    window.removeEventListener('scroll', this.#updateTransparentScroll);
     if (this.#scrollRafId !== null) {
       cancelAnimationFrame(this.#scrollRafId);
       this.#scrollRafId = null;

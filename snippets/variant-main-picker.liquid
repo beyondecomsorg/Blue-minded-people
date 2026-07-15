@@ -38,6 +38,12 @@
       {%- for product_option in product_resource.options_with_values -%}
         {%- liquid
           assign swatch_count = product_option.values | map: 'swatch' | compact | size
+          assign option_name_downcase = product_option.name | downcase
+          if swatch_count == 0 and block_settings.show_swatches
+            if option_name_downcase == 'color' or option_name_downcase == 'colour'
+              assign swatch_count = 1
+            endif
+          endif
           assign variant_style = block_settings.variant_style
 
           if swatch_count > 0 and block_settings.show_swatches
@@ -176,7 +182,8 @@
                   {% render 'swatch',
                     swatch: product_option_value.swatch,
                     variant_image: featured_media,
-                    mode: 'unscaled'
+                    mode: 'unscaled',
+                    value: product_option_value.name
                   %}
                 {% else %}
                   {% if product_option_value.available == true %}
@@ -341,61 +348,7 @@
                   {%- assign product_title_downcase = product_resource.title | downcase -%}
                   
                   {%- if product_type_downcase contains 'jeans' or product_title_downcase contains 'jeans' or product_type_downcase contains 'pants' or product_title_downcase contains 'pants' -%}
-                    <table class="size-chart-table">
-                      <thead>
-                        <tr>
-                          <th>Size</th>
-                          <th>Waist</th>
-                          <th>Hip</th>
-                          <th>Inseam</th>
-                          <th>Thigh</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>30 / S</td>
-                          <td class="size-val" data-cm="76" data-inch="30.0">76</td>
-                          <td class="size-val" data-cm="96" data-inch="37.8">96</td>
-                          <td class="size-val" data-cm="78" data-inch="30.7">78</td>
-                          <td class="size-val" data-cm="56" data-inch="22.0">56</td>
-                        </tr>
-                        <tr>
-                          <td>32 / M</td>
-                          <td class="size-val" data-cm="81" data-inch="32.0">81</td>
-                          <td class="size-val" data-cm="101" data-inch="39.8">101</td>
-                          <td class="size-val" data-cm="79" data-inch="31.1">79</td>
-                          <td class="size-val" data-cm="58" data-inch="22.8">58</td>
-                        </tr>
-                        <tr>
-                          <td>34 / L</td>
-                          <td class="size-val" data-cm="86" data-inch="34.0">86</td>
-                          <td class="size-val" data-cm="106" data-inch="41.7">106</td>
-                          <td class="size-val" data-cm="80" data-inch="31.5">80</td>
-                          <td class="size-val" data-cm="60" data-inch="23.6">60</td>
-                        </tr>
-                        <tr>
-                          <td>36 / XL</td>
-                          <td class="size-val" data-cm="91" data-inch="36.0">91</td>
-                          <td class="size-val" data-cm="111" data-inch="43.7">111</td>
-                          <td class="size-val" data-cm="81" data-inch="31.9">81</td>
-                          <td class="size-val" data-cm="62" data-inch="24.4">62</td>
-                        </tr>
-                        <tr>
-                          <td>38 / 2XL</td>
-                          <td class="size-val" data-cm="96" data-inch="38.0">96</td>
-                          <td class="size-val" data-cm="116" data-inch="45.7">116</td>
-                          <td class="size-val" data-cm="82" data-inch="32.3">82</td>
-                          <td class="size-val" data-cm="64" data-inch="25.2">64</td>
-                        </tr>
-                        <tr>
-                          <td>40 / 3XL</td>
-                          <td class="size-val" data-cm="101" data-inch="40.0">101</td>
-                          <td class="size-val" data-cm="121" data-inch="47.6">121</td>
-                          <td class="size-val" data-cm="83" data-inch="32.7">83</td>
-                          <td class="size-val" data-cm="66" data-inch="26.0">66</td>
-                        </tr>
-                      </tbody>
-                    </table>
+          
                   {%- else -%}
                     <table class="size-chart-table">
                       <thead>

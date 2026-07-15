@@ -141,6 +141,12 @@
 <header-component
   id="header-component"
   class="header"
+  data-template-name="{{ template.name }}"
+  data-enable-transparent-home="true"
+  data-enable-transparent-product="true"
+  data-enable-transparent-collection="true"
+  data-transparent-text-color="{{ section.settings.transparent_header_text_color | default: 'dark' }}"
+  data-scroll-threshold="{{ section.settings.scroll_threshold | default: 80 }}"
   {% if section.settings.enable_sticky_header == 'always' %}
     sticky="always"
   {% elsif section.settings.enable_sticky_header == 'scroll-up' %}
@@ -228,9 +234,18 @@
             <img
               src="{{ settings.logo | image_url: width: 300 }}"
               alt="{{ logo_alt | escape }}"
-              class="header-logo-img"
+              class="header-logo-img header-logo-original"
               loading="eager"
             >
+            {%- if settings.logo_inverse != blank -%}
+              <img
+                src="{{ settings.logo_inverse | image_url: width: 300 }}"
+                alt="{{ logo_alt | escape }}"
+                class="header-logo-img header-logo-inverse"
+                loading="eager"
+                style="display: none;"
+              >
+            {%- endif -%}
           {%- else -%}
             <span class="header-logo-text">{{ shop.name }}</span>
           {%- endif -%}
@@ -929,7 +944,7 @@
 
   body #header-component.header .header__main-container {
     display: grid !important;
-    grid-template-columns: 1fr auto 1fr !important;
+    grid-template-columns: 1fr 1fr 1fr !important;
     align-items: center !important;
     width: 100% !important;
     max-width: var(--global-max-container-width-desktop, 1440px) !important;
@@ -939,8 +954,7 @@
   }
 
   @media screen and (min-width: 750px) {
-    body #header-component.header .header__main-container,
-    body #header-component.header .header__main-row {
+    body #header-component.header .header__main-container {
       padding-inline: var(--global-section-padding-top-desktop, 60px) !important; /* 60px padding */
      padding-top: 5px !important;
      padding-bottom: 5px !important;
@@ -1120,12 +1134,18 @@
     margin-right: 0 !important;
   }
 
+    @media only screen and (max-width: 749px){
+    body #header-component.header .header-nav-link{
+       color: var(--color-charcoal, var(--color-charcoal-grey)) !important;
+    }
+  }
+
   body #header-component.header .header-nav-link {
     font-family: var(--font-body) !important;
     font-size: var(--font-size--xs) !important; /* 13px */
     text-transform: uppercase !important;
     letter-spacing: var(--global-header-nav-letter-spacing, 0.08em) !important;
-    color: var(--color-charcoal, var(--color-charcoal-grey)) !important;
+   
     font-weight: 500 !important;
     text-decoration: none !important;
     position: relative !important;
@@ -1336,6 +1356,122 @@
     color: var(--color-medium-grey) !important;
     font-weight: 500 !important;
     letter-spacing: var(--global-header-nav-letter-spacing, 0.08em) !important;
+  }
+
+  /* ============================================================================
+     DESKTOP-ONLY SCROLL-TRIGGERED TRANSPARENT HEADER SYSTEM
+     ============================================================================ */
+  @media screen and (min-width: 750px) {
+    /* Base transition style for the header when transparent */
+    body #header-component.header[transparent] {
+      transition: background-color 250ms ease, box-shadow 250ms ease !important;
+    }
+
+    /* Transparent state style */
+    body #header-component.header[transparent].header--transparent {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      background-color: transparent !important;
+      --color-background: transparent !important;
+      border-bottom: none !important;
+      box-shadow: none !important;
+      z-index: 100 !important;
+    }
+
+    body #header-component.header[transparent].header--transparent .header__main-row {
+      background-color: transparent !important;
+      border-bottom: none !important;
+      transition: background-color 250ms ease !important;
+    }
+
+    body #header-component.header[transparent].header--transparent .header__nav-row {
+      background-color: transparent !important;
+      border-bottom: none !important;
+      transition: background-color 250ms ease !important;
+    }
+
+    /* Contrast Handle Option A: Dark (Original colors with subtle scrim) */
+    body #header-component.header[transparent].header--transparent[data-transparent-text-color="dark"] {
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%) !important;
+    }
+
+    /* Contrast Handle Option B: Light (Off-white color swap) */
+    body #header-component.header[transparent].header--transparent[data-transparent-text-color="light"] a,
+    body #header-component.header[transparent].header--transparent[data-transparent-text-color="light"] button,
+    body #header-component.header[transparent].header--transparent[data-transparent-text-color="light"] summary,
+    body #header-component.header[transparent].header--transparent[data-transparent-text-color="light"] span,
+    body #header-component.header[transparent].header--transparent[data-transparent-text-color="light"] .header-nav-link,
+    body #header-component.header[transparent].header--transparent[data-transparent-text-color="light"] .header-actions__action {
+      color: var(--color-off-white, #FFFFFF) !important;
+      transition: color 250ms ease !important;
+    }
+
+    body #header-component.header[transparent].header--transparent[data-transparent-text-color="light"] svg,
+    body #header-component.header[transparent].header--transparent[data-transparent-text-color="light"] svg * {
+      color: var(--color-off-white, #FFFFFF) !important;
+      stroke: var(--color-off-white, #FFFFFF) !important;
+      transition: color 250ms ease, stroke 250ms ease !important;
+    }
+
+    body #header-component.header[transparent].header--transparent[data-transparent-text-color="light"] .header-logo-original {
+      display: none !important;
+    }
+
+    body #header-component.header[transparent].header--transparent[data-transparent-text-color="light"] .header-logo-inverse {
+      display: inline-block !important;
+    }
+
+    /* Scrolled solid state style */
+    body #header-component.header[transparent].header--scrolled {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      background-color: var(--color-off-white, #FFFFFF) !important;
+      --color-background: var(--color-off-white, #FFFFFF) !important;
+      z-index: 100 !important;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+    }
+
+    body #header-component.header[transparent].header--scrolled .header__announcement-bar {
+      display: none !important;
+    }
+
+    body #header-component.header[transparent].header--scrolled .header__main-row {
+      background-color: var(--color-off-white, #FFFFFF) !important;
+      border-bottom: 1px solid var(--color-border-grey, #E5E5E5) !important;
+      transition: background-color 250ms ease !important;
+    }
+
+    body #header-component.header[transparent].header--scrolled .header__nav-row {
+      background-color: var(--color-off-white, #FFFFFF) !important;
+      border-bottom: 1px solid var(--color-border-grey, #E5E5E5) !important;
+      transition: background-color 250ms ease !important;
+    }
+
+    body #header-component.header[transparent].header--scrolled a,
+    body #header-component.header[transparent].header--scrolled button,
+    body #header-component.header[transparent].header--scrolled summary,
+    body #header-component.header[transparent].header--scrolled span,
+    body #header-component.header[transparent].header--scrolled .header-nav-link,
+    body #header-component.header[transparent].header--scrolled .header-actions__action {
+      color: var(--color-charcoal-grey, #222222) !important;
+      transition: color 250ms ease !important;
+    }
+
+    body #header-component.header[transparent].header--scrolled svg,
+    body #header-component.header[transparent].header--scrolled svg * {
+      color: var(--color-charcoal-grey, #222222) !important;
+      stroke: var(--color-charcoal-grey, #222222) !important;
+      transition: color 250ms ease, stroke 250ms ease !important;
+    }
+
+
+    body #header-component.header[transparent].header--scrolled .header-logo-inverse {
+      display: none !important;
+    }
   }
 {% endstylesheet %}
 
@@ -1643,6 +1779,12 @@
       "default": "always"
     },
     {
+      "type": "number",
+      "id": "scroll_threshold",
+      "label": "Scroll threshold (px)",
+      "default": 80
+    },
+    {
       "type": "range",
       "id": "divider_width",
       "label": "t:settings.divider_thickness",
@@ -1782,6 +1924,22 @@
       "id": "color_scheme_transparent",
       "label": "t:settings.inverse",
       "default": "primary"
+    },
+    {
+      "type": "select",
+      "id": "transparent_header_text_color",
+      "label": "Transparent header text color",
+      "options": [
+        {
+          "value": "dark",
+          "label": "Dark (Original with scrim)"
+        },
+        {
+          "value": "light",
+          "label": "Light (Off-white)"
+        }
+      ],
+      "default": "dark"
     },
     {
       "type": "header",

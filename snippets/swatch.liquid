@@ -25,6 +25,40 @@
     assign swatch_value = 'rgb(' | append: swatch.color.rgb | append: ')'
   endif
 
+  assign swatch_name = value | default: label
+  if swatch_value == null and swatch_name != blank
+    assign color_name = swatch_name | downcase | strip
+    case color_name
+      when 'deep navy', 'navy'
+        assign swatch_value = 'var(--color-deep-navy)'
+      when 'indigo blue', 'indigo'
+        assign swatch_value = 'var(--color-indigo-blue)'
+      when 'off white', 'white'
+        assign swatch_value = 'var(--color-off-white)'
+      when 'raw denim blue', 'raw denim', 'denim'
+        assign swatch_value = 'var(--color-raw-denim-blue)'
+      when 'vintage stone', 'stone'
+        assign swatch_value = 'var(--color-vintage-stone)'
+      when 'charcoal grey', 'charcoal gray', 'charcoal'
+        assign swatch_value = 'var(--color-charcoal-grey)'
+      when 'medium grey', 'medium gray', 'grey', 'gray'
+        assign swatch_value = 'var(--color-medium-grey)'
+      when 'border grey', 'border gray'
+        assign swatch_value = 'var(--color-border-grey)'
+      when 'copper rivet', 'copper'
+        assign swatch_value = 'var(--color-copper-rivet)'
+      else
+        if variant_image
+          assign swatch_image_width = settings.variant_swatch_width | default: 32 | times: 2
+          assign swatch_image_url = variant_image | image_url: width: swatch_image_width
+          assign swatch_value = 'url(' | append: swatch_image_url | append: ')'
+          assign extra_classes = extra_classes | append: ' swatch--variant-image'
+        else
+          assign swatch_value = color_name
+        endif
+    endcase
+  endif
+
   case mode
     when 'unscaled'
       assign extra_classes = extra_classes | append: ' swatch--unscaled'
