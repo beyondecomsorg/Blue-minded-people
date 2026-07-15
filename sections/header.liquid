@@ -142,9 +142,7 @@
   id="header-component"
   class="header"
   data-template-name="{{ template.name }}"
-  data-enable-transparent-home="true"
-  data-enable-transparent-product="true"
-  data-enable-transparent-collection="true"
+  data-enable-transparent-home="{{ section.settings.enable_transparent_header_home | default: true }}"
   data-transparent-text-color="{{ section.settings.transparent_header_text_color | default: 'dark' }}"
   data-scroll-threshold="{{ section.settings.scroll_threshold | default: 80 }}"
   {% if section.settings.enable_sticky_header == 'always' %}
@@ -1145,7 +1143,7 @@
     font-size: var(--font-size--xs) !important; /* 13px */
     text-transform: uppercase !important;
     letter-spacing: var(--global-header-nav-letter-spacing, 0.08em) !important;
-   
+    color: var(--color-charcoal, var(--color-charcoal-grey)) !important;
     font-weight: 500 !important;
     text-decoration: none !important;
     position: relative !important;

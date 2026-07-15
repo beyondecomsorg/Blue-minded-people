@@ -106,16 +106,9 @@ class HeaderComponent extends Component {
 
   #checkHeroOverlay = () => {
     const enableHome = this.getAttribute('data-enable-transparent-home') === 'true';
-    const enableProduct = this.getAttribute('data-enable-transparent-product') === 'true';
-    const enableCollection = this.getAttribute('data-enable-transparent-collection') === 'true';
     const templateName = this.getAttribute('data-template-name');
 
-    let isEnabled = false;
-    if (templateName === 'index' && enableHome) isEnabled = true;
-    else if (templateName === 'product' && enableProduct) isEnabled = true;
-    else if (templateName === 'collection' && enableCollection) isEnabled = true;
-
-    if (!isEnabled) return false;
+    if (templateName !== 'index' || !enableHome) return false;
 
     const mainContent = document.querySelector('#MainContent');
     if (!mainContent) return false;

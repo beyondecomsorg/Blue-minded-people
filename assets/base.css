@@ -4237,7 +4237,7 @@ related-products-carousel{
   .resource-list__carousel slideshow-slides{
     padding-left: 16px !important;
   }
-  body #header-component.header .header-nav-link{
+  body #header-component.header.header--transparent .header-nav-link{
     color: #fff !important;
   }
   body #header-component.header .header-logo-link{
@@ -4248,7 +4248,7 @@ related-products-carousel{
     margin: auto;
   }
 
-body #header-component.header .header__main-row {
+body.template-index #header-component.header .header__main-row {
     padding-top: 2rem !important;
     transition: padding-top .3s ease;
 }
@@ -4312,7 +4312,6 @@ dialog.size-chart-modal{
         --sticky-header-offset: auto !important;
   }
   .header__main-row {
-  padding-top: 2rem !important;
   transition: padding 0.3s ease !important;
 }
 
