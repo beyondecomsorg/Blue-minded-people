@@ -156,7 +156,7 @@
           "type": "product_card",
           "settings": {
             "product_image": "shopify://shop_images/Artboard_4_2x_91864946-999b-49dd-bd2e-39df0a1d13c5.png",
-            "brand_name": "Canali",
+            "brand_name": "T-SHIRT",
             "product_url": ""
           }
         },
@@ -164,7 +164,7 @@
           "type": "product_card",
           "settings": {
             "product_image": "shopify://shop_images/Artboard_8_2x_cbefc8ca-167d-40e1-8fa2-eb18df044b53.png",
-            "brand_name": "brunello cucinelli",
+            "brand_name": "NON DENIM",
             "product_url": ""
           }
         },
@@ -1091,21 +1091,21 @@
           "type": "card",
           "settings": {
             "card_image": "shopify://shop_images/web_9.jpg",
-            "card_label": "OUR STYLE"
+            "card_label": "Texturing Denim"
           }
         },
         "card_PDaGN7": {
           "type": "card",
           "settings": {
             "card_image": "shopify://shop_images/web_6.jpg",
-            "card_label": "OUR STYLE"
+            "card_label": "Industrial Print line"
           }
         },
         "card_YkUYAw": {
           "type": "card",
           "settings": {
             "card_image": "shopify://shop_images/web_8.jpg",
-            "card_label": "OUR STYLE"
+            "card_label": "Behind the seams"
           }
         },
         "stat_RVH3ky": {
@@ -1417,26 +1417,27 @@
         "feature_crXfrc": {
           "type": "feature",
           "settings": {
-            "title": "OEKO-TEX® Certified",
-            "text": "100% safe, chemical-free & tested fabrics."
+            "title": "Built to last: Every Detail, Built to Last.",
+            "text": ""
           }
         },
         "feature_7b8RGi": {
           "type": "feature",
           "settings": {
-            "title": "Sustainably Made",
-            "text": "Certified to the Global Organic Textile Standard."
+            "title": "Honest Craftmanship: Every stitch reflects our commitment to quality.",
+            "text": ""
           }
         },
         "feature_YQCCWT": {
           "type": "feature",
           "settings": {
-            "title": "Trusted Quality",
-            "text": "Rigorously tested for comfort & durability."
+            "title": "Customer First: Your trust inspires everything we deliver.",
+            "text": ""
           }
         },
         "feature_6dHMcW": {
           "type": "feature",
+          "disabled": true,
           "settings": {
             "title": "Dermatologically Tested",
             "text": "Safe for sensitive skin, clinically approved."
@@ -1468,8 +1469,8 @@
         "subheading_size_mobile": 13,
         "subheading_weight_desktop": "500",
         "subheading_weight_mobile": "500",
-        "title_size_desktop": 15,
-        "title_size_mobile": 14,
+        "title_size_desktop": 12,
+        "title_size_mobile": 10,
         "title_weight_desktop": "700",
         "title_weight_mobile": "700",
         "text_size_desktop": 13,
