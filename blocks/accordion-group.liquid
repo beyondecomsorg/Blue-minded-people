@@ -1,0 +1,485 @@
+<div class="accordion-group" {{ block.shopify_attributes }}>
+  <!-- Row 1: Product Details -->
+  {% if closest.product.description != blank and block.settings.row_1_heading != blank %}
+    {% capture row_1_content %}
+      <details class="accordion-group__details" {% if block.settings.row_1_open %}open{% endif %}>
+        <summary class="accordion-group__summary">
+          <span class="accordion-group__title">{{ block.settings.row_1_heading }}</span>
+          <span class="accordion-group__chevron-wrapper">
+            <svg class="accordion-group__chevron" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </summary>
+        <div class="accordion-group__content rte">
+          {{ closest.product.description }}
+        </div>
+      </details>
+    {% endcapture %}
+    {% render 'accordion-custom-component',
+      children: row_1_content,
+      open_by_default_on_desktop: block.settings.row_1_open,
+      open_by_default_on_mobile: block.settings.row_1_open
+    %}
+  {% endif %}
+
+  <!-- Row 2: Reason to Exist -->
+  {% liquid
+    # Parse metafield 1
+    assign r2_parts_1 = block.settings.row_2_metafield_1 | split: '.'
+    assign r2_ns_1 = r2_parts_1[0]
+    assign r2_key_1 = r2_parts_1[1]
+    assign r2_meta_1 = closest.product.metafields[r2_ns_1][r2_key_1]
+
+    # Parse metafield 2
+    assign r2_parts_2 = block.settings.row_2_metafield_2 | split: '.'
+    assign r2_ns_2 = r2_parts_2[0]
+    assign r2_key_2 = r2_parts_2[1]
+    assign r2_meta_2 = closest.product.metafields[r2_ns_2][r2_key_2]
+
+    # Parse metafield 3
+    assign r2_parts_3 = block.settings.row_2_metafield_3 | split: '.'
+    assign r2_ns_3 = r2_parts_3[0]
+    assign r2_key_3 = r2_parts_3[1]
+    assign r2_meta_3 = closest.product.metafields[r2_ns_3][r2_key_3]
+
+    # Show row if any is not empty
+    assign show_row_2 = false
+    if r2_meta_1.value != blank or r2_meta_2.value != blank or r2_meta_3.value != blank
+      assign show_row_2 = true
+    endif
+  %}
+  {% if show_row_2 and block.settings.row_2_heading != blank %}
+    {% capture row_2_content %}
+      <details class="accordion-group__details" {% if block.settings.row_2_open %}open{% endif %}>
+        <summary class="accordion-group__summary">
+          <span class="accordion-group__title">{{ block.settings.row_2_heading }}</span>
+          <span class="accordion-group__chevron-wrapper">
+            <svg class="accordion-group__chevron" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </summary>
+        <div class="accordion-group__content">
+          {% if r2_meta_1.value != blank %}
+            <div class="accordion-group__sub-section">
+              {% if block.settings.row_2_sub_label_1 != blank %}
+                <span class="accordion-group__sub-label">{{ block.settings.row_2_sub_label_1 }}</span>
+              {% endif %}
+              <div class="accordion-group__sub-value">{{ r2_meta_1.value }}</div>
+            </div>
+          {% endif %}
+          {% if r2_meta_2.value != blank %}
+            <div class="accordion-group__sub-section">
+              {% if block.settings.row_2_sub_label_2 != blank %}
+                <span class="accordion-group__sub-label">{{ block.settings.row_2_sub_label_2 }}</span>
+              {% endif %}
+              <div class="accordion-group__sub-value">{{ r2_meta_2.value }}</div>
+            </div>
+          {% endif %}
+          {% if r2_meta_3.value != blank %}
+            <div class="accordion-group__sub-section">
+              {% if block.settings.row_2_sub_label_3 != blank %}
+                <span class="accordion-group__sub-label">{{ block.settings.row_2_sub_label_3 }}</span>
+              {% endif %}
+              <div class="accordion-group__sub-value">{{ r2_meta_3.value }}</div>
+            </div>
+          {% endif %}
+        </div>
+      </details>
+    {% endcapture %}
+    {% render 'accordion-custom-component',
+      children: row_2_content,
+      open_by_default_on_desktop: block.settings.row_2_open,
+      open_by_default_on_mobile: block.settings.row_2_open
+    %}
+  {% endif %}
+
+  <!-- Row 3: Fabric & Material -->
+  {% liquid
+    # Parse metafield 1
+    assign r3_parts_1 = block.settings.row_3_metafield_1 | split: '.'
+    assign r3_ns_1 = r3_parts_1[0]
+    assign r3_key_1 = r3_parts_1[1]
+    assign r3_meta_1 = closest.product.metafields[r3_ns_1][r3_key_1]
+
+    # Parse metafield 2
+    assign r3_parts_2 = block.settings.row_3_metafield_2 | split: '.'
+    assign r3_ns_2 = r3_parts_2[0]
+    assign r3_key_2 = r3_parts_2[1]
+    assign r3_meta_2 = closest.product.metafields[r3_ns_2][r3_key_2]
+
+    # Show row if any is not empty
+    assign show_row_3 = false
+    if r3_meta_1.value != blank or r3_meta_2.value != blank
+      assign show_row_3 = true
+    endif
+  %}
+  {% if show_row_3 and block.settings.row_3_heading != blank %}
+    {% capture row_3_content %}
+      <details class="accordion-group__details" {% if block.settings.row_3_open %}open{% endif %}>
+        <summary class="accordion-group__summary">
+          <span class="accordion-group__title">{{ block.settings.row_3_heading }}</span>
+          <span class="accordion-group__chevron-wrapper">
+            <svg class="accordion-group__chevron" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </summary>
+        <div class="accordion-group__content">
+          {% if r3_meta_1.value != blank %}
+            <div class="accordion-group__sub-section">
+              {% if block.settings.row_3_sub_label_1 != blank %}
+                <span class="accordion-group__sub-label">{{ block.settings.row_3_sub_label_1 }}</span>
+              {% endif %}
+              <div class="accordion-group__sub-value rte">
+                {{ r3_meta_1.value | newline_to_br }}
+              </div>
+            </div>
+          {% endif %}
+          {% if r3_meta_2.value != blank %}
+            <div class="accordion-group__sub-section">
+              {% if block.settings.row_3_sub_label_2 != blank %}
+                <span class="accordion-group__sub-label">{{ block.settings.row_3_sub_label_2 }}</span>
+              {% endif %}
+              <div class="accordion-group__sub-value rte">
+                {{ r3_meta_2.value | newline_to_br }}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </details>
+    {% endcapture %}
+    {% render 'accordion-custom-component',
+      children: row_3_content,
+      open_by_default_on_desktop: block.settings.row_3_open,
+      open_by_default_on_mobile: block.settings.row_3_open
+    %}
+  {% endif %}
+
+  <!-- Row 4: Transparency -->
+  {% if block.settings.row_4_heading != blank %}
+    {% capture row_4_content %}
+      <details class="accordion-group__details" {% if block.settings.row_4_open %}open{% endif %}>
+        <summary class="accordion-group__summary">
+          <span class="accordion-group__title">{{ block.settings.row_4_heading }}</span>
+          <span class="accordion-group__chevron-wrapper">
+            <svg class="accordion-group__chevron" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </summary>
+        <div class="accordion-group__content">
+          {% if block.settings.row_4_static_value_1 != blank %}
+            <div class="accordion-group__sub-section">
+              {% if block.settings.row_4_sub_label_1 != blank %}
+                <span class="accordion-group__sub-label">{{ block.settings.row_4_sub_label_1 }}</span>
+              {% endif %}
+              <div class="accordion-group__sub-value">{{ block.settings.row_4_static_value_1 }}</div>
+            </div>
+          {% endif %}
+          {% if block.settings.row_4_static_value_2 != blank %}
+            <div class="accordion-group__sub-section">
+              {% if block.settings.row_4_sub_label_2 != blank %}
+                <span class="accordion-group__sub-label">{{ block.settings.row_4_sub_label_2 }}</span>
+              {% endif %}
+              <div class="accordion-group__sub-value">{{ block.settings.row_4_static_value_2 }}</div>
+            </div>
+          {% endif %}
+          {% if block.settings.row_4_static_value_3 != blank %}
+            <div class="accordion-group__sub-section">
+              {% if block.settings.row_4_sub_label_3 != blank %}
+                <span class="accordion-group__sub-label">{{ block.settings.row_4_sub_label_3 }}</span>
+              {% endif %}
+              <div class="accordion-group__sub-value rte">
+                {{ block.settings.row_4_static_value_3 | newline_to_br }}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </details>
+    {% endcapture %}
+    {% render 'accordion-custom-component',
+      children: row_4_content,
+      open_by_default_on_desktop: block.settings.row_4_open,
+      open_by_default_on_mobile: block.settings.row_4_open
+    %}
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .accordion-group {
+    width: 100%;
+    border-bottom: 1px solid var(--color-border-grey, #E5E5E5);
+  }
+
+  .accordion-group accordion-custom {
+    display: block;
+    width: 100%;
+    border-top: 1px solid var(--color-border-grey, #E5E5E5);
+  }
+
+  .accordion-group__details {
+    width: 100%;
+  }
+
+  .accordion-group__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--spacing-desktop, 16px);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    outline: none;
+  }
+
+  .accordion-group__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion-group__title {
+    font-family: var(--font-heading--family);
+    font-weight: 500;
+    font-style: var(--font-heading--style);
+    text-transform: var(--font-heading--case);
+    font-size: 1.1rem;
+    letter-spacing: normal;
+    color: var(--color-charcoal-grey, #222222);
+  }
+
+  .accordion-group__chevron-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-charcoal-grey, #222222);
+  }
+
+  .accordion-group__chevron {
+    transition: transform var(--animation-speed-normal, 0.25s) var(--animation-easing, ease);
+    width: 20px;
+    height: 20px;
+  }
+
+  .accordion-group__details[open] .accordion-group__chevron {
+    transform: rotate(180deg);
+  }
+
+  .accordion-group__content {
+    padding-block-end: var(--spacing-desktop, 16px);
+    color: var(--color-charcoal-grey, #222222);
+  }
+
+  .accordion-group__sub-section {
+    margin-bottom: 16px;
+  }
+
+  .accordion-group__sub-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .accordion-group__sub-label {
+    display: block;
+    font-family: var(--font-heading--family);
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-medium-grey, #666666);
+    margin-bottom: 6px;
+  }
+
+  .accordion-group__sub-value {
+    display: block;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--color-charcoal-grey, #222222);
+  }
+
+  @media screen and (max-width: 768px) {
+    .accordion-group__summary {
+      padding-block: var(--spacing-mobile, 12px);
+    }
+    .accordion-group__content {
+      padding-block-end: var(--spacing-mobile, 12px);
+    }
+    .accordion-group__title {
+      font-size: 1rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Accordion Group",
+  "tag": null,
+  "class": "accordion-group-block",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Row 1: Product Details"
+    },
+    {
+      "type": "text",
+      "id": "row_1_heading",
+      "label": "Heading",
+      "default": "Product Details"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_1_open",
+      "label": "Open by default",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Row 2: Reason to Exist"
+    },
+    {
+      "type": "text",
+      "id": "row_2_heading",
+      "label": "Heading",
+      "default": "Reason to Exist"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_2_open",
+      "label": "Open by default",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "row_2_sub_label_1",
+      "label": "Sub-label 1",
+      "default": "Reason to Exist"
+    },
+    {
+      "type": "text",
+      "id": "row_2_metafield_1",
+      "label": "Metafield Key 1",
+      "default": "custom.reason_to_exist"
+    },
+    {
+      "type": "text",
+      "id": "row_2_sub_label_2",
+      "label": "Sub-label 2",
+      "default": "How to wear"
+    },
+    {
+      "type": "text",
+      "id": "row_2_metafield_2",
+      "label": "Metafield Key 2",
+      "default": "custom.how_to_wear"
+    },
+    {
+      "type": "text",
+      "id": "row_2_sub_label_3",
+      "label": "Sub-label 3",
+      "default": "Where to wear"
+    },
+    {
+      "type": "text",
+      "id": "row_2_metafield_3",
+      "label": "Metafield Key 3",
+      "default": "custom.where_to_wear"
+    },
+    {
+      "type": "header",
+      "content": "Row 3: Fabric & Material"
+    },
+    {
+      "type": "text",
+      "id": "row_3_heading",
+      "label": "Heading",
+      "default": "Fabric & Material"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_3_open",
+      "label": "Open by default",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "row_3_sub_label_1",
+      "label": "Sub-label 1",
+      "default": "Fabric Process"
+    },
+    {
+      "type": "text",
+      "id": "row_3_metafield_1",
+      "label": "Metafield Key 1",
+      "default": "custom.fabric_process"
+    },
+    {
+      "type": "text",
+      "id": "row_3_sub_label_2",
+      "label": "Sub-label 2",
+      "default": "Raw Material"
+    },
+    {
+      "type": "text",
+      "id": "row_3_metafield_2",
+      "label": "Metafield Key 2",
+      "default": "custom.raw_material"
+    },
+    {
+      "type": "header",
+      "content": "Row 4: Transparency"
+    },
+    {
+      "type": "text",
+      "id": "row_4_heading",
+      "label": "Heading",
+      "default": "Transparency"
+    },
+    {
+      "type": "checkbox",
+      "id": "row_4_open",
+      "label": "Open by default",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "row_4_sub_label_1",
+      "label": "Sub-label 1",
+      "default": "Manufacturing"
+    },
+    {
+      "type": "text",
+      "id": "row_4_static_value_1",
+      "label": "Static Value 1",
+      "default": "Manufacturing"
+    },
+    {
+      "type": "text",
+      "id": "row_4_sub_label_2",
+      "label": "Sub-label 2",
+      "default": "Supplier"
+    },
+    {
+      "type": "text",
+      "id": "row_4_static_value_2",
+      "label": "Static Value 2",
+      "default": "Blue Minded People Pvt Ltd"
+    },
+    {
+      "type": "text",
+      "id": "row_4_sub_label_3",
+      "label": "Sub-label 3",
+      "default": "Warehouse"
+    },
+    {
+      "type": "textarea",
+      "id": "row_4_static_value_3",
+      "label": "Static Value 3",
+      "default": "Blue Minded People Warehouse Guddadahalli, Bashettihalli, Karnataka 562163"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Accordion Group"
+    }
+  ]
+}
+{% endschema %}

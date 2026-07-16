@@ -878,8 +878,6 @@
   /* Specificity overrides for global theme settings */
   body #header-component.header {
     height: auto !important;
-    min-height: 0 !important;
-    max-height: none !important;
     display: block !important;
     background-color: var(--color-off-white, #FFFFFF) !important;
     --color-background: var(--color-off-white, #FFFFFF) !important;
@@ -1080,6 +1078,13 @@
     scroll-padding-inline: var(--spacing-mobile, 40px) !important;
   }
 
+  /* FIX 2: Hide desktop nav row on mobile (below 1024px) — accessed via hamburger drawer only */
+  @media screen and (max-width: 1023px) {
+    body #header-component.header .header__nav-row {
+      display: none !important;
+    }
+  }
+
   body #header-component.header .header__nav-row::-webkit-scrollbar {
     display: none !important;
   }
@@ -1234,23 +1239,96 @@
     color: var(--color-copper-rivet) !important;
   }
 
-  /* Responsive and Mobile Overrides */
-  @media screen and (max-width: 749px) {
+  /* ============================================================================
+     MOBILE HEADER FIXES (max-width: 1023px)
+     - FIX 1: Proper 3-column grid with centered logo and aligned icons
+     - FIX 3: Overflow-x containment to prevent background bleed
+     ============================================================================ */
+  @media screen and (max-width: 1023px) {
+    /* FIX 3: Contain horizontal overflow at the header level */
+    body #header-component.header {
+      overflow-x: hidden !important;
+      max-width: 100vw !important;
+    }
+
+    body #header-component.header .header__main-row {
+      overflow-x: hidden !important;
+      max-width: 100vw !important;
+    }
+
+    /* FIX 1: Rebuild mobile header row as a strict 3-column CSS grid */
     body #header-component.header .header__main-container {
+      display: grid !important;
       grid-template-columns: auto 1fr auto !important;
+      align-items: center !important;
       padding-block: var(--padding-sm) !important;
+      padding-inline: var(--global-container-side-padding-mobile, 16px) !important;
+      box-sizing: border-box !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow-x: hidden !important;
     }
 
+    /* Column 1 — Left group: hamburger + search icon */
     body #header-component.header .header__main-left {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
       gap: var(--gap-xs, 8px) !important;
+      grid-column: 1 !important;
+      flex-shrink: 0 !important;
     }
 
+    /* Column 2 — Center: logo perfectly centered in its grid cell */
+    body #header-component.header .header__main-center {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      grid-column: 2 !important;
+    }
+
+    /* Column 3 — Right group: account + cart */
     body #header-component.header .header__main-right {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-end !important;
       gap: var(--gap-xs, 8px) !important;
+      grid-column: 3 !important;
+      flex-shrink: 0 !important;
     }
 
+    /* Ensure header-actions-wrapper also uses tight icon gap */
     body #header-component.header .header-actions-wrapper {
       gap: var(--gap-xs, 8px) !important;
+      align-items: center !important;
+    }
+
+    /* Ensure all icons share the same 20x20 size and vertical baseline */
+    body #header-component.header .header__main-left svg,
+    body #header-component.header .header__main-right svg,
+    body #header-component.header .header__main-left .svg-wrapper svg,
+    body #header-component.header .header__main-right .svg-wrapper svg {
+      width: 20px !important;
+      height: 20px !important;
+      display: block !important;
+    }
+
+    /* Normalize icon wrapper elements to inline-flex for vertical alignment */
+    body #header-component.header .header__main-left .svg-wrapper,
+    body #header-component.header .header__main-right .svg-wrapper,
+    body #header-component.header .header__mobile-menu-trigger,
+    body #header-component.header .search-action {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    /* Remove any extra padding on summary (hamburger) that would misalign it */
+    body #header-component.header .header__icon--menu {
+      padding: var(--padding-2xs, 4px) !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
     }
   }
 
@@ -1368,9 +1446,9 @@
 
     /* Transparent state style */
     body #header-component.header[transparent].header--transparent {
-      position: absolute !important;
+      position: relative !important;
       top: auto !important;
-      
+  
       left: 0 !important;
       width: 100% !important;
       background-color: transparent !important;
