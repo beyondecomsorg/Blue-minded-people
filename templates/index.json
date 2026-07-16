@@ -213,7 +213,7 @@
         "subtext": "Discover what just landed at BLUE MINDED PEOPLE",
         "btn_label": "Shop now",
         "btn_url": "",
-        "bg_color": "#ECE8E8",
+        "bg_color": "#ece8e8",
         "eyebrow_color": "#0b1f33",
         "count_color": "#0b1f33",
         "subtext_color": "#666666",
@@ -975,6 +975,7 @@
         "category_card_zTUmJd",
         "category_card_kNaQQn"
       ],
+      "disabled": true,
       "name": "Explore Selections Grid",
       "settings": {
         "heading": "Explore Blue Minded People Selections",
