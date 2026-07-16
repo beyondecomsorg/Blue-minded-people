@@ -144,14 +144,6 @@
             "product_url": ""
           }
         },
-        "product_card_kEktML": {
-          "type": "product_card",
-          "settings": {
-            "product_image": "shopify://shop_images/Artboard_9_2x_ad8fdeac-4e6a-45c9-b9c7-1c38f62fe5fb.png",
-            "brand_name": "Coming soon",
-            "product_url": ""
-          }
-        },
         "product_card_6yVGCm": {
           "type": "product_card",
           "settings": {
@@ -165,6 +157,14 @@
           "settings": {
             "product_image": "shopify://shop_images/Artboard_8_2x_cbefc8ca-167d-40e1-8fa2-eb18df044b53.png",
             "brand_name": "NON DENIM",
+            "product_url": ""
+          }
+        },
+        "product_card_kEktML": {
+          "type": "product_card",
+          "settings": {
+            "product_image": "shopify://shop_images/Artboard_9_2x_ad8fdeac-4e6a-45c9-b9c7-1c38f62fe5fb.png",
+            "brand_name": "Coming soon",
             "product_url": ""
           }
         },
@@ -199,9 +199,9 @@
       "block_order": [
         "product_card_gfweth",
         "product_card_xLwBpc",
-        "product_card_kEktML",
         "product_card_6yVGCm",
         "product_card_H8Cn9w",
+        "product_card_kEktML",
         "product_card_hMgJGr",
         "product_card_pXRMej",
         "product_card_Fqi49x"
