@@ -41,7 +41,7 @@
     {% if filter_style == 'horizontal' %}
       data-auto-close-details="desktop"
     {% endif %}
-    {% if filter_style == 'vertical' %}
+    {% if filter_style == 'vertical' and in_drawer != true %}
       open
     {% endif %}
   >
@@ -112,6 +112,25 @@
       class="facets__inputs facets__panel-content details-content{% if filter_style == 'horizontal' %} color-{{ settings.popover_color_scheme }}{% endif %}"
       id="facet-inputs-{{ filter.param_name | escape | replace: '.', '-' }}"
     >
+      {% if filter.values.size > 8 %}
+        <div class="facets__search-wrapper">
+          <input
+            type="text"
+            placeholder="Search {{ filter.label }}..."
+            class="facets__search-input"
+            oninput="this.closest('floating-panel-component').querySelectorAll('.facets__inputs-list-item').forEach(li => {
+              const text = li.innerText.toLowerCase();
+              const query = this.value.toLowerCase();
+              if (text.includes(query)) {
+                li.style.display = '';
+              } else {
+                li.style.display = 'none';
+              }
+            })"
+          >
+          <svg class="facets__search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </div>
+      {% endif %}
       <facet-inputs-component
         on:change="/updateFilters"
         id="facet-inputs-component-{{ filter.param_name | escape | replace: '.', '-' }}"
@@ -131,7 +150,7 @@
           if is_swatch and show_swatch_label
             assign should_render_for_swatch = false
           endif
-          if filter.values.size > max_visible_values and should_render_for_swatch == false
+          if filter.values.size > max_visible_values and should_render_for_swatch == false and in_drawer != true
             assign render_show_more = true
           endif
         %}
@@ -320,6 +339,7 @@
                         tabindex="-1"
                       >
                         {{- value.label }}
+                        <span class="facets__swatch-count">({{ value.count }})</span>
                       </label>
                     </label>
                   </fieldset>
@@ -423,12 +443,18 @@
     </floating-panel-component>
   </details>
 {% endcapture %}
+{% liquid
+  assign open_accordion = is_vertical
+  if in_drawer
+    assign open_accordion = false
+  endif
+%}
 {% render 'accordion-custom-component',
   children: accordion_children,
   class: 'facets__item',
-  open: is_vertical,
+  open: open_accordion,
   open_by_default_on_desktop: is_vertical,
-  open_by_default_on_mobile: is_vertical,
+  open_by_default_on_mobile: open_accordion,
   disable_animation_on_desktop: is_horizontal,
   close_with_escape: is_horizontal,
   data_filter_param_name: filter_param_name

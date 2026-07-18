@@ -25,7 +25,7 @@
     {% if filter_style == 'horizontal' %}
       data-auto-close-details="desktop"
     {% endif %}
-    {% if filter_style == 'vertical' %}
+    {% if filter_style == 'vertical' and in_drawer != true %}
       open
     {% endif %}
   >
@@ -178,12 +178,18 @@
     </floating-panel-component>
   </details>
 {% endcapture %}
+{% liquid
+  assign open_accordion = is_vertical
+  if in_drawer
+    assign open_accordion = false
+  endif
+%}
 {% render 'accordion-custom-component',
   children: accordion_children,
   class: 'facets__item',
-  open: is_vertical,
+  open: open_accordion,
   open_by_default_on_desktop: is_vertical,
-  open_by_default_on_mobile: is_vertical,
+  open_by_default_on_mobile: open_accordion,
   disable_animation_on_desktop: is_horizontal,
   close_with_escape: is_horizontal
 %}

@@ -9,8 +9,8 @@
 {%- enddoc -%}
 
 {% liquid
-  assign product = closest.product
-  assign block_settings = block.settings
+  assign product = closest.product | default: product
+  assign block_settings = block.settings | default: section.settings
   assign image_sizes = '(min-width: 750px) 50vw, 100vw'
 
   # Check if product has badges and determine position
@@ -173,16 +173,18 @@
       %}
     </a>
   {% elsif product != blank and product.media.size == 0 %}
-    <product-title class="product-card-gallery__title-placeholder">
-      <a
-        class="contents"
-        ref="productTitleLink"
-        href="{{ product.selected_or_first_available_variant.url }}"
-        aria-hidden="true"
-      >
-        <span class="title-text">{{- product.title -}}</span>
-      </a>
-    </product-title>
+    <a
+      class="contents"
+      ref="cardGalleryLink"
+      href="{{ product.selected_or_first_available_variant.url }}"
+      aria-label="{{- product.title -}}"
+    >
+      <div class="product-media-container media-fit product-media-container--image" style="aspect-ratio: var(--gallery-aspect-ratio);">
+        <div class="product-media product-media--empty-fallback">
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg product-media__image' }}
+        </div>
+      </div>
+    </a>
   {% elsif product == blank %}
     {% liquid
       capture placeholder_image

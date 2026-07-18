@@ -24,6 +24,12 @@
       </a>
     </div>
     {% content_for 'blocks' %}
+    {%- if closest.product.selected_or_first_available_variant.sku != blank -%}
+      <div class="pdp-sku-footer">
+        <span class="pdp-sku-footer__label">Product Code</span>
+        <span class="pdp-sku-footer__value">{{ closest.product.selected_or_first_available_variant.sku }}</span>
+      </div>
+    {%- endif -%}
   {% endcapture %}
 
   {% render 'group', children: children, settings: block_settings, shopify_attributes: block.shopify_attributes %}

@@ -2691,6 +2691,13 @@
         "default": false
       },
       {
+        "type": "textarea",
+        "id": "swatch_color_mapping",
+        "label": "Custom Swatch Mappings",
+        "info": "Format: color-name: #hex_value (one per line, e.g. 'light blue: #cad7eb')",
+        "default": "light blue: #cad7eb\ndark grey: #4a4a4a\nwhite: #ffffff"
+      },
+      {
         "type": "range",
         "id": "variant_swatch_width",
         "min": 16,

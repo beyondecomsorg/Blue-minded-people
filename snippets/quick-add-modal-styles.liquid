@@ -878,9 +878,9 @@
   }
 
   .variant-option__button-label--has-swatch {
-    border-radius: 50% !important;
-    padding: 2px !important;
-    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.2s ease !important;
+    border-radius: 0;
+    padding: 2px;
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.2s ease;
   }
 
   .variant-option__button-label--has-swatch:hover {
@@ -888,10 +888,10 @@
   }
 
   .variant-option__button-label--has-swatch:has(input:checked) {
-    outline: 2px solid var(--color-foreground) !important;
-    outline-offset: 2px !important;
-    border-color: transparent !important;
-    transform: scale(1.1) !important;
+    outline: 1.5px solid #afafaf;
+    outline-offset: 2px;
+    border-color: transparent;
+    transform: scale(1.05);
   }
 
   /* Sold out state handling */

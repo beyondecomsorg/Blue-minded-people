@@ -252,18 +252,20 @@
   min-height: unset !important;
   padding: 0 !important;
   font-size: {{ section.settings.button_font_size_desktop }}px !important;
-  background: var(--btn-bg) !important;
-  color: var(--btn-text) !important;
+  background: transparent !important;
+
+
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  color: white !important;
   font-family: var(--font-heading) !important;
   font-weight: 700 !important;
   letter-spacing: 0.08em !important;
   text-transform: uppercase !important;
   text-decoration: none !important;
   white-space: nowrap !important;
-  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s ease !important;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease !important;
   cursor: pointer !important;
-  text-align: center !important;
-  border-radius: 0 !important;
+  border-radius: 0px !important;
   position: relative !important;
   left: auto !important;
   right: auto !important;
@@ -271,17 +273,11 @@
   bottom: auto !important;
 }
 
-.hs-btn:hover {
-  background: var(--btn-hover-bg);
-  color: var(--btn-hover-text);
-  transform: translateY(-2px);
-}
-
-
-.hs-btn:hover {
-  background: var(--btn-hover-bg);
-  color: var(--btn-hover-text);
-  transform: translateY(-2px);
+#shopify-section-{{ section.id }} .hs-btn:hover {
+  background: rgba(255, 255, 255, 1) !important;
+  color: #0C4168 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25) !important;
 }
 
 .hs-section .splide__arrow {

@@ -17,7 +17,7 @@
           "settings": {
             "image": "shopify://shop_images/ready_H_bnr.png",
             "image_focal_point": "bottom center",
-            "mobile_image": "shopify://shop_images/Artboard_2_copy_2_2x_9ac89717-2089-4f34-ac6a-1277c32bea02.png",
+            "mobile_image": "shopify://shop_images/ready_H_bnr_MBL.png",
             "mobile_image_focal_point": "center center",
             "video_url_mp4": "",
             "video_url_webm": "",
@@ -47,7 +47,7 @@
           "settings": {
             "image": "shopify://shop_images/Artboard_1_2x_1402c2f5-0974-4e3d-a9a4-69d952717977.png",
             "image_focal_point": "center center",
-            "mobile_image": "shopify://shop_images/Artboard_2_2x_35404993-4196-4866-b989-9ebabf69ee5e.png",
+            "mobile_image": "shopify://shop_images/Artboard_2_2x_1.png",
             "mobile_image_focal_point": "center center",
             "video_url_mp4": "",
             "video_url_webm": "",
@@ -155,7 +155,7 @@
         "product_card_H8Cn9w": {
           "type": "product_card",
           "settings": {
-            "product_image": "shopify://shop_images/Artboard_8_2x_cbefc8ca-167d-40e1-8fa2-eb18df044b53.png",
+            "product_image": "shopify://shop_images/Artboard_12_2x_616ac5a4-f1a7-447d-bb20-23466b676da4.png",
             "brand_name": "NON DENIM",
             "product_url": "shopify://collections/all"
           }
@@ -304,6 +304,7 @@
         "text_zGUiEc",
         "button_3M4i7L"
       ],
+      "disabled": true,
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
@@ -338,6 +339,62 @@
         "padding_bottom": 60,
         "padding_top_mobile": 0,
         "padding_bottom_mobile": 30
+      }
+    },
+    "banner_image_custom_tyNbCX": {
+      "type": "banner-image-custom",
+      "blocks": {
+        "slide_HnXGyY": {
+          "type": "slide",
+          "settings": {
+            "image_desktop": "shopify://shop_images/Artboard_1_copy_2x_4432fa96-b76e-402b-b858-7f80c8963802.png",
+            "image_mobile": "shopify://shop_images/Artboard_2_copy_2x_342c01dc-72e8-4d47-b48e-833382eed36e.png",
+            "link": "shopify://collections/all",
+            "open_in_new_tab": false,
+            "heading": "",
+            "subheading": "",
+            "button_label": ""
+          }
+        },
+        "slide_4dzwef": {
+          "type": "slide",
+          "settings": {
+            "image_desktop": "shopify://shop_images/Artboard_1_copy_2x_4432fa96-b76e-402b-b858-7f80c8963802.png",
+            "image_mobile": "shopify://shop_images/Artboard_2_copy_2x_342c01dc-72e8-4d47-b48e-833382eed36e.png",
+            "link": "shopify://collections/all",
+            "open_in_new_tab": false,
+            "heading": "",
+            "subheading": "",
+            "button_label": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_HnXGyY",
+        "slide_4dzwef"
+      ],
+      "name": "Custom Banner Slideshow",
+      "settings": {
+        "banner_height": "adapt",
+        "custom_height_desktop": 1000,
+        "custom_height_mobile": 400,
+        "heading_size_desktop": 48,
+        "heading_size_mobile": 24,
+        "subheading_size_desktop": 18,
+        "subheading_size_mobile": 14,
+        "text_color": "#ffffff",
+        "content_alignment": "center",
+        "overlay_color": "rgba(0,0,0,0)",
+        "overlay_opacity": 30,
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "transition_effect": "slide",
+        "infinite_loop": true,
+        "show_arrows": true,
+        "show_dots": true,
+        "pause_on_hover": true,
+        "margin_top": 0,
+        "margin_bottom": 60
       }
     },
     "shop_by_category_Y6HHJz": {
@@ -494,7 +551,7 @@
         "heading_size": 28,
         "heading_gap": 28,
         "heading_color": "#0b1f33",
-        "featured_collection": "all-products",
+        "featured_collection": "bottom-wear",
         "products_to_show": 4,
         "container_width": 1400,
         "columns_desktop": "4",
@@ -1542,6 +1599,7 @@
     "custom_hero_section_eTTVbb",
     "section_whats_new_today_aD9myK",
     "hero_CNU3UH",
+    "banner_image_custom_tyNbCX",
     "shop_by_category_Y6HHJz",
     "hero_exggzb",
     "shop_by_category_pnqBLH",

@@ -1,0 +1,174 @@
+{% comment %}
+  PDP Product Info Block - Visual Enhancements
+  Scoped to .product-details to avoid affecting any other sections.
+  Uses brand CSS custom properties only - no hardcoded colors or fonts.
+{% endcomment %}
+
+{% stylesheet %}
+
+  /* ============================================
+     1. TITLE -> PRICE SPACING (tighter gap)
+     ============================================ */
+  .product-details .price-block {
+    margin-top: 8px !important;
+  }
+
+  /* ============================================
+     2. COLOR SWATCH ROW - legend header
+     ============================================ */
+  .product-details .variant-option__swatch-value {
+    font-family: var(--font-body--family);
+    font-size: 14px;
+    font-weight: 400;
+    color: #000000ff;
+    margin-inline-start: 6px;
+    vertical-align: middle;
+    margin-left: 0;
+    padding-left: 0;
+
+  }
+  .variant-option__legend-header span{
+  color: rgb(101, 101, 101);
+
+  }
+
+  .product-details .variant-option--swatches .variant-option__legend-header {
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+
+  /* ============================================
+     3. OUT-OF-STOCK SIZES - muted, not hidden
+     ============================================ */
+  .product-details .variant-option__button-label:has(input[aria-disabled='true']) {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .product-details .variant-option__button-label:has(input[aria-disabled='true']) .variant-option__button-label__text {
+    color: var(--color-medium-grey, #666666);
+    text-decoration: none;
+  }
+
+  .product-details .variant-option--buttons .variant-option__button-label:has(input[aria-disabled='true']) {
+    border-color: var(--color-border-grey, #E5E5E5);
+  }
+
+  /* ============================================
+     4. SIZE CHART LINK - right-aligned on size row
+     ============================================ */
+  .product-details .size-chart-trigger {
+    font-family: var(--font-body--family);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-medium-grey, #666666);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    transition: color 0.2s ease;
+  }
+
+  .product-details .size-chart-trigger:hover {
+    color: var(--color-copper-rivet, #B87333);
+  }
+
+  /* ============================================
+     5. ADD TO WISHLIST BUTTON - Row 3 outline
+     ============================================ */
+  .pdp-wishlist-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 0 24px;
+    height: var(--height-buy-buttons, 48px);
+    background: transparent;
+    border: 1px solid var(--color-deep-navy, #0B1F33);
+    border-radius: var(--style-border-radius-buttons-primary, 0px);
+    color: var(--color-deep-navy, #0B1F33);
+    font-family: var(--font-body--family);
+    font-size: var(--font-paragraph--size, 14px);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.22s ease, color 0.22s ease;
+    box-sizing: border-box;
+    margin-top: 6px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .pdp-wishlist-btn {
+      margin-top: 10px;
+    }
+  }
+
+  .pdp-wishlist-btn:hover {
+    background-color: var(--color-deep-navy, #0B1F33);
+    color: var(--color-off-white, #FFFFFF);
+  }
+
+  .pdp-wishlist-btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  /* ============================================
+     6. ACCORDION CHEVRON - rotate 180 on open
+     ============================================ */
+  .product-details .accordion .icon-animated {
+    transition: transform 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .product-details .accordion details[open] .icon-animated {
+    transform: rotate(180deg);
+  }
+
+  .product-details .accordion--caret .icon-plus {
+    display: none;
+  }
+
+  .product-details .accordion--plus .icon-caret {
+    display: none;
+  }
+
+  .product-details .accordion .details__header {
+    font-family: var(--font-body--family);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding-block: 16px;
+  }
+
+  /* ============================================
+     7. SKU FOOTER - below accordion
+     ============================================ */
+  .pdp-sku-footer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border-grey, #E5E5E5);
+    margin-top: 8px;
+  }
+
+  .pdp-sku-footer__label,
+  .pdp-sku-footer__value {
+    font-family: var(--font-body--family);
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--color-medium-grey, #666666);
+    letter-spacing: 0.03em;
+  }
+
+  .pdp-sku-footer__label::after {
+    content: ':';
+  }
+
+{% endstylesheet %}

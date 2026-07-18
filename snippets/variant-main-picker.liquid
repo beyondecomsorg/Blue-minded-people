@@ -68,7 +68,7 @@
           >
             <div class="variant-option__legend-header" style="width: 100%;">
               <span>
-                {{- product_option.name | escape -}}
+                {{- product_option.name | escape -}}:
                 <span
                   class="variant-option__swatch-value"
                   data-testid="variant-option-single-value"
@@ -109,10 +109,8 @@
             <legend style="width: 100%;">
               <div class="variant-option__legend-header">
                 <span>
-                  {{ product_option.name | escape -}}
-                  {%- if variant_style == 'swatch' -%}
-                    <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
-                  {%- endif %}
+                  {{ product_option.name | escape }}:
+                  <span class="variant-option__swatch-value">{{ product_option.selected_value }}</span>
                 </span>
                 {%- assign option_name_downcase = product_option.name | downcase -%}
                 {%- if option_name_downcase == 'size' -%}
@@ -439,6 +437,7 @@
   /* Variant picker container styles - unique to main variant picker */
   .variant-picker {
     width: 100%;
+    padding-top: 0px; 
   }
 
   .variant-picker__form {
@@ -527,6 +526,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    font-size: 14px;
     margin-bottom: var(--margin-xs);
   }
 
