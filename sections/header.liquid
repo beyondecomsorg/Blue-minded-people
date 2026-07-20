@@ -337,8 +337,7 @@
                 data-testid="cart-drawer-dialog"
                 aria-labelledby="{% if cart.empty? %}cart-drawer-heading-empty{% else %}cart-drawer-heading{% endif %}"
                 scroll-lock
-                cart-summary-sticky="true"
-              >
+                cart-summary-sticky="true">
                 <span ref="liveRegion" class="visually-hidden" role="status"></span>
                 <div class="cart-drawer__inner">
                   {% capture cart_items_children %}
@@ -1104,6 +1103,65 @@
   @media screen and (max-width: 749px) {
     body #header-component.header .header__nav-container {
       padding-inline: var(--spacing-mobile, 13px) !important;
+    }
+
+    body #header-component.header .header__main-container {
+      padding-inline: 10px !important;
+      padding-top: 6px !important;
+      padding-bottom: 6px !important;
+    }
+
+    body #header-component.header .header__main-left,
+    body #header-component.header .header__main-right,
+    body #header-component.header .header-actions-wrapper {
+      gap: 10px !important;
+      align-items: center !important;
+    }
+
+    /* Uniform icon wrapper dimensions on mobile */
+    body #header-component.header .header-actions__action,
+    body #header-component.header .wishlist-button,
+    body #header-component.header .header-icon-link,
+    body #header-component.header .account-button,
+    body #header-component.header .search-action button {
+      padding: 2px !important;
+      width: 22px !important;
+      height: 22px !important;
+      min-width: 22px !important;
+      min-height: 22px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    /* Match cart, search, wishlist, and hamburger SVG icon sizes & stroke weight to account icon */
+    body #header-component.header .header-actions__action svg,
+    body #header-component.header .wishlist-button svg,
+    body #header-component.header .header-icon-link svg,
+    body #header-component.header .account-button__icon,
+    body #header-component.header .account-button svg,
+    body #header-component.header .icon-cart,
+    body #header-component.header .search-action svg,
+    body #header-component.header .header-drawer-toggle svg {
+      width: 20px !important;
+      height: 20px !important;
+      min-width: 20px !important;
+      min-height: 20px !important;
+      stroke-width: 1.65 !important;
+    }
+
+    /* Increase logo size on mobile to make it prominent and clear */
+    body #header-component.header .header-logo-img {
+      max-height: 48px !important;
+      height: 48px !important;
+      width: auto !important;
+    }
+
+    body #header-component.header .header-logo-text {
+      font-size: 25px !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.06em !important;
+      line-height: 1.1 !important;
     }
   }
 
