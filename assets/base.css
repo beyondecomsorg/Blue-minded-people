@@ -934,7 +934,7 @@ summary::-webkit-details-marker {
 
 /* When header is transparent, pull the first main content section up to sit under the floating header */
 body:has(.header[transparent]) .content-for-layout > .shopify-section:first-child {
-  margin-top: 0 !important;
+  margin-top: calc(var(--header-height, 100px) * -1) !important;
 }
 
 body:has(.header[transparent]) #header-group > .header-section {
