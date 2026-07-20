@@ -88,7 +88,7 @@
   font-family: var(--font-body);
   overflow: hidden;
   background: var(--brand-blue);
-  margin-top: var(--header-group-height, var(--header-height, 0px)) !important;
+  margin-top: 0 !important;
 }
 
 .hs-section .splide__track {
@@ -114,7 +114,7 @@
 }
 
 .hs-slide__bg {
-  object-position: center center;
+  object-position: top center !important;
 }
 
 .hs-slide__bg--desktop {
@@ -505,12 +505,14 @@ bottom: -3%;
               {% else %}
                 {%- comment -%} ── DESKTOP IMAGE ── {%- endcomment -%}
                 {% if b.image != blank %}
+                  {% assign focal_desktop = b.image_focal_point | default: 'top center' %}
                   {{ b.image | image_url: width: 2400 | image_tag:
                     class: 'hs-slide__bg hs-slide__bg--desktop',
                     loading: 'eager',
                     widths: '800,1200,1600,2000,2400',
                     sizes: '100vw',
-                    alt: b.image.alt
+                    alt: b.image.alt,
+                    style: 'object-position: ' | append: focal_desktop | append: ' !important;'
                   }}
                 {% else %}
                   {{ 'lifestyle-1' | placeholder_svg_tag: 'hs-slide__bg hs-slide__bg--desktop placeholder-svg' }}
@@ -518,12 +520,14 @@ bottom: -3%;
 
                 {%- comment -%} ── MOBILE IMAGE (falls back to desktop if not set) ── {%- endcomment -%}
                 {% if b.mobile_image != blank %}
+                  {% assign focal_mobile = b.mobile_image_focal_point | default: 'top center' %}
                   {{ b.mobile_image | image_url: width: 1200 | image_tag:
                     class: 'hs-slide__bg hs-slide__bg--mobile',
                     loading: 'eager',
                     widths: '400,600,800,1000,1200',
                     sizes: '100vw',
-                    alt: b.mobile_image.alt
+                    alt: b.mobile_image.alt,
+                    style: 'object-position: ' | append: focal_mobile | append: ' !important;'
                   }}
                 {% else %}
                   {% comment %}
@@ -531,12 +535,14 @@ bottom: -3%;
                     so CSS swap still works cleanly.
                   {% endcomment %}
                   {% if b.image != blank %}
+                    {% assign focal_desktop = b.image_focal_point | default: 'top center' %}
                     {{ b.image | image_url: width: 1200 | image_tag:
                       class: 'hs-slide__bg hs-slide__bg--mobile',
                       loading: 'eager',
                       widths: '400,600,800,1000,1200',
                       sizes: '100vw',
-                      alt: b.image.alt
+                      alt: b.image.alt,
+                      style: 'object-position: ' | append: focal_desktop | append: ' !important;'
                     }}
                   {% else %}
                     {{ 'lifestyle-1' | placeholder_svg_tag: 'hs-slide__bg hs-slide__bg--mobile placeholder-svg' }}

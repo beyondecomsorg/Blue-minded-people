@@ -7,18 +7,23 @@
   </div>
 {% else %}
   <div class="pdp-title-block">
-    <a
-      class="pdp-title-block__link"
-      ref="productTitleLink"
-      href="{{ closest.product.selected_or_first_available_variant.url }}"
-    >
-      <h1 class="pdp-title-block__title">{{ closest.product.title }}</h1>
-      {%- if closest.product.type != blank -%}
-      {% comment %}
-        <p class="pdp-title-block__subtitle">{{ closest.product.type }}</p>
-        {% endcomment %}
-      {%- endif -%}
-    </a>
+    <div class="pdp-title-wrapper">
+      <a
+        class="pdp-title-block__link"
+        ref="productTitleLink"
+        href="{{ closest.product.selected_or_first_available_variant.url }}"
+      >
+        <h1 class="pdp-title-block__title">{{ closest.product.title }}</h1>
+        {%- if closest.product.type != blank -%}
+        {% comment %}
+          <p class="pdp-title-block__subtitle">{{ closest.product.type }}</p>
+          {% endcomment %}
+        {%- endif -%}
+      </a>
+      <div class="pdp-title-wishlist product-card__wishlist">
+        {% render 'hulkapps-wishlist-collection-btn', productId: closest.product.id, variantId: closest.product.selected_or_first_available_variant.id %}
+      </div>
+    </div>
   </div>
 {% endif %}
 
@@ -26,6 +31,28 @@
   .pdp-title-block {
     display: block;
     width: 100%;
+  }
+
+  .pdp-title-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .pdp-title-wrapper .pdp-title-block__link {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .pdp-title-wrapper .product-card__wishlist {
+    position: relative;
+    top: auto;
+    right: auto;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
   }
 
   .pdp-title-block__link {

@@ -934,7 +934,7 @@ summary::-webkit-details-marker {
 
 /* When header is transparent, pull the first main content section up to sit under the floating header */
 body:has(.header[transparent]) .content-for-layout > .shopify-section:first-child {
-  margin-top: calc(var(--header-group-height) * -1);
+  margin-top: 0 !important;
 }
 
 body:has(.header[transparent]) #header-group > .header-section {
@@ -1038,10 +1038,7 @@ ul[product-grid-view='zoom-out'] .product-grid__card > * {
 }
 
 [product-grid-view='zoom-out'] {
-  --product-grid-columns-desktop: repeat(
-    10,
-    minmax(clamp(50px, calc(100% - 9 * var(--product-grid-gap)) / 10, 80px), 1fr)
-  );
+  --product-grid-columns-desktop: repeat(8, minmax(0, 1fr));
 }
 
 .product-grid-view-zoom-out--details {
@@ -4627,7 +4624,7 @@ product-recommendations .text-block:not(.text-block--full-width).paragraph p {
 }
 
 .sbc-container.section-wrapper{
-  padding-top: 0 !important;
+  padding-top: 30px !important;
 }
 .shopify-section.brand-product-carousel .bpc-wrap.section-wrapper {
      padding-top: 0px !important;
@@ -4842,8 +4839,7 @@ slideshow-component .product-price-main-sale{
   width: 36px !important;
   height: 36px !important;
   border-radius: 50% !important;
-  background-color: var(--color-off-white, #FFFFFF) !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+
   border: none !important;
   padding: 0 !important;
   position: absolute !important;
@@ -5554,9 +5550,9 @@ dialog.quick-add-modal .quick-add-modal__close:hover svg {
 
 /* 1. Sticky filter bar with glassmorphic blur and light bottom border */
 .facets-block-wrapper--horizontal {
-  position: sticky !important;
-  top: var(--header-height, 70px) !important;
-  z-index: 99 !important;
+  position: relative !important;
+  top: auto !important;
+  z-index: 1 !important;
   background-color: rgba(255, 255, 255, 0.92) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;

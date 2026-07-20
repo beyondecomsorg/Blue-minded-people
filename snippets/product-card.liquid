@@ -52,7 +52,7 @@
 
         <!-- Wishlist icon (top-right overlay) -->
         <div class="product-card__wishlist">
-          {% render 'hulkapps-wishlist-collection-btn', productId: product.id, variantId: variant_to_link.id %}
+          {% render 'hulkapps-wishlist-collection-btn', productId: product.id, variantId: product.selected_or_first_available_variant.id %}
         </div>
 
         <!-- Quick View Overlay (bottom center) -->

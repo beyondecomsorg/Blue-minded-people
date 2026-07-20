@@ -17,7 +17,7 @@
         "usp_UQRrjy": {
           "type": "usp",
           "settings": {
-            "text": "Free shipping About 2500",
+            "text": "Free shipping above INR 2500",
             "usp_bg": "rgba(0,0,0,0)",
             "usp_text_color": "#0c4168",
             "usp_icon_color": "#32ff00"
@@ -26,7 +26,7 @@
         "usp_JxT96H": {
           "type": "usp",
           "settings": {
-            "text": "Free shipping About 2500",
+            "text": "7 days easy return",
             "usp_bg": "rgba(0,0,0,0)",
             "usp_text_color": "#0c4168",
             "usp_icon_color": "#32ff00"
@@ -35,7 +35,7 @@
         "usp_nhqWBG": {
           "type": "usp",
           "settings": {
-            "text": "Free shipping About 2500",
+            "text": "Welcome to blue minded people store",
             "usp_bg": "rgba(0,0,0,0)",
             "usp_text_color": "#0c4168",
             "usp_icon_color": "#32ff00"

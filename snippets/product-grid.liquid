@@ -56,9 +56,9 @@
         }
     {% endcase %}
 
-    /* When zoomed out, fit as many 100px-wide columns as possible */
+    /* When zoomed out (dense 8-column grid), set 8 columns per row on desktop */
     .product-grid--{{ section.id }}[product-grid-view='zoom-out'] {
-      --product-grid-columns-desktop: repeat(auto-fill, minmax(6.25rem, 1fr));
+      --product-grid-columns-desktop: repeat(8, minmax(0, 1fr));
     }
 
     .product-grid--{{ section.id }}[product-grid-view='zoom-out'] .product-grid-view-zoom-out--details {

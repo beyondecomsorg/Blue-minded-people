@@ -142,7 +142,7 @@
   id="header-component"
   class="header"
   data-template-name="{{ template.name }}"
-  data-enable-transparent-home="{{ section.settings.enable_transparent_header_home | default: true }}"
+  data-enable-transparent-home="true"
   data-transparent-text-color="{{ section.settings.transparent_header_text_color | default: 'dark' }}"
   data-scroll-threshold="{{ section.settings.scroll_threshold | default: 80 }}"
   {% if section.settings.enable_sticky_header == 'always' %}
@@ -1446,9 +1446,8 @@
 
     /* Transparent state style */
     body #header-component.header[transparent].header--transparent {
-      position: relative !important;
-      top: auto !important;
-  
+      position: absolute !important;
+      top: 0 !important;
       left: 0 !important;
       width: 100% !important;
       background-color: transparent !important;

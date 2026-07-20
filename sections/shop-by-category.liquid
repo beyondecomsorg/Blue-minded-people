@@ -32,6 +32,7 @@
   }
 
   .sbc-card {
+    position: relative;
     border: 1.5px solid var(--color-border-grey);
     background: var(--color-off-white);
     display: flex;
@@ -41,7 +42,14 @@
     text-align: center;
   }
 
+  .sbc-card-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
   .sbc-card-img {
+    position: relative;
     width: 100%;
     aspect-ratio: {{ section.settings.image_ratio }};
     overflow: hidden;
@@ -153,22 +161,23 @@
 
   <div class="sbc-grid{% if section.settings.enable_carousel_mobile %} sbc-grid--carousel-mobile{% endif %}">
     {% for product in collections[section.settings.featured_collection].products limit: section.settings.products_to_show %}
-      <a
-        href="{{ product.url }}"
-        class="sbc-card"
-      >
+      <div class="sbc-card">
+        <a href="{{ product.url }}" class="sbc-card-link" aria-label="{{ product.title }}"></a>
         <div class="sbc-card-img">
           {% if product.featured_image != blank %}
             {{ product.featured_image | image_url: width: 600 | image_tag: alt: product.title, loading: 'lazy', width: 600, height: 750 }}
           {% else %}
             {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
           {% endif %}
+          <div class="product-card__wishlist">
+            {% render 'hulkapps-wishlist-collection-btn', productId: product.id, variantId: product.selected_or_first_available_variant.id %}
+          </div>
         </div>
         <div class="sbc-card-body">
           <p class="sbc-card-title">{{ product.title }}</p>
           <span class="sbc-card-btn">Shop Now</span>
         </div>
-      </a>
+      </div>
     {% else %}
       {% if request.design_mode %}
         <div class="sbc-placeholder-message" style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--color-deep-navy); font-family: var(--font-body--family);">

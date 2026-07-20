@@ -910,16 +910,7 @@
     --header-height: var(--global-header-height) !important;
   }
 
-  /* Enforce height constraints and centering */
- body.template-index #header-component,
-  body.template-index .header,
-   body.template-index .header__row,
-   body.template-index .header__columns {
-    height: var(--global-header-height) !important;
-    min-height: var(--global-header-height) !important;
-    max-height: var(--global-header-height) !important;
-    box-sizing: border-box !important;
-  }
+  /* Enforce flex layout and centering */
   .header,
   .header__row,
   .header__columns {
