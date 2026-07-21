@@ -271,6 +271,46 @@
     import { RecentlyViewed } from '@theme/recently-viewed-products';
     RecentlyViewed.addProduct('{{ product.id }}');
   </script>
+  <script>
+    (function() {
+      try {
+        const STORAGE_KEY = 'bmp_recently_viewed';
+        const MAX_ITEMS = 12;
+        const currentProduct = {
+          id: {{ product.id | json }},
+          handle: {{ product.handle | json }},
+          title: {{ product.title | json }},
+          vendor: {{ product.vendor | default: shop.name | json }},
+          url: {{ product.url | json }},
+          image: {{ product.featured_image | image_url: width: 600 | json }},
+          price: {{ product.price | money | json }},
+          compare_at_price: {% if product.compare_at_price > product.price %}{{ product.compare_at_price | money | json }}{% else %}null{% endif %},
+          badge: {% liquid
+            assign b_text = ''
+            for tag in product.tags
+              assign t_lower = tag | downcase
+              if t_lower contains 'badge:'
+                assign b_text = tag | remove: 'badge:' | strip
+              elsif t_lower == 'exclusive' or t_lower contains 'more sizes'
+                assign b_text = tag | strip
+              endif
+            endfor
+            echo b_text | json
+          %}
+        };
+
+        let items = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        items = items.filter(function(item) {
+          return item && item.handle !== currentProduct.handle && item.id !== currentProduct.id;
+        });
+        items.unshift(currentProduct);
+        items = items.slice(0, MAX_ITEMS);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+      } catch (e) {
+        console.warn('BMP Recently Viewed Tracking Error:', e);
+      }
+    })();
+  </script>
 {% endif %}
 
 <script

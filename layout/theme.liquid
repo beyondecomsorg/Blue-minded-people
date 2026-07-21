@@ -93,10 +93,21 @@
   font-display: swap;
 }
 
+/* Load Acumin Pro Custom Font */
+@font-face {
+  font-family: 'Acumin Pro';
+  src: url('https://cdn.shopify.com/s/files/1/0839/6406/8090/files/Acumin-ItPro.woff?v=1784651876') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* 2. Global Custom Properties */
 :root {
   --font-heading: 'Canela', 'Freight Display', Georgia, serif;
   --font-body: 'Inter', system-ui, sans-serif;
+  --font-homepage-heading: 'Acumin Pro', sans-serif;
+  --font-homepage-body: 'Acumin Pro', sans-serif;
 
   /* Propagate to Shopify theme tokens */
   --font-heading--family: var(--font-heading) !important;
@@ -108,6 +119,56 @@
   --font-h4--family: var(--font-heading) !important;
   --font-h5--family: var(--font-heading) !important;
   --font-h6--family: var(--font-heading) !important;
+}
+
+/* Homepage-Scoped Typography Overrides (index.liquid / main#MainContent only) */
+body.template-index main#MainContent {
+  --font-heading: var(--font-homepage-heading);
+  --font-body: var(--font-homepage-body);
+  --font-heading--family: var(--font-homepage-heading) !important;
+  --font-body--family: var(--font-homepage-body) !important;
+  --font-paragraph--family: var(--font-homepage-body) !important;
+  --font-h1--family: var(--font-homepage-heading) !important;
+  --font-h2--family: var(--font-homepage-heading) !important;
+  --font-h3--family: var(--font-homepage-heading) !important;
+  --font-h4--family: var(--font-homepage-heading) !important;
+  --font-h5--family: var(--font-homepage-heading) !important;
+  --font-h6--family: var(--font-homepage-heading) !important;
+  font-family: var(--font-homepage-body) !important;
+}
+
+body.template-index main#MainContent h1,
+body.template-index main#MainContent h2,
+body.template-index main#MainContent h3,
+body.template-index main#MainContent h4,
+body.template-index main#MainContent h5,
+body.template-index main#MainContent h6,
+body.template-index main#MainContent .h1,
+body.template-index main#MainContent .h2,
+body.template-index main#MainContent .h3,
+body.template-index main#MainContent .h4,
+body.template-index main#MainContent .h5,
+body.template-index main#MainContent .h6,
+body.template-index main#MainContent p,
+body.template-index main#MainContent span,
+body.template-index main#MainContent a,
+body.template-index main#MainContent li,
+body.template-index main#MainContent button,
+body.template-index main#MainContent input,
+body.template-index main#MainContent label,
+body.template-index main#MainContent select,
+body.template-index main#MainContent textarea,
+body.template-index main#MainContent div,
+body.template-index main#MainContent .editorial-headline,
+body.template-index main#MainContent .hero-title,
+body.template-index main#MainContent .section-title,
+body.template-index main#MainContent .display-text,
+body.template-index main#MainContent .product-title,
+body.template-index main#MainContent .price,
+body.template-index main#MainContent .card-title,
+body.template-index main#MainContent .button,
+body.template-index main#MainContent .rte {
+  font-family: var(--font-homepage-body) !important;
 }
 
 /* 3. Global CSS Applications */

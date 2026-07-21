@@ -55,7 +55,7 @@
             "eyebrow": "",
             "heading": "",
             "subtext": "",
-            "btn1_label": "Shop",
+            "btn1_label": "Shop Now",
             "btn1_link": "shopify://collections/shirts",
             "btn1_new_tab": false,
             "btn1_custom_bg": "",
@@ -156,7 +156,7 @@
           "type": "product_card",
           "settings": {
             "product_image": "shopify://shop_images/Artboard_12_2x_616ac5a4-f1a7-447d-bb20-23466b676da4.png",
-            "brand_name": "NON DENIM",
+            "brand_name": "TROUSERS",
             "product_url": "shopify://collections/all"
           }
         },
@@ -359,8 +359,8 @@
         "slide_4dzwef": {
           "type": "slide",
           "settings": {
-            "image_desktop": "shopify://shop_images/Artboard_1_copy_2x_4432fa96-b76e-402b-b858-7f80c8963802.png",
-            "image_mobile": "shopify://shop_images/Artboard_2_copy_2x_342c01dc-72e8-4d47-b48e-833382eed36e.png",
+            "image_desktop": "shopify://shop_images/T_Shirt_PLP_WEB.png",
+            "image_mobile": "shopify://shop_images/T_Shirt_PLP.png",
             "link": "shopify://collections/all",
             "open_in_new_tab": false,
             "heading": "",
@@ -401,7 +401,7 @@
       "type": "shop-by-category",
       "name": "Shop By Category",
       "settings": {
-        "heading": "SHOP By TShirts",
+        "heading": "CURATED T-SHIRT",
         "heading_size": 28,
         "heading_gap": 28,
         "heading_color": "#0b1f33",
@@ -547,7 +547,7 @@
       "type": "shop-by-category",
       "name": "Shop By Category",
       "settings": {
-        "heading": "SHOP By Bottom wear",
+        "heading": "Engineered Bottoms",
         "heading_size": 28,
         "heading_gap": 28,
         "heading_color": "#0b1f33",
@@ -757,7 +757,7 @@
           "settings": {
             "card_image": "shopify://shop_images/Artboard_11_2x_c13c5db6-922d-48a3-93ee-4e834c9f7b62.png",
             "card_title": "Solids",
-            "card_subtitle": "NEW - Save up to 30%!",
+            "card_subtitle": "Premium Quality",
             "card_url": ""
           }
         },
@@ -780,7 +780,7 @@
       ],
       "name": "Fabric Category Carousel",
       "settings": {
-        "heading": "SHOP SHIRT FABRIC BY CATEGORY",
+        "heading": "THE ART OF SHIRTING",
         "subheading": "Explore premium shirt fabrics tailored for every style and occasion.",
         "heading_size": 36,
         "subheading_size": 15,
@@ -1337,7 +1337,7 @@
         "heading": "ABOUT US",
         "body_text": "Where Craftsmanship Meets Innovation\nAt Blue Minded People, every garment begins its journey at our state-of-the-art manufacturing facility in Doddaballapur, Karnataka, India. Established in 2010, our fully integrated production ecosystem brings together advanced technology, skilled craftsmanship, and responsible manufacturing practices to create premium denim and apparel for global fashion markets.\nBuilt on a foundation of quality, precision, and innovation, our facility manages every stage of the production process under one roof. From fabric preparation and garment construction to washing, finishing, quality assurance, and warehousing, each step is carefully monitored to ensure exceptional consistency and product excellence.",
         "cta_text": "OUR STORY",
-        "cta_url": "",
+        "cta_url": "shopify://pages/about-us",
         "section_font": "sans_serif_n4",
         "heading_color": "#ffffff",
         "heading_size": 40,
@@ -1611,7 +1611,7 @@
         "feature_crXfrc": {
           "type": "feature",
           "settings": {
-            "title": "Built to last: Every Detail, Built to Last.",
+            "title": "Built to last: Every Detail.",
             "text": ""
           }
         },

@@ -217,6 +217,9 @@
           </search-button>
         {%- endif -%}
 
+        <!-- Wishlist heart icon -->
+        {% render 'hulkapps-wishlist-header-icon' %}
+
         {%- if section.settings.show_country or section.settings.show_language -%}
           <div class="header__localization-wrapper mobile:hidden">
             {{ localization_markup }}
@@ -250,13 +253,10 @@
         </a>
       </div>
 
-      <!-- Right: Wishlist, Account, Cart -->
+      <!-- Right: Account, Cart -->
       <div class="header__main-right">
         <header-actions class="header-actions-wrapper">
           <span ref="liveRegion" class="visually-hidden" role="status"></span>
-
-          <!-- Wishlist heart icon -->
- {% render 'hulkapps-wishlist-header-icon' %}
 
           <!-- Account -->
           {%- if shop.customer_accounts_enabled -%}
@@ -764,13 +764,8 @@
   }
 
   .header-actions__cart-icon.header-actions__cart-icon--has-cart svg {
-    /* Create donut mask where the cart bubble sits */
-    mask: radial-gradient(
-      calc(var(--cart-bubble-size) + 2px) at calc(100% - var(--cart-bubble-right)) var(--cart-bubble-top),
-      transparent 45.45%,
-      #fff 45.45%,
-      #fff 100%
-    );
+    mask: none !important;
+    -webkit-mask: none !important;
   }
 
   .cart-drawer__heading .cart-bubble .cart-bubble__background {
@@ -1018,6 +1013,9 @@
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
+    justify-self: center !important;
+    width: 100% !important;
+    text-align: center !important;
   }
 
   body #header-component.header .header-logo-link {
@@ -1106,16 +1104,48 @@
     }
 
     body #header-component.header .header__main-container {
-      padding-inline: 10px !important;
+      padding-inline: 16px !important;
       padding-top: 6px !important;
       padding-bottom: 6px !important;
+      align-items: center !important;
+      align-content: center !important;
     }
 
     body #header-component.header .header__main-left,
+    body #header-component.header .header__main-center,
     body #header-component.header .header__main-right,
     body #header-component.header .header-actions-wrapper {
       gap: 10px !important;
+      display: flex !important;
       align-items: center !important;
+      align-content: center !important;
+      overflow: visible !important;
+    }
+
+    /* Intermediate wrapper elements vertical centering normalization */
+    body #header-component.header .header__mobile-menu-trigger,
+    body #header-component.header header-drawer,
+    body #header-component.header details,
+    body #header-component.header summary,
+    body #header-component.header search-button,
+    body #header-component.header .search-action,
+    body #header-component.header .header__wishlist-wrapper,
+    body #header-component.header .hulk-wishlist-icon,
+    body #header-component.header .hulk-header-icon,
+    body #header-component.header shopify-account,
+    body #header-component.header .account-button,
+    body #header-component.header cart-drawer-component,
+    body #header-component.header .header-cart-icon-wrapper,
+    body #header-component.header .svg-wrapper {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      align-content: center !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      line-height: 1 !important;
+      vertical-align: middle !important;
+      overflow: visible !important;
     }
 
     /* Uniform icon wrapper dimensions on mobile */
@@ -1123,15 +1153,22 @@
     body #header-component.header .wishlist-button,
     body #header-component.header .header-icon-link,
     body #header-component.header .account-button,
-    body #header-component.header .search-action button {
+    body #header-component.header .search-action button,
+    body #header-component.header summary.header__icon,
+    body #header-component.header .hulk-wishlist-icon,
+    body #header-component.header .hulk-header-icon {
       padding: 2px !important;
       width: 22px !important;
       height: 22px !important;
       min-width: 22px !important;
       min-height: 22px !important;
+      box-sizing: border-box !important;
       display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
+      line-height: 1 !important;
+      margin: 0 !important;
+      overflow: visible !important;
     }
 
     /* Match cart, search, wishlist, and hamburger SVG icon sizes & stroke weight to account icon */
@@ -1142,26 +1179,121 @@
     body #header-component.header .account-button svg,
     body #header-component.header .icon-cart,
     body #header-component.header .search-action svg,
-    body #header-component.header .header-drawer-toggle svg {
+    body #header-component.header .header-drawer-toggle svg,
+    body #header-component.header summary svg,
+    body #header-component.header .icon-wishlist-heart-empty {
       width: 20px !important;
       height: 20px !important;
       min-width: 20px !important;
       min-height: 20px !important;
       stroke-width: 1.65 !important;
+      font-size: 20px !important;
+      display: block !important;
+      margin: 0 auto !important;
+      vertical-align: middle !important;
+      line-height: 1 !important;
     }
 
-    /* Increase logo size on mobile to make it prominent and clear */
+    body #header-component.header .icon-wishlist-heart-empty,
+    body #header-component.header .hulk-wishlist-icon i,
+    body #header-component.header .hulk-header-icon i {
+      vertical-align: middle !important;
+      line-height: 1 !important;
+      margin: 0 !important;
+      display: inline-block !important;
+    }
+
+    /* Logo link and image/text vertical alignment on mobile */
+    body #header-component.header .header-logo-link {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-decoration: none !important;
+      line-height: 1 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
     body #header-component.header .header-logo-img {
       max-height: 48px !important;
       height: 48px !important;
       width: auto !important;
+      display: block !important;
+      margin: 0 auto !important;
     }
 
     body #header-component.header .header-logo-text {
       font-size: 25px !important;
       font-weight: 800 !important;
       letter-spacing: 0.06em !important;
-      line-height: 1.1 !important;
+      line-height: 1 !important;
+      display: inline-block !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      vertical-align: middle !important;
+    }
+
+    /* Premium Universal Header Cart Count Badge (Desktop & Mobile) */
+    body #header-component.header .header-actions__action,
+    body #header-component.header .header-cart-icon-wrapper,
+    body #header-component.header cart-icon,
+    body #header-component.header .header-actions__cart-icon {
+      position: relative !important;
+      overflow: visible !important;
+    }
+
+    body #header-component.header .cart-bubble {
+      position: absolute !important;
+      top: -4px !important;
+      right: -3px !important;
+      z-index: 25 !important;
+      min-width: 17px !important;
+      height: 17px !important;
+      padding: 0 4px !important;
+      border-radius: 99px !important;
+      background-color: var(--color-copper-rivet, #B87333) !important;
+      color: #FFFFFF !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-align: center !important;
+      box-sizing: border-box !important;
+      pointer-events: none !important;
+      overflow: visible !important;
+      aspect-ratio: auto !important;
+      box-shadow: 0 0 0 1.5px #FFFFFF, 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    body #header-component.header .cart-bubble .cart-bubble__background {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      background-color: var(--color-copper-rivet, #B87333) !important;
+      border-radius: 99px !important;
+    }
+
+    body #header-component.header .cart-bubble .cart-bubble__text,
+    body #header-component.header .cart-bubble .cart-bubble__text-count {
+      position: relative !important;
+      z-index: 2 !important;
+      color: #FFFFFF !important;
+      font-family: var(--font-body, 'Inter', sans-serif) !important;
+      font-size: 10px !important;
+      font-weight: 700 !important;
+      line-height: 1 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-align: center !important;
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    body #header-component.header .cart-bubble.visually-hidden {
+      display: none !important;
     }
   }
 

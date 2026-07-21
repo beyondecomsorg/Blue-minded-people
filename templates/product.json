@@ -845,11 +845,20 @@
         "gap_icon_text": 16,
         "gap_columns": 40
       }
+    },
+    "recently_viewed": {
+      "type": "recently-viewed",
+      "settings": {
+        "enable_section": true,
+        "heading": "RECENTLY VIEWED",
+        "max_products": 8
+      }
     }
   },
   "order": [
     "product-information",
     "related_products_carousel",
+    "recently_viewed",
     "pdp_trust_scroll_strip",
     "product_recommendations_UeDczP",
     "collection_list_RGddHj",
