@@ -401,7 +401,7 @@
       "type": "shop-by-category",
       "name": "Shop By Category",
       "settings": {
-        "heading": "CURATED T-SHIRT",
+        "heading": "CURATED T-SHIRTS",
         "heading_size": 28,
         "heading_gap": 28,
         "heading_color": "#0b1f33",
