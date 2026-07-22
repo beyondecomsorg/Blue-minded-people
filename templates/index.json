@@ -361,7 +361,7 @@
           "settings": {
             "image_desktop": "shopify://shop_images/T_Shirt_PLP_WEB.png",
             "image_mobile": "shopify://shop_images/T_Shirt_PLP.png",
-            "link": "shopify://collections/all",
+            "link": "shopify://collections/t-shirts",
             "open_in_new_tab": false,
             "heading": "",
             "subheading": "",
