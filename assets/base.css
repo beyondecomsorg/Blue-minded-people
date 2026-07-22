@@ -5406,39 +5406,58 @@ dialog.quick-add-modal .quick-add-modal__close:hover svg {
 /* Adjust button heights inside product forms globally */
 .buy-buttons-block .add-to-cart-button,
 .buy-buttons-block .shopify-payment-button__button,
+.buy-buttons-block .shopify-payment-button__button--unbranded,
 .buy-buttons-block .pdp-wishlist-btn,
+.product-details .add-to-cart-button,
+.product-details .shopify-payment-button__button,
 .product-details .pdp-wishlist-btn,
 .product-details .hulkapps-wishlist-icon-btn-wrapper button.hulkapps-wishlist-btn,
 .product-details .hulkapps-wishlist-icon-btn-wrapper a.hulkapps-wishlist-btn {
-  height: 42px;
-  padding-block: 8px;
-  font-size: 13px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  padding-block: 0 !important;
+  padding-inline: 16px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: var(--style-border-radius-buttons-primary, 4px) !important;
+  box-sizing: border-box !important;
+  line-height: 1 !important;
 }
 
 @media screen and (max-width: 749px) {
   .buy-buttons-block .add-to-cart-button,
   .buy-buttons-block .shopify-payment-button__button,
+  .buy-buttons-block .shopify-payment-button__button--unbranded,
   .buy-buttons-block .pdp-wishlist-btn,
+  .product-details .add-to-cart-button,
+  .product-details .shopify-payment-button__button,
   .product-details .pdp-wishlist-btn,
   .product-details .hulkapps-wishlist-icon-btn-wrapper button.hulkapps-wishlist-btn,
   .product-details .hulkapps-wishlist-icon-btn-wrapper a.hulkapps-wishlist-btn {
-    height: 38px;
-    padding-block: 6px;
-    font-size: 12px;
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+    font-size: 13px !important;
+    padding-block: 0 !important;
   }
 }
 
 /* Sleeker, user-friendly Quantity Selector (PDP & Quick Add Modal) */
 .product-details .quantity-selector,
-.quick-add-modal .quantity-selector {
+.quick-add-modal .quantity-selector,
+.buy-buttons-block .quantity-selector {
   width: 130px;
   max-width: 130px;
   min-width: 130px;
-  height: 40px;
-  min-height: 40px;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
   flex: 0 0 130px;
   display: inline-flex;
   align-items: center;
@@ -5449,12 +5468,24 @@ dialog.quick-add-modal .quick-add-modal__close:hover svg {
   box-sizing: border-box;
 }
 
+@media screen and (max-width: 749px) {
+  .product-details .quantity-selector,
+  .quick-add-modal .quantity-selector,
+  .buy-buttons-block .quantity-selector {
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+  }
+}
+
 .product-details .quantity-selector .quantity-minus,
 .product-details .quantity-selector .quantity-plus,
 .quick-add-modal .quantity-selector .quantity-minus,
-.quick-add-modal .quantity-selector .quantity-plus {
+.quick-add-modal .quantity-selector .quantity-plus,
+.buy-buttons-block .quantity-selector .quantity-minus,
+.buy-buttons-block .quantity-selector .quantity-plus {
   width: 36px;
-  height: 36px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;

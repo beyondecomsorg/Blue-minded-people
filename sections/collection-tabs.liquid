@@ -28,6 +28,7 @@
       background-color: {{ section.settings.bg_color }};
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
+      position: relative;
     }
 
     .ct-container {
@@ -38,37 +39,135 @@
 
     .collection-tabs-wrapper {
       display: flex;
-      align-items: flex-start;
-      gap: 20px;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      scrollbar-width: none; /* Firefox */
-      -webkit-overflow-scrolling: touch;
+      flex-direction: column;
+      gap: 36px;
       width: 100%;
     }
 
-    .collection-tabs-wrapper::-webkit-scrollbar {
-      display: none; /* Chrome/Safari */
+    /* 1. TOP HORIZONTAL THUMBNAIL STRIP */
+    .collection-tabs-thumbnail-strip {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      padding: 8px 4px 16px 4px;
+      width: 100%;
     }
 
-    .collection-tabs-active-panes {
-      flex: 0 0 auto;
-      min-width: 0;
+    .collection-tabs-thumbnail-strip::-webkit-scrollbar {
+      display: none;
+    }
+
+    .collection-tab-thumb {
+      background: #ffffff;
+      border: 1px solid #E5E7EB;
+      border-radius: 12px;
+      padding: 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
       position: relative;
+      transition: border-color 0.35s ease, background-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+      flex: 0 0 180px;
+      width: 180px;
+      scroll-margin: 20px;
+    }
+
+    .collection-tab-thumb-icon {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: var(--color-off-white, #f9fafb);
+      border: 1px solid #F3F4F6;
+    }
+
+    .collection-tab-thumb-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s ease;
+    }
+
+    .thumb-label {
+      font-family: var(--font-body--family, var(--font-body, 'Inter', sans-serif));
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-deep-navy, #0B1F33);
+      text-align: center;
+      transition: color 0.35s ease;
+    }
+
+    /* Thumbnail Hover State */
+    .collection-tab-thumb:hover {
+      border-color: var(--color-copper-rivet, #b87333);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .collection-tab-thumb:hover .collection-tab-thumb-icon img {
+      transform: scale(1.08);
+    }
+
+    .collection-tab-thumb:hover .thumb-label {
+      color: var(--color-copper-rivet, #b87333);
+    }
+
+    /* Stronger Active Thumbnail State */
+    .collection-tab-thumb.is-active {
+      background-color: #ffffff;
+      border: 1.5px solid var(--color-copper-rivet, #b87333) !important;
+      box-shadow: 0 8px 24px rgba(184, 115, 51, 0.18);
+      transform: scale(1.03);
+    }
+
+    .collection-tab-thumb.is-active .thumb-label {
+      color: var(--color-copper-rivet, #b87333);
+      font-weight: 700;
+    }
+
+    .collection-tab-thumb.is-active::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 2px;
+      background-color: var(--color-copper-rivet, #b87333);
+      border-radius: 2px;
+    }
+
+    .collection-tab-thumb.is-active:hover {
+      transform: translateY(-4px) scale(1.03);
+    }
+
+    /* 2. BOTTOM ACTIVE PANES (IMAGE LEFT, CONTENT RIGHT) */
+    .collection-tabs-active-panes {
+      position: relative;
+      width: 100%;
     }
 
     .collection-tabs-active-pane {
-      display: flex;
-      align-items: center;
-      gap: 20px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
       opacity: 0;
       visibility: hidden;
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
+      height: 100%;
       pointer-events: none;
+      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
     }
 
     .collection-tabs-active-pane.is-active {
@@ -78,25 +177,31 @@
       pointer-events: auto;
     }
 
+    @media screen and (min-width: 750px) {
+      .collection-tabs-active-pane {
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 48px;
+      }
+    }
+
+    /* Left Active Image Card */
     .collection-tabs-active-image-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 220px;
-      flex: 0 0 220px;
+      width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      background-color: #ffffff;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+      border: 1px solid #E5E7EB;
+      aspect-ratio: 4 / 4.2;
+      position: relative;
     }
 
     .collection-tabs-active-image {
       width: 100%;
-      height: 220px;
-      border: 1.5px solid var(--color-copper-rivet, #b87333);
-      background-color: var(--color-off-white, #fcfcfc);
+      height: 100%;
       overflow: hidden;
-      aspect-ratio: 1 / 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+      position: relative;
     }
 
     .collection-tabs-active-image img {
@@ -104,129 +209,135 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      transform: scale(1.05);
+      opacity: 0;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
     }
 
+    .collection-tabs-active-pane.is-active .collection-tabs-active-image img {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    /* Right Active Content (Text on Right Side) */
     .collection-tabs-active-content {
-      flex: 0 0 auto;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 0 24px;
-      font-family: var(--font-body--family);
-      font-size: 15px;
-      line-height: 1.6;
-      color: var(--color-deep-navy, #111111);
-      max-width: 280px;
       text-align: left;
+      font-family: var(--font-body--family, var(--font-body, 'Inter', sans-serif));
+      padding-right: 20px;
     }
 
-    .collection-tabs-thumbnail-strip {
-      display: flex;
-      gap: 20px;
-      flex-wrap: nowrap;
-      flex: 0 0 auto;
-    }
-
-    .collection-tab-thumb {
-      background: none;
-      border: none;
-      padding: 0;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 220px;
-      flex: 0 0 220px;
-      text-decoration: none;
-    }
-
-    .collection-tab-thumb.is-active .collection-tab-thumb-icon {
-      border-color: var(--color-copper-rivet, #b87333);
-      box-shadow: 0 0 0 1px var(--color-copper-rivet, #b87333);
-    }
-
-    .collection-tab-thumb.is-active .thumb-label {
-      color: var(--color-copper-rivet, #b87333);
-    }
-
-    .collection-tab-thumb-icon {
-      width: 100%;
-      height: 220px;
-      border: 1.5px solid var(--color-border-grey, #dddddd);
-      background-color: var(--color-off-white, #fcfcfc);
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
-      aspect-ratio: 1 / 1;
-    }
-
-    .collection-tab-thumb-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .active-label,
-    .thumb-label {
-      font-family: var(--font-body--family);
+    .collection-tabs-tag {
+      font-family: var(--font-body--family, var(--font-body, 'Inter', sans-serif));
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      text-align: center;
+      color: var(--color-copper-rivet, #b87333);
+      margin-bottom: 10px;
       display: block;
-      margin-top: 12px;
     }
 
-    .thumb-label {
-      color: var(--color-deep-navy, #111111);
-      transition: color 0.25s ease;
+    .collection-tabs-active-heading {
+      font-family: var(--font-heading--family, var(--font-heading, 'Inter', sans-serif));
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--color-deep-navy, #0B1F33);
+      margin: 0 0 18px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      transform: translateY(16px);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.05s, opacity 0.35s ease 0.05s;
     }
 
-    .active-label {
-      color: var(--color-copper-rivet, #b87333);
+    .collection-tabs-active-pane.is-active .collection-tabs-active-heading {
+      transform: translateY(0);
+      opacity: 1;
     }
 
-    /* Hover States for Thumbnails */
-    .collection-tab-thumb:hover .collection-tab-thumb-icon {
-      border-color: var(--color-copper-rivet, #b87333);
+    .collection-tabs-active-description {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--color-charcoal-grey, #4B5563);
+      margin: 0 0 28px 0;
+      transform: translateY(12px);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.35s ease 0.1s;
     }
 
-    .collection-tab-thumb:hover .thumb-label {
-      color: var(--color-copper-rivet, #b87333);
+    .collection-tabs-active-pane.is-active .collection-tabs-active-description {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Optional CTA Button */
+    .collection-tabs-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      padding: 14px 28px;
+      background-color: var(--color-deep-navy, #0B1F33);
+      color: #ffffff !important;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 14px rgba(11, 31, 51, 0.15);
+      transform: translateY(8px);
+      opacity: 0;
+    }
+
+    .collection-tabs-active-pane.is-active .collection-tabs-cta {
+      transform: translateY(0);
+      opacity: 1;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, opacity 0.35s ease 0.15s, background-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .collection-tabs-cta:hover {
+      background-color: var(--color-copper-rivet, #b87333);
+      color: #ffffff !important;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(184, 115, 51, 0.25);
+    }
+
+    .collection-tabs-cta svg {
+      transition: transform 0.25s ease;
+    }
+
+    .collection-tabs-cta:hover svg {
+      transform: translateX(4px);
+    }
+
+    @media screen and (max-width: 749px) {
+      .collection-tab-thumb {
+        flex: 0 0 150px;
+        width: 150px;
+        padding: 8px;
+      }
+      .thumb-label {
+        font-size: 11px;
+      }
+      .collection-tabs-active-content {
+        padding-right: 0;
+      }
+      .collection-tabs-active-image-container {
+        aspect-ratio: 1 / 1;
+      }
     }
   </style>
 
   <div id="CollectionTabs-{{ section.id }}">
     <div class="ct-container">
       <div class="collection-tabs-wrapper">
-        <div class="collection-tabs-active-panes">
-          {% for img in images_list limit: shortest_size %}
-            {% assign idx = forloop.index0 %}
-            {% assign txt = text_list[idx] %}
-            {% assign desc = description_list[idx] %}
-            <div 
-              class="collection-tabs-active-pane{% if forloop.first %} is-active{% endif %}" 
-              data-pane-index="{{ idx }}"
-            >
-              <div class="collection-tabs-active-image-container">
-                <div class="collection-tabs-active-image">
-                  {% if img != blank %}
-                    {{ img | image_url: width: 600 | image_tag: loading: 'lazy', alt: txt }}
-                  {% endif %}
-                </div>
-                <span class="active-label">{{ txt }}</span>
-              </div>
-              <div class="collection-tabs-active-content">
-                {{ desc }}
-              </div>
-            </div>
-          {% endfor %}
-        </div>
-
+        <!-- 1. TOP HORIZONTAL THUMBNAIL STRIP -->
         <div class="collection-tabs-thumbnail-strip">
           {% for img in images_list limit: shortest_size %}
             {% assign idx = forloop.index0 %}
@@ -246,6 +357,46 @@
             </button>
           {% endfor %}
         </div>
+
+        <!-- 2. BOTTOM ACTIVE PANES: LEFT IMAGE, RIGHT CONTENT -->
+        <div class="collection-tabs-active-panes">
+          {% for img in images_list limit: shortest_size %}
+            {% assign idx = forloop.index0 %}
+            {% assign txt = text_list[idx] %}
+            {% assign desc = description_list[idx] %}
+            <div 
+              class="collection-tabs-active-pane{% if forloop.first %} is-active{% endif %}" 
+              data-pane-index="{{ idx }}"
+            >
+              <!-- LEFT: Large Active Image -->
+              <div class="collection-tabs-active-image-container">
+                <div class="collection-tabs-active-image">
+                  {% if img != blank %}
+                    {{ img | image_url: width: 1000 | image_tag: loading: 'lazy', alt: txt }}
+                  {% endif %}
+                </div>
+              </div>
+
+              <!-- RIGHT: Active Description & Text -->
+              <div class="collection-tabs-active-content">
+                <span class="collection-tabs-tag">COLLECTION EXPLORER</span>
+                <h2 class="collection-tabs-active-heading">{{ txt }}</h2>
+                <div class="collection-tabs-active-description">
+                  {{ desc }}
+                </div>
+                {% if collection.url != blank %}
+                  <a href="{{ collection.url }}" class="collection-tabs-cta">
+                    <span>Explore Collection</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>
@@ -258,6 +409,23 @@
 
         const thumbs = wrapper.querySelectorAll('.collection-tab-thumb');
         const panes = wrapper.querySelectorAll('.collection-tabs-active-pane');
+
+        function scrollToActive(activeThumb) {
+          if (!activeThumb) return;
+          requestAnimationFrame(() => {
+            activeThumb.scrollIntoView({
+              behavior: 'smooth',
+              inline: 'center',
+              block: 'nearest'
+            });
+          });
+        }
+
+        // Scroll active thumbnail on load
+        const initialActive = wrapper.querySelector('.collection-tab-thumb.is-active');
+        if (initialActive) {
+          scrollToActive(initialActive);
+        }
 
         thumbs.forEach(thumb => {
           thumb.addEventListener('click', function() {
@@ -275,6 +443,9 @@
             if (targetPane) {
               targetPane.classList.add('is-active');
             }
+
+            // Smoothly scroll active thumbnail into visible viewport of strip
+            scrollToActive(this);
           });
         });
       }
