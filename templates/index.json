@@ -684,7 +684,7 @@
         "blurred_reflection": false,
         "reflection_opacity": 75,
         "padding_top": 0,
-        "padding_bottom": 12,
+        "padding_bottom": 28,
         "padding_top_mobile": 0,
         "padding_bottom_mobile": 4
       }
