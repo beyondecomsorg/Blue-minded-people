@@ -148,7 +148,7 @@
           "type": "product_card",
           "settings": {
             "product_image": "shopify://shop_images/Artboard_9_2x_1.png",
-            "brand_name": "T-SHIRT",
+            "brand_name": "T-SHIRTS",
             "product_url": "shopify://collections/t-shirts"
           }
         },
