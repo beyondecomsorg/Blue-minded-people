@@ -148,7 +148,7 @@
           "type": "product_card",
           "settings": {
             "product_image": "shopify://shop_images/Artboard_9_2x_1.png",
-            "brand_name": "T-SHIRT",
+            "brand_name": "T-SHIRTS",
             "product_url": "shopify://collections/t-shirts"
           }
         },
@@ -548,9 +548,9 @@
         "slide_HnXGyY": {
           "type": "slide",
           "settings": {
-            "image_desktop": "shopify://shop_images/T_shir_1_Home_page_Web.png",
-            "image_mobile": "shopify://shop_images/T_shirt_1_Home_page_mobile.png",
-            "link": "shopify://collections/all",
+            "image_desktop": "shopify://shop_images/Artboard_1_copy_2x_4432fa96-b76e-402b-b858-7f80c8963802.png",
+            "image_mobile": "shopify://shop_images/Artboard_2_copy_2x_342c01dc-72e8-4d47-b48e-833382eed36e.png",
+            "link": "shopify://collections/t-shirts",
             "open_in_new_tab": false,
             "heading": "",
             "subheading": "",
@@ -562,7 +562,7 @@
           "settings": {
             "image_desktop": "shopify://shop_images/T_Shirt_PLP_WEB.png",
             "image_mobile": "shopify://shop_images/T_Shirt_PLP.png",
-            "link": "shopify://collections/all",
+            "link": "shopify://collections/t-shirts",
             "open_in_new_tab": false,
             "heading": "",
             "subheading": "",
@@ -602,7 +602,7 @@
       "type": "shop-by-category",
       "name": "Shop By Category",
       "settings": {
-        "heading": "CURATED T-SHIRT",
+        "heading": "CURATED T-SHIRTS",
         "heading_size": 28,
         "heading_gap": 28,
         "heading_color": "#0b1f33",
@@ -775,6 +775,119 @@
         "padding_bottom": 60,
         "padding_top_mobile": 0,
         "padding_bottom_mobile": 30
+      }
+    },
+    "hero_ycPdyQ": {
+      "type": "hero",
+      "blocks": {
+        "text_WcgxnT": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "<h2>New arrivals</h2>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "h1",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "text_f8iBTE": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "<p>Made with care and unconditionally loved by our customers.</p>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 32,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "button_3emzGe": {
+          "type": "button",
+          "name": "t:names.button",
+          "disabled": true,
+          "settings": {
+            "label": "Shop now",
+            "link": "shopify://collections/all",
+            "open_in_new_tab": false,
+            "style_class": "button",
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fit-content",
+            "custom_width_mobile": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_WcgxnT",
+        "text_f8iBTE",
+        "button_3emzGe"
+      ],
+      "name": "t:names.hero",
+      "settings": {
+        "media_type_1": "image",
+        "image_1": "shopify://shop_images/Shiort_Home_Page_Web.png",
+        "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": true,
+        "media_type_1_mobile": "image",
+        "image_1_mobile": "shopify://shop_images/Shirt_Home_Page_Mobile.png",
+        "media_type_2_mobile": "image",
+        "link": "shopify://collections/shirts",
+        "open_in_new_tab": false,
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "flex-start",
+        "gap": 16,
+        "section_width": "page-width",
+        "section_height": "auto",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-2",
+        "toggle_overlay": true,
+        "overlay_color": "#00000026",
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding_top": 0,
+        "padding_bottom": 28,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 4
       }
     },
     "shop_by_category_t6FniM": {
