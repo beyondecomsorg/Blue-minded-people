@@ -451,11 +451,15 @@ class FacetRemoveComponent extends Component {
     const url = this.dataset.url;
     if (!url) return;
 
-    const facetsForm = form ? document.getElementById(form) : this.closest('facets-form-component');
+    const facetsForm = form 
+      ? document.getElementById(form) 
+      : (this.closest('facets-form-component') || document.querySelector('facets-form-component'));
 
-    if (!(facetsForm instanceof FacetsFormComponent)) return;
-
-    facetsForm.updateFiltersByURL(url);
+    if (facetsForm && typeof facetsForm.updateFiltersByURL === 'function') {
+      facetsForm.updateFiltersByURL(url);
+    } else {
+      window.location.href = url;
+    }
   }
 
   /**

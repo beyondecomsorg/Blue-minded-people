@@ -30,6 +30,7 @@
         role="button"
         on:click="/removeFilter?form="
         on:keydown="/removeFilter?form="
+        onclick="event.preventDefault(); const form = this.closest('facets-form-component') || document.querySelector('facets-form-component'); if(form && typeof form.updateFiltersByURL === 'function'){ form.updateFiltersByURL(this.getAttribute('data-url')); } else { window.location.href = this.getAttribute('data-url'); }"
       >
         {%- if filter.min_value.value != null and filter.max_value.value != null %}
           {{- filter.min_value.value | money -}}
@@ -64,6 +65,7 @@
           role="button"
           on:click="/removeFilter?form="
           on:keydown="/removeFilter?form="
+          onclick="event.preventDefault(); const form = this.closest('facets-form-component') || document.querySelector('facets-form-component'); if(form && typeof form.updateFiltersByURL === 'function'){ form.updateFiltersByURL(this.getAttribute('data-url')); } else { window.location.href = this.getAttribute('data-url'); }"
         >
           {% if value.swatch %}
             {% render 'swatch', swatch: value.swatch, mode: 'pill' %}
@@ -87,15 +89,17 @@
     <facet-remove-component
       data-url="{{ results_url }}"
     >
-      <button
-        type="button"
+      <a
+        href="{{ results_url }}"
+        data-url="{{ results_url }}"
         class="button-unstyled facets__clear-all-link"
         ref="clearButton"
         on:click="/removeFilter?form="
         on:keydown="/removeFilter?form="
+        onclick="event.preventDefault(); const form = this.closest('facets-form-component') || document.querySelector('facets-form-component'); if(form && typeof form.updateFiltersByURL === 'function'){ form.updateFiltersByURL(this.getAttribute('data-url')); } else { window.location.href = this.getAttribute('data-url'); }"
       >
         {{- 'actions.clear_all' | t -}}
-      </button>
+      </a>
     </facet-remove-component>
   {% endif %}
 </div>

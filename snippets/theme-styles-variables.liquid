@@ -865,19 +865,31 @@
     --color-foreground: var(--ui-color-header-text) !important;
     color: var(--ui-color-header-text) !important;
   }
-  header-component a,
-  #header-component a,
-  header-component button,
-  #header-component button,
-  header-component summary,
-  #header-component summary,
-  header-component span,
-  #header-component span,
-  header-component svg,
-  #header-component svg {
+  header-component a:not(.cart-bubble, .cart-bubble *),
+  #header-component a:not(.cart-bubble, .cart-bubble *),
+  header-component button:not(.cart-bubble, .cart-bubble *),
+  #header-component button:not(.cart-bubble, .cart-bubble *),
+  header-component summary:not(.cart-bubble, .cart-bubble *),
+  #header-component summary:not(.cart-bubble, .cart-bubble *),
+  header-component span:not(.cart-bubble, .cart-bubble *),
+  #header-component span:not(.cart-bubble, .cart-bubble *),
+  header-component svg:not(.cart-bubble, .cart-bubble *),
+  #header-component svg:not(.cart-bubble, .cart-bubble *) {
     color: var(--ui-color-header-text) !important;
     --color-primary: var(--ui-color-header-text) !important;
     --color-foreground: var(--ui-color-header-text) !important;
+  }
+
+  /* Ensure Cart Bubble text count is always 100% visible bright white on black badge */
+  body .cart-bubble .cart-bubble__background {
+    background-color: #000000 !important;
+  }
+  body .cart-bubble,
+  body .cart-bubble *,
+  body .cart-bubble__text,
+  body .cart-bubble__text-count {
+    color: #FFFFFF !important;
+    fill: #FFFFFF !important;
   }
 
   /* Footer Overrides */

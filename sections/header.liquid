@@ -181,22 +181,61 @@
                 </span>
               </summary>
               <div ref="menuDrawer" class="menu-drawer color-{{ section.settings.color_scheme_bottom | default: 'scheme-5' }}">
-                <button class="button close-button menu-drawer__close-button" type="button" aria-label="Close" on:click="/close">
-                  <span class="svg-wrapper">
-                    {{- 'icon-close.svg' | inline_asset_content -}}
-                  </span>
-                </button>
+                <div class="menu-drawer__header">
+                  <span class="menu-drawer__title">MENU</span>
+                  <button class="button close-button menu-drawer__close-button button-unstyled" type="button" aria-label="Close" on:click="/close">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="icon icon-close">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+
                 <nav class="menu-drawer__navigation" aria-label="Navigation">
                   <ul class="menu-drawer__menu" role="list">
                     {%- for link in linklists[section.settings.menu].links -%}
-                      <li class="menu-drawer__item">
-                        <a href="{{ link.url }}" class="menu-drawer__link{% if section.settings.highlight_item_index > 0 and forloop.index == section.settings.highlight_item_index %} menu-drawer__link--highlighted{% endif %}">
-                          {{ link.title }}
-                        </a>
-                      </li>
+                      {%- if link.links != blank -%}
+                        <li class="menu-drawer__item has-sublinks">
+                          <details class="menu-drawer__accordion" open>
+                            <summary class="menu-drawer__summary">
+                              <a href="{{ link.url }}" class="menu-drawer__link{% if section.settings.highlight_item_index > 0 and forloop.index == section.settings.highlight_item_index %} menu-drawer__link--highlighted{% endif %}">
+                                {{ link.title }}
+                              </a>
+                              <span class="menu-drawer__caret">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                              </span>
+                            </summary>
+                            <ul class="menu-drawer__sublist" role="list">
+                              {%- for child_link in link.links -%}
+                                <li class="menu-drawer__subitem">
+                                  <a href="{{ child_link.url }}" class="menu-drawer__sublink">
+                                    {{ child_link.title }}
+                                  </a>
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                          </details>
+                        </li>
+                      {%- else -%}
+                        <li class="menu-drawer__item">
+                          <a href="{{ link.url }}" class="menu-drawer__link{% if section.settings.highlight_item_index > 0 and forloop.index == section.settings.highlight_item_index %} menu-drawer__link--highlighted{% endif %}">
+                            {{ link.title }}
+                          </a>
+                        </li>
+                      {%- endif -%}
                     {%- endfor -%}
                   </ul>
                 </nav>
+
+                {%- if shop.customer_accounts_enabled -%}
+                  <div class="menu-drawer__footer">
+                    <a href="{{ routes.account_url }}" class="menu-drawer__footer-link">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="18" height="18">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0" />
+                      </svg>
+                      <span>{% if customer %}{{ 'customer.account_fallback' | t | default: 'My Account' }}{% else %}Sign In / Register{% endif %}</span>
+                    </a>
+                  </div>
+                {%- endif -%}
               </div>
             </details>
           </header-drawer>
@@ -1067,12 +1106,15 @@
     height: auto !important;
     min-height: 0 !important;
     max-height: none !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
+    overflow: visible !important;
+    overflow-x: visible !important;
+    overflow-y: visible !important;
     white-space: nowrap !important;
     -webkit-overflow-scrolling: touch !important;
     scrollbar-width: none !important;
     scroll-padding-inline: var(--spacing-mobile, 40px) !important;
+    position: relative !important;
+    z-index: 100 !important;
   }
 
   /* FIX 2: Hide desktop nav row on mobile (below 1024px) — accessed via hamburger drawer only */
@@ -1232,69 +1274,71 @@
       padding: 0 !important;
       vertical-align: middle !important;
     }
+  }
 
-    /* Premium Universal Header Cart Count Badge (Desktop & Mobile) */
-    body #header-component.header .header-actions__action,
-    body #header-component.header .header-cart-icon-wrapper,
-    body #header-component.header cart-icon,
-    body #header-component.header .header-actions__cart-icon {
-      position: relative !important;
-      overflow: visible !important;
-    }
+  /* Premium Universal Header Cart Count Badge (Desktop & Mobile) */
+  body #header-component.header .header-actions__action,
+  body #header-component.header .header-cart-icon-wrapper,
+  body #header-component.header cart-icon,
+  body #header-component.header .header-actions__cart-icon {
+    position: relative !important;
+    overflow: visible !important;
+  }
 
-    body #header-component.header .cart-bubble {
-      position: absolute !important;
-      top: -4px !important;
-      right: -3px !important;
-      z-index: 25 !important;
-      min-width: 17px !important;
-      height: 17px !important;
-      padding: 0 4px !important;
-      border-radius: 99px !important;
-      background-color: var(--color-copper-rivet, #B87333) !important;
-      color: #FFFFFF !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      text-align: center !important;
-      box-sizing: border-box !important;
-      pointer-events: none !important;
-      overflow: visible !important;
-      aspect-ratio: auto !important;
-      box-shadow: 0 0 0 1.5px #FFFFFF, 0 2px 5px rgba(0, 0, 0, 0.2) !important;
-    }
+  body #header-component.header .cart-bubble {
+    position: absolute !important;
+    top: -4px !important;
+    right: -3px !important;
+    z-index: 25 !important;
+    min-width: 17px !important;
+    height: 17px !important;
+    padding: 0 4px !important;
+    border-radius: 99px !important;
+    background-color: #000000 !important;
+    color: #FFFFFF !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    pointer-events: none !important;
+    overflow: visible !important;
+    aspect-ratio: auto !important;
+    box-shadow: 0 0 0 1.5px #FFFFFF, 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+  }
 
-    body #header-component.header .cart-bubble .cart-bubble__background {
-      position: absolute !important;
-      inset: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
-      background-color: var(--color-copper-rivet, #B87333) !important;
-      border-radius: 99px !important;
-    }
+  body #header-component.header .cart-bubble .cart-bubble__background {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-color: #000000 !important;
+    border-radius: 99px !important;
+  }
 
-    body #header-component.header .cart-bubble .cart-bubble__text,
-    body #header-component.header .cart-bubble .cart-bubble__text-count {
-      position: relative !important;
-      z-index: 2 !important;
-      color: #FFFFFF !important;
-      font-family: var(--font-body, 'Inter', sans-serif) !important;
-      font-size: 10px !important;
-      font-weight: 700 !important;
-      line-height: 1 !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      text-align: center !important;
-      width: 100% !important;
-      height: 100% !important;
-      margin: 0 !important;
-      padding: 0 !important;
-    }
+  body #header-component.header .cart-bubble .cart-bubble__text,
+  body #header-component.header .cart-bubble .cart-bubble__text-count,
+  body #header-component.header .cart-bubble * {
+    position: relative !important;
+    z-index: 2 !important;
+    color: #FFFFFF !important;
+    fill: #FFFFFF !important;
+    font-family: var(--font-body, 'Inter', sans-serif) !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
 
-    body #header-component.header .cart-bubble.visually-hidden {
-      display: none !important;
-    }
+  body #header-component.header .cart-bubble.visually-hidden {
+    display: none !important;
   }
 
   @media screen and (min-width: 750px) {
@@ -1374,49 +1418,323 @@
     color: var(--highlight-color, var(--color-copper-rivet)) !important;
   }
 
-  /* Simple hover dropdown menu for children links */
+  /* Hover bridge on nav items with dropdowns */
+  body #header-component.header .header-nav-item.has-dropdown {
+    position: relative !important;
+  }
+
+  body #header-component.header .header-nav-item.has-dropdown::after {
+    content: '' !important;
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 100% !important;
+    height: 12px !important;
+    background: transparent !important;
+  }
+
+  /* Hover dropdown menu for children links */
   body #header-component.header .header-dropdown-menu {
     position: absolute !important;
-    top: 100% !important;
+    top: calc(100% + 2px) !important;
     left: 50% !important;
-    transform: translateX(-50%) !important;
-    background-color: var(--color-off-white) !important;
-    border: 1px solid var(--color-border-grey) !important;
-    box-shadow: 0 var(--hover-lift-amount) var(--margin-xl) rgba(0, 0, 0, 0.08) !important;
+    transform: translateX(-50%) translateY(6px) !important;
+    background-color: var(--color-off-white, #FFFFFF) !important;
+    border: 1px solid var(--color-border-grey, #E5E5E5) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
     list-style: none !important;
-    padding: var(--padding-xs) !important;
+    padding: 10px 0 !important;
     margin: 0 !important;
-    min-width: 200px !important;
+    min-width: 210px !important;
     opacity: 0 !important;
     visibility: hidden !important;
-    transition: opacity 0.2s ease, visibility 0.2s ease !important;
-    z-index: 1000 !important;
+    pointer-events: none !important;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease !important;
+    z-index: 9999 !important;
+    text-align: left !important;
+    white-space: normal !important;
   }
 
   body #header-component.header .header-nav-item:hover .header-dropdown-menu {
     opacity: 1 !important;
     visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateX(-50%) translateY(0) !important;
   }
 
   body #header-component.header .header-dropdown-item {
     position: relative !important;
+    display: block !important;
+    margin: 0 !important;
   }
 
   body #header-component.header .header-dropdown-link {
-    font-family: var(--font-body) !important;
-    font-size: var(--font-size--2xs, 12px) !important;
+    font-family: var(--font-body, 'Inter', sans-serif) !important;
+    font-size: 12.5px !important;
+    font-weight: 500 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
-    color: var(--color-charcoal, var(--color-charcoal-grey)) !important;
+    letter-spacing: 0.06em !important;
+    color: var(--color-charcoal-grey, #222222) !important;
     text-decoration: none !important;
     display: block !important;
-    padding: var(--padding-2xs) var(--padding-xs) !important;
-    transition: color 0.2s ease !important;
+    padding: 8px 20px !important;
+    transition: background-color 0.2s ease, color 0.2s ease !important;
+    line-height: 1.3 !important;
   }
 
   body #header-component.header .header-dropdown-link:hover {
-    color: var(--color-copper-rivet) !important;
-    background-color: rgba(0, 0, 0, 0.02) !important;
+    color: var(--color-copper-rivet, #B87333) !important;
+    background-color: rgba(0, 0, 0, 0.03) !important;
+  }
+
+  /* Grandchild sub-menu (Level 3) */
+  body #header-component.header .header-grandchild-menu {
+    position: absolute !important;
+    top: 0 !important;
+    left: 100% !important;
+    background-color: var(--color-off-white, #FFFFFF) !important;
+    border: 1px solid var(--color-border-grey, #E5E5E5) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
+    list-style: none !important;
+    padding: 10px 0 !important;
+    margin: 0 !important;
+    min-width: 190px !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: opacity 0.2s ease, visibility 0.2s ease !important;
+    z-index: 10000 !important;
+  }
+
+  body #header-component.header .header-dropdown-item:hover .header-grandchild-menu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  /* Consolidated Premium Mobile Menu Drawer System */
+  body #header-component.header .menu-drawer {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 320px !important;
+    max-width: 85vw !important;
+    background-color: #FFFFFF !important;
+    color: #111111 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    padding: 0 !important;
+    box-shadow: 4px 0 25px rgba(0, 0, 0, 0.15) !important;
+    z-index: 2000 !important;
+  }
+
+  body #header-component.header .menu-drawer__header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 20px 20px 16px 20px !important;
+    border-bottom: 1px solid #EEEEEE !important;
+    background-color: #FFFFFF !important;
+  }
+
+  body #header-component.header .menu-drawer__title {
+    font-family: var(--font-body, 'Inter', sans-serif) !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.12em !important;
+    color: #111111 !important;
+    text-transform: uppercase !important;
+  }
+
+  body #header-component.header .menu-drawer__close-button {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #F5F5F5 !important;
+    color: #111111 !important;
+    cursor: pointer !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    transition: background-color 0.2s ease, transform 0.2s ease !important;
+  }
+
+  body #header-component.header .menu-drawer__close-button:hover {
+    background-color: #EAEAEA !important;
+    transform: rotate(90deg) !important;
+  }
+
+  body #header-component.header .menu-drawer__close-button svg {
+    width: 18px !important;
+    height: 18px !important;
+    stroke: #111111 !important;
+  }
+
+  body #header-component.header .menu-drawer__navigation {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    padding: 20px 20px 32px 20px !important;
+    margin-top: 0 !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  body #header-component.header .menu-drawer__menu {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  body #header-component.header .menu-drawer__item {
+    border-bottom: 1px solid #F0F0F0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body #header-component.header .menu-drawer__item:last-child {
+    border-bottom: none !important;
+  }
+
+  body #header-component.header .menu-drawer__link {
+    font-family: var(--font-body, 'Inter', sans-serif) !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.08em !important;
+    color: #111111 !important;
+    text-decoration: none !important;
+    text-transform: uppercase !important;
+    display: flex !important;
+    align-items: center !important;
+    min-height: 44px !important;
+    padding: 10px 0 !important;
+    transition: color 0.2s ease !important;
+  }
+
+  body #header-component.header .menu-drawer__link:hover,
+  body #header-component.header .menu-drawer__link--highlighted {
+    color: var(--color-copper-rivet, #B87333) !important;
+  }
+
+  /* Accordion toggle structure — strictly stacked vertical block layout */
+  body #header-component.header .menu-drawer__item,
+  body #header-component.header .menu-drawer__item.has-sublinks {
+    display: block !important;
+    width: 100% !important;
+    position: relative !important;
+    border-bottom: 1px solid #F0F0F0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body #header-component.header .menu-drawer__item:last-child {
+    border-bottom: none !important;
+  }
+
+  body #header-component.header details.menu-drawer__accordion,
+  body #header-component.header .menu-drawer__accordion {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body #header-component.header .menu-drawer__summary {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    min-height: 44px !important;
+    cursor: pointer !important;
+    list-style: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  body #header-component.header .menu-drawer__summary::-webkit-details-marker {
+    display: none !important;
+  }
+
+  body #header-component.header .menu-drawer__caret {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    margin-left: auto !important;
+    color: #555555 !important;
+    transition: transform 0.25s ease !important;
+    flex-shrink: 0 !important;
+  }
+
+  body #header-component.header .menu-drawer__accordion[open] .menu-drawer__caret {
+    transform: rotate(180deg) !important;
+    color: #111111 !important;
+  }
+
+  body #header-component.header .menu-drawer__sublist {
+    display: block !important;
+    width: 100% !important;
+    list-style: none !important;
+    background-color: transparent !important;
+    padding: 4px 0 12px 18px !important;
+    margin: 4px 0 12px 0 !important;
+    border-left: 2px solid #E5E5E5 !important;
+    box-sizing: border-box !important;
+    clear: both !important;
+  }
+
+  body #header-component.header .menu-drawer__subitem {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body #header-component.header .menu-drawer__sublink {
+    font-family: var(--font-body, 'Inter', sans-serif) !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.05em !important;
+    color: #333333 !important;
+    display: flex !important;
+    align-items: center !important;
+    min-height: 40px !important;
+    padding: 6px 0 !important;
+    text-transform: uppercase !important;
+    transition: color 0.2s ease !important;
+    width: 100% !important;
+  }
+
+  body #header-component.header .menu-drawer__sublink:hover {
+    color: var(--color-copper-rivet, #B87333) !important;
+  }
+
+  body #header-component.header .menu-drawer__footer {
+    padding: 16px 20px !important;
+    border-top: 1px solid #EEEEEE !important;
+    background-color: #FFFFFF !important;
+  }
+
+  body #header-component.header .menu-drawer__footer-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    font-family: var(--font-body, 'Inter', sans-serif) !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    color: #111111 !important;
+    text-decoration: none !important;
   }
 
   /* Hover states for SVGs inside hover wrappers */
@@ -1522,108 +1840,7 @@
     }
   }
 
-  /* Drawer mobile menu styling */
-  body #header-component.header .menu-drawer {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    bottom: 0 !important;
-    width: 300px !important;
-    background-color: var(--color-off-white) !important;
-    box-shadow: var(--hover-lift-amount) 0 var(--margin-xl) rgba(0, 0, 0, 0.08) !important;
-    padding: var(--spacing-mobile, 40px) !important;
-    z-index: 2000 !important;
-    box-sizing: border-box !important;
-  }
 
-  body #header-component.header .menu-drawer__close-button {
-    position: absolute !important;
-    top: var(--spacing-mobile, 40px) !important;
-    right: var(--spacing-mobile, 40px) !important;
-    background: none !important;
-    border: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    width: auto !important;
-    height: auto !important;
-    cursor: pointer !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    z-index: 10 !important;
-    border-radius: 0 !important;
-  }
-
-  body #header-component.header .menu-drawer__close-button svg,
-  body #header-component.header .menu-drawer__close-button svg * {
-    width: 20px !important;
-    height: 20px !important;
-    stroke: var(--color-charcoal, var(--color-charcoal-grey)) !important;
-    color: var(--color-charcoal, var(--color-charcoal-grey)) !important;
-    stroke-width: 1px !important;
-    transition: stroke var(--hover-transition-duration, 0.25s) var(--hover-transition-timing, ease-out),
-                color var(--hover-transition-duration, 0.25s) var(--hover-transition-timing, ease-out) !important;
-  }
-
-  body #header-component.header .menu-drawer__close-button:hover svg,
-  body #header-component.header .menu-drawer__close-button:hover svg * {
-    stroke: var(--color-copper-rivet) !important;
-    color: var(--color-copper-rivet) !important;
-  }
-
-  body #header-component.header .menu-drawer__navigation {
-    margin-top: calc(var(--spacing-mobile, 40px) + 20px) !important;
-  }
-
-  body #header-component.header .menu-drawer__menu {
-    list-style: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-  }
-
-  body #header-component.header .menu-drawer__item {
-    margin: 0 !important;
-    padding-bottom: var(--spacing-menu-item, 24px) !important;
-    border-bottom: 1px solid var(--color-border-grey) !important;
-    margin-bottom: var(--spacing-menu-item, 24px) !important;
-  }
-
-  body #header-component.header .menu-drawer__item:last-child {
-    border-bottom: none !important;
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-  }
-
-  body #header-component.header .menu-drawer__link {
-    font-family: var(--font-body) !important;
-    font-size: var(--font-size--sm, 14px) !important;
-    text-transform: uppercase !important;
-    letter-spacing: var(--global-header-nav-letter-spacing, 0.08em) !important;
-    color: var(--color-charcoal, var(--color-charcoal-grey)) !important;
-    font-weight: 500 !important;
-    text-decoration: none !important;
-    display: block !important;
-    transition: color var(--hover-transition-duration, 0.25s) var(--hover-transition-timing, ease-out) !important;
-  }
-
-  body #header-component.header .menu-drawer__link:hover,
-  body #header-component.header .menu-drawer__link:active {
-    color: var(--color-copper-rivet) !important;
-  }
-
-  body #header-component.header .menu-drawer__link--highlighted {
-    color: var(--color-copper-rivet) !important;
-  }
-
-  /* Stylings for visually distinct promo line (first item) */
-  body #header-component.header .menu-drawer__item:first-child .menu-drawer__link {
-    font-size: var(--font-size--2xs, 0.75rem) !important;
-    color: var(--color-medium-grey) !important;
-    font-weight: 500 !important;
-    letter-spacing: var(--global-header-nav-letter-spacing, 0.08em) !important;
-  }
 
   /* ============================================================================
      DESKTOP-ONLY SCROLL-TRIGGERED TRANSPARENT HEADER SYSTEM
@@ -1726,11 +1943,14 @@
       border-bottom: 1px solid var(--color-border-grey, #E5E5E5) !important;
       transition: background-color 250ms ease !important;
     }
+         body .header-cart-icon-wrapper #header-component.header[transparent].header--scrolled span{
+         color: #fff !important;
+         }
 
     body #header-component.header[transparent].header--scrolled a,
     body #header-component.header[transparent].header--scrolled button,
     body #header-component.header[transparent].header--scrolled summary,
-    body #header-component.header[transparent].header--scrolled span,
+
     body #header-component.header[transparent].header--scrolled .header-nav-link,
     body #header-component.header[transparent].header--scrolled .header-actions__action {
       color: var(--color-charcoal-grey, #222222) !important;

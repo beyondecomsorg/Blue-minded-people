@@ -45,9 +45,9 @@
         "slide_B6prei": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Artboard_1_2x_1402c2f5-0974-4e3d-a9a4-69d952717977.png",
+            "image": "shopify://shop_images/Landing_Home_page_Web..png",
             "image_focal_point": "center center",
-            "mobile_image": "shopify://shop_images/Artboard_2_2x_1.png",
+            "mobile_image": "shopify://shop_images/Landing_Home_page_Mobile.png",
             "mobile_image_focal_point": "center center",
             "video_url_mp4": "",
             "video_url_webm": "",
@@ -227,6 +227,207 @@
         "padding_bottom_mobile": 30
       }
     },
+    "hero_ycPdyQ": {
+      "type": "hero",
+      "blocks": {
+        "text_WcgxnT": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "<h2>New arrivals</h2>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "h1",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "text_f8iBTE": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "<p>Made with care and unconditionally loved by our customers.</p>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 32,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "button_3emzGe": {
+          "type": "button",
+          "name": "t:names.button",
+          "disabled": true,
+          "settings": {
+            "label": "Shop now",
+            "link": "shopify://collections/all",
+            "open_in_new_tab": false,
+            "style_class": "button",
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fit-content",
+            "custom_width_mobile": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_WcgxnT",
+        "text_f8iBTE",
+        "button_3emzGe"
+      ],
+      "name": "t:names.hero",
+      "settings": {
+        "media_type_1": "image",
+        "image_1": "shopify://shop_images/Shiort_Home_Page_Web_98c7752a-e1e1-4d26-8305-7e449f18a355.png",
+        "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": true,
+        "media_type_1_mobile": "image",
+        "image_1_mobile": "shopify://shop_images/Shirt_Home_Page_Mobile_be48f8f3-8b75-4605-a8f1-f2298a6dd666.png",
+        "media_type_2_mobile": "image",
+        "link": "shopify://collections/bottom-wear",
+        "open_in_new_tab": false,
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "section_height": "auto",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-2",
+        "toggle_overlay": true,
+        "overlay_color": "#00000026",
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 0
+      }
+    },
+    "fabric_category_carousel_gVpkwY": {
+      "type": "fabric-category-carousel",
+      "blocks": {
+        "slide_card_8Y4CEb": {
+          "type": "slide_card",
+          "settings": {
+            "card_image": "shopify://shop_images/Artboard_14_2x_ddf904e5-c828-4520-808c-4f71a28424ef.png",
+            "card_title": "Prints",
+            "card_subtitle": "First-class quality",
+            "card_url": ""
+          }
+        },
+        "slide_card_zhD6ic": {
+          "type": "slide_card",
+          "settings": {
+            "card_image": "shopify://shop_images/Artboard_15_2x_3e2fe188-269b-428c-820a-85d8f1d3e9e0.png",
+            "card_title": "Checks",
+            "card_subtitle": "Top-notch fabric",
+            "card_url": ""
+          }
+        },
+        "slide_card_hU6mmW": {
+          "type": "slide_card",
+          "settings": {
+            "card_image": "shopify://shop_images/Artboard_16_2x_82a49bb3-37f6-4797-8601-76f3d2bae428.png",
+            "card_title": "Stripes",
+            "card_subtitle": "Best in-house",
+            "card_url": ""
+          }
+        },
+        "slide_card_wk3KVk": {
+          "type": "slide_card",
+          "settings": {
+            "card_image": "shopify://shop_images/Artboard_11_2x_c13c5db6-922d-48a3-93ee-4e834c9f7b62.png",
+            "card_title": "Solids",
+            "card_subtitle": "Premium Quality",
+            "card_url": ""
+          }
+        },
+        "slide_card_YMJmYQ": {
+          "type": "slide_card",
+          "settings": {
+            "card_image": "shopify://shop_images/Artboard_13_2x_60c28852-a23d-4054-a3dc-da815fde943d.png",
+            "card_title": "Textured",
+            "card_subtitle": "First-class quality",
+            "card_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_card_8Y4CEb",
+        "slide_card_zhD6ic",
+        "slide_card_hU6mmW",
+        "slide_card_wk3KVk",
+        "slide_card_YMJmYQ"
+      ],
+      "name": "Fabric Category Carousel",
+      "settings": {
+        "heading": "THE ART OF SHIRTING",
+        "subheading": "Explore premium shirt fabrics tailored for every style and occasion.",
+        "heading_size": 36,
+        "subheading_size": 15,
+        "heading_color": "#0b1f33",
+        "subheading_color": "#666666",
+        "slides_desktop": 4,
+        "slides_tablet": 2,
+        "slides_mobile": 1,
+        "slide_gap": 16,
+        "image_ratio": "3/4",
+        "card_title_size": 16,
+        "card_subtitle_size": 13,
+        "card_border_color": "#e5e5e5",
+        "arrow_bg_color": "#ffffff",
+        "arrow_border_color": "#e5e5e5",
+        "arrow_color": "#0b1f33",
+        "arrow_hover_bg": "#b87333",
+        "arrow_hover_color": "#ffffff",
+        "dot_active_color": "#b87333",
+        "dot_inactive_color": "#e5e5e5",
+        "font_family": "inherit",
+        "bg_color": "#ffffff",
+        "container_width": 1400,
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 30,
+        "padding_bottom_mobile": 30
+      }
+    },
     "hero_CNU3UH": {
       "type": "hero",
       "blocks": {
@@ -347,8 +548,8 @@
         "slide_HnXGyY": {
           "type": "slide",
           "settings": {
-            "image_desktop": "shopify://shop_images/Artboard_1_copy_2x_4432fa96-b76e-402b-b858-7f80c8963802.png",
-            "image_mobile": "shopify://shop_images/Artboard_2_copy_2x_342c01dc-72e8-4d47-b48e-833382eed36e.png",
+            "image_desktop": "shopify://shop_images/T_shir_1_Home_page_Web.png",
+            "image_mobile": "shopify://shop_images/T_shirt_1_Home_page_mobile.png",
             "link": "shopify://collections/all",
             "open_in_new_tab": false,
             "heading": "",
@@ -510,12 +711,12 @@
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
-        "image_1": "shopify://shop_images/Artboard_1_copy_3_2x_42e39aab-cfe7-4c47-bd05-924ecfe8db44.png",
+        "image_1": "shopify://shop_images/Bottom_Home_page_Web.png",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
         "custom_mobile_media": true,
         "media_type_1_mobile": "image",
-        "image_1_mobile": "shopify://shop_images/Artboard_2_copy_3_2x_d03eaa26-2202-4956-b8a2-c25b0aaeec8c.png",
+        "image_1_mobile": "shopify://shop_images/Bottom_Home_page_Mobile.png",
         "media_type_2_mobile": "image",
         "link": "shopify://collections/bottom-wear",
         "open_in_new_tab": false,
@@ -576,128 +777,16 @@
         "padding_bottom_mobile": 30
       }
     },
-    "hero_ycPdyQ": {
-      "type": "hero",
-      "blocks": {
-        "text_WcgxnT": {
-          "type": "text",
-          "disabled": true,
-          "settings": {
-            "text": "<h2>New arrivals</h2>",
-            "width": "fit-content",
-            "max_width": "narrow",
-            "alignment": "left",
-            "type_preset": "h1",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "text_f8iBTE": {
-          "type": "text",
-          "disabled": true,
-          "settings": {
-            "text": "<p>Made with care and unconditionally loved by our customers.</p>",
-            "width": "fit-content",
-            "max_width": "narrow",
-            "alignment": "left",
-            "type_preset": "rte",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 32,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "button_3emzGe": {
-          "type": "button",
-          "name": "t:names.button",
-          "disabled": true,
-          "settings": {
-            "label": "Shop now",
-            "link": "shopify://collections/all",
-            "open_in_new_tab": false,
-            "style_class": "button",
-            "width": "fit-content",
-            "custom_width": 100,
-            "width_mobile": "fit-content",
-            "custom_width_mobile": 100
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "text_WcgxnT",
-        "text_f8iBTE",
-        "button_3emzGe"
-      ],
-      "name": "t:names.hero",
-      "settings": {
-        "media_type_1": "image",
-        "image_1": "shopify://shop_images/Artboard_1_copy_3_2x_42e39aab-cfe7-4c47-bd05-924ecfe8db44.png",
-        "media_type_2": "image",
-        "stack_media_on_mobile": false,
-        "custom_mobile_media": true,
-        "media_type_1_mobile": "image",
-        "image_1_mobile": "shopify://shop_images/Artboard_2_copy_3_2x_d03eaa26-2202-4956-b8a2-c25b0aaeec8c.png",
-        "media_type_2_mobile": "image",
-        "link": "shopify://collections/bottom-wear",
-        "open_in_new_tab": false,
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "flex-start",
-        "vertical_alignment": "center",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 16,
-        "section_width": "page-width",
-        "section_height": "auto",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-2",
-        "toggle_overlay": true,
-        "overlay_color": "#00000026",
-        "overlay_style": "gradient",
-        "gradient_direction": "to top",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "padding_top_mobile": 0,
-        "padding_bottom_mobile": 0
-      }
-    },
     "shop_by_category_t6FniM": {
       "type": "shop-by-category",
+      "disabled": true,
       "name": "Shop By Category",
       "settings": {
-        "heading": "SHOP By Bottom wear",
+        "heading": "SHOP By SHIRTS",
         "heading_size": 28,
         "heading_gap": 28,
         "heading_color": "#0b1f33",
-        "featured_collection": "bottom-wear",
+        "featured_collection": "shirts",
         "products_to_show": 4,
         "container_width": 1400,
         "columns_desktop": "4",
@@ -717,94 +806,6 @@
         "font_family": "inherit",
         "bg_color": "#ffffff",
         "padding_top": 60,
-        "padding_bottom": 60,
-        "padding_top_mobile": 0,
-        "padding_bottom_mobile": 30
-      }
-    },
-    "fabric_category_carousel_gVpkwY": {
-      "type": "fabric-category-carousel",
-      "blocks": {
-        "slide_card_8Y4CEb": {
-          "type": "slide_card",
-          "settings": {
-            "card_image": "shopify://shop_images/Artboard_14_2x_ddf904e5-c828-4520-808c-4f71a28424ef.png",
-            "card_title": "Prints",
-            "card_subtitle": "First-class quality",
-            "card_url": ""
-          }
-        },
-        "slide_card_zhD6ic": {
-          "type": "slide_card",
-          "settings": {
-            "card_image": "shopify://shop_images/Artboard_15_2x_3e2fe188-269b-428c-820a-85d8f1d3e9e0.png",
-            "card_title": "Checks",
-            "card_subtitle": "top-notch fabric",
-            "card_url": ""
-          }
-        },
-        "slide_card_hU6mmW": {
-          "type": "slide_card",
-          "settings": {
-            "card_image": "shopify://shop_images/Artboard_16_2x_82a49bb3-37f6-4797-8601-76f3d2bae428.png",
-            "card_title": "Stripes",
-            "card_subtitle": "best in-house",
-            "card_url": ""
-          }
-        },
-        "slide_card_wk3KVk": {
-          "type": "slide_card",
-          "settings": {
-            "card_image": "shopify://shop_images/Artboard_11_2x_c13c5db6-922d-48a3-93ee-4e834c9f7b62.png",
-            "card_title": "Solids",
-            "card_subtitle": "Premium Quality",
-            "card_url": ""
-          }
-        },
-        "slide_card_YMJmYQ": {
-          "type": "slide_card",
-          "settings": {
-            "card_image": "shopify://shop_images/Artboard_13_2x_60c28852-a23d-4054-a3dc-da815fde943d.png",
-            "card_title": "Textured",
-            "card_subtitle": "First-class quality",
-            "card_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "slide_card_8Y4CEb",
-        "slide_card_zhD6ic",
-        "slide_card_hU6mmW",
-        "slide_card_wk3KVk",
-        "slide_card_YMJmYQ"
-      ],
-      "name": "Fabric Category Carousel",
-      "settings": {
-        "heading": "THE ART OF SHIRTING",
-        "subheading": "Explore premium shirt fabrics tailored for every style and occasion.",
-        "heading_size": 36,
-        "subheading_size": 15,
-        "heading_color": "#0b1f33",
-        "subheading_color": "#666666",
-        "slides_desktop": 4,
-        "slides_tablet": 2,
-        "slides_mobile": 1,
-        "slide_gap": 16,
-        "image_ratio": "3/4",
-        "card_title_size": 16,
-        "card_subtitle_size": 13,
-        "card_border_color": "#e5e5e5",
-        "arrow_bg_color": "#ffffff",
-        "arrow_border_color": "#e5e5e5",
-        "arrow_color": "#0b1f33",
-        "arrow_hover_bg": "#b87333",
-        "arrow_hover_color": "#ffffff",
-        "dot_active_color": "#b87333",
-        "dot_inactive_color": "#e5e5e5",
-        "font_family": "inherit",
-        "bg_color": "#ffffff",
-        "container_width": 1400,
-        "padding_top": 0,
         "padding_bottom": 60,
         "padding_top_mobile": 0,
         "padding_bottom_mobile": 30
@@ -1744,14 +1745,14 @@
   "order": [
     "custom_hero_section_eTTVbb",
     "section_whats_new_today_aD9myK",
+    "hero_ycPdyQ",
+    "fabric_category_carousel_gVpkwY",
     "hero_CNU3UH",
     "banner_image_custom_tyNbCX",
     "shop_by_category_Y6HHJz",
     "hero_exggzb",
     "shop_by_category_pnqBLH",
-    "hero_ycPdyQ",
     "shop_by_category_t6FniM",
-    "fabric_category_carousel_gVpkwY",
     "brand_product_carousel_XMYDx6",
     "our_favourites_hero_BF4Axj",
     "tab_section_iaPzmM",

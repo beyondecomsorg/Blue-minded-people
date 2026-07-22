@@ -764,6 +764,7 @@
         "panel_PiUnX6",
         "panel_kAycX6"
       ],
+      "disabled": true,
       "name": "Category Explore Banner",
       "settings": {
         "heading": "Explore More Women's Fashion",
@@ -789,6 +790,95 @@
         "padding_bottom_mobile": 20,
         "gap_overlay": 20,
         "mobile_layout": "collage"
+      }
+    },
+    "recently_viewed": {
+      "type": "recently-viewed",
+      "settings": {
+        "enable_section": true,
+        "heading": "RECENTLY VIEWED",
+        "max_products": 8,
+        "color_scheme": ""
+      }
+    },
+    "trust_scrolling_txT4rd": {
+      "type": "trust-scrolling",
+      "blocks": {
+        "feature_7iNccc": {
+          "type": "feature",
+          "settings": {
+            "title": "Built to last: Every Detail.",
+            "text": ""
+          }
+        },
+        "feature_UgijLj": {
+          "type": "feature",
+          "settings": {
+            "title": "Honest Craftmanship: Every stitch reflects our commitment to quality.",
+            "text": ""
+          }
+        },
+        "feature_Yri9fi": {
+          "type": "feature",
+          "settings": {
+            "title": "Customer First: Your trust inspires everything we deliver.",
+            "text": ""
+          }
+        },
+        "feature_UNHrcm": {
+          "type": "feature",
+          "settings": {
+            "title": "Dermatologically Tested",
+            "text": "Safe for sensitive skin, clinically approved."
+          }
+        }
+      },
+      "block_order": [
+        "feature_7iNccc",
+        "feature_UgijLj",
+        "feature_Yri9fi",
+        "feature_UNHrcm"
+      ],
+      "name": "Trust scroll strip",
+      "settings": {
+        "heading": "Built to earn customer trust",
+        "subheading": "Show your strongest product advantages in a premium, scrollable strip.",
+        "scroll_speed": 60,
+        "section_bg": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60,
+        "padding_top_mobile": 30,
+        "padding_bottom_mobile": 30,
+        "font_family": "sans_serif_n4",
+        "heading_size_desktop": 32,
+        "heading_size_mobile": 24,
+        "heading_weight_desktop": "700",
+        "heading_weight_mobile": "700",
+        "subheading_size_desktop": 15,
+        "subheading_size_mobile": 13,
+        "subheading_weight_desktop": "500",
+        "subheading_weight_mobile": "500",
+        "title_size_desktop": 15,
+        "title_size_mobile": 14,
+        "title_weight_desktop": "700",
+        "title_weight_mobile": "700",
+        "text_size_desktop": 13,
+        "text_size_mobile": 12,
+        "text_weight_desktop": "500",
+        "text_weight_mobile": "500",
+        "heading_color": "#0B1F33",
+        "subheading_color": "#0B1F33",
+        "card_bg": "#1E3A5F",
+        "card_border": "#d9d9d9",
+        "title_color": "#FFFFFF",
+        "text_color": "#FFFFFF",
+        "icon_bg": "#f5f5f5",
+        "card_hover_bg": "#0c4168",
+        "card_hover_border": "#0c4168",
+        "title_hover_color": "#ffffff",
+        "text_hover_color": "#ffffff",
+        "icon_hover_bg": "#B87333",
+        "fade_color": "#ffffff"
       }
     },
     "delivery_feature_row_irihTi": {
@@ -845,24 +935,17 @@
         "gap_icon_text": 16,
         "gap_columns": 40
       }
-    },
-    "recently_viewed": {
-      "type": "recently-viewed",
-      "settings": {
-        "enable_section": true,
-        "heading": "RECENTLY VIEWED",
-        "max_products": 8
-      }
     }
   },
   "order": [
     "product-information",
     "related_products_carousel",
-    "recently_viewed",
     "pdp_trust_scroll_strip",
     "product_recommendations_UeDczP",
     "collection_list_RGddHj",
     "category_explore_banner_LzYwgx",
+    "recently_viewed",
+    "trust_scrolling_txT4rd",
     "delivery_feature_row_irihTi"
   ]
 }

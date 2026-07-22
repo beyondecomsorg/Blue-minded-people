@@ -9,8 +9,65 @@
  */
 {
   "sections": {
+    "banner_image_custom_ChqkNR": {
+      "type": "banner-image-custom",
+      "blocks": {
+        "slide_XYHLcK": {
+          "type": "slide",
+          "settings": {
+            "image_desktop": "{{ collection.metafields.custom.collection_banner_desktop.value }}",
+            "image_mobile": "{{ collection.metafields.custom.collection_banner_mobile.value }}",
+            "link": "",
+            "open_in_new_tab": false,
+            "heading": "",
+            "subheading": "",
+            "button_label": ""
+          }
+        },
+        "slide_gTL8rP": {
+          "type": "slide",
+          "settings": {
+            "image_desktop": "{{ collection.metafields.custom.collection_banner_desktop_image_2.value }}",
+            "image_mobile": "{{ collection.metafields.custom.collection_banner_mobile_image_2.value }}",
+            "link": "",
+            "open_in_new_tab": false,
+            "heading": "",
+            "subheading": "",
+            "button_label": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_XYHLcK",
+        "slide_gTL8rP"
+      ],
+      "name": "Custom Banner Slideshow",
+      "settings": {
+        "banner_height": "adapt",
+        "custom_height_desktop": 600,
+        "custom_height_mobile": 400,
+        "heading_size_desktop": 48,
+        "heading_size_mobile": 24,
+        "subheading_size_desktop": 18,
+        "subheading_size_mobile": 14,
+        "text_color": "#FFFFFF",
+        "content_alignment": "center",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30,
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "transition_effect": "slide",
+        "infinite_loop": true,
+        "show_arrows": true,
+        "show_dots": true,
+        "pause_on_hover": true,
+        "margin_top": 0,
+        "margin_bottom": 0
+      }
+    },
     "collection_banner_section": {
       "type": "collection-banner",
+      "disabled": true,
       "settings": {
         "max_height_desktop": 600,
         "max_height_mobile": 400,
@@ -280,6 +337,7 @@
     }
   },
   "order": [
+    "banner_image_custom_ChqkNR",
     "collection_banner_section",
     "section",
     "collection_tabs_section",

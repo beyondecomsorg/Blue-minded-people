@@ -1,14 +1,26 @@
 {%- liquid
-  assign first_block = section.blocks.first
-  if first_block and first_block.settings.image_desktop != blank
-    assign desktop_ratio = first_block.settings.image_desktop.aspect_ratio
-    assign mobile_ratio = first_block.settings.image_mobile.aspect_ratio | default: desktop_ratio
+  assign valid_blocks_count = 0
+  assign first_valid_block = null
+
+  for block in section.blocks
+    if block.settings.image_desktop != blank
+      assign valid_blocks_count = valid_blocks_count | plus: 1
+      if first_valid_block == null
+        assign first_valid_block = block
+      endif
+    endif
+  endfor
+
+  if first_valid_block and first_valid_block.settings.image_desktop != blank
+    assign desktop_ratio = first_valid_block.settings.image_desktop.aspect_ratio
+    assign mobile_ratio = first_valid_block.settings.image_mobile.aspect_ratio | default: desktop_ratio
   else
     assign desktop_ratio = 2.333
     assign mobile_ratio = 1.333
   endif
 -%}
 
+{%- if valid_blocks_count > 0 -%}
 <style>
   #custom-banner-{{ section.id }} {
     --desktop-ratio: {{ desktop_ratio }};
@@ -348,32 +360,33 @@
 >
   <div class="custom-banner-slides-wrapper">
     <div class="custom-banner-slides-inner" ref="slidesInner">
+      {%- assign valid_slide_index = 0 -%}
       {%- for block in section.blocks -%}
-        {%- liquid
-          assign loading = 'lazy'
-          assign fetchpriority = 'auto'
-          if forloop.first
-            assign loading = 'eager'
-            assign fetchpriority = 'high'
-          endif
-        -%}
-        
-        <div
-          class="custom-banner-slide{% if forloop.first %} is-active{% endif %}"
-          data-index="{{ forloop.index0 }}"
-          {{ block.shopify_attributes }}
-        >
-          {%- if block.settings.link != blank -%}
-            <a
-              href="{{ block.settings.link }}"
-              {% if block.settings.open_in_new_tab %}target="_blank" rel="noopener"{% endif %}
-              class="custom-banner-slide__link"
-            >
-          {%- else -%}
-            <div class="custom-banner-slide__link">
-          {%- endif -%}
+        {%- if block.settings.image_desktop != blank -%}
+          {%- liquid
+            assign loading = 'lazy'
+            assign fetchpriority = 'auto'
+            if valid_slide_index == 0
+              assign loading = 'eager'
+              assign fetchpriority = 'high'
+            endif
+          -%}
+          
+          <div
+            class="custom-banner-slide{% if valid_slide_index == 0 %} is-active{% endif %}"
+            data-index="{{ valid_slide_index }}"
+            {{ block.shopify_attributes }}
+          >
+            {%- if block.settings.link != blank -%}
+              <a
+                href="{{ block.settings.link }}"
+                {% if block.settings.open_in_new_tab %}target="_blank" rel="noopener"{% endif %}
+                class="custom-banner-slide__link"
+              >
+            {%- else -%}
+              <div class="custom-banner-slide__link">
+            {%- endif -%}
 
-            {%- if block.settings.image_desktop != blank -%}
               {%- assign desktop_img = block.settings.image_desktop -%}
               {%- assign mobile_img = block.settings.image_mobile | default: desktop_img -%}
               
@@ -393,40 +406,39 @@
                   class="custom-banner-slide__image"
                 >
               </picture>
-            {%- else -%}
-              {{ 'lifestyle-2' | placeholder_svg_tag: 'custom-banner-slide__placeholder' }}
-            {%- endif -%}
 
-            {%- if section.settings.overlay_opacity > 0 -%}
-              <div class="custom-banner-slide__overlay"></div>
-            {%- endif -%}
+              {%- if section.settings.overlay_opacity > 0 -%}
+                <div class="custom-banner-slide__overlay"></div>
+              {%- endif -%}
 
-            {%- if block.settings.heading != blank or block.settings.subheading != blank or block.settings.button_label != blank -%}
-              <div class="custom-banner-slide__content custom-banner-slide__content--align-{{ section.settings.content_alignment }}">
-                <div class="custom-banner-slide__text-container">
-                  {%- if block.settings.heading != blank -%}
-                    <h2 class="custom-banner-slide__heading">{{ block.settings.heading | escape }}</h2>
-                  {%- endif -%}
-                  {%- if block.settings.subheading != blank -%}
-                    <p class="custom-banner-slide__subheading">{{ block.settings.subheading | escape }}</p>
-                  {%- endif -%}
-                  {%- if block.settings.button_label != blank -%}
-                    <span class="custom-banner-slide__btn">{{ block.settings.button_label | escape }}</span>
-                  {%- endif -%}
+              {%- if block.settings.heading != blank or block.settings.subheading != blank or block.settings.button_label != blank -%}
+                <div class="custom-banner-slide__content custom-banner-slide__content--align-{{ section.settings.content_alignment }}">
+                  <div class="custom-banner-slide__text-container">
+                    {%- if block.settings.heading != blank -%}
+                      <h2 class="custom-banner-slide__heading">{{ block.settings.heading | escape }}</h2>
+                    {%- endif -%}
+                    {%- if block.settings.subheading != blank -%}
+                      <p class="custom-banner-slide__subheading">{{ block.settings.subheading | escape }}</p>
+                    {%- endif -%}
+                    {%- if block.settings.button_label != blank -%}
+                      <span class="custom-banner-slide__btn">{{ block.settings.button_label | escape }}</span>
+                    {%- endif -%}
+                  </div>
                 </div>
+              {%- endif -%}
+
+            {%- if block.settings.link != blank -%}
+              </a>
+            {%- else -%}
               </div>
             {%- endif -%}
-
-          {%- if block.settings.link != blank -%}
-            </a>
-          {%- else -%}
-            </div>
-          {%- endif -%}
-        </div>
+          </div>
+          {%- assign valid_slide_index = valid_slide_index | plus: 1 -%}
+        {%- endif -%}
       {%- endfor -%}
     </div>
 
-    {%- if section.settings.show_arrows and section.blocks.size > 1 -%}
+    {%- if section.settings.show_arrows and valid_blocks_count > 1 -%}
       <button
         class="custom-banner-slider__arrow custom-banner-slider__arrow--prev"
         aria-label="Previous Slide"
@@ -447,21 +459,26 @@
       </button>
     {%- endif -%}
 
-    {%- if section.settings.show_dots and section.blocks.size > 1 -%}
+    {%- if section.settings.show_dots and valid_blocks_count > 1 -%}
       <ul class="custom-banner-slider__dots" ref="dotsContainer">
+        {%- assign dot_index = 0 -%}
         {%- for block in section.blocks -%}
-          <li>
-            <button
-              class="custom-banner-slider__dot{% if forloop.first %} is-active{% endif %}"
-              aria-label="Go to Slide {{ forloop.index }}"
-              data-dot-index="{{ forloop.index0 }}"
-            ></button>
-          </li>
+          {%- if block.settings.image_desktop != blank -%}
+            <li>
+              <button
+                class="custom-banner-slider__dot{% if dot_index == 0 %} is-active{% endif %}"
+                aria-label="Go to Slide {{ dot_index | plus: 1 }}"
+                data-dot-index="{{ dot_index }}"
+              ></button>
+            </li>
+            {%- assign dot_index = dot_index | plus: 1 -%}
+          {%- endif -%}
         {%- endfor -%}
       </ul>
     {%- endif -%}
   </div>
 </custom-banner-slideshow>
+{%- endif -%}
 
 <script>
   if (!customElements.get('custom-banner-slideshow')) {

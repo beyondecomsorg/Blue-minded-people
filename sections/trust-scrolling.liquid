@@ -156,9 +156,27 @@
 .trust-strip__track {
   display: flex;
   width: max-content;
-  /* JS drives translateX — no CSS animation here */
   will-change: transform;
-  transform: translateX(0);
+  animation: trust-marquee-{{ section.id }} {{ section.settings.scroll_speed | default: 35 }}s linear infinite;
+}
+
+@media (hover: hover) {
+  .trust-strip__track:hover {
+    animation-play-state: paused;
+  }
+}
+
+.trust-strip__track.is-paused {
+  animation-play-state: paused;
+}
+
+@keyframes trust-marquee-{{ section.id }} {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* ── Set ────────────────────────────────────────────────────── */
@@ -290,7 +308,7 @@
 /* ── Reduced motion: static overflow scroll ─────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .trust-strip__track-wrap { overflow-x: auto; }
-  .trust-strip__track      { transform: none !important; width: 100%; }
+  .trust-strip__track      { animation: none !important; transform: none !important; width: 100%; }
 }
 </style>
 <style>
@@ -366,64 +384,17 @@
 
 <script>
 (function () {
-  const sid    = '{{ section.id }}';
-  const track  = document.getElementById('TrustTrack-' + sid);
-  const setA   = document.getElementById('TrustSetA-'  + sid);
-  if (!track || !setA) return;
+  const sid   = '{{ section.id }}';
+  const track = document.getElementById('TrustTrack-' + sid);
+  if (!track) return;
 
-  /* Speed: px per second. Higher = faster. */
-  const PX_PER_SEC = {{ section.settings.scroll_speed | default: 60 }};
+  track.addEventListener('touchstart', function() {
+    track.classList.add('is-paused');
+  }, { passive: true });
 
-  let pos       = 0;       /* current translateX (negative = scrolled left) */
-  let paused    = false;
-  let lastTime  = null;
-  let raf       = null;
-  let loopWidth = 0;       /* width of ONE set (= the loop point) */
-
-  function measure() {
-    /* Wait for layout then grab Set A's full rendered width incl. gap */
-    const setStyle = getComputedStyle(track.querySelector('.trust-strip__set'));
-    const gap = parseFloat(setStyle.gap) || 14;
-    loopWidth = setA.offsetWidth + gap;
-  }
-
-  function step(ts) {
-    if (lastTime !== null && !paused) {
-      const delta = (ts - lastTime) / 1000;           /* seconds */
-      pos -= PX_PER_SEC * delta;
-
-      /* Reset seamlessly when we've scrolled exactly one set width */
-      if (Math.abs(pos) >= loopWidth) {
-        pos += loopWidth;
-      }
-
-      track.style.transform = 'translateX(' + pos + 'px)';
-    }
-    lastTime = ts;
-    raf = requestAnimationFrame(step);
-  }
-
-  /* Pause/resume helpers */
-  function pause()  { paused = true;  }
-  function resume() { paused = false; lastTime = null; }
-
-  track.addEventListener('mouseenter', pause);
-  track.addEventListener('mouseleave', resume);
-  track.addEventListener('touchstart',  pause,  { passive: true });
-  track.addEventListener('touchend',    resume, { passive: true });
-
-  /* Re-measure on resize (card width doesn't change but gap might) */
-  let resizeTimer;
-  window.addEventListener('resize', function () {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(measure, 120);
-  });
-
-  /* Kick off after paint */
-  requestAnimationFrame(function () {
-    measure();
-    raf = requestAnimationFrame(step);
-  });
+  track.addEventListener('touchend', function() {
+    track.classList.remove('is-paused');
+  }, { passive: true });
 })();
 </script>
 

@@ -27,8 +27,8 @@
 >
   <div class="delivery-feature-row__scroll-wrapper">
     <div class="delivery-feature-row__track">
-      {%- for i in (1..2) -%}
-        <div class="delivery-feature-row__grid" aria-hidden="{% if i == 2 %}true{% else %}false{% endif %}">
+      {%- for i in (1..4) -%}
+        <div class="delivery-feature-row__grid" aria-hidden="{% if i > 1 %}true{% else %}false{% endif %}">
           {%- for block in section.blocks -%}
             <div class="delivery-feature-row__column" {% if i == 1 %}{{ block.shopify_attributes }}{% endif %}>
               {%- if block.settings.icon_svg != blank -%}
@@ -85,7 +85,8 @@
 .delivery-feature-row__track {
   display: flex;
   width: max-content;
-  animation: delivery-feature-scroll 30s linear infinite;
+  animation: delivery-feature-scroll 25s linear infinite;
+  will-change: transform;
 }
 
 .delivery-feature-row__scroll-wrapper:hover .delivery-feature-row__track {
@@ -93,8 +94,8 @@
 }
 
 @keyframes delivery-feature-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .delivery-feature-row__grid {

@@ -54,16 +54,28 @@
     .collection-tabs-active-panes {
       flex: 0 0 auto;
       min-width: 0;
+      position: relative;
     }
 
     .collection-tabs-active-pane {
-      display: none;
-    }
-
-    .collection-tabs-active-pane.is-active {
       display: flex;
       align-items: center;
       gap: 20px;
+      opacity: 0;
+      visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+      pointer-events: none;
+    }
+
+    .collection-tabs-active-pane.is-active {
+      opacity: 1;
+      visibility: visible;
+      position: relative;
+      pointer-events: auto;
     }
 
     .collection-tabs-active-image-container {
@@ -128,8 +140,13 @@
       text-decoration: none;
     }
 
-    .collection-tab-thumb.is-active {
-      display: none; /* Hide active thumbnail to avoid duplicate card in row */
+    .collection-tab-thumb.is-active .collection-tab-thumb-icon {
+      border-color: var(--color-copper-rivet, #b87333);
+      box-shadow: 0 0 0 1px var(--color-copper-rivet, #b87333);
+    }
+
+    .collection-tab-thumb.is-active .thumb-label {
+      color: var(--color-copper-rivet, #b87333);
     }
 
     .collection-tab-thumb-icon {
@@ -257,12 +274,6 @@
             const targetPane = wrapper.querySelector('.collection-tabs-active-pane[data-pane-index="' + targetIndex + '"]');
             if (targetPane) {
               targetPane.classList.add('is-active');
-            }
-
-            // Smoothly scroll the container back to the start (left: 0) to align the active pane
-            const scrollContainer = wrapper.querySelector('.collection-tabs-wrapper');
-            if (scrollContainer) {
-              scrollContainer.scrollTo({ left: 0, behavior: 'smooth' });
             }
           });
         });
