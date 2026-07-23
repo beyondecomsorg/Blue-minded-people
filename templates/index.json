@@ -12,6 +12,36 @@
     "custom_hero_section_eTTVbb": {
       "type": "custom-hero-section",
       "blocks": {
+        "slide_NHT4Nb": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Sign.jpg",
+            "image_focal_point": "center center",
+            "mobile_image": "shopify://shop_images/Sign.jpg",
+            "mobile_image_focal_point": "center center",
+            "video_url_mp4": "",
+            "video_url_webm": "",
+            "hide_content": false,
+            "eyebrow": "",
+            "heading": "",
+            "subtext": "",
+            "btn1_label": "",
+            "btn1_link": "",
+            "btn1_new_tab": false,
+            "btn1_custom_bg": "",
+            "btn1_custom_text": "",
+            "btn2_label": "",
+            "btn2_link": "",
+            "btn2_new_tab": false,
+            "btn2_custom_bg": "",
+            "btn2_custom_text": "",
+            "btn3_label": "",
+            "btn3_link": "",
+            "btn3_new_tab": false,
+            "btn3_custom_bg": "",
+            "btn3_custom_text": ""
+          }
+        },
         "slide_RV7Dct": {
           "type": "slide",
           "settings": {
@@ -74,6 +104,7 @@
         }
       },
       "block_order": [
+        "slide_NHT4Nb",
         "slide_RV7Dct",
         "slide_B6prei"
       ],
@@ -548,8 +579,8 @@
         "slide_HnXGyY": {
           "type": "slide",
           "settings": {
-            "image_desktop": "shopify://shop_images/Artboard_1_copy_2x_4432fa96-b76e-402b-b858-7f80c8963802.png",
-            "image_mobile": "shopify://shop_images/Artboard_2_copy_2x_342c01dc-72e8-4d47-b48e-833382eed36e.png",
+            "image_desktop": "shopify://shop_images/T_shir_1_Home_page_Web_1.png",
+            "image_mobile": "shopify://shop_images/T_shirt_1_Home_page_mobile_1.png",
             "link": "shopify://collections/t-shirts",
             "open_in_new_tab": false,
             "heading": "",

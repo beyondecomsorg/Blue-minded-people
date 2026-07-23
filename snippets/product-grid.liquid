@@ -102,12 +102,21 @@
   >
     {% if products.size == 0 %}
       <div class="main-collection-grid__empty">
-        <h2 class="main-collection-grid__empty-title h2">
-          {{ 'content.no_products_found' | t }}
-        </h2>
-        <p>
-          {{ 'content.use_fewer_filters_html' | t: link: collection.url, class: 'main-collection-grid__empty-link' }}
-        </p>
+        {%- if collection and collection.all_products_count == 0 -%}
+          <h2 class="main-collection-grid__empty-title h2" style="font-family: var(--font-heading) !important;">
+            COMING SOON
+          </h2>
+          <p style="color: #666666; font-family: var(--font-body) !important; font-weight: 500; margin: 0;">
+            This collection is launching soon. Check back shortly.
+          </p>
+        {%- else -%}
+          <h2 class="main-collection-grid__empty-title h2">
+            {{ 'content.no_products_found' | t }}
+          </h2>
+          <p>
+            {{ 'content.use_fewer_filters_html' | t: link: collection.url, class: 'main-collection-grid__empty-link' }}
+          </p>
+        {%- endif -%}
       </div>
     {% else %}
       {% if enable_infinite_scroll %}

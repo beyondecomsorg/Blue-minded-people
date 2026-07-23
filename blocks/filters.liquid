@@ -20,6 +20,11 @@
 ></script>
 
 {%- liquid
+  assign show_filters = true
+  if collection and collection.all_products_count == 0
+    assign show_filters = false
+  endif
+
   assign block_settings = block.settings
   assign products_count = results_size
   assign sort_by = results.sort_by | default: results.default_sort_by

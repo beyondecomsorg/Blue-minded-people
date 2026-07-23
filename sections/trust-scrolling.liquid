@@ -172,10 +172,10 @@
 
 @keyframes trust-marquee-{{ section.id }} {
   0% {
-    transform: translateX(0%);
+    transform: translateX(0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(calc(-1 * var(--set-width, 50%)));
   }
 }
 
@@ -387,6 +387,44 @@
   const sid   = '{{ section.id }}';
   const track = document.getElementById('TrustTrack-' + sid);
   if (!track) return;
+
+  function initMarquee() {
+    const originalSets = Array.from(track.querySelectorAll('.trust-strip__set:not(.marquee-clone)'));
+    if (originalSets.length === 0) return;
+
+    // Clean up previous clones to recalculate correctly on resize
+    track.querySelectorAll('.marquee-clone').forEach(el => el.remove());
+
+    const firstSet = originalSets[0];
+    const setWidth = firstSet.getBoundingClientRect().width;
+    if (setWidth <= 0) return;
+
+    const viewportWidth = window.innerWidth;
+    
+    // Total sets should fill the viewport plus at least 1 extra sliding set
+    const neededSets = Math.ceil(viewportWidth / setWidth) + 1;
+    const totalSetsWanted = Math.max(neededSets, 2);
+
+    const currentCount = originalSets.length;
+    for (let i = currentCount; i < totalSetsWanted; i++) {
+      const clone = firstSet.cloneNode(true);
+      clone.classList.add('marquee-clone');
+      clone.removeAttribute('id');
+      clone.setAttribute('aria-hidden', 'true');
+      track.appendChild(clone);
+    }
+
+    track.style.setProperty('--set-width', `${setWidth}px`);
+  }
+
+  // Execute marquee scaling
+  initMarquee();
+  window.addEventListener('resize', initMarquee);
+  window.addEventListener('load', initMarquee);
+
+  // Periodic recalculation updates to guard against async styles/font loading
+  setTimeout(initMarquee, 500);
+  setTimeout(initMarquee, 1500);
 
   track.addEventListener('touchstart', function() {
     track.classList.add('is-paused');

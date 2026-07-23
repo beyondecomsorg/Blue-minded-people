@@ -839,6 +839,7 @@
         "feature_Yri9fi",
         "feature_UNHrcm"
       ],
+      "disabled": true,
       "name": "Trust scroll strip",
       "settings": {
         "heading": "Built to earn customer trust",

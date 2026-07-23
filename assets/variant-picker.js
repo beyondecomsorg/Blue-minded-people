@@ -51,6 +51,347 @@ export default class VariantPicker extends Component {
 
     if (!trigger || !dialog) return;
 
+    // --- Dynamic Size Chart Rendering start ---
+    const shirtScript = this.querySelector('.shirt-size-chart-data');
+    const bottomScript = this.querySelector('.bottom-size-chart-data');
+    const dynamicContainer = dialog.querySelector('.size-chart-dynamic-tables');
+
+    if (dynamicContainer) {
+      dynamicContainer.innerHTML = '';
+      
+      let shirtData = null;
+      let bottomData = null;
+
+      if (shirtScript && shirtScript.textContent.trim()) {
+        try {
+          shirtData = JSON.parse(shirtScript.textContent);
+        } catch (e) {
+          console.error('Error parsing shirt size chart JSON:', e);
+        }
+      }
+
+      if (bottomScript && bottomScript.textContent.trim()) {
+        try {
+          bottomData = JSON.parse(bottomScript.textContent);
+        } catch (e) {
+          console.error('Error parsing bottom size chart JSON:', e);
+        }
+      }
+
+      const activeUnitBtn = dialog.querySelector('.size-chart-unit-btn.active');
+      const activeUnit = activeUnitBtn ? activeUnitBtn.dataset.unit : 'cm';
+
+      const helper_renderShirtTable = (data, container) => {
+        if (!data) return;
+        
+        let title = "";
+        let unit = "cm";
+        let headers = [];
+        let rows = [];
+        
+        if (Array.isArray(data)) {
+          rows = data;
+          if (rows.length > 0) {
+            headers = Object.keys(rows[0]);
+          }
+        } else {
+          title = data.title || "";
+          unit = data.unit || "cm";
+          
+          if (Array.isArray(data.rows)) {
+            if (data.rows.length > 0 && Array.isArray(data.rows[0])) {
+              headers = data.headers || [];
+              rows = data.rows;
+            } else if (data.rows.length > 0 && typeof data.rows[0] === 'object') {
+              rows = data.rows;
+              headers = Object.keys(rows[0]);
+            }
+          } else if (Array.isArray(data.data)) {
+            rows = data.data;
+            if (rows.length > 0) {
+              if (Array.isArray(rows[0])) {
+                headers = data.headers || [];
+              } else {
+                headers = Object.keys(rows[0]);
+              }
+            }
+          }
+        }
+        
+        if (headers.length === 0 && rows.length > 0) {
+          if (Array.isArray(rows[0])) {
+            headers = ["Size"];
+            for (let i = 1; i < rows[0].length; i++) {
+              headers.push(`Header ${i}`);
+            }
+          } else {
+            headers = Object.keys(rows[0]);
+          }
+        }
+
+        const sectionDiv = document.createElement('div');
+        sectionDiv.className = 'size-chart-dynamic-section shirt-section';
+        
+        if (title) {
+          const titleEl = document.createElement('h4');
+          titleEl.className = 'size-chart-fit-title';
+          titleEl.textContent = title;
+          sectionDiv.appendChild(titleEl);
+        }
+        
+        const tableContainer = document.createElement('div');
+        tableContainer.className = 'size-chart-modal__table-container';
+        
+        const table = document.createElement('table');
+        table.className = 'size-chart-table';
+        
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        headers.forEach(h => {
+          const th = document.createElement('th');
+          th.textContent = h;
+          headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+        
+        const tbody = document.createElement('tbody');
+        rows.forEach(row => {
+          const tr = document.createElement('tr');
+          if (Array.isArray(row)) {
+            row.forEach((val, idx) => {
+              const td = document.createElement('td');
+              if (idx === 0) {
+                td.textContent = val;
+              } else {
+                td.className = 'size-val';
+                const numVal = parseFloat(val);
+                if (!isNaN(numVal)) {
+                  if (unit.toLowerCase() === 'inch' || unit.toLowerCase() === 'inches') {
+                    td.dataset.inch = numVal;
+                    td.dataset.cm = (numVal * 2.54).toFixed(1);
+                  } else {
+                    td.dataset.cm = numVal;
+                    td.dataset.inch = (numVal * 0.393701).toFixed(1);
+                  }
+                  td.textContent = (activeUnit === 'cm') ? td.dataset.cm : td.dataset.inch;
+                } else {
+                  td.dataset.cm = val;
+                  td.dataset.inch = val;
+                  td.textContent = val;
+                }
+              }
+              tr.appendChild(td);
+            });
+          } else {
+            headers.forEach((h, idx) => {
+              const td = document.createElement('td');
+              const val = row[h];
+              if (idx === 0) {
+                td.textContent = val;
+              } else {
+                td.className = 'size-val';
+                const numVal = parseFloat(val);
+                if (!isNaN(numVal)) {
+                  if (unit.toLowerCase() === 'inch' || unit.toLowerCase() === 'inches') {
+                    td.dataset.inch = numVal;
+                    td.dataset.cm = (numVal * 2.54).toFixed(1);
+                  } else {
+                    td.dataset.cm = numVal;
+                    td.dataset.inch = (numVal * 0.393701).toFixed(1);
+                  }
+                  td.textContent = (activeUnit === 'cm') ? td.dataset.cm : td.dataset.inch;
+                } else {
+                  td.dataset.cm = val;
+                  td.dataset.inch = val;
+                  td.textContent = val;
+                }
+              }
+              tr.appendChild(td);
+            });
+          }
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        tableContainer.appendChild(table);
+        sectionDiv.appendChild(tableContainer);
+        
+        const unitText = document.createElement('p');
+        unitText.className = 'size-chart-unit-text';
+        unitText.style.fontSize = '12px';
+        unitText.style.color = 'var(--color-foreground-secondary, #666)';
+        unitText.style.marginTop = '8px';
+        unitText.style.marginBottom = '0';
+        unitText.textContent = `Measurements in ${unit}`;
+        sectionDiv.appendChild(unitText);
+        
+        container.appendChild(sectionDiv);
+      };
+
+      const helper_renderBottomTable = (data, container) => {
+        if (!data) return;
+        
+        let fits = [];
+        if (Array.isArray(data)) {
+          fits = data;
+        } else if (typeof data === 'object') {
+          Object.keys(data).forEach(key => {
+            if (data[key] && typeof data[key] === 'object' && (data[key].rows || data[key].measurements || Array.isArray(data[key]))) {
+              fits.push({
+                title: key,
+                ...data[key]
+              });
+            }
+          });
+        }
+        
+        fits.forEach(fit => {
+          let fitTitle = fit.title || fit.fit || fit.fit_name || "";
+          let headers = [];
+          let rows = [];
+          let unit = fit.unit || "cm";
+          
+          if (Array.isArray(fit.headers)) {
+            headers = fit.headers;
+            if (Array.isArray(fit.rows)) {
+              rows = fit.rows;
+            }
+          } else if (Array.isArray(fit.sizes)) {
+            headers = ["Measurement", ...fit.sizes];
+            if (fit.measurements) {
+              if (Array.isArray(fit.measurements)) {
+                fit.measurements.forEach(m => {
+                  rows.push([m.name || m.measurement || "", ...m.values]);
+                });
+              } else if (typeof fit.measurements === 'object') {
+                Object.keys(fit.measurements).forEach(mName => {
+                  rows.push([mName, ...fit.measurements[mName]]);
+                });
+              }
+            }
+          } else if (Array.isArray(fit.rows)) {
+            if (fit.rows.length > 0) {
+              headers = Object.keys(fit.rows[0]);
+              rows = fit.rows;
+            }
+          } else if (Array.isArray(fit)) {
+            rows = fit;
+            if (rows.length > 0) {
+              headers = Object.keys(rows[0]);
+            }
+          }
+          
+          if (headers.length === 0 && rows.length > 0) {
+            if (Array.isArray(rows[0])) {
+              headers = ["Measurement"];
+              for (let i = 1; i < rows[0].length; i++) {
+                headers.push(`Size ${i}`);
+              }
+            } else {
+              headers = Object.keys(rows[0]);
+            }
+          }
+          
+          const sectionDiv = document.createElement('div');
+          sectionDiv.className = 'size-chart-dynamic-section bottom-fit-section';
+          
+          if (fitTitle) {
+            const titleEl = document.createElement('h4');
+            titleEl.className = 'size-chart-fit-title';
+            titleEl.textContent = fitTitle;
+            sectionDiv.appendChild(titleEl);
+          }
+          
+          const tableContainer = document.createElement('div');
+          tableContainer.className = 'size-chart-modal__table-container';
+          
+          const table = document.createElement('table');
+          table.className = 'size-chart-table';
+          
+          const thead = document.createElement('thead');
+          const headerRow = document.createElement('tr');
+          headers.forEach(h => {
+            const th = document.createElement('th');
+            th.textContent = h;
+            headerRow.appendChild(th);
+          });
+          thead.appendChild(headerRow);
+          table.appendChild(thead);
+          
+          const tbody = document.createElement('tbody');
+          rows.forEach(row => {
+            const tr = document.createElement('tr');
+            if (Array.isArray(row)) {
+              row.forEach((val, idx) => {
+                const td = document.createElement('td');
+                if (idx === 0) {
+                  td.textContent = val;
+                } else {
+                  td.className = 'size-val';
+                  const numVal = parseFloat(val);
+                  if (!isNaN(numVal)) {
+                    if (unit.toLowerCase() === 'inch' || unit.toLowerCase() === 'inches') {
+                      td.dataset.inch = numVal;
+                      td.dataset.cm = (numVal * 2.54).toFixed(1);
+                    } else {
+                      td.dataset.cm = numVal;
+                      td.dataset.inch = (numVal * 0.393701).toFixed(1);
+                    }
+                    td.textContent = (activeUnit === 'cm') ? td.dataset.cm : td.dataset.inch;
+                  } else {
+                    td.dataset.cm = val;
+                    td.dataset.inch = val;
+                    td.textContent = val;
+                  }
+                }
+                tr.appendChild(td);
+              });
+            } else {
+              headers.forEach((h, idx) => {
+                const td = document.createElement('td');
+                const val = row[h];
+                if (idx === 0) {
+                  td.textContent = val;
+                } else {
+                  td.className = 'size-val';
+                  const numVal = parseFloat(val);
+                  if (!isNaN(numVal)) {
+                    if (unit.toLowerCase() === 'inch' || unit.toLowerCase() === 'inches') {
+                      td.dataset.inch = numVal;
+                      td.dataset.cm = (numVal * 2.54).toFixed(1);
+                    } else {
+                      td.dataset.cm = numVal;
+                      td.dataset.inch = (numVal * 0.393701).toFixed(1);
+                    }
+                    td.textContent = (activeUnit === 'cm') ? td.dataset.cm : td.dataset.inch;
+                  } else {
+                    td.dataset.cm = val;
+                    td.dataset.inch = val;
+                    td.textContent = val;
+                  }
+                }
+                tr.appendChild(td);
+              });
+            }
+            tbody.appendChild(tr);
+          });
+          table.appendChild(tbody);
+          tableContainer.appendChild(table);
+          sectionDiv.appendChild(tableContainer);
+          
+          container.appendChild(sectionDiv);
+        });
+      };
+
+      if (shirtData) {
+        helper_renderShirtTable(shirtData, dynamicContainer);
+      }
+      if (bottomData) {
+        helper_renderBottomTable(bottomData, dynamicContainer);
+      }
+    }
+    // --- Dynamic Size Chart Rendering end ---
+
     if (this._openModalHandler) {
       trigger.removeEventListener('click', this._openModalHandler);
     }

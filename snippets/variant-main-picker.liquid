@@ -329,7 +329,38 @@
               </button>
             </div>
             <div class="size-chart-modal__body">
-              {%- if product_resource.metafields.custom.size_chart.value != blank -%}
+              {%- assign shirt_size_chart_val = product_resource.metafields.custom.shirt_size_chart.value -%}
+              {%- assign bottom_size_chart_val = product_resource.metafields.custom.bottom_size_chart.value -%}
+
+              {%- if product_resource.handle == 'cameo-pink-oversized-t-shirt' and shirt_size_chart_val == blank -%}
+                {%- capture mock_shirt_json -%}
+                  {"title":"Regular Fit Shirt (Cuban Collar)","unit":"cm","headers":["Size","Chest","Shoulder","Length"],"rows":[["S","55","47","64.5"],["M","57","48.5","65.6"],["L","59","50","66.7"],["XL","61","51.5","66.3"],["XXL","63","53","66.9"],["XXXL","65","54.5","66.5"]]}
+                {%- endcapture -%}
+                {%- assign shirt_size_chart_val = mock_shirt_json -%}
+              {%- endif -%}
+
+              {%- if product_resource.handle == 'blue-pull-up-pant-non-denim' and bottom_size_chart_val == blank -%}
+                {%- capture mock_bottom_json -%}
+                  [{"fit":"Get Width It","unit":"cm","sizes":["28","30","32","34","36","38"],"measurements":{"Waist":["76","81","86","91","96","101"],"Hip":["94","99","104","109","114","119"],"Inseam Length":["76","76","76","76","76","76"],"Bottom Opening":["18","19","20","21","22","23"]}},{"fit":"Arturo","unit":"cm","sizes":["28","30","32","34","36","38"],"measurements":{"Waist":["78","83","88","93","98","103"],"Hip":["96","101","106","111","116","121"],"Inseam Length":["78","78","78","78","78","78"],"Bottom Opening":["19","20","21","22","23","24"]}}]
+                {%- endcapture -%}
+                {%- assign bottom_size_chart_val = mock_bottom_json -%}
+              {%- endif -%}
+
+              {%- if shirt_size_chart_val != blank or bottom_size_chart_val != blank -%}
+                <script class="shirt-size-chart-data" type="application/json">
+                  {{ shirt_size_chart_val | json }}
+                </script>
+                <script class="bottom-size-chart-data" type="application/json">
+                  {{ bottom_size_chart_val | json }}
+                </script>
+                <div class="size-chart-modal__tabs">
+                  <button type="button" class="size-chart-unit-btn active" data-unit="cm">cm</button>
+                  <button type="button" class="size-chart-unit-btn" data-unit="inch">inches</button>
+                </div>
+                <div class="size-chart-dynamic-tables">
+                  <!-- JS will dynamically populate tables here -->
+                </div>
+              {%- elsif product_resource.metafields.custom.size_chart.value != blank -%}
                 {%- assign size_chart_img = product_resource.metafields.custom.size_chart.value -%}
                 {%- assign size_chart_alt = 'Size chart for ' | append: product_resource.title -%}
                 <div class="size-chart-modal__image-card" style="display: flex; justify-content: center; align-items: center; width: 100%;">
@@ -754,6 +785,8 @@
     width: 100%;
     border-radius: var(--style-border-radius-inputs, 4px);
     border: 1px solid var(--color-border, #e5e5e5);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
   }
 
   .size-chart-table {
@@ -775,6 +808,9 @@
     font-weight: 600;
     color: var(--color-foreground);
     background-color: var(--color-background-secondary, #f9f9f9);
+    position: sticky;
+    top: 0;
+    z-index: 10;
   }
 
   .size-chart-table td {
@@ -791,5 +827,25 @@
 
   .size-chart-table tbody tr:hover {
     background-color: var(--color-background-secondary, #fafafa);
+  }
+
+  .size-chart-dynamic-tables {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+  }
+
+  .size-chart-dynamic-section {
+    width: 100%;
+  }
+
+  .size-chart-fit-title {
+    font-family: var(--font-heading) !important;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-foreground);
+    margin-top: 0;
+    margin-bottom: 10px;
   }
 {% endstylesheet %}
