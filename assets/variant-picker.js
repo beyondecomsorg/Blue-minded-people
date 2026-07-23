@@ -78,9 +78,6 @@ export default class VariantPicker extends Component {
         }
       }
 
-      const activeUnitBtn = dialog.querySelector('.size-chart-unit-btn.active');
-      const activeUnit = activeUnitBtn ? activeUnitBtn.dataset.unit : 'cm';
-
       const helper_renderShirtTable = (data, container) => {
         if (!data) return;
         
@@ -161,52 +158,19 @@ export default class VariantPicker extends Component {
           if (Array.isArray(row)) {
             row.forEach((val, idx) => {
               const td = document.createElement('td');
-              if (idx === 0) {
-                td.textContent = val;
-              } else {
+              if (idx > 0) {
                 td.className = 'size-val';
-                const numVal = parseFloat(val);
-                if (!isNaN(numVal)) {
-                  if (unit.toLowerCase() === 'inch' || unit.toLowerCase() === 'inches') {
-                    td.dataset.inch = numVal;
-                    td.dataset.cm = (numVal * 2.54).toFixed(1);
-                  } else {
-                    td.dataset.cm = numVal;
-                    td.dataset.inch = (numVal * 0.393701).toFixed(1);
-                  }
-                  td.textContent = (activeUnit === 'cm') ? td.dataset.cm : td.dataset.inch;
-                } else {
-                  td.dataset.cm = val;
-                  td.dataset.inch = val;
-                  td.textContent = val;
-                }
               }
+              td.textContent = val;
               tr.appendChild(td);
             });
           } else {
             headers.forEach((h, idx) => {
               const td = document.createElement('td');
-              const val = row[h];
-              if (idx === 0) {
-                td.textContent = val;
-              } else {
+              if (idx > 0) {
                 td.className = 'size-val';
-                const numVal = parseFloat(val);
-                if (!isNaN(numVal)) {
-                  if (unit.toLowerCase() === 'inch' || unit.toLowerCase() === 'inches') {
-                    td.dataset.inch = numVal;
-                    td.dataset.cm = (numVal * 2.54).toFixed(1);
-                  } else {
-                    td.dataset.cm = numVal;
-                    td.dataset.inch = (numVal * 0.393701).toFixed(1);
-                  }
-                  td.textContent = (activeUnit === 'cm') ? td.dataset.cm : td.dataset.inch;
-                } else {
-                  td.dataset.cm = val;
-                  td.dataset.inch = val;
-                  td.textContent = val;
-                }
               }
+              td.textContent = row[h];
               tr.appendChild(td);
             });
           }
@@ -232,24 +196,38 @@ export default class VariantPicker extends Component {
         if (!data) return;
         
         let fits = [];
-        if (Array.isArray(data)) {
+        let globalUnit = "cm";
+
+        if (typeof data === 'object' && !Array.isArray(data)) {
+          globalUnit = data.unit || "cm";
+          if (Array.isArray(data.fits)) {
+            fits = data.fits;
+          } else {
+            // Fallback for previous structure
+            Object.keys(data).forEach(key => {
+              if (data[key] && typeof data[key] === 'object' && (data[key].rows || data[key].measurements || Array.isArray(data[key]))) {
+                fits.push({
+                  title: key,
+                  ...data[key]
+                });
+              }
+            });
+          }
+        } else if (Array.isArray(data)) {
           fits = data;
-        } else if (typeof data === 'object') {
-          Object.keys(data).forEach(key => {
-            if (data[key] && typeof data[key] === 'object' && (data[key].rows || data[key].measurements || Array.isArray(data[key]))) {
-              fits.push({
-                title: key,
-                ...data[key]
-              });
-            }
-          });
         }
-        
+
+        const bottomContainer = document.createElement('div');
+        bottomContainer.className = 'size-chart-bottom-container';
+        bottomContainer.style.display = 'flex';
+        bottomContainer.style.flexDirection = 'column';
+        bottomContainer.style.gap = '20px';
+        bottomContainer.style.width = '100%';
+
         fits.forEach(fit => {
-          let fitTitle = fit.title || fit.fit || fit.fit_name || "";
+          let fitTitle = fit.name || fit.title || fit.fit || fit.fit_name || "";
           let headers = [];
           let rows = [];
-          let unit = fit.unit || "cm";
           
           if (Array.isArray(fit.headers)) {
             headers = fit.headers;
@@ -324,52 +302,19 @@ export default class VariantPicker extends Component {
             if (Array.isArray(row)) {
               row.forEach((val, idx) => {
                 const td = document.createElement('td');
-                if (idx === 0) {
-                  td.textContent = val;
-                } else {
+                if (idx > 0) {
                   td.className = 'size-val';
-                  const numVal = parseFloat(val);
-                  if (!isNaN(numVal)) {
-                    if (unit.toLowerCase() === 'inch' || unit.toLowerCase() === 'inches') {
-                      td.dataset.inch = numVal;
-                      td.dataset.cm = (numVal * 2.54).toFixed(1);
-                    } else {
-                      td.dataset.cm = numVal;
-                      td.dataset.inch = (numVal * 0.393701).toFixed(1);
-                    }
-                    td.textContent = (activeUnit === 'cm') ? td.dataset.cm : td.dataset.inch;
-                  } else {
-                    td.dataset.cm = val;
-                    td.dataset.inch = val;
-                    td.textContent = val;
-                  }
                 }
+                td.textContent = val;
                 tr.appendChild(td);
               });
             } else {
               headers.forEach((h, idx) => {
                 const td = document.createElement('td');
-                const val = row[h];
-                if (idx === 0) {
-                  td.textContent = val;
-                } else {
+                if (idx > 0) {
                   td.className = 'size-val';
-                  const numVal = parseFloat(val);
-                  if (!isNaN(numVal)) {
-                    if (unit.toLowerCase() === 'inch' || unit.toLowerCase() === 'inches') {
-                      td.dataset.inch = numVal;
-                      td.dataset.cm = (numVal * 2.54).toFixed(1);
-                    } else {
-                      td.dataset.cm = numVal;
-                      td.dataset.inch = (numVal * 0.393701).toFixed(1);
-                    }
-                    td.textContent = (activeUnit === 'cm') ? td.dataset.cm : td.dataset.inch;
-                  } else {
-                    td.dataset.cm = val;
-                    td.dataset.inch = val;
-                    td.textContent = val;
-                  }
                 }
+                td.textContent = row[h];
                 tr.appendChild(td);
               });
             }
@@ -379,8 +324,20 @@ export default class VariantPicker extends Component {
           tableContainer.appendChild(table);
           sectionDiv.appendChild(tableContainer);
           
-          container.appendChild(sectionDiv);
+          bottomContainer.appendChild(sectionDiv);
         });
+
+        container.appendChild(bottomContainer);
+
+        // Display the unit only once at the bottom of the container
+        const unitText = document.createElement('p');
+        unitText.className = 'size-chart-unit-text';
+        unitText.style.fontSize = '12px';
+        unitText.style.color = 'var(--color-foreground-secondary, #666)';
+        unitText.style.marginTop = '8px';
+        unitText.style.marginBottom = '0';
+        unitText.textContent = `Measurements in ${globalUnit}`;
+        container.appendChild(unitText);
       };
 
       if (shirtData) {
@@ -457,7 +414,7 @@ export default class VariantPicker extends Component {
     // Accessibility: Focus trap within modal
     dialog.addEventListener('keydown', (e) => {
       if (e.key === 'Tab') {
-        const focusable = dialog.querySelectorAll('button, .size-chart-unit-btn, [tabindex]:not([tabindex="-1"])');
+        const focusable = dialog.querySelectorAll('button, [tabindex]:not([tabindex="-1"])');
         if (focusable.length === 0) return;
         const first = focusable[0];
         const last = focusable[focusable.length - 1];
@@ -473,24 +430,6 @@ export default class VariantPicker extends Component {
           }
         }
       }
-    });
-
-    // Unit toggle switcher (cm / inches)
-    const unitButtons = dialog.querySelectorAll('.size-chart-unit-btn');
-    unitButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        unitButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const unit = btn.dataset.unit;
-        const sizeVals = dialog.querySelectorAll('.size-val');
-        sizeVals.forEach(cell => {
-          if (unit === 'cm') {
-            cell.textContent = cell.dataset.cm;
-          } else {
-            cell.textContent = cell.dataset.inch;
-          }
-        });
-      });
     });
   }
 

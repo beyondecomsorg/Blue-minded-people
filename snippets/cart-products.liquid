@@ -144,9 +144,10 @@
                       if settings.cart_thumbnail_border_radius > 0
                         assign border_override = border_override | append: ' overflow: hidden;'
                       endif
-                      if block_settings.image_ratio == 'portrait'
+                      assign image_ratio = block_settings.image_ratio | default: 'adapt'
+                      if image_ratio == 'portrait'
                         assign ratio = 0.8
-                      elsif block_settings.image_ratio == 'adapt'
+                      elsif image_ratio == 'adapt'
                         assign ratio = item.image.aspect_ratio
                       endif
                     %}
@@ -421,6 +422,9 @@
   .cart-items__table * {
     margin: 0;
   }
+  body .cart-items__product-info a{
+   color: black !important;
+  } 
 
   .cart-items__table-row {
     --cart-item-price-width: 6rem;
@@ -440,13 +444,14 @@
   /* Cart drawer: separate grid areas for variants and unit price */
   .cart-drawer .cart-items__table-row--full-width-variants {
     grid-template-columns: clamp(2.5rem, 15cqi, 7.5rem) minmax(0, 1fr) auto;
-    grid-template-rows: repeat(4, min-content) 1fr;
+    grid-template-rows: repeat(5, min-content) 1fr;
     grid-template-areas:
-      'media details price'
-      'media variants variants'
+      'media details details'
       'media unit_price unit_price'
+      'media variants variants'
       'media quantity quantity'
-      'media error error';
+      'media error error'
+      'media price price';
 
     .cart-items__details {
       display: contents;
@@ -458,6 +463,7 @@
 
     .cart-items__variants-wrapper {
       grid-area: variants;
+      margin-block-start: var(--margin-3xs);
 
       &:empty {
         display: none;
@@ -471,11 +477,14 @@
     .cart-items__unit-price-wrapper {
       grid-area: unit_price;
       font-size: var(--font-size--sm);
+      margin-block-start: var(--margin-3xs);
     }
 
     .cart-items__price {
       min-width: auto;
       width: max-content;
+      justify-self: end;
+      margin-block-start: var(--margin-xs);
     }
   }
 
@@ -712,21 +721,6 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-    }
-
-    /* Cart drawer: separate areas for variants and unit price */
-    .cart-drawer .cart-items__table-row--full-width-variants {
-      grid-template-rows: min-content min-content min-content 1fr;
-      grid-template-areas:
-        'media details quantity price'
-        'media variants variants variants'
-        'media unit_price unit_price unit_price'
-        'media error error error';
-
-      .cart-items__quantity,
-      .cart-items__price {
-        grid-area: initial;
-      }
     }
   }
 

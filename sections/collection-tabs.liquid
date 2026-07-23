@@ -442,6 +442,14 @@
             const targetPane = wrapper.querySelector('.collection-tabs-active-pane[data-pane-index="' + targetIndex + '"]');
             if (targetPane) {
               targetPane.classList.add('is-active');
+              
+              // Smoothly scroll the page to this active content part
+              setTimeout(() => {
+                targetPane.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'nearest'
+                });
+              }, 100);
             }
 
             // Smoothly scroll active thumbnail into visible viewport of strip

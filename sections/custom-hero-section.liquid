@@ -109,7 +109,7 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: fill;
   display: block;
 }
 
@@ -469,7 +469,11 @@ bottom: -3%;
           {% endif %}
 
           <li class="splide__slide" {{ block.shopify_attributes }}>
-            <div class="hs-slide">
+            {% if b.btn1_link != blank %}
+              <a href="{{ b.btn1_link }}" {% if b.btn1_new_tab %}target="_blank" rel="noopener"{% endif %} class="hs-slide" style="display: block; text-decoration: none; color: inherit;">
+            {% else %}
+              <div class="hs-slide">
+            {% endif %}
 
               {% if has_video %}
                 {%- comment -%} ── VIDEO BACKGROUND ── {%- endcomment -%}
@@ -572,7 +576,8 @@ bottom: -3%;
                     <p class="hs-slide__subtext">{{ b.subtext }}</p>
                   {% endif %}
 
-                  {% comment %} 3 CTA buttons {% endcomment %}
+                  {% comment %} 3 CTA buttons are commented out because the whole section is now a link {% endcomment %}
+                  {% comment %}
                   {% assign has_btn = false %}
                   {% if b.btn1_label != blank %}{% assign has_btn = true %}{% endif %}
                   {% if b.btn2_label != blank %}{% assign has_btn = true %}{% endif %}
@@ -619,10 +624,15 @@ bottom: -3%;
 
                     </div>
                   {% endif %}
+                  {% endcomment %}
                 </div>
               {% endunless %}
 
-            </div>
+            {% if b.btn1_link != blank %}
+              </a>
+            {% else %}
+              </div>
+            {% endif %}
           </li>
         {% endfor %}
       </ul>
