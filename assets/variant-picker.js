@@ -200,12 +200,14 @@ export default class VariantPicker extends Component {
 
         if (typeof data === 'object' && !Array.isArray(data)) {
           globalUnit = data.unit || "cm";
-          if (Array.isArray(data.fits)) {
+          if (Array.isArray(data.headers) && Array.isArray(data.rows)) {
+            fits = [data];
+          } else if (Array.isArray(data.fits)) {
             fits = data.fits;
           } else {
             // Fallback for previous structure
             Object.keys(data).forEach(key => {
-              if (data[key] && typeof data[key] === 'object' && (data[key].rows || data[key].measurements || Array.isArray(data[key]))) {
+              if (key !== 'unit' && key !== 'title' && key !== 'headers' && key !== 'rows' && data[key] && typeof data[key] === 'object' && (data[key].rows || data[key].measurements || Array.isArray(data[key]))) {
                 fits.push({
                   title: key,
                   ...data[key]
