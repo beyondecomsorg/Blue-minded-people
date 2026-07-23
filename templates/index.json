@@ -962,6 +962,7 @@
       "blocks": {
         "category_card_LFh6Qc": {
           "type": "category_card",
+          "disabled": true,
           "settings": {
             "card_image": "shopify://shop_images/navy_blue_0ef80fd7-05f7-4a0c-b9b0-dc6b09e495b4.webp",
             "label": "MEN",
@@ -970,6 +971,7 @@
         },
         "category_card_r94XTU": {
           "type": "category_card",
+          "disabled": true,
           "settings": {
             "card_image": "shopify://shop_images/Untitled_design_2.png",
             "label": "WOMEN",
@@ -978,6 +980,7 @@
         },
         "category_card_hYh7At": {
           "type": "category_card",
+          "disabled": true,
           "settings": {
             "card_image": "shopify://shop_images/white_t_986b5a43-b2bd-4b8f-81e4-c4037d2bef48.webp",
             "label": "BOYS",
@@ -986,6 +989,7 @@
         },
         "category_card_yYyi6d": {
           "type": "category_card",
+          "disabled": true,
           "settings": {
             "card_image": "shopify://shop_images/Untitled_design_7.png",
             "label": "GIRLS",
@@ -1001,15 +1005,15 @@
       ],
       "name": "Our Favourites Hero",
       "settings": {
-        "bg_image": "shopify://shop_images/Gemini_Generated_Image_h0drm0h0drm0h0dr.png",
+        "bg_image": "shopify://shop_images/fgfg.png",
         "fallback_bg": "#0b1f33",
         "section_min_height": 700,
-        "overlay_top_opacity": 20,
-        "overlay_bottom_opacity": 40,
+        "overlay_top_opacity": 0,
+        "overlay_bottom_opacity": 0,
         "section_bg": "#ffffff",
-        "eyebrow": "RALPH LAUREN",
-        "title": "Our Favourites",
-        "subtitle": "Standout gifts with signature Ralph Lauren style",
+        "eyebrow": "",
+        "title": "",
+        "subtitle": "",
         "text_top": 28,
         "text_left": 36,
         "eyebrow_color": "#ffffff",
