@@ -17,7 +17,7 @@
           "settings": {
             "image": "shopify://shop_images/Sign.jpg",
             "image_focal_point": "center center",
-            "mobile_image": "shopify://shop_images/Sign.jpg",
+            "mobile_image": "shopify://shop_images/sign_mobile.png",
             "mobile_image_focal_point": "center center",
             "video_url_mp4": "",
             "video_url_webm": "",
