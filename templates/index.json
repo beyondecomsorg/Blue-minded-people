@@ -14,6 +14,7 @@
       "blocks": {
         "slide_NHT4Nb": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/Sign.jpg",
             "image_focal_point": "center center",
