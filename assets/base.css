@@ -4608,10 +4608,7 @@ slideshow-component .product-price-main-sale{
           padding-top: 30px !important
         }
 
-   .wnt-wrapper{
-    padding-top: 30px !important;
-    padding-bottom: 30px !important;
-  } 
+
    .category-explore-banner-wrapper.section-wrapper{
     padding-top: 0px !important;
     padding-bottom: 30px !important;
@@ -4628,9 +4625,7 @@ product-recommendations .text-block:not(.text-block--full-width).paragraph p {
   padding-bottom: 30px !important;
 }
 
-.sbc-container.section-wrapper{
-  padding-top: 30px !important;
-}
+
 .shopify-section.brand-product-carousel .bpc-wrap.section-wrapper {
      padding-top: 0px !important;
     padding-bottom: 30px !important;
@@ -4638,12 +4633,7 @@ product-recommendations .text-block:not(.text-block--full-width).paragraph p {
 .bpc-progress-wrap{
   display: none !important;
 }
-  .hero.section-wrapper.color-scheme-2,
-  .sbc-container,
-  .sfc-wrap{
-    padding-bottom: 30px !important;
-  }
-  .shopify-section.our-favourites-hero .section-wrapper,
+
   .shopify-section.explore-selections-grid .section-wrapper,
   .shopify-section.three-panel-editorial .section-wrapper {
     padding-bottom: 30px !important;
@@ -5589,7 +5579,7 @@ dialog.quick-add-modal .quick-add-modal__close:hover svg {
   position: relative !important;
   top: auto !important;
   z-index: 1 !important;
-  background-color: rgba(255, 255, 255, 0.92) !important;
+  background-color: #f8f6f2 !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
   border-bottom: 1px solid #E5E7EB !important;
@@ -5662,7 +5652,7 @@ dialog.quick-add-modal .quick-add-modal__close:hover svg {
   justify-content: space-between !important;
   height: 44px !important;
   padding-inline: 18px !important;
-  background-color: #FFFFFF !important;
+  background-color: #F8F6F2 !important;
   border: 1px solid #E5E7EB !important;
   border-radius: 12px !important;
   font-family: var(--font-body) !important;
@@ -5691,7 +5681,7 @@ dialog.quick-add-modal .quick-add-modal__close:hover svg {
 .facets__panel[open] .facets__summary {
   border-color: var(--color-deep-navy, #0B1F33) !important;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
-  background-color: #FFFFFF !important;
+  background-color: #f8f6f2 !important;
 }
 
 /* Rotate caret icon on expand */
@@ -5712,7 +5702,7 @@ dialog.quick-add-modal .quick-add-modal__close:hover svg {
   width: max-content !important;
   min-width: 280px !important;
   max-width: 400px !important;
-  background-color: #FFFFFF !important;
+  background-color: #F8F6F2 !important;
   border: 1px solid #E5E7EB !important;
   border-radius: 12px !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
@@ -5802,7 +5792,7 @@ dialog.quick-add-modal .quick-add-modal__close:hover svg {
   font-size: 13px !important;
   border: 1px solid #E5E7EB !important;
   border-radius: 8px !important;
-  background-color: #F9FAFB !important;
+  background-color: #f8f6f2 !important;
   outline: none !important;
   font-family: var(--font-body) !important;
   transition: border-color 0.2s, background-color 0.2s !important;
@@ -5851,6 +5841,73 @@ dialog.quick-add-modal .quick-add-modal__close:hover svg {
 .facets__inputs-list-item input[type="checkbox"]:checked {
   background-color: var(--color-deep-navy, #0B1F33) !important;
   border-color: var(--color-deep-navy, #0B1F33) !important;
+}
+
+/* Collection Filters - Checked/Active Element Text White Color */
+.facets__pill-input:checked + .facets__pill-label,
+.facets__pill-input:checked + .facets__pill-label *,
+.facets__pill-wrapper:has(.facets__pill-input:checked) .facets__pill-label,
+.facets__pill-wrapper:has(.facets__pill-input:checked) .facets__pill-label * {
+  color: #FFFFFF !important;
+  background-color: var(--color-deep-navy, #0B1F33) !important;
+  border-color: var(--color-deep-navy, #0B1F33) !important;
+}
+
+/* Cart Recommendations Button White Text Override */
+html body .cart-recommendations button.cart-recommendations__add-btn,
+html body .cart-recommendations .cart-recommendations__add-btn,
+html body .cart-drawer .cart-recommendations__add-btn,
+html body .cart-items__wrapper .cart-recommendations__add-btn {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  background-color: var(--color-deep-navy, #0B1F33) !important;
+  border-color: var(--color-deep-navy, #0B1F33) !important;
+  font-weight: 600 !important;
+  opacity: 1 !important;
+}
+
+html body .cart-recommendations button.cart-recommendations__add-btn:hover,
+html body .cart-recommendations .cart-recommendations__add-btn:hover {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  background-color: var(--color-copper-rivet, #B87333) !important;
+  border-color: var(--color-copper-rivet, #B87333) !important;
+}
+
+/* Cart Recommendations Navigation Arrow Buttons */
+html body .cart-recommendations button.cart-recommendations__nav,
+html body .cart-recommendations .cart-recommendations__nav {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 50% !important;
+  border: 1px solid var(--color-border-grey, #E5E5E5) !important;
+  background-color: #FFFFFF !important;
+  background: #FFFFFF !important;
+  color: var(--color-deep-navy, #0B1F33) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+}
+
+html body .cart-recommendations button.cart-recommendations__nav svg,
+html body .cart-recommendations .cart-recommendations__nav svg {
+  width: 12px !important;
+  height: 12px !important;
+  stroke: var(--color-deep-navy, #0B1F33) !important;
+  fill: none !important;
+  stroke-width: 2 !important;
+}
+
+html body .cart-recommendations button.cart-recommendations__nav:hover,
+html body .cart-recommendations .cart-recommendations__nav:hover {
+  background-color: var(--color-deep-navy, #0B1F33) !important;
+  border-color: var(--color-deep-navy, #0B1F33) !important;
+}
+
+html body .cart-recommendations button.cart-recommendations__nav:hover svg,
+html body .cart-recommendations .cart-recommendations__nav:hover svg {
+  stroke: #FFFFFF !important;
 }
 
 /* 4. Redesigned active filter chips */

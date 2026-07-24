@@ -255,7 +255,7 @@
         "font_family": "inherit",
         "padding_top": 60,
         "padding_bottom": 60,
-        "padding_top_mobile": 0,
+        "padding_top_mobile": 30,
         "padding_bottom_mobile": 30
       }
     },
@@ -452,7 +452,7 @@
         "dot_active_color": "#b87333",
         "dot_inactive_color": "#e5e5e5",
         "font_family": "inherit",
-        "bg_color": "#ffffff",
+        "bg_color": "#f8f6f2",
         "container_width": 1400,
         "padding_top": 60,
         "padding_bottom": 60,
@@ -626,8 +626,10 @@
         "show_arrows": true,
         "show_dots": true,
         "pause_on_hover": true,
-        "margin_top": 0,
-        "margin_bottom": 60
+        "padding_top": 30,
+        "padding_bottom": 30,
+        "padding_top_mobile": 15,
+        "padding_bottom_mobile": 15
       }
     },
     "shop_by_category_Y6HHJz": {
@@ -646,17 +648,17 @@
         "enable_carousel_mobile": true,
         "card_gap": 16,
         "image_ratio": "3/4",
-        "card_bg_color": "#ffffff",
+        "card_bg_color": "#f8f6f2",
         "card_border_color": "#e5e5e5",
         "card_title_color": "#0b1f33",
         "card_title_size": 13,
-        "btn_bg_color": "#ffffff",
+        "btn_bg_color": "#f8f6f2",
         "btn_text_color": "#0b1f33",
         "btn_border_color": "#0b1f33",
         "btn_hover_bg": "#b87333",
         "btn_hover_text": "#ffffff",
         "font_family": "inherit",
-        "bg_color": "#ffffff",
+        "bg_color": "#f8f6f2",
         "padding_top": 60,
         "padding_bottom": 60,
         "padding_top_mobile": 30,
@@ -802,7 +804,7 @@
         "btn_hover_bg": "#b87333",
         "btn_hover_text": "#ffffff",
         "font_family": "inherit",
-        "bg_color": "#ffffff",
+        "bg_color": "#f8f6f2",
         "padding_top": 60,
         "padding_bottom": 60,
         "padding_top_mobile": 0,
@@ -958,6 +960,119 @@
         "padding_bottom_mobile": 0
       }
     },
+    "hero_nw7TUV": {
+      "type": "hero",
+      "blocks": {
+        "text_XqNWCd": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "<h2>New arrivals</h2>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "h1",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "text_EB6FTM": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "<p>Made with care and unconditionally loved by our customers.</p>",
+            "width": "fit-content",
+            "max_width": "narrow",
+            "alignment": "left",
+            "type_preset": "rte",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 32,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "button_DtMqi9": {
+          "type": "button",
+          "name": "t:names.button",
+          "disabled": true,
+          "settings": {
+            "label": "Shop now",
+            "link": "shopify://collections/all",
+            "open_in_new_tab": false,
+            "style_class": "button",
+            "width": "fit-content",
+            "custom_width": 100,
+            "width_mobile": "fit-content",
+            "custom_width_mobile": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_XqNWCd",
+        "text_EB6FTM",
+        "button_DtMqi9"
+      ],
+      "name": "t:names.hero",
+      "settings": {
+        "media_type_1": "image",
+        "image_1": "shopify://shop_images/fgfg.png",
+        "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": true,
+        "media_type_1_mobile": "image",
+        "image_1_mobile": "shopify://shop_images/sign_2_mobile.png",
+        "media_type_2_mobile": "image",
+        "link": "shopify://collections/bottom-wear",
+        "open_in_new_tab": false,
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 16,
+        "section_width": "page-width",
+        "section_height": "auto",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-2",
+        "toggle_overlay": true,
+        "overlay_color": "#00000026",
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding_top": 0,
+        "padding_bottom": 60,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 30
+      }
+    },
     "our_favourites_hero_BF4Axj": {
       "type": "our-favourites-hero",
       "blocks": {
@@ -1004,6 +1119,7 @@
         "category_card_hYh7At",
         "category_card_yYyi6d"
       ],
+      "disabled": true,
       "name": "Our Favourites Hero",
       "settings": {
         "bg_image": "shopify://shop_images/fgfg.png",
@@ -1686,7 +1802,7 @@
         "heading": "Built to earn customer trust",
         "subheading": "Show your strongest product advantages in a premium, scrollable strip.",
         "scroll_speed": 60,
-        "section_bg": "#ffffff",
+        "section_bg": "#f8f6f2",
         "padding_top": 40,
         "padding_bottom": 40,
         "padding_top_mobile": 20,
@@ -1790,6 +1906,7 @@
     "shop_by_category_pnqBLH",
     "shop_by_category_t6FniM",
     "brand_product_carousel_XMYDx6",
+    "hero_nw7TUV",
     "our_favourites_hero_BF4Axj",
     "tab_section_iaPzmM",
     "explore_selections_grid_YRPPzj",

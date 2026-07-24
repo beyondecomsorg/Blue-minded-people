@@ -28,8 +28,15 @@
     position: relative;
     overflow: hidden;
     width: 100%;
-    margin-top: {{ section.settings.margin_top }}px;
-    margin-bottom: {{ section.settings.margin_bottom }}px;
+    padding-top: var(--section-padding-top);
+    padding-bottom: var(--section-padding-bottom);
+  }
+
+  @media screen and (max-width: 749px) {
+    #custom-banner-{{ section.id }} {
+      padding-top: var(--section-padding-top-mobile) !important;
+      padding-bottom: var(--section-padding-bottom-mobile) !important;
+    }
   }
 
   /* Aspect ratio heights */
@@ -357,6 +364,7 @@
   data-effect="{{ section.settings.transition_effect }}"
   data-loop="{{ section.settings.infinite_loop }}"
   data-pause-on-hover="{{ section.settings.pause_on_hover }}"
+  style="--section-padding-top: {{ section.settings.padding_top }}px; --section-padding-bottom: {{ section.settings.padding_bottom }}px; --section-padding-top-mobile: {{ section.settings.padding_top_mobile }}px; --section-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;"
 >
   <div class="custom-banner-slides-wrapper">
     <div class="custom-banner-slides-inner" ref="slidesInner">
@@ -838,27 +846,47 @@
     },
     {
       "type": "header",
-      "content": "Section Padding"
+      "content": "Section Spacing"
     },
     {
       "type": "range",
-      "id": "margin_top",
-      "label": "Section Margin Top",
+      "id": "padding_top",
+      "label": "Section top padding — desktop (px)",
       "min": 0,
-      "max": 100,
-      "step": 2,
+      "max": 150,
+      "step": 5,
       "unit": "px",
-      "default": 0
+      "default": 30
     },
     {
       "type": "range",
-      "id": "margin_bottom",
-      "label": "Section Margin Bottom",
+      "id": "padding_bottom",
+      "label": "Section bottom padding — desktop (px)",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Section top padding — mobile (px)",
       "min": 0,
       "max": 100,
-      "step": 2,
+      "step": 5,
       "unit": "px",
-      "default": 0
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Section bottom padding — mobile (px)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 15
     }
   ],
   "blocks": [

@@ -690,7 +690,7 @@
     /* Brand Colors */
     --color-deep-navy: {{ settings.color_primary_deep_navy | default: '#0B1F33' }};
     --color-indigo-blue: {{ settings.color_primary_indigo_blue | default: '#1E3A5F' }};
-    --color-off-white: {{ settings.color_primary_off_white | default: '#FFFFFF' }};
+    --color-off-white: {{ settings.color_primary_off_white | default: '#F8F6F2' }};
     --color-raw-denim-blue: {{ settings.color_secondary_raw_denim | default: '#345E8A' }};
     --color-vintage-stone: {{ settings.color_secondary_vintage_stone | default: '#CFC8BE' }};
     --color-charcoal-grey: {{ settings.color_secondary_charcoal_grey | default: '#222222' }};
@@ -699,7 +699,7 @@
     --color-copper-rivet: {{ settings.color_accent_copper_rivet | default: '#B87333' }};
 
     /* Specific UI Color Overrides */
-    --ui-color-site-bg: {{ settings.ui_color_site_bg | default: '#FFFFFF' }};
+    --ui-color-site-bg: {{ settings.ui_color_site_bg | default: '#F8F6F2' }};
     --ui-color-header-bg: {{ settings.ui_color_header_bg | default: '#0B1F33' }};
     --ui-color-header-text: {{ settings.ui_color_header_text | default: '#F8F6F2' }};
     --ui-color-headings: {{ settings.ui_color_headings | default: '#0B1F33' }};
@@ -753,7 +753,7 @@
 
     /* Mapping Core Color Theme Variables */
     --color-background: var(--ui-color-site-bg);
-    --color-background-rgb: {% if settings.ui_color_site_bg != blank %}{{ settings.ui_color_site_bg.rgb }}{% else %}255 255 255{% endif %};
+    --color-background-rgb: {% if settings.ui_color_site_bg != blank %}{{ settings.ui_color_site_bg.rgb }}{% else %}248 246 242{% endif %};
     --color-foreground: var(--ui-color-body-text);
     --color-foreground-rgb: {% if settings.ui_color_body_text != blank %}{{ settings.ui_color_body_text.rgb }}{% else %}34 34 34{% endif %};
     --color-foreground-heading: var(--ui-color-headings);

@@ -15,7 +15,11 @@
           class="cart-totals__original-value cart-secondary-typography"
           data-testid="cart-subtotal-value"
         >
-          {{- cart.items_subtotal_price | money -}}
+          {%- if settings.currency_code_enabled_cart_total -%}
+            {{- cart.items_subtotal_price | money_without_trailing_zeros -}} {{ cart.currency.iso_code }}
+          {%- else -%}
+            {{- cart.items_subtotal_price | money_without_trailing_zeros -}}
+          {%- endif -%}
         </span>
       </span>
       <ul
@@ -29,8 +33,12 @@
               {{- 'icon-discount.svg' | inline_asset_content -}}
               {{ discount.title | escape }}
             </span>
-            <span class="cart-discounts__value cart-secondary-typography"
-              >-{{ discount.total_allocated_amount | money -}}
+            <span class="cart-discounts__value cart-secondary-typography">
+              {%- if settings.currency_code_enabled_cart_total -%}
+                >-{{ discount.total_allocated_amount | money_without_trailing_zeros -}} {{ cart.currency.iso_code }}
+              {%- else -%}
+                >-{{ discount.total_allocated_amount | money_without_trailing_zeros -}}
+              {%- endif -%}
             </span>
           </li>
         {%- endfor -%}
@@ -98,37 +106,31 @@
           for item in cart.items
             for allocation in item.line_level_discount_allocations
               if allocation.discount_application.type == 'discount_code'
-                assign discount_codes = item.line_level_discount_allocations | slice: forloop.index0 | map: 'discount_application' | map: 'title' | concat: discount_codes
+                assign discount_codes = discount_codes | push: allocation.discount_application.title
               endif
             endfor
           endfor
-
           assign discount_codes = discount_codes | uniq
-
-          # Evaluate the boolean expression for the disclosure state
-          if discount_codes.size == 0
-            assign disclosure_expanded = false
-          else
-            assign disclosure_expanded = true
-          endif
         %}
 
         {% capture cart_discount_accordion_children %}
           <details
             class="details"
-            {% if disclosure_expanded %}
+            {% if discount_codes.size > 0 %}
               open
             {% endif %}
           >
             <summary class="cart-discount__summary">
-              <span class="cart-discount__label cart-primary-typography">{{ 'content.discount' | t }}</span>
+              <span class="cart-discount__label cart-primary-typography">
+                {{ 'content.discount' | t }}
+              </span>
 
               <span class="cart-totals__icon">
                 {{- 'icon-plus.svg' | inline_asset_content -}}
               </span>
             </summary>
 
-            <div class="details-content">
+            <div class="details-content cart-discount__inner">
               <div id="cart-discount-disclosure">
                 <cart-discount-component
                   {% if section_id != blank %}
@@ -221,9 +223,9 @@
 
   {%- liquid
     if settings.currency_code_enabled_cart_total
-      assign total_price = cart.total_price | money_with_currency
+      assign total_price = cart.total_price | money_without_trailing_zeros | append: ' ' | append: cart.currency.iso_code
     else
-      assign total_price = cart.total_price | money
+      assign total_price = cart.total_price | money_without_trailing_zeros
     endif
   -%}
 

@@ -60,15 +60,15 @@
   endif
 
   if use_currency
-    assign price = price | money_with_currency | replace: '.00', '' | replace: ' INR', ''
-    assign compare_at_price = compare_at_price | money_with_currency | replace: '.00', '' | replace: ' INR', ''
-    assign price_min = price_min | money_with_currency | replace: '.00', '' | replace: ' INR', ''
-    assign price_max = price_max | money_with_currency | replace: '.00', '' | replace: ' INR', ''
+    assign price = price | money_without_trailing_zeros
+    assign compare_at_price = compare_at_price | money_without_trailing_zeros
+    assign price_min = price_min | money_without_trailing_zeros
+    assign price_max = price_max | money_without_trailing_zeros
   else
-    assign price = price | money | replace: '.00', ''
-    assign compare_at_price = compare_at_price | money | replace: '.00', ''
-    assign price_min = price_min | money | replace: '.00', ''
-    assign price_max = price_max | money | replace: '.00', ''
+    assign price = price | money_without_trailing_zeros
+    assign compare_at_price = compare_at_price | money_without_trailing_zeros
+    assign price_min = price_min | money_without_trailing_zeros
+    assign price_max = price_max | money_without_trailing_zeros
   endif
 -%}
 

@@ -214,9 +214,9 @@
 
       <!-- Price Row -->
       <div class="product-card__price-row">
-        <span class="product-card__price">{{ product.price | default: 0 | money }}</span>
+        <span class="product-card__price">{{ product.price | default: 0 | money_without_trailing_zeros }}</span>
         {% if product.compare_at_price > product.price %}
-          <span class="product-card__compare-price">{{ product.compare_at_price | money }}</span>
+          <span class="product-card__compare-price">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
           {% liquid
             assign diff = product.compare_at_price | minus: product.price
             assign discount = diff | times: 100 | divided_by: product.compare_at_price | round
@@ -272,7 +272,7 @@
         <a href="#">{{ 'content.product_card_placeholder' | t }}</a>
       </h3>
       <div class="product-card__price-row">
-        <span class="product-card__price">{{ 9900 | money }}</span>
+        <span class="product-card__price">{{ 9900 | money_without_trailing_zeros }}</span>
       </div>
     {% endunless %}
   </div>

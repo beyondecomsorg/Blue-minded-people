@@ -12,7 +12,17 @@
   .sfc-wrap {
     max-width: var(--global-max-container-width-desktop);
     margin: 0 auto;
-    padding: 0 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: var(--section-padding-top);
+    padding-bottom: var(--section-padding-bottom);
+  }
+
+  @media (max-width: 749px) {
+    .sfc-wrap {
+      padding-top: var(--section-padding-top-mobile) !important;
+      padding-bottom: var(--section-padding-bottom-mobile) !important;
+    }
   }
 
   /* Heading */

@@ -523,10 +523,12 @@
 
   .facets__pill-input {
     &:checked + .facets__pill-label {
-      --pill-label-color-rgb: var(--color-background-rgb);
+      --pill-label-color-rgb: 255 255 255;
       --pill-label-background-color-rgb: var(--color-foreground-rgb);
       --pill-label-border-opacity: 0;
-
+      color: #FFFFFF !important;
+      background-color: var(--color-deep-navy, #0B1F33) !important;
+      border-color: var(--color-deep-navy, #0B1F33) !important;
       font-weight: 500;
     }
 

@@ -8,6 +8,18 @@
     background-color: var(--color-off-white);
   }
 
+  #shopify-section-{{ section.id }} > .section-wrapper {
+    padding-top: var(--section-padding-top);
+    padding-bottom: var(--section-padding-bottom);
+  }
+
+  @media (max-width: 749px) {
+    #shopify-section-{{ section.id }} > .section-wrapper {
+      padding-top: var(--section-padding-top-mobile) !important;
+      padding-bottom: var(--section-padding-bottom-mobile) !important;
+    }
+  }
+
   /* ── Hero wrapper ── */
   .orf-hero {
     position: relative;

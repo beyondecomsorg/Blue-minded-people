@@ -556,6 +556,15 @@
   .hero {
     position: relative;
     min-height: calc(var(--hero-min-height) - var(--hero-height-offset));
+    padding-top: var(--section-padding-top);
+    padding-bottom: var(--section-padding-bottom);
+  }
+
+  @media screen and (max-width: 749px) {
+    .hero {
+      padding-top: var(--section-padding-top-mobile) !important;
+      padding-bottom: var(--section-padding-bottom-mobile) !important;
+    }
   }
 
   .hero[data-shopify-visual-preview] {
