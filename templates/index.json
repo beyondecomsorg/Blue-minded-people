@@ -1902,6 +1902,30 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
+    },
+    "journal_grid_Di4rTH": {
+      "type": "journal-grid",
+      "name": "Journal Grid",
+      "settings": {
+        "label_text": "From the Journal",
+        "heading_text": "Stories & Inspiration",
+        "description": "",
+        "header_alignment": "left",
+        "blog": "news",
+        "post_limit": 3,
+        "show_excerpt": true,
+        "show_date": true,
+        "read_more_text": "Read article",
+        "columns_desktop": 3,
+        "columns_tablet": 2,
+        "columns_mobile": "1",
+        "card_gap": 32,
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "background_color": "#ffffff",
+        "heading_color": "#0b1f33",
+        "text_color": "#444444"
+      }
     }
   },
   "order": [
@@ -1927,6 +1951,7 @@
     "hero_Fr6tr6",
     "trust_scrolling_LFQwYD",
     "category_explore_banner",
-    "custom_liquid_79pEQK"
+    "custom_liquid_79pEQK",
+    "journal_grid_Di4rTH"
   ]
 }

@@ -1,0 +1,549 @@
+{%- comment -%}
+  Journal Grid — Shopify OS 2.0 Section
+  Editorial / magazine-style blog post grid.
+  All CSS & JS are scoped to this section only.
+{%- endcomment -%}
+
+{%- liquid
+  assign blog_source  = section.settings.blog
+  assign post_limit   = section.settings.post_limit
+  assign label_text   = section.settings.label_text
+  assign heading_text = section.settings.heading_text
+  assign desc_text    = section.settings.description
+  assign alignment    = section.settings.header_alignment
+
+  assign cols_desktop = section.settings.columns_desktop
+  assign cols_tablet  = section.settings.columns_tablet
+  assign cols_mobile  = section.settings.columns_mobile
+  assign card_gap     = section.settings.card_gap
+  assign pt           = section.settings.padding_top
+  assign pb           = section.settings.padding_bottom
+  assign bg_color     = section.settings.background_color
+  assign h_color      = section.settings.heading_color
+  assign t_color      = section.settings.text_color
+
+  assign show_excerpt  = section.settings.show_excerpt
+  assign show_date     = section.settings.show_date
+  assign read_more_txt = section.settings.read_more_text
+
+  assign has_articles = false
+  if blog_source != blank and blog_source.articles_count > 0
+    assign has_articles = true
+  endif
+-%}
+
+{%- style -%}
+  #journal-grid-{{ section.id }} {
+    background-color: {{ bg_color }};
+    padding-top: {{ pt }}px;
+    padding-bottom: {{ pb }}px;
+  }
+
+  #journal-grid-{{ section.id }} .jg-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── Section Header ── */
+  #journal-grid-{{ section.id }} .jg-header {
+    text-align: {{ alignment }};
+    margin-bottom: 56px;
+  }
+
+  #journal-grid-{{ section.id }} .jg-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #b87333;
+    margin-bottom: 14px;
+  }
+
+  #journal-grid-{{ section.id }} .jg-heading {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: {{ h_color }};
+    margin: 0 0 16px;
+    letter-spacing: -0.01em;
+  }
+
+  #journal-grid-{{ section.id }} .jg-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: {{ t_color }};
+    max-width: 540px;
+    opacity: 0.75;
+  }
+  #journal-grid-{{ section.id }} .jg-header--left  .jg-desc { margin: 0; }
+  #journal-grid-{{ section.id }} .jg-header--center .jg-desc { margin: 0 auto; }
+  #journal-grid-{{ section.id }} .jg-header--right  .jg-desc { margin: 0 0 0 auto; }
+
+  /* ── Grid ── */
+  #journal-grid-{{ section.id }} .jg-grid {
+    display: grid;
+    grid-template-columns: repeat({{ cols_desktop }}, 1fr);
+    gap: {{ card_gap }}px;
+    align-items: start;
+  }
+
+  /* Staggered (masonry-like): odd cards pushed down */
+  #journal-grid-{{ section.id }} .jg-grid .jg-card:nth-child(even) {
+    margin-top: {{ card_gap | times: 2 }}px;
+  }
+
+  /* ── Card ── */
+  #journal-grid-{{ section.id }} .jg-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    position: relative;
+  }
+
+  #journal-grid-{{ section.id }} .jg-card__image-wrap {
+    position: relative;
+    overflow: hidden;
+    background: #f3f0ea;
+    aspect-ratio: 3 / 4;
+    border-radius: 0;
+  }
+
+  #journal-grid-{{ section.id }} .jg-card__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+  }
+
+  #journal-grid-{{ section.id }} .jg-card:hover .jg-card__img,
+  #journal-grid-{{ section.id }} .jg-card:focus-visible .jg-card__img {
+    transform: scale(1.05);
+  }
+
+  /* Placeholder when no image */
+  #journal-grid-{{ section.id }} .jg-card__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: #e8e3dc;
+    color: #b0a898;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  #journal-grid-{{ section.id }} .jg-card__body {
+    padding: 20px 0 0;
+  }
+
+  #journal-grid-{{ section.id }} .jg-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  #journal-grid-{{ section.id }} .jg-card__date {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: {{ t_color }};
+    opacity: 0.5;
+  }
+
+  #journal-grid-{{ section.id }} .jg-card__title {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: {{ h_color }};
+    margin: 0 0 10px;
+    transition: color 0.25s ease;
+  }
+
+  #journal-grid-{{ section.id }} .jg-card:hover .jg-card__title {
+    color: #b87333;
+  }
+
+  #journal-grid-{{ section.id }} .jg-card__excerpt {
+    font-size: 14px;
+    line-height: 1.7;
+    color: {{ t_color }};
+    opacity: 0.65;
+    margin: 0 0 14px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+
+  #journal-grid-{{ section.id }} .jg-card__readmore {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #b87333;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+    transition: gap 0.2s ease, opacity 0.2s ease;
+  }
+
+  #journal-grid-{{ section.id }} .jg-card:hover .jg-card__readmore {
+    gap: 10px;
+    opacity: 0.8;
+  }
+
+  #journal-grid-{{ section.id }} .jg-card__readmore svg {
+    flex-shrink: 0;
+  }
+
+  /* ── Placeholder card for empty state ── */
+  #journal-grid-{{ section.id }} .jg-card--placeholder .jg-card__image-wrap {
+    background: #ede9e3;
+  }
+  #journal-grid-{{ section.id }} .jg-card--placeholder .jg-card__title {
+    background: #e0dcd5;
+    height: 18px;
+    width: 75%;
+    border-radius: 3px;
+    color: transparent;
+  }
+  #journal-grid-{{ section.id }} .jg-card--placeholder .jg-card__excerpt {
+    background: #e0dcd5;
+    height: 14px;
+    width: 90%;
+    border-radius: 3px;
+    color: transparent;
+  }
+
+  /* ── Tablet ── */
+  @media (max-width: 1024px) {
+    #journal-grid-{{ section.id }} .jg-grid {
+      grid-template-columns: repeat({{ cols_tablet }}, 1fr);
+    }
+    #journal-grid-{{ section.id }} .jg-grid .jg-card:nth-child(even) {
+      margin-top: {{ card_gap | times: 1.5 | round }}px;
+    }
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 749px) {
+    #journal-grid-{{ section.id }} {
+      padding-top: {{ pt | divided_by: 2 }}px;
+      padding-bottom: {{ pb | divided_by: 2 }}px;
+    }
+    #journal-grid-{{ section.id }} .jg-inner {
+      padding: 0 16px;
+    }
+    #journal-grid-{{ section.id }} .jg-header {
+      margin-bottom: 32px;
+    }
+    #journal-grid-{{ section.id }} .jg-grid {
+      grid-template-columns: repeat({{ cols_mobile }}, 1fr);
+      gap: {{ card_gap | divided_by: 1.5 | round }}px;
+    }
+    #journal-grid-{{ section.id }} .jg-grid .jg-card:nth-child(even) {
+      margin-top: {{ card_gap | divided_by: 1.5 | round | times: 1.5 | round }}px;
+    }
+    #journal-grid-{{ section.id }} .jg-card__title {
+      font-size: 15px;
+    }
+  }
+{%- endstyle -%}
+
+<section
+  id="journal-grid-{{ section.id }}"
+  class="jg-section"
+  aria-labelledby="jg-heading-{{ section.id }}"
+>
+  <div class="jg-inner">
+
+    {%- comment -%} ── Section Header ── {%- endcomment -%}
+    {%- if label_text != blank or heading_text != blank or desc_text != blank -%}
+      <header class="jg-header jg-header--{{ alignment }}">
+        {%- if label_text != blank -%}
+          <p class="jg-label">{{ label_text | escape }}</p>
+        {%- endif -%}
+        {%- if heading_text != blank -%}
+          <h2 id="jg-heading-{{ section.id }}" class="jg-heading">{{ heading_text | escape }}</h2>
+        {%- endif -%}
+        {%- if desc_text != blank -%}
+          <p class="jg-desc">{{ desc_text | escape }}</p>
+        {%- endif -%}
+      </header>
+    {%- endif -%}
+
+    {%- comment -%} ── Article Grid ── {%- endcomment -%}
+    <div class="jg-grid" role="list">
+
+      {%- if has_articles -%}
+        {%- for article in blog_source.articles limit: post_limit -%}
+          <article class="jg-card" role="listitem">
+            <a
+              href="{{ article.url }}"
+              class="jg-card__link"
+              aria-label="{{ article.title | escape }}"
+              style="display:contents;"
+            >
+              {%- comment -%} Image {%- endcomment -%}
+              <div class="jg-card__image-wrap">
+                {%- if article.image -%}
+                  <img
+                    class="jg-card__img"
+                    src="{{ article.image | image_url: width: 800 }}"
+                    srcset="
+                      {{ article.image | image_url: width: 400 }} 400w,
+                      {{ article.image | image_url: width: 600 }} 600w,
+                      {{ article.image | image_url: width: 800 }} 800w,
+                      {{ article.image | image_url: width: 1000 }} 1000w
+                    "
+                    sizes="(max-width: 749px) calc(100vw / {{ cols_mobile }}), (max-width: 1024px) calc(100vw / {{ cols_tablet }}), calc(1400px / {{ cols_desktop }})"
+                    width="{{ article.image.width }}"
+                    height="{{ article.image.height }}"
+                    alt="{{ article.image.alt | default: article.title | escape }}"
+                    loading="lazy"
+                  >
+                {%- else -%}
+                  <div class="jg-card__placeholder" aria-hidden="true">No image</div>
+                {%- endif -%}
+              </div>
+
+              {%- comment -%} Body {%- endcomment -%}
+              <div class="jg-card__body">
+                {%- if show_date and article.published_at -%}
+                  <div class="jg-card__meta">
+                    <time class="jg-card__date" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+                      {{- article.published_at | date: '%B %d, %Y' -}}
+                    </time>
+                  </div>
+                {%- endif -%}
+
+                <h3 class="jg-card__title">{{ article.title | escape }}</h3>
+
+                {%- if show_excerpt and article.excerpt != blank -%}
+                  <p class="jg-card__excerpt">{{ article.excerpt | strip_html | truncate: 150 }}</p>
+                {%- endif -%}
+
+                {%- if read_more_txt != blank -%}
+                  <span class="jg-card__readmore" aria-hidden="true">
+                    {{- read_more_txt | escape -}}
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" focusable="false">
+                      <path d="M1 6h10M6.5 1.5 11 6l-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                {%- endif -%}
+              </div>
+            </a>
+          </article>
+        {%- endfor -%}
+
+      {%- else -%}
+        {%- comment -%} Placeholder cards when no blog is selected {%- endcomment -%}
+        {%- for i in (1..post_limit) -%}
+          <div class="jg-card jg-card--placeholder" role="listitem" aria-hidden="true">
+            <div class="jg-card__image-wrap">
+              <div class="jg-card__placeholder"></div>
+            </div>
+            <div class="jg-card__body">
+              <div class="jg-card__title">&nbsp;</div>
+              <div class="jg-card__excerpt">&nbsp;</div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+
+    </div>{%- comment -%} /.jg-grid {%- endcomment -%}
+
+  </div>{%- comment -%} /.jg-inner {%- endcomment -%}
+</section>
+
+{% schema %}
+
+{
+  "name": "Journal Grid",
+  "tag": "section",
+  "class": "journal-grid-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "label_text",
+      "label": "Small Label",
+      "default": "From the Journal"
+    },
+    {
+      "type": "text",
+      "id": "heading_text",
+      "label": "Heading",
+      "default": "Stories & Inspiration"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Alignment",
+      "options": [
+        { "value": "left",   "label": "Left"   },
+        { "value": "center", "label": "Center" },
+        { "value": "right",  "label": "Right"  }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Blog Source"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "range",
+      "id": "post_limit",
+      "label": "Number of Articles",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Card Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "Show Excerpt",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show Published Date",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "read_more_text",
+      "label": "Read More Text",
+      "default": "Read article"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Desktop Columns",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "columns_tablet",
+      "label": "Tablet Columns",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Mobile Columns",
+      "options": [
+        { "value": "1", "label": "1 column" },
+        { "value": "2", "label": "2 columns" }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Card Gap",
+      "min": 8,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top Padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom Padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#0b1f33"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#444444"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Journal Grid",
+      "category": "Blog"
+    }
+  ]
+}
+{% endschema %}
