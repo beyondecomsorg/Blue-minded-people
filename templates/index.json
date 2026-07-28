@@ -26,7 +26,7 @@
             "heading": "",
             "subtext": "",
             "btn1_label": "",
-            "btn1_link": "/#shopify-section-template--23004763422970__hero_nw7TUV",
+            "btn1_link": "/#founder-note",
             "btn1_new_tab": false,
             "btn1_custom_bg": "",
             "btn1_custom_text": "",
@@ -337,6 +337,7 @@
       ],
       "name": "t:names.hero",
       "settings": {
+        "scrolling_id": "",
         "media_type_1": "image",
         "image_1": "shopify://shop_images/Shiort_Home_Page_Web.png",
         "media_type_2": "image",
@@ -539,6 +540,7 @@
       "disabled": true,
       "name": "t:names.hero",
       "settings": {
+        "scrolling_id": "",
         "media_type_1": "image",
         "image_1": "shopify://shop_images/Artboard_1_copy_2x_86250d12-534b-4bf8-b1a6-28446fdc4ef3.png",
         "media_type_2": "image",
@@ -743,6 +745,7 @@
       ],
       "name": "t:names.hero",
       "settings": {
+        "scrolling_id": "",
         "media_type_1": "image",
         "image_1": "shopify://shop_images/Bottom_Home_page_Web.png",
         "media_type_2": "image",
@@ -1038,6 +1041,7 @@
       ],
       "name": "t:names.hero",
       "settings": {
+        "scrolling_id": "founder-note",
         "media_type_1": "image",
         "image_1": "shopify://shop_images/Sign.jpg",
         "media_type_2": "image",
@@ -1724,6 +1728,7 @@
       "disabled": true,
       "name": "t:names.hero",
       "settings": {
+        "scrolling_id": "",
         "media_type_1": "image",
         "image_1": "shopify://shop_images/Screenshot_2026-06-15_230654.png",
         "media_type_2": "image",

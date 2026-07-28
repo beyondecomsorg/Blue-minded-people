@@ -120,6 +120,7 @@
     <picture
       data-testid="hero-picture-1"
       class="hero__media"
+      id="{{ section.settings.scrolling_id }}"
     >
       <source
         media="(max-width: 749px)"
@@ -794,6 +795,11 @@
     "groups": ["header"]
   },
   "settings": [
+    {
+      "type": "text",
+      "id": "scrolling_id",
+      "label":"scrolling id"
+    },
     {
       "type": "header",
       "content": "t:content.media_1"
