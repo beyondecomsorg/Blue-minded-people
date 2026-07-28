@@ -385,7 +385,7 @@
                   {{ desc }}
                 </div>
                 {% if collection.url != blank %}
-                  <a href="{{ collection.url }}" class="collection-tabs-cta">
+                  <a href="{{ collection.url }}" class="collection-tabs-cta" onclick="event.preventDefault(); window.scrollBy({ top: 1000, behavior: 'smooth' });">
                     <span>Comming soon</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
