@@ -14,11 +14,10 @@
       "blocks": {
         "slide_NHT4Nb": {
           "type": "slide",
-          "disabled": true,
           "settings": {
-            "image": "shopify://shop_images/Sign.jpg",
+            "image": "shopify://shop_images/fgfg.png",
             "image_focal_point": "center center",
-            "mobile_image": "shopify://shop_images/sign_mobile.png",
+            "mobile_image": "shopify://shop_images/sign_2_mobile_1.png",
             "mobile_image_focal_point": "center center",
             "video_url_mp4": "",
             "video_url_webm": "",
@@ -1040,12 +1039,12 @@
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
-        "image_1": "shopify://shop_images/fgfg.png",
+        "image_1": "shopify://shop_images/Sign.jpg",
         "media_type_2": "image",
         "stack_media_on_mobile": false,
         "custom_mobile_media": true,
         "media_type_1_mobile": "image",
-        "image_1_mobile": "shopify://shop_images/sign_2_mobile.png",
+        "image_1_mobile": "shopify://shop_images/sign_mobile.png",
         "media_type_2_mobile": "image",
         "link": "shopify://collections/bottom-wear",
         "open_in_new_tab": false,
@@ -1061,16 +1060,16 @@
         "section_height": "auto",
         "section_height_custom": 50,
         "color_scheme": "scheme-2",
-        "toggle_overlay": true,
+        "toggle_overlay": false,
         "overlay_color": "#00000026",
         "overlay_style": "gradient",
         "gradient_direction": "to top",
         "blurred_reflection": false,
         "reflection_opacity": 75,
         "padding_top": 0,
-        "padding_bottom": 60,
+        "padding_bottom": 0,
         "padding_top_mobile": 0,
-        "padding_bottom_mobile": 30
+        "padding_bottom_mobile": 0
       }
     },
     "our_favourites_hero_BF4Axj": {
