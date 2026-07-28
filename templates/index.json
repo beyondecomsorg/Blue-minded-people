@@ -1897,7 +1897,7 @@
       "type": "custom-liquid",
       "name": "t:names.custom_liquid",
       "settings": {
-        "custom_liquid": "<!-- Elfsight Instagram Feed | Untitled Instagram Feed -->\n<script src=\"https://elfsightcdn.com/platform.js\" async></script>\n<div class=\"elfsight-app-363b47bc-685d-4816-95d4-1b2a64b10f10\" data-elfsight-app-lazy></div>",
+        "custom_liquid": "<script src=\"https://elfsightcdn.com/platform.js\" async></script>\n<div class=\"elfsight-app-363b47bc-685d-4816-95d4-1b2a64b10f10\" data-elfsight-app-lazy></div>",
         "color_scheme": "",
         "section_width": "page-width",
         "padding-block-start": 0,
