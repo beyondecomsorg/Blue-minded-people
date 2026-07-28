@@ -1892,6 +1892,17 @@
         "gap_overlay": 20,
         "mobile_layout": "collage"
       }
+    },
+    "custom_liquid_79pEQK": {
+      "type": "custom-liquid",
+      "name": "t:names.custom_liquid",
+      "settings": {
+        "custom_liquid": "<!-- Elfsight Instagram Feed | Untitled Instagram Feed -->\n<script src=\"https://elfsightcdn.com/platform.js\" async></script>\n<div class=\"elfsight-app-363b47bc-685d-4816-95d4-1b2a64b10f10\" data-elfsight-app-lazy></div>",
+        "color_scheme": "",
+        "section_width": "page-width",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
   "order": [
@@ -1916,6 +1927,7 @@
     "custom_editorial_BTqYCq",
     "hero_Fr6tr6",
     "trust_scrolling_LFQwYD",
-    "category_explore_banner"
+    "category_explore_banner",
+    "custom_liquid_79pEQK"
   ]
 }
