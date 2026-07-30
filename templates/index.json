@@ -12,36 +12,6 @@
     "custom_hero_section_eTTVbb": {
       "type": "custom-hero-section",
       "blocks": {
-        "slide_RV7Dct": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/ready_H_bnr.png",
-            "image_focal_point": "top center",
-            "mobile_image": "shopify://shop_images/ready_H_bnr_MBL.png",
-            "mobile_image_focal_point": "center center",
-            "video_url_mp4": "",
-            "video_url_webm": "",
-            "hide_content": false,
-            "eyebrow": "",
-            "heading": "",
-            "subtext": "",
-            "btn1_label": "Shop now",
-            "btn1_link": "shopify://collections/t-shirts",
-            "btn1_new_tab": false,
-            "btn1_custom_bg": "",
-            "btn1_custom_text": "",
-            "btn2_label": "",
-            "btn2_link": "",
-            "btn2_new_tab": false,
-            "btn2_custom_bg": "",
-            "btn2_custom_text": "",
-            "btn3_label": "",
-            "btn3_link": "",
-            "btn3_new_tab": false,
-            "btn3_custom_bg": "",
-            "btn3_custom_text": ""
-          }
-        },
         "slide_B6prei": {
           "type": "slide",
           "settings": {
@@ -57,6 +27,36 @@
             "subtext": "",
             "btn1_label": "Shop Now",
             "btn1_link": "shopify://collections/shirts",
+            "btn1_new_tab": false,
+            "btn1_custom_bg": "",
+            "btn1_custom_text": "",
+            "btn2_label": "",
+            "btn2_link": "",
+            "btn2_new_tab": false,
+            "btn2_custom_bg": "",
+            "btn2_custom_text": "",
+            "btn3_label": "",
+            "btn3_link": "",
+            "btn3_new_tab": false,
+            "btn3_custom_bg": "",
+            "btn3_custom_text": ""
+          }
+        },
+        "slide_RV7Dct": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/ready_H_bnr.png",
+            "image_focal_point": "top center",
+            "mobile_image": "shopify://shop_images/ready_H_bnr_MBL.png",
+            "mobile_image_focal_point": "center center",
+            "video_url_mp4": "",
+            "video_url_webm": "",
+            "hide_content": false,
+            "eyebrow": "",
+            "heading": "",
+            "subtext": "",
+            "btn1_label": "Shop now",
+            "btn1_link": "shopify://collections/t-shirts",
             "btn1_new_tab": false,
             "btn1_custom_bg": "",
             "btn1_custom_text": "",
@@ -104,8 +104,8 @@
         }
       },
       "block_order": [
-        "slide_RV7Dct",
         "slide_B6prei",
+        "slide_RV7Dct",
         "slide_NHT4Nb"
       ],
       "name": "Hero Slideshow Custom",
