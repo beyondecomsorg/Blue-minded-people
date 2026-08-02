@@ -1860,8 +1860,8 @@
         "columns_tablet": 2,
         "columns_mobile": "1",
         "card_gap": 32,
-        "padding_top": 80,
-        "padding_bottom": 80,
+        "padding_top": 60,
+        "padding_bottom": 60,
         "background_color": "#ffffff",
         "heading_color": "#0b1f33",
         "text_color": "#444444"
