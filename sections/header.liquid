@@ -378,7 +378,7 @@
                 scroll-lock
                 cart-summary-sticky="true">
                 <span ref="liveRegion" class="visually-hidden" role="status"></span>
-                <div class="cart-drawer__inner">
+                <div class="cart-drawer__inner" data-hydration-key="cart-drawer-inner">
                   {% capture cart_items_children %}
                     {%- if cart.empty? -%}
                       {{ empty_cart_drawer_content }}

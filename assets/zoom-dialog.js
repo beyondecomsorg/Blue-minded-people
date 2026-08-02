@@ -29,11 +29,13 @@ export class ZoomDialog extends Component {
   connectedCallback() {
     super.connectedCallback();
     this.refs.dialog.addEventListener('scroll', this.handleScroll);
+    this.querySelector('.dialog-zoomed-gallery')?.addEventListener('scroll', this.handleScroll);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
     this.refs.dialog.removeEventListener('scroll', this.handleScroll);
+    this.querySelector('.dialog-zoomed-gallery')?.removeEventListener('scroll', this.handleScroll);
   }
 
   /**

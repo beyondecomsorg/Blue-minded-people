@@ -25,7 +25,6 @@
   {% if shortest_size > 0 %}
   <style>
     #CollectionTabs-{{ section.id }} {
-      background-color: {{ section.settings.bg_color }};
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
       position: relative;
@@ -103,6 +102,32 @@
       color: var(--color-deep-navy, #0B1F33);
       text-align: center;
       transition: color 0.35s ease;
+    }
+
+    /* Coming Soon Badge */
+    .coming-soon-badge {
+      position: absolute;
+      top: 10px;
+     left: 10px;
+      z-index: 5;
+      background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+      color: #ffffff;
+      font-family: var(--font-body--family, var(--font-body, 'Inter', sans-serif));
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1;
+      padding: 5px 10px;
+      border-radius: 20px;
+      box-shadow: 0 2px 8px rgba(245, 124, 0, 0.35);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      pointer-events: none;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+    }
+
+    .collection-tab-thumb:hover .coming-soon-badge {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(245, 124, 0, 0.45);
     }
 
     /* Thumbnail Hover State */
@@ -325,6 +350,12 @@
       .thumb-label {
         font-size: 11px;
       }
+      .coming-soon-badge {
+        top: 6px;
+        left: 6px;
+        font-size: 10px;
+        padding: 4px 8px;
+      }
       .collection-tabs-active-content {
         padding-right: 0;
       }
@@ -348,6 +379,16 @@
               data-tab-index="{{ idx }}"
               aria-label="{{ txt }}"
             >
+              {% liquid
+                assign show_coming_soon_badge = true
+                if collection.metafields.custom.coming_soon != blank
+                  assign show_coming_soon_badge = collection.metafields.custom.coming_soon.value
+                endif
+              %}
+              {% if show_coming_soon_badge %}
+                <span class="coming-soon-badge">Coming Soon</span>
+              {% endif %}
+
               <div class="collection-tab-thumb-icon">
                 {% if img != blank %}
                   {{ img | image_url: width: 400 | image_tag: loading: 'lazy', alt: txt }}

@@ -201,24 +201,7 @@
                 {% endcapture %}
 
                 <div class="facets__filters-wrapper">
-                  {% if block_settings.filter_style == 'horizontal' %}
-                    {% liquid
-                      assign more_attributes = 'on:click="#filters-drawer/showDialog"'
-                      if block_settings.text_label_case == 'uppercase'
-                        assign more_attributes = more_attributes | append: ' style="--text-transform: uppercase;"'
-                      endif
-                    %}
-                    {% render 'overflow-list',
-                      class: 'facets__overflow-list',
-                      children: rendered_filters,
-                      more-attributes: more_attributes,
-                      more-button-attributes: 'aria-haspopup="dialog"',
-                      minimum-items: 2,
-                      data-testid: 'horizontal-filters-overflow-list'
-                    %}
-                  {% else %}
-                    {{ rendered_filters }}
-                  {% endif %}
+                  {{ rendered_filters }}
                 </div>
               {% endif %}
 

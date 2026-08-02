@@ -307,7 +307,7 @@
                   <div class="cart-items__quantity-controls">
                     {% render 'volume-pricing-info',
                       variant: item.variant,
-                      unique_id: item.index,
+                      unique_id: forloop.index,
                       quantity: item.quantity
                     %}
 
@@ -315,7 +315,7 @@
                       product: item.product,
                       variant: item.variant,
                       in_cart_quantity: item.quantity,
-                      line_index: item.index,
+                      line_index: forloop.index0,
                       class: 'cart-primary-typography',
                       can_update_quantity: can_update_quantity
                     %}
@@ -324,7 +324,7 @@
                       class="button cart-items__remove"
                       type="button"
                       aria-label="{{ 'accessibility.remove_item' | t: title: item.title | escape }}"
-                      on:click="/onLineItemRemove/{{ item.index | plus: 1 }}"
+                      on:click="/onLineItemRemove/{{ forloop.index }}"
                       {% assign can_remove = item.instructions.can_remove | default: true, allow_false: true %}
                       {% if can_remove == false %}
                         hidden
@@ -338,7 +338,7 @@
                 <td
                   class="cart-items__error hidden"
                   role="cell"
-                  ref="cartItemErrorContainer-{{ item.index | plus: 1 }}"
+                  ref="cartItemErrorContainer-{{ forloop.index }}"
                   headers="quantity"
                 >
                   <div
@@ -350,7 +350,7 @@
                     </span>
                     <small
                       class="cart-item__error-text cart-primary-typography"
-                      ref="cartItemError-{{ item.index | plus: 1 }}"
+                      ref="cartItemError-{{ forloop.index }}"
                     ></small>
                   </div>
                 </td>

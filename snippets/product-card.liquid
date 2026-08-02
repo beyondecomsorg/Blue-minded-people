@@ -116,61 +116,109 @@
 
                 <fieldset class="variant-option variant-option--buttons variant-option--swatches">
                   {% capture swatch_items %}
-                    {%- for product_option_value in product_option.values limit: 4 -%}
-                      {% liquid
-                        assign featured_media = product_option_value.variant.featured_media
-                        assign child_product = nil
-
-                        if featured_media == blank
-                          if product_option_value.product_url
-                            assign child_product = product_option_value.variant.product
-                          endif
-
-                          if child_product
-                            assign featured_media = child_product.featured_media
-                          elsif product_option_value.variant == blank
-                            for variant in product.variants
-                              if variant.available and variant[swatch_option_key] == product_option_value.name and variant.featured_media
-                                assign featured_media = variant.featured_media
-                                assign first_available_variant = variant
-                                break
-                              endif
-                            endfor
-                          endif
-                        endif
-                      %}
-
-                      <li class="variant-option__swatch">
-                        <label
-                          data-media-id="{{ featured_media.id }}"
-                          class="variant-option__button-label variant-option__button-label--has-swatch"
-                          on:pointerenter="product-card/previewVariant/{{ featured_media.id }}"
-                          on:pointerleave="product-card/resetVariant"
-                        >
-                          <input
-                            type="radio"
-                            name="{{ product_option.name | escape }}-{{ product.id }}-swatch"
-                            value="{{ product_option_value | escape }}"
-                            aria-label="{{ product_option_value.name }}"
-                            data-input-id="{{ product_option.position }}-{{ forloop.index0 }}"
-                            data-option-media-id="{{ featured_media.id }}"
-                            data-option-value-id="{{ product_option_value.id }}"
-                            data-option-available="{{ product_option_value.available }}"
-                            data-connected-product-url="{{ product_option_value.product_url }}"
-                            data-variant-id="{{ first_available_variant.id | default: product_option_value.variant.id }}"
-                            data-first-available-or-first-variant-id="{{ first_available_variant.id | default: product_option_value.variant.id }}"
-                          >
-                          {% render 'swatch',
-                            swatch: product_option_value.swatch,
-                            variant_image: featured_media,
-                            value: product_option_value.name
-                          %}
-                          {% render 'strikethrough-variant', product_option: product_option_value %}
-                        </label>
-                      </li>
+                    {%- assign swatch_rendered_count = 0 -%}
+                    {%- assign added_colors = ',' -%}
+                    {%- for val in product_option.values -%}
+                      {%- assign added_colors = added_colors | append: val.name | downcase | strip | append: ',' -%}
                     {%- endfor -%}
-                    {% if product_option.values.size > 4 %}
-                      {% assign overflow_count = product_option.values.size | minus: 4 %}
+                    
+                    {%- for product_option_value in product_option.values -%}
+                      {%- if swatch_rendered_count < 4 -%}
+                        {% liquid
+                          assign featured_media = product_option_value.variant.featured_media
+                          assign child_product = nil
+
+                          if featured_media == blank
+                            if product_option_value.product_url
+                              assign child_product = product_option_value.variant.product
+                            endif
+
+                            if child_product
+                              assign featured_media = child_product.featured_media
+                            elsif product_option_value.variant == blank
+                              for variant in product.variants
+                                if variant.available and variant[swatch_option_key] == product_option_value.name and variant.featured_media
+                                  assign featured_media = variant.featured_media
+                                  assign first_available_variant = variant
+                                  break
+                                endif
+                              endfor
+                            endif
+                          endif
+                        %}
+
+                        <li class="variant-option__swatch">
+                          <label
+                            data-media-id="{{ featured_media.id }}"
+                            class="variant-option__button-label variant-option__button-label--has-swatch"
+                            on:pointerenter="product-card/previewVariant/{{ featured_media.id }}"
+                            on:pointerleave="product-card/resetVariant"
+                          >
+                            <input
+                              type="radio"
+                              name="{{ product_option.name | escape }}-{{ product.id }}-swatch"
+                              value="{{ product_option_value | escape }}"
+                              aria-label="{{ product_option_value.name }}"
+                              data-input-id="{{ product_option.position }}-{{ forloop.index0 }}"
+                              data-option-media-id="{{ featured_media.id }}"
+                              data-option-value-id="{{ product_option_value.id }}"
+                              data-option-available="{{ product_option_value.available }}"
+                              data-connected-product-url="{{ product_option_value.product_url }}"
+                              data-variant-id="{{ first_available_variant.id | default: product_option_value.variant.id }}"
+                              data-first-available-or-first-variant-id="{{ first_available_variant.id | default: product_option_value.variant.id }}"
+                            >
+                            {% render 'swatch',
+                              swatch: product_option_value.swatch,
+                              variant_image: featured_media,
+                              value: product_option_value.name
+                            %}
+                            {% render 'strikethrough-variant', product_option: product_option_value %}
+                          </label>
+                        </li>
+                      {%- endif -%}
+                      {%- assign swatch_rendered_count = swatch_rendered_count | plus: 1 -%}
+                    {%- endfor -%}
+                    
+                    {%- assign linked_products = blank -%}
+                    {%- unless onboarding -%}
+                      {%- assign linked_products = product.metafields.custom.product_variant_metafield.value -%}
+                    {%- endunless -%}
+                    {%- if linked_products != blank -%}
+                      {%- for linked_product in linked_products -%}
+                        {%- if linked_product != blank and linked_product.handle != blank -%}
+                          {%- for option in linked_product.options_with_values -%}
+                            {%- assign opt_name_downcase = option.name | downcase -%}
+                            {%- if opt_name_downcase == 'color' or opt_name_downcase == 'colour' -%}
+                              {%- for val in option.values -%}
+                                {%- assign color_key = ',' | append: val.name | downcase | strip | append: ',' -%}
+                                {%- unless added_colors contains color_key -%}
+                                  {%- assign added_colors = added_colors | append: val.name | downcase | strip | append: ',' -%}
+                                  {%- if swatch_rendered_count < 4 -%}
+                                    {%- assign variant_url = val.variant.url | default: linked_product.url -%}
+                                    <li class="variant-option__swatch">
+                                      <a
+                                        href="{{ variant_url }}"
+                                        class="variant-option__button-label variant-option__button-label--has-swatch"
+                                        aria-label="{{ val.name | escape }}"
+                                        style="text-decoration: none;"
+                                      >
+                                        {% render 'swatch',
+                                          swatch: val.swatch,
+                                          value: val.name
+                                        %}
+                                      </a>
+                                    </li>
+                                  {%- endif -%}
+                                  {%- assign swatch_rendered_count = swatch_rendered_count | plus: 1 -%}
+                                {%- endunless -%}
+                              {%- endfor -%}
+                            {%- endif -%}
+                          {%- endfor -%}
+                        {%- endif -%}
+                      {%- endfor -%}
+                    {%- endif -%}
+                    {% if swatch_rendered_count > 4 %}
+                      {% assign overflow_count = swatch_rendered_count | minus: 4 %}
                       <li class="variant-option__swatch-overflow-count">
                         +{{ overflow_count }}
                       </li>

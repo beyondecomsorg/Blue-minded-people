@@ -5092,11 +5092,11 @@ slideshow-component .product-price-main-sale{
   gap: 8px;
   width: 100% !important;
   white-space: nowrap !important;
-  background-color: var(--color-deep-navy, #0B1F33) !important;
-  color: var(--color-off-white, #FFFFFF) !important;
+  background-color: white !important;
+  color: #0B1F33 !important;
   padding-block: 10px;
   border-radius: var(--buttons-border-radius, 4px);
-  border: none;
+  border: 1px solid #0B1F33;
   font-family: var(--font-body) !important;
   font-size: 13px;
   font-weight: 600;

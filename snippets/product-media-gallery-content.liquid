@@ -1048,4 +1048,122 @@
   slideshow-slide.product-media-container--tallest {
     content-visibility: visible;
   }
+
+  /* Prevent Background Page Scrolling when Lightbox is open */
+  html:has(dialog.dialog-zoomed-gallery__dialog[open]),
+  body:has(dialog.dialog-zoomed-gallery__dialog[open]) {
+    overflow: hidden !important;
+    height: 100vh !important;
+    touch-action: none;
+  }
+
+  /* Zoom Dialog Lightbox Product Image Crop, Sticky UI & Scroll Lock Fix */
+  @media screen and (min-width: 750px) {
+    zoom-dialog dialog.dialog-zoomed-gallery__dialog {
+      width: 90vw !important;
+      height: 90vh !important;
+      max-width: 90vw !important;
+      max-height: 90vh !important;
+      margin: auto !important;
+      border-radius: 12px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+      background-color: var(--color-background);
+      overflow: hidden !important; /* Lock dialog container from scrolling */
+      position: fixed !important;
+      left: 50% !important;
+      top: 90% !important;
+      transform: translate(-50%, -50%) !important;
+    }
+
+    /* 1. Close (X) button ALWAYS fixed at top-right of popup viewport */
+    .dialog-zoomed-gallery__close-button {
+      position: absolute !important;
+      top: var(--margin-lg) !important;
+      right: var(--margin-lg) !important;
+      z-index: 100 !important;
+    }
+
+    /* 2. Thumbnail gallery ALWAYS fixed/sticky on right of popup viewport */
+    .dialog-thumbnails-list-container {
+      position: absolute !important;
+      right: 0 !important;
+      top: 0 !important;
+      bottom: 0 !important;
+      width: calc(var(--thumbnail-width) + 40px) !important;
+      height: 100% !important;
+      z-index: 90 !important;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dialog-thumbnails-list {
+      position: relative !important;
+      pointer-events: auto;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 12px !important;
+      max-height: calc(90vh - 80px) !important;
+      overflow-y: auto !important;
+      scrollbar-width: none !important;
+      inset: auto !important;
+      transform: none !important;
+      margin: 0 !important;
+      padding: 10px !important;
+    }
+
+    /* 3. Main Images Container - Only area that scrolls */
+    .dialog-zoomed-gallery {
+      display: flex !important;
+      flex-direction: column !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      overscroll-behavior: contain !important; /* Prevent background scroll chaining */
+      scroll-behavior: smooth !important;
+      scroll-snap-type: y mandatory;
+    }
+
+    .dialog-zoomed-gallery .product-media-container {
+      width: 100% !important;
+      height: 90vh !important;
+      flex: 0 0 90vh !important;
+      scroll-snap-align: start;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 40px calc(var(--thumbnail-width) + 60px) 40px 40px !important;
+      box-sizing: border-box !important;
+    }
+
+    .dialog-zoomed-gallery .product-media-container .product-media__drag-zoom-wrapper {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .dialog-zoomed-gallery .product-media-container .product-media {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      height: 100% !important;
+      position: relative !important;
+    }
+
+    .dialog-zoomed-gallery .product-media-container .product-media__image {
+      max-width: 100% !important;
+      max-height: 100% !important;
+      width: auto !important;
+      height: auto !important;
+      object-fit: contain !important;
+      object-position: center !important;
+    }
+  }
 {% endstylesheet %}

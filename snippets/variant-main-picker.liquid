@@ -208,6 +208,45 @@
                 {% render 'strikethrough-variant', product_option: product_option_value %}
               </label>
             {%- endfor -%}
+            {%- if variant_style == 'swatch' -%}
+              {%- liquid
+                assign linked_products = product_resource.metafields.custom.product_variant_metafield.value
+                assign added_colors = ','
+                for val in product_option.values
+                  assign added_colors = added_colors | append: val.name | downcase | strip | append: ','
+                endfor
+              -%}
+              {%- if linked_products != blank -%}
+                {%- for linked_product in linked_products -%}
+                  {%- if linked_product != blank and linked_product.handle != blank -%}
+                    {%- for option in linked_product.options_with_values -%}
+                      {%- assign opt_name_downcase = option.name | downcase -%}
+                      {%- if opt_name_downcase == 'color' or opt_name_downcase == 'colour' -%}
+                        {%- for val in option.values -%}
+                          {%- assign color_key = ',' | append: val.name | downcase | strip | append: ',' -%}
+                          {%- unless added_colors contains color_key -%}
+                            {%- assign added_colors = added_colors | append: val.name | downcase | strip | append: ',' -%}
+                            {%- assign variant_url = val.variant.url | default: linked_product.url -%}
+                            <a
+                              href="{{ variant_url }}"
+                              class="variant-option__button-label variant-option__button-label--has-swatch"
+                              aria-label="{{ val.name | escape }}"
+                              style="text-decoration: none;"
+                            >
+                              {% render 'swatch',
+                                swatch: val.swatch,
+                                mode: 'unscaled',
+                                value: val.name
+                              %}
+                            </a>
+                          {%- endunless -%}
+                        {%- endfor -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endif -%}
+            {%- endif -%}
             {% if option_id_attribute %}
               {% style %}
                 [data-option-id="{{ fieldset_id }}"] {
