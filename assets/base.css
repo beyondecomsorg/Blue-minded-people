@@ -4932,6 +4932,9 @@ slideshow-component .product-price-main-sale{
   stroke: var(--color-off-white, #FFFFFF);
 }
 
+.product-grid .product-card__info{
+ padding: 10px;
+}
 /* Body Info container */
 .product-card__info {
   display: flex;

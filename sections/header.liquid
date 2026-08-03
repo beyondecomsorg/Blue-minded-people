@@ -304,7 +304,7 @@
                 {%- if customer -%}
                   <div class="account-button__fallback"></div>
                 {%- else -%}
-                  <span slot="signed-out-avatar" class="svg-wrapper" aria-hidden="true">
+                  <span slot="signed-out-avatar" class="svg-wrapper" aria-hidden="true" style="display: none !important;">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 17" fill="none" class="account-button__icon">
                       <path stroke="currentColor" stroke-linejoin="round" stroke-width="1.5" d="M10.375 3.813a3.063 3.063 0 1 1-6.125 0 3.063 3.063 0 0 1 6.125 0ZM7.313 9.5c-3.667 0-6.24 2.691-6.563 6.125h13.125C13.552 12.191 10.979 9.5 7.312 9.5Z" />
                     </svg>
@@ -540,20 +540,30 @@
 
   .cart-drawer__dialog {
     position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
     overflow: hidden;
     border-radius: 0;
     width: 100%;
     height: 100%;
+    max-height: 100dvh;
     margin: 0 0 0 auto;
     padding: 0;
     border-left: var(--style-border-drawer);
     box-shadow: var(--shadow-drawer);
-    background-color: var(--color-background);
+    background-color: #FFFFFF !important;
+    background: #FFFFFF !important;
+    z-index: 99999;
 
     @media screen and (min-width: 750px) {
       width: var(--sidebar-width);
       max-width: 95vw;
     }
+  }
+
+  .cart-drawer__dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5) !important;
   }
 
   /* Needed to ensure the drawer is full height */
@@ -565,6 +575,8 @@
   .cart-drawer__inner {
     height: 100%;
     overflow: hidden;
+    background-color: #FFFFFF !important;
+    background: #FFFFFF !important;
   }
 
   .cart-drawer__content {
@@ -572,7 +584,8 @@
     display: flex;
     flex-direction: column;
     padding: 0;
-    background-color: var(--color-background);
+    background-color: #FFFFFF !important;
+    background: #FFFFFF !important;
     flex-grow: 1;
     overflow-y: auto;
   }
@@ -1165,6 +1178,10 @@
     }
 
     /* Intermediate wrapper elements vertical centering normalization */
+    body #header-component.header .account-button__icon {
+      display: none !important;
+    }
+
     body #header-component.header .header__mobile-menu-trigger,
     body #header-component.header header-drawer,
     body #header-component.header details,

@@ -133,9 +133,75 @@
     }
 
     @media (max-width: 749px) {
+      .cart-recommendations {
+        margin-top: 12px;
+        margin-bottom: 12px;
+        padding: 12px 10px 14px;
+      }
+
+      .cart-recommendations__heading {
+        font-size: 13px;
+      }
+
+      .cart-recommendations__slider {
+        gap: 10px;
+      }
+
       .cart-recommendations__card {
-        flex: 0 0 calc((100% - (12px * ({{ mobile_cols }} - 1))) / {{ mobile_cols }});
-        min-width: 135px;
+        flex: 0 0 145px !important;
+        min-width: 145px !important;
+        max-width: 145px !important;
+        padding: 8px !important;
+        border-radius: 6px !important;
+      }
+
+      .cart-recommendations__image-link {
+        height: 140px !important;
+        aspect-ratio: auto !important;
+      }
+
+      .cart-recommendations__info {
+        margin-top: 6px;
+      }
+
+      .cart-recommendations__title {
+        font-size: 11px !important;
+        line-height: 1.25 !important;
+        margin-bottom: 4px !important;
+        -webkit-line-clamp: 2;
+      }
+
+      .cart-recommendations__price-row {
+        margin-bottom: 6px;
+      }
+
+      .cart-recommendations__price {
+        font-size: 11px !important;
+      }
+
+      .cart-recommendations__compare-price {
+        font-size: 10px !important;
+      }
+
+      html body .cart-recommendations .cart-recommendations__add-btn,
+      html body .cart-recommendations button.cart-recommendations__add-btn {
+        padding: 6px 4px !important;
+        font-size: 10px !important;
+        height: 28px !important;
+        line-height: 28px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+
+      .cart-recommendations__popover-pills {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 4px !important;
+      }
+
+      .cart-recommendations__pill {
+        padding: 6px 2px !important;
+        font-size: 10px !important;
       }
     }
 

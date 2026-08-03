@@ -24,27 +24,44 @@
       value="{{ form_id }}"
     >
 
-    {%- if form.errors and form.id == form_id -%}
+    {%- assign is_posted_successfully = false -%}
+    {%- if form.posted_successfully? -%}
+      {%- assign is_posted_successfully = true -%}
+    {%- elsif canonical_url contains 'contact_posted=true' -%}
+      {%- assign is_posted_successfully = true -%}
+    {%- endif -%}
+
+    {%- if form.errors -%}
       <div
         class="contact-form__error"
         tabindex="-1"
         autofocus
       >
-        {{- 'icon-error.svg' | inline_asset_content -}}
-
-        {{- form.errors.translated_fields.email | capitalize }}
-        {{ form.errors.messages.email -}}
+        <span class="svg-wrapper" style="width:20px; height:20px; flex-shrink:0;">
+          {{- 'icon-error.svg' | inline_asset_content -}}
+        </span>
+        <div>
+          {{- form.errors.translated_fields.email | capitalize }}
+          {{ form.errors.messages.email -}}
+        </div>
       </div>
     {%- endif -%}
 
-    {%- if form.posted_successfully? and form.id == form_id -%}
+    {%- if is_posted_successfully -%}
       <div
         class="contact-form__success"
         tabindex="-1"
         autofocus
       >
-        {{- 'icon-checkmark.svg' | inline_asset_content -}}
-        {{- 'blocks.contact_form.post_success' | t -}}
+        <span class="svg-wrapper" style="width:24px; height:24px; flex-shrink:0; color: #166534; display: inline-flex;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </span>
+        <div style="font-weight: 500; font-size: 15px; color: #166534; line-height: 1.4;">
+          {{- 'blocks.contact_form.post_success' | t | default: "Thanks for contacting us! We'll get back to you as soon as possible." -}}
+        </div>
       </div>
     {%- endif -%}
 
@@ -82,7 +99,7 @@
         autocapitalize="off"
         value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
         aria-required="true"
-        {% if form.errors contains 'email' and form.id == form_id %}
+        {% if form.errors contains 'email' %}
           aria-invalid="true"
           aria-describedby="ContactForm-email-error"
         {% endif %}
@@ -114,59 +131,115 @@
       {{- 'blocks.contact_form.comment' | t -}}
     </label>
     <textarea
-      rows="10"
+      rows="8"
       id="ContactForm-body"
       class="contact-form__input contact-form__input--textarea"
       name="contact[body]"
       placeholder="{{ 'blocks.contact_form.comment' | t }}"
-    >
-      {{- form.body -}}
-    </textarea>
+    >{%- if form.body -%}{{- form.body -}}{%- endif -%}</textarea>
 
     {{ submit_button }}
   {%- endform -%}
 </div>
 
 {% stylesheet %}
+  .contact-form {
+    max-width: 760px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
   .contact-form__form {
     display: flex;
     flex-direction: column;
-    gap: var(--gap-md);
+    gap: 16px;
   }
 
   .contact-form__form-row {
     display: flex;
     flex-direction: column;
-    gap: var(--gap-md);
+    gap: 16px;
+  }
 
-    @media screen and (min-width: 750px) {
+  @media screen and (min-width: 750px) {
+    .contact-form__form-row {
       flex-direction: row;
-      align-items: center;
+      gap: 16px;
     }
+  }
+
+  .contact-form__form-row > * {
+    flex: 1;
+    width: 100%;
   }
 
   .contact-form__input {
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: var(--color-input-text);
-    background-color: var(--color-input-background);
-    padding: var(--padding-lg) var(--padding-xl);
-    border-radius: var(--style-border-radius-inputs);
-    border: var(--style-border-width-inputs) solid var(--color-input-border);
+    color: var(--color-input-text, #111827);
+    background-color: var(--color-input-background, #f9fafb);
+    padding: 14px 18px;
+    border-radius: 8px;
+    border: 1px solid var(--color-input-border, #d1d5db);
+    font-size: 15px;
+    line-height: 1.5;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
     -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+  }
+
+  .contact-form__input:hover {
+    border-color: #9ca3af;
+  }
+
+  .contact-form__input:focus {
+    outline: none;
+    border-color: #111827;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
   }
 
   .contact-form__input--textarea {
     resize: vertical;
-    min-height: var(--input-textarea-min-height);
+    min-height: 140px;
+    font-family: inherit;
   }
 
-  .contact-form__error,
   .contact-form__success {
     display: flex;
     align-items: center;
-    gap: var(--gap-xs);
+    gap: 12px;
+    padding: 16px 20px;
+    background-color: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 6px rgba(22, 101, 52, 0.06);
+    animation: fadeInSuccess 0.3s ease-out;
+  }
+
+  .contact-form__error {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    color: #991b1b;
+  }
+
+  @keyframes fadeInSuccess {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 {% endstylesheet %}
 

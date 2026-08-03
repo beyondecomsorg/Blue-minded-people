@@ -254,18 +254,47 @@ class CartRecommendationsComponent extends HTMLElement {
 
   async addVariantToCart(variantId) {
     try {
-      const res = await fetch('/cart/add.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: [{ id: parseInt(variantId, 10), quantity: 1 }] })
+      const cartItemsComponents = document.querySelectorAll('cart-items-component');
+      const sectionIds = [];
+      cartItemsComponents.forEach((comp) => {
+        if (comp.dataset && comp.dataset.sectionId) {
+          sectionIds.push(comp.dataset.sectionId);
+        }
       });
 
-      if (res.ok) {
-        document.dispatchEvent(new CustomEvent('cart:updated'));
-        document.dispatchEvent(new CartAddEvent({ resource: { item_count: 1 } }));
-        return true;
+      const bodyData = {
+        items: [{ id: parseInt(variantId, 10), quantity: 1 }]
+      };
+      if (sectionIds.length > 0) {
+        bodyData.sections = sectionIds.join(',');
       }
-      return false;
+
+      const res = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(bodyData)
+      });
+
+      if (!res.ok) return false;
+
+      const data = await res.json();
+
+      const cartRes = await fetch('/cart.js');
+      const cartData = cartRes.ok ? await cartRes.json() : undefined;
+
+      document.dispatchEvent(new CustomEvent('cart:updated'));
+      document.dispatchEvent(
+        new CartAddEvent(cartData, variantId.toString(), {
+          source: 'cart-recommendations',
+          itemCount: 1,
+          sections: data.sections,
+        })
+      );
+
+      return true;
     } catch (err) {
       console.error('Failed to add variant to cart', err);
       return false;

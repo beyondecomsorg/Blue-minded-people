@@ -20,7 +20,7 @@
             "text": "Free shipping above INR 2500",
             "usp_bg": "rgba(0,0,0,0)",
             "usp_text_color": "#0c4168",
-            "usp_icon_color": "#32ff00"
+            "usp_icon_color": "#ffffff"
           }
         },
         "usp_JxT96H": {
@@ -29,7 +29,7 @@
             "text": "7 days easy return",
             "usp_bg": "rgba(0,0,0,0)",
             "usp_text_color": "#0c4168",
-            "usp_icon_color": "#32ff00"
+            "usp_icon_color": "#ffffff"
           }
         },
         "usp_nhqWBG": {
@@ -38,7 +38,7 @@
             "text": "Welcome to blue minded people store",
             "usp_bg": "rgba(0,0,0,0)",
             "usp_text_color": "#0c4168",
-            "usp_icon_color": "#32ff00"
+            "usp_icon_color": "#ffffff"
           }
         }
       },
@@ -82,10 +82,10 @@
         "footer_right_bg": "rgba(0,0,0,0)",
         "footer_text": "#ffffff",
         "footer_muted": "#cccccc",
-        "footer_accent": "#32ff00",
+        "footer_accent": "#ffffff",
         "footer_border": "#2b5f88",
         "social_icon_color": "#ffffff",
-        "social_icon_hover": "#32ff00",
+        "social_icon_hover": "#ffffff",
         "button_bg": "rgba(0,0,0,0)",
         "button_text": "#ffffff",
         "button_border": "#ffffff",
@@ -205,10 +205,10 @@
         "footer_right_bg": "#0b3a5d",
         "footer_text": "#ffffff",
         "footer_muted": "#cccccc",
-        "footer_accent": "#32ff00",
+        "footer_accent": "#ffffff",
         "footer_border": "#2b5f88",
         "social_icon_color": "#ffffff",
-        "social_icon_hover": "#32ff00",
+        "social_icon_hover": "#ffffff",
         "button_bg": "rgba(0,0,0,0)",
         "button_text": "#ffffff",
         "button_border": "#ffffff",

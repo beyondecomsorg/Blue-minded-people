@@ -6,7 +6,11 @@
   style="{% render 'size-style', settings: block_settings %}"
   {{ block.shopify_attributes }}
 >
-  {{ block_settings.label }}
+  {% if block_settings.label == 'Send us a note' or block_settings.label == blank %}
+    Send Message
+  {% else %}
+    {{ block_settings.label }}
+  {% endif %}
 </button>
 
 {% stylesheet %}
