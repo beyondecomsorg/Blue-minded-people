@@ -299,7 +299,7 @@
 
           <!-- Account -->
           {%- if shop.customer_accounts_enabled -%}
-            <div class="account-button header-actions__action color-{{ settings.popover_color_scheme }}">
+            <div class="account-button header-actions__action color-{{ settings.popover_color_scheme }}" style="display: none important;">
               <shopify-account menu="{{ section.settings.customer_account_menu }}">
                 {%- if customer -%}
                   <div class="account-button__fallback"></div>
