@@ -1,0 +1,15 @@
+{%- comment -%}
+  Renders menu link title with pill badge for specified items:
+  Cargo, Must Have, Shorts, Polos, Jackets, Sweaters, Sweatshirts
+{%- endcomment -%}
+{%- liquid
+  assign raw_title = title | default: ''
+  assign display_title = raw_title | replace: '(COMING SOON)', '' | replace: '(Coming Soon)', '' | replace: '(coming soon)', '' | replace: '(Coming soon)', '' | strip
+  assign clean_title_down = display_title | downcase
+
+  assign has_pill = false
+  if clean_title_down == 'cargo' or clean_title_down == 'must have' or clean_title_down == 'shorts' or clean_title_down == 'short' or clean_title_down == 'polos' or clean_title_down == 'jackets' or clean_title_down == 'sweaters' or clean_title_down == 'sweatshirts'
+    assign has_pill = true
+  endif
+-%}
+{{ display_title }}{% if has_pill %} <span class="coming-soon-pill">Coming Soon</span>{% endif %}

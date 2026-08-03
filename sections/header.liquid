@@ -198,7 +198,7 @@
                           <details class="menu-drawer__accordion" open>
                             <summary class="menu-drawer__summary">
                               <a href="{{ link.url }}" class="menu-drawer__link{% if section.settings.highlight_item_index > 0 and forloop.index == section.settings.highlight_item_index %} menu-drawer__link--highlighted{% endif %}">
-                                {{ link.title }}
+                                {% render 'render-menu-link-title', title: link.title %}
                               </a>
                               <span class="menu-drawer__caret">
                                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
@@ -208,7 +208,7 @@
                               {%- for child_link in link.links -%}
                                 <li class="menu-drawer__subitem">
                                   <a href="{{ child_link.url }}" class="menu-drawer__sublink">
-                                    {{ child_link.title }}
+                                    {% render 'render-menu-link-title', title: child_link.title %}
                                   </a>
                                 </li>
                               {%- endfor -%}
@@ -218,7 +218,7 @@
                       {%- else -%}
                         <li class="menu-drawer__item">
                           <a href="{{ link.url }}" class="menu-drawer__link{% if section.settings.highlight_item_index > 0 and forloop.index == section.settings.highlight_item_index %} menu-drawer__link--highlighted{% endif %}">
-                            {{ link.title }}
+                            {% render 'render-menu-link-title', title: link.title %}
                           </a>
                         </li>
                       {%- endif -%}
@@ -452,7 +452,7 @@
                     style="--highlight-color: {{ section.settings.highlight_color | default: 'var(--color-copper-rivet)' }};"
                   {% endif %}
                 >
-                  {{ link.title }}
+                  {% render 'render-menu-link-title', title: link.title %}
                 </a>
                 
                 {%- if link.links != blank -%}
@@ -460,14 +460,14 @@
                     {%- for child_link in link.links -%}
                       <li class="header-dropdown-item">
                         <a href="{{ child_link.url }}" class="header-dropdown-link">
-                          {{ child_link.title }}
+                          {% render 'render-menu-link-title', title: child_link.title %}
                         </a>
                         {%- if child_link.links != blank -%}
                           <ul class="header-grandchild-menu" role="list">
                             {%- for grandchild_link in child_link.links -%}
                               <li class="header-grandchild-item">
                                 <a href="{{ grandchild_link.url }}" class="header-grandchild-link">
-                                  {{ grandchild_link.title }}
+                                  {% render 'render-menu-link-title', title: grandchild_link.title %}
                                 </a>
                               </li>
                             {%- endfor -%}
@@ -1151,6 +1151,37 @@
     box-sizing: border-box !important;
     padding-top: 5px !important;
     padding-bottom: 5px !important;
+  }
+
+  .coming-soon-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: var(--color-copper-rivet, #B87333) !important;
+    color: #FFFFFF !important;
+    font-size: 7px !important;
+    font-weight: 400 !important;
+    padding: 2px 8px !important;
+    border-radius: 999px !important;
+    margin-left: 8px !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.02em !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+    text-transform: none !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .nav-coming-soon {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    color: var(--color-copper-rivet, #B87333) !important;
+    letter-spacing: 0.05em !important;
+    margin-left: 4px !important;
+    display: inline-block !important;
+    vertical-align: baseline !important;
+    line-height: 1 !important;
+    text-transform: uppercase !important;
   }
 
   @media screen and (max-width: 749px) {
@@ -2533,3 +2564,41 @@
   "presets": []
 }
 {% endschema %}
+
+<script>
+  (function() {
+    const comingSoonItems = [
+      'cargo',
+      'must have',
+      'shorts',
+      'short',
+      'polos',
+      'jackets',
+      'sweaters',
+      'sweatshirts'
+    ];
+
+    function formatComingSoonBadges() {
+      const selectors = '.header-nav-link, .header-dropdown-link, .header-grandchild-link, .menu-drawer__link, .menu-drawer__sublink, .mega-menu__link, .menu-list__link-title, .menu-drawer__menu-item-text';
+      document.querySelectorAll(selectors).forEach(function(el) {
+        if (el.querySelector('.coming-soon-pill')) return;
+
+        const rawText = el.textContent.trim();
+        const cleanText = rawText.replace(/\s*\((coming soon|coming-soon)\)/gi, '').trim().toLowerCase();
+
+        if (comingSoonItems.includes(cleanText)) {
+          const baseTitle = rawText.replace(/\s*\((coming soon|coming-soon)\)/gi, '').trim();
+          el.innerHTML = baseTitle + ' <span class="coming-soon-pill">Coming Soon</span>';
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', formatComingSoonBadges);
+    } else {
+      formatComingSoonBadges();
+    }
+    setTimeout(formatComingSoonBadges, 300);
+    setTimeout(formatComingSoonBadges, 1000);
+  })();
+</script>

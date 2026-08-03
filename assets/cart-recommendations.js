@@ -3,8 +3,6 @@ import { CartAddEvent } from '@theme/events';
 class CartRecommendationsComponent extends HTMLElement {
   connectedCallback() {
     this.container = this.querySelector('.cart-recommendations__slider');
-    this.prevBtn = this.querySelector('.cart-recommendations__nav--prev');
-    this.nextBtn = this.querySelector('.cart-recommendations__nav--next');
 
     this.initSliderNav();
     this.initQuickAdd();
@@ -19,37 +17,48 @@ class CartRecommendationsComponent extends HTMLElement {
   }
 
   initSliderNav() {
-    if (!this.container) return;
+    if (this.navInitialized) return;
+    this.navInitialized = true;
 
-    if (this.prevBtn) {
-      this.prevBtn.onclick = (e) => {
-        e.preventDefault();
-        this.container.scrollBy({ left: -220, behavior: 'smooth' });
-      };
-    }
+    this.addEventListener('click', (e) => {
+      const prevBtn = e.target.closest('.cart-recommendations__nav--prev');
+      const nextBtn = e.target.closest('.cart-recommendations__nav--next');
 
-    if (this.nextBtn) {
-      this.nextBtn.onclick = (e) => {
+      if (prevBtn) {
         e.preventDefault();
-        this.container.scrollBy({ left: 220, behavior: 'smooth' });
-      };
-    }
+        e.stopPropagation();
+        this.scrollSlider(-1);
+      } else if (nextBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.scrollSlider(1);
+      }
+    });
 
     if (this.dataset.autoplay === 'true') {
       this.startAutoplay();
     }
   }
 
+  scrollSlider(direction) {
+    if (!this.container) {
+      this.container = this.querySelector('.cart-recommendations__slider');
+    }
+    if (!this.container) return;
+
+    const card = this.container.querySelector('.cart-recommendations__card');
+    const scrollAmount = card ? (card.getBoundingClientRect().width + 12) : 200;
+
+    this.container.scrollBy({
+      left: direction * scrollAmount,
+      behavior: 'smooth'
+    });
+  }
+
   startAutoplay() {
     if (this.autoplayInterval) clearInterval(this.autoplayInterval);
     this.autoplayInterval = setInterval(() => {
-      if (!this.container) return;
-      const maxScrollLeft = this.container.scrollWidth - this.container.clientWidth;
-      if (this.container.scrollLeft >= maxScrollLeft - 5) {
-        this.container.scrollTo({ left: 0, behavior: 'smooth' });
-      } else {
-        this.container.scrollBy({ left: 220, behavior: 'smooth' });
-      }
+      this.scrollSlider(1);
     }, 4000);
 
     this.onmouseenter = () => clearInterval(this.autoplayInterval);
