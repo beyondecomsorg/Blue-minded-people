@@ -222,6 +222,11 @@
         "type": "shopify://apps/cwill-ai-chat/blocks/aichatbot/e7b73941-aea6-4bde-bb29-6e9e414581d0",
         "disabled": true,
         "settings": {}
+      },
+      "1219337400145039034": {
+        "type": "shopify://apps/kwikpass/blocks/kp_login/603e209b-d585-47ff-8592-837a4faa325b",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {
