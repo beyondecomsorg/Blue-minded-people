@@ -1845,6 +1845,7 @@
     },
     "journal_grid_Di4rTH": {
       "type": "journal-grid",
+      "disabled": true,
       "name": "Journal Grid",
       "settings": {
         "label_text": "From the Journal",
