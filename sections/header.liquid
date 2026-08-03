@@ -298,10 +298,10 @@
           <span ref="liveRegion" class="visually-hidden" role="status"></span>
 
           <!-- Account -->
-          {%- if shop.customer_accounts_enabled -%}
+          {% comment %} {%- if shop.customer_accounts_enabled -%}
             <div class="account-button header-actions__action color-{{ settings.popover_color_scheme }}">
               <shopify-account menu="{{ section.settings.customer_account_menu }}">
-                {% comment %} {%- if customer -%}
+                {%- if customer -%}
                   <div class="account-button__fallback"></div>
                 {%- else -%}
                   <span slot="signed-out-avatar" class="svg-wrapper" aria-hidden="true">
@@ -309,10 +309,10 @@
                       <path stroke="currentColor" stroke-linejoin="round" stroke-width="1.5" d="M10.375 3.813a3.063 3.063 0 1 1-6.125 0 3.063 3.063 0 0 1 6.125 0ZM7.313 9.5c-3.667 0-6.24 2.691-6.563 6.125h13.125C13.552 12.191 10.979 9.5 7.312 9.5Z" />
                     </svg>
                   </span>
-                {%- endif -%} {% endcomment %}
+                {%- endif -%}
               </shopify-account>
             </div>
-          {%- endif -%}
+          {%- endif -%} {% endcomment %}
 
           <!-- Cart Drawer integration -->
           {%- if settings.cart_type == 'drawer' and template.name != 'cart' -%}
