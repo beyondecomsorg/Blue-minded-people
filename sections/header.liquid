@@ -298,7 +298,7 @@
           <span ref="liveRegion" class="visually-hidden" role="status"></span>
 
           <!-- Account -->
-          {%- if shop.customer_accounts_enabled -%}
+          {% comment %} {%- if shop.customer_accounts_enabled -%}
             <div class="account-button header-actions__action color-{{ settings.popover_color_scheme }}">
               <shopify-account menu="{{ section.settings.customer_account_menu }}">
                 {%- if customer -%}
@@ -312,7 +312,7 @@
                 {%- endif -%}
               </shopify-account>
             </div>
-          {%- endif -%}
+          {%- endif -%} {% endcomment %}
 
           <!-- Cart Drawer integration -->
           {%- if settings.cart_type == 'drawer' and template.name != 'cart' -%}
