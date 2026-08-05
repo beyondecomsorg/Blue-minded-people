@@ -92,11 +92,12 @@
         {% endif %}
       >
         {% if customer %}
-          <div class="account-button__fallback"></div>
+          <div class="account-button__fallback" style="display: none !important;"></div>
         {% else %}
           <span
             slot="signed-out-avatar"
             class="account-button__text header-actions__text-style {% if display_style == 'icon' %}hidden{% else %}mobile:hidden{% endif %}"
+            style="display: none !important;"
           >
             {{ 'content.account_title' | t }}
           </span>
@@ -105,6 +106,7 @@
             slot="signed-out-avatar"
             class="{% if display_style != 'icon' %}desktop:hidden{% endif %}"
             aria-hidden="true"
+            style="display: none !important;"
           >
             {{ account_icon }}
           </span>

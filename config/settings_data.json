@@ -73,6 +73,7 @@
     "logo": "shopify://shop_images/BMP-PNG-Web-B-2_1.png",
     "logo_height": 36,
     "logo_height_mobile": 28,
+    "favicon": "shopify://shop_images/BMP-PNG-Web-B-2_1.png",
     "type_body_font": "geist_n4",
     "type_subheading_font": "geist_n5",
     "type_heading_font": "geist_n6",
@@ -225,7 +226,7 @@
       },
       "1219337400145039034": {
         "type": "shopify://apps/kwikpass/blocks/kp_login/603e209b-d585-47ff-8592-837a4faa325b",
-        "disabled": true,
+        "disabled": false,
         "settings": {}
       }
     },
