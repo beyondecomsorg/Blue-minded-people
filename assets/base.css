@@ -1193,10 +1193,13 @@ results-list[initialized] {
     max-width: var(--normal-content-width);
   }
 
+
+
   @media screen and (max-width: 749px) {
       .account-button.header-actions__action.color-scheme-1{
     height: 20px;
     width: 20px;
+    z-index: -111;
   }
     max-width: 100%;
     max-height: 100%;
@@ -1206,6 +1209,9 @@ results-list[initialized] {
   }
 }
 
+        .account-button.header-actions__action.color-scheme-1{
+    z-index: -111;
+        }
 .dialog-modal::backdrop {
   transition: backdrop-filter var(--animation-speed) var(--animation-easing);
   backdrop-filter: brightness(1);
