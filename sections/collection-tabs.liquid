@@ -386,7 +386,19 @@
                 endif
               %}
               {% if show_coming_soon_badge %}
-                <span class="coming-soon-badge">Coming Soon</span>
+                {% assign hide_badge = false %}
+                {% assign hidden_collections = "TRACK SKINNY|TRACK CROPPED SKINNY|BORRIS SLIM|GET WIDTH IT|MUTANT MARCO|PULL UP|STRAIGHT" | split: "|" %}
+                 {% assign collection_name_upper = txt | strip | upcase %}
+                {% for item in hidden_collections %}
+                  {% assign item_stripped = item | strip | upcase %}
+                  {% if collection_name_upper == item_stripped %}
+                    {% assign hide_badge = true %}
+                    {% break %}
+                  {% endif %}
+                {% endfor %}
+                {% unless hide_badge %}
+                  <span class="coming-soon-badge">Coming Soon</span>
+                {% endunless %}
               {% endif %}
 
               <div class="collection-tab-thumb-icon">
@@ -426,8 +438,18 @@
                   {{ desc }}
                 </div>
                 {% if collection.url != blank %}
+                  {% assign hide_badge = false %}
+                  {% assign hidden_collections = "TRACK SKINNY|TRACK CROPPED SKINNY|BORRIS SLIM|GET WIDTH IT|MUTANT MARCO|PULL UP|STRAIGHT" | split: "|" %}
+                  {% assign collection_name_upper = txt | strip | upcase %}
+                  {% for item in hidden_collections %}
+                    {% assign item_stripped = item | strip | upcase %}
+                    {% if collection_name_upper == item_stripped %}
+                      {% assign hide_badge = true %}
+                      {% break %}
+                    {% endif %}
+                  {% endfor %}
                   <a href="{{ collection.url }}" class="collection-tabs-cta" onclick="event.preventDefault(); window.scrollBy({ top: 1000, behavior: 'smooth' });">
-                    <span>Comming soon</span>
+                    <span>{% if hide_badge %}Explore Now{% else %}Comming soon{% endif %}</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
                       <polyline points="12 5 19 12 12 19"></polyline>

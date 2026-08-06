@@ -4943,6 +4943,23 @@ slideshow-component .product-price-main-sale{
   gap: 8px;
   flex: 1;
 }
+.kp-new-theme.header--icon, .kp-new-theme.header--icon--mobile{
+  margin-bottom: 2px;
+}
+@media only screen and (min-width: 769px){
+.kp-new-theme.header--icon, .kp-new-theme.header--icon--mobile{
+  position: absolute;
+    right: 6.5rem;
+}
+}
+
+@media only screen and (max-width: 768px){
+.kp-new-theme.header--icon, .kp-new-theme.header--icon--mobile{
+  position: absolute;
+  right: 3.5rem;
+}
+}
+
 
 /* Swatches Row */
 .product-card__swatches-row {

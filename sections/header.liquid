@@ -299,8 +299,9 @@
 
           <!-- Account -->
           {%- if shop.customer_accounts_enabled -%}
+       
             <div class="account-button header-actions__action color-{{ settings.popover_color_scheme }}">
-              <shopify-account menu="{{ section.settings.customer_account_menu }}">
+            <shopify-account menu="{{ section.settings.customer_account_menu }}">
                 {%- if customer -%}
                   <div class="account-button__fallback" style="display: none !important;"></div>
                 {%- else -%}
@@ -310,8 +311,9 @@
                     </svg>
                   </span>
                 {%- endif -%}
-              </shopify-account>
+              </shopify-account> 
             </div>
+          
           {%- endif -%}
 
           <!-- Cart Drawer integration -->
@@ -1852,7 +1854,7 @@
 
     /* Ensure header-actions-wrapper also uses tight icon gap */
     body #header-component.header .header-actions-wrapper {
-      gap: var(--gap-xs, 8px) !important;
+      gap: 0px !important;
       align-items: center !important;
     }
 
