@@ -15,6 +15,36 @@
         "slide_B6prei": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/Home_Page_W.png",
+            "image_focal_point": "center center",
+            "mobile_image": "shopify://shop_images/Home_Page_Mobile.png",
+            "mobile_image_focal_point": "center center",
+            "video_url_mp4": "",
+            "video_url_webm": "",
+            "hide_content": false,
+            "eyebrow": "",
+            "heading": "",
+            "subtext": "",
+            "btn1_label": "Shop Now",
+            "btn1_link": "shopify://collections/shirts",
+            "btn1_new_tab": false,
+            "btn1_custom_bg": "",
+            "btn1_custom_text": "",
+            "btn2_label": "",
+            "btn2_link": "",
+            "btn2_new_tab": false,
+            "btn2_custom_bg": "",
+            "btn2_custom_text": "",
+            "btn3_label": "",
+            "btn3_link": "",
+            "btn3_new_tab": false,
+            "btn3_custom_bg": "",
+            "btn3_custom_text": ""
+          }
+        },
+        "slide_ad4gJb": {
+          "type": "slide",
+          "settings": {
             "image": "shopify://shop_images/Landing_Home_page_Web..png",
             "image_focal_point": "center center",
             "mobile_image": "shopify://shop_images/Landing_Home_page_Mobile.png",
@@ -105,6 +135,7 @@
       },
       "block_order": [
         "slide_B6prei",
+        "slide_ad4gJb",
         "slide_RV7Dct",
         "slide_NHT4Nb"
       ],
