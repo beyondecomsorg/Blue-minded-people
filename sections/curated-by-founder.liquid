@@ -1,0 +1,946 @@
+{%- style -%}
+  .cbf-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top_desktop }}px;
+    padding-bottom: {{ section.settings.padding_bottom_desktop }}px;
+    background-color: {{ section.settings.bg_color }};
+  }
+
+  @media screen and (max-width: 767px) {
+    .cbf-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+
+  .cbf-container {
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  .cbf-header {
+    text-align: {{ section.settings.text_alignment }};
+    margin-bottom: 40px;
+  }
+
+  .cbf-heading {
+    font-family: var(--wb-font-heading, "Helvetica Neue", Arial, sans-serif);
+    font-size: {{ section.settings.heading_size_desktop }}px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 10px;
+    color: {{ section.settings.text_color }};
+  }
+
+  .cbf-subheading {
+    font-family: var(--wb-font-body, "Helvetica Neue", Arial, sans-serif);
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 0;
+    color: {{ section.settings.text_color_sub }};
+    font-weight: 300;
+  }
+
+  @media screen and (max-width: 767px) {
+    .cbf-heading {
+      font-size: {{ section.settings.heading_size_mobile }}px;
+    }
+    .cbf-subheading {
+      font-size: 14px;
+    }
+    .cbf-header {
+      margin-bottom: 24px;
+    }
+  }
+
+  /* Grid Layout */
+  .cbf-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: {{ section.settings.grid_gap }}px;
+  }
+
+  @media screen and (max-width: 1023px) {
+    .cbf-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: {{ section.settings.grid_gap_tablet }}px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .cbf-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: {{ section.settings.grid_gap_mobile }}px;
+    }
+  }
+
+  /* Tile Styling */
+  .cbf-tile {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    display: block;
+    text-decoration: none;
+    background-color: #f4f4f4;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .cbf-tile-img-wrap {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .cbf-tile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .cbf-tile:hover .cbf-tile-img {
+    transform: scale(1.06);
+  }
+
+  .cbf-tile-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.85) 0%,
+      rgba(0, 0, 0, 0.3) 50%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .cbf-tile-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 24px;
+    box-sizing: border-box;
+    z-index: 2;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .cbf-tile-num {
+    font-family: var(--wb-font-body, "Helvetica Neue", Arial, sans-serif);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    opacity: 0.7;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .cbf-tile-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 12px;
+  }
+
+  .cbf-tile-title {
+    font-family: var(--wb-font-heading, "Helvetica Neue", Arial, sans-serif);
+    font-size: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+  }
+
+  .cbf-tile-desc {
+    font-family: var(--wb-font-body, "Helvetica Neue", Arial, sans-serif);
+    font-size: 12px;
+    opacity: 0.8;
+    margin-top: 6px;
+    line-height: 1.4;
+    font-weight: 300;
+  }
+
+  .cbf-tile-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .cbf-tile-arrow svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+
+  .cbf-tile:hover .cbf-tile-arrow {
+    transform: translateX(4px);
+  }
+
+  @media screen and (max-width: 767px) {
+    .cbf-tile-content {
+      padding: 16px;
+    }
+    .cbf-tile-title {
+      font-size: 16px;
+    }
+    .cbf-tile-desc {
+      display: none; /* Keep mobile clean */
+    }
+  }
+
+  /* Interactive Flow Panel inside the Tile */
+  .cbf-flow-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(18, 18, 18, 0.98);
+    z-index: 10;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+
+  .cbf-tile.flow-active .cbf-flow-overlay {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .cbf-flow-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .cbf-flow-heading {
+    font-family: var(--wb-font-heading, "Helvetica Neue", Arial, sans-serif);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+
+  .cbf-flow-close {
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+  }
+
+  .cbf-flow-close:hover {
+    opacity: 1;
+  }
+
+  .cbf-flow-close svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+  }
+
+  .cbf-flow-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    justify-content: center;
+    overflow-y: auto;
+  }
+
+  .cbf-step {
+    display: none;
+  }
+
+  .cbf-step.step-active {
+    display: block;
+    animation: cbf-fade-in 0.3s ease forwards;
+  }
+
+  @keyframes cbf-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .cbf-step-title {
+    font-family: var(--wb-font-heading, "Helvetica Neue", Arial, sans-serif);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+  }
+
+  .cbf-options-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cbf-option-btn {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    padding: 8px 16px;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 2px;
+    font-family: var(--wb-font-body, "Helvetica Neue", Arial, sans-serif);
+  }
+
+  .cbf-option-btn:hover {
+    border-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .cbf-option-btn.selected {
+    background-color: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
+  }
+
+  .cbf-flow-footer {
+    padding: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cbf-back-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    padding: 6px 0;
+    font-family: var(--wb-font-body, "Helvetica Neue", Arial, sans-serif);
+  }
+
+  .cbf-back-btn:hover {
+    color: #ffffff;
+  }
+
+  .cbf-submit-btn {
+    flex: 1;
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    padding: 10px 16px;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 2px;
+    font-family: var(--wb-font-body, "Helvetica Neue", Arial, sans-serif);
+  }
+
+  .cbf-submit-btn:hover {
+    opacity: 0.9;
+  }
+
+  .cbf-submit-btn:disabled {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.4);
+    cursor: not-allowed;
+  }
+{%- endstyle -%}
+
+<section class="cbf-section-{{ section.id }}" data-section-id="{{ section.id }}">
+  <div class="cbf-container">
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="cbf-header">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="cbf-heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="cbf-subheading">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="cbf-grid">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.enable -%}
+          {%- liquid
+            assign is_interactive = block.settings.enable_interactive_flow
+            assign tile_url = block.settings.custom_url
+            if tile_url == blank and block.settings.collection != blank
+              assign tile_url = block.settings.collection.url
+            endif
+          -%}
+
+          <div
+            class="cbf-tile{% if is_interactive %} cbf-interactive{% endif %}"
+            id="cbf-block-{{ block.id }}"
+            data-block-id="{{ block.id }}"
+            {% unless is_interactive %}
+              onclick="if (!event.target.closest('.cbf-flow-overlay')) window.location.href='{{ tile_url | default: '#' }}';"
+            {% endunless %}
+            {{ block.shopify_attributes }}
+          >
+            <!-- Image -->
+            <div class="cbf-tile-img-wrap">
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 800
+                  | image_tag:
+                    class: 'cbf-tile-img',
+                    loading: 'lazy',
+                    widths: '400, 600, 800',
+                    alt: block.settings.title
+                }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'cbf-tile-img' }}
+              {%- endif -%}
+            </div>
+
+            <!-- Overlay -->
+            <div class="cbf-tile-overlay"></div>
+
+            <!-- Content -->
+            <div class="cbf-tile-content">
+              {%- if block.settings.collection_number != blank -%}
+                <div class="cbf-tile-num">{{ block.settings.collection_number }}</div>
+              {%- endif -%}
+              <div class="cbf-tile-title-row">
+                <h3 class="cbf-tile-title">{{ block.settings.title | default: block.settings.collection.title }}</h3>
+                <span class="cbf-tile-arrow" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </span>
+              </div>
+              {%- if block.settings.description != blank -%}
+                <p class="cbf-tile-desc">{{ block.settings.description }}</p>
+              {%- endif -%}
+            </div>
+
+            <!-- Interactive Flow Overlay (For Stressed Jeans / Custom Flow) -->
+            {%- if is_interactive -%}
+              {%- liquid
+                assign fits = block.settings.fit_options | split: ','
+                assign sizes = block.settings.size_options | split: ','
+                assign colors = block.settings.color_options | split: ','
+              -%}
+              <div class="cbf-flow-overlay">
+                <div class="cbf-flow-header">
+                  <span class="cbf-flow-heading">{{ block.settings.title }}</span>
+                  <button class="cbf-flow-close" type="button" aria-label="Close panel">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="cbf-flow-body">
+                  <!-- Step 1: Fit -->
+                  <div class="cbf-step step-active" data-step="1">
+                    <div class="cbf-step-title">Select Fit</div>
+                    <div class="cbf-options-list">
+                      {%- for fit in fits -%}
+                        {%- assign clean_fit = fit | strip -%}
+                        {%- if clean_fit != blank -%}
+                          <button class="cbf-option-btn" type="button" data-val="{{ clean_fit }}">{{ clean_fit }}</button>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                  </div>
+
+                  <!-- Step 2: Size -->
+                  <div class="cbf-step" data-step="2">
+                    <div class="cbf-step-title">Select Size</div>
+                    <div class="cbf-options-list">
+                      {%- for size in sizes -%}
+                        {%- assign clean_size = size | strip -%}
+                        {%- if clean_size != blank -%}
+                          <button class="cbf-option-btn" type="button" data-val="{{ clean_size }}">{{ clean_size }}</button>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                  </div>
+
+                  <!-- Step 3: Color -->
+                  <div class="cbf-step" data-step="3">
+                    <div class="cbf-step-title">Select Color</div>
+                    <div class="cbf-options-list">
+                      {%- for color in colors -%}
+                        {%- assign clean_color = color | strip -%}
+                        {%- if clean_color != blank -%}
+                          <button class="cbf-option-btn" type="button" data-val="{{ clean_color }}">{{ clean_color }}</button>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cbf-flow-footer">
+                  <button class="cbf-back-btn" type="button" style="display: none;">Back</button>
+                  <button class="cbf-submit-btn" type="button" disabled data-base-url="{{ tile_url }}" data-fit-param="{{ block.settings.fit_param }}" data-size-param="{{ block.settings.size_param }}" data-color-param="{{ block.settings.color_param }}">
+                    View Listing
+                  </button>
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const interactiveTiles = document.querySelectorAll('.cbf-tile.cbf-interactive');
+
+    interactiveTiles.forEach(function(tile) {
+      const overlay = tile.querySelector('.cbf-flow-overlay');
+      const closeBtn = tile.querySelector('.cbf-flow-close');
+      const backBtn = tile.querySelector('.cbf-back-btn');
+      const submitBtn = tile.querySelector('.cbf-submit-btn');
+      const steps = tile.querySelectorAll('.cbf-step');
+      
+      let selections = {
+        fit: '',
+        size: '',
+        color: ''
+      };
+      let currentStepIndex = 0; // 0: Fit, 1: Size, 2: Color
+
+      function updateStepView() {
+        steps.forEach((step, idx) => {
+          if (idx === currentStepIndex) {
+            step.classList.add('step-active');
+          } else {
+            step.classList.remove('step-active');
+          }
+        });
+
+        // Toggle back button visibility
+        if (currentStepIndex > 0) {
+          backBtn.style.display = 'block';
+        } else {
+          backBtn.style.display = 'none';
+        }
+
+        // Enable/Disable submit button on color screen
+        if (currentStepIndex === 2 && selections.color) {
+          submitBtn.removeAttribute('disabled');
+        } else {
+          submitBtn.setAttribute('disabled', 'disabled');
+        }
+      }
+
+      function resetFlow() {
+        selections = { fit: '', size: '', color: '' };
+        currentStepIndex = 0;
+        tile.querySelectorAll('.cbf-option-btn').forEach(btn => btn.classList.remove('selected'));
+        updateStepView();
+      }
+
+      // Open overlay on tile click
+      tile.addEventListener('click', function(e) {
+        if (!tile.classList.contains('flow-active') && !e.target.closest('.cbf-flow-overlay')) {
+          e.preventDefault();
+          e.stopPropagation();
+          tile.classList.add('flow-active');
+          resetFlow();
+        }
+      });
+
+      // Close button
+      closeBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        tile.classList.remove('flow-active');
+      });
+
+      // Back button
+      backBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (currentStepIndex > 0) {
+          currentStepIndex--;
+          updateStepView();
+        }
+      });
+
+      // Option selection
+      tile.querySelectorAll('.cbf-option-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const parentStep = btn.closest('.cbf-step');
+          const stepNum = parseInt(parentStep.getAttribute('data-step'), 10);
+
+          // Clear selection on siblings
+          parentStep.querySelectorAll('.cbf-option-btn').forEach(sibling => sibling.classList.remove('selected'));
+          btn.classList.add('selected');
+
+          const val = btn.getAttribute('data-val');
+
+          if (stepNum === 1) {
+            selections.fit = val;
+            currentStepIndex = 1;
+            updateStepView();
+          } else if (stepNum === 2) {
+            selections.size = val;
+            currentStepIndex = 2;
+            updateStepView();
+          } else if (stepNum === 3) {
+            selections.color = val;
+            updateStepView();
+          }
+        });
+      });
+
+      // Submit Button Click
+      submitBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const baseUrl = submitBtn.getAttribute('data-base-url') || '#';
+        const fitParam = submitBtn.getAttribute('data-fit-param') || 'filter.v.option.fit';
+        const sizeParam = submitBtn.getAttribute('data-size-param') || 'filter.v.option.size';
+        const colorParam = submitBtn.getAttribute('data-color-param') || 'filter.v.option.color';
+
+        const url = new URL(baseUrl, window.location.origin);
+        url.searchParams.set(fitParam, selections.fit);
+        url.searchParams.set(sizeParam, selections.size);
+        url.searchParams.set(colorParam, selections.color);
+
+        window.location.href = url.toString();
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Curated by Founder",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "CURATED BY FOUNDER"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Supporting Text",
+      "default": "Handpicked collections inspired by stories, crafted for you."
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Header Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max Container Width (px)",
+      "min": 1000,
+      "max": 1800,
+      "step": 50,
+      "default": 1400
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Heading Size Desktop (px)",
+      "min": 24,
+      "max": 60,
+      "step": 2,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading Size Mobile (px)",
+      "min": 20,
+      "max": 40,
+      "step": 2,
+      "default": 28
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Heading Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color_sub",
+      "label": "Subheading Text Color",
+      "default": "#555555"
+    },
+    {
+      "type": "header",
+      "content": "Grid Settings"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Grid Gap Desktop (px)",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "grid_gap_tablet",
+      "label": "Grid Gap Tablet (px)",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "grid_gap_mobile",
+      "label": "Grid Gap Mobile (px)",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "label": "Padding Top Desktop (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "label": "Padding Bottom Desktop (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding Top Mobile (px)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom Mobile (px)",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Curated Tile",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable",
+          "label": "Enable Tile",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Tile Image"
+        },
+        {
+          "type": "text",
+          "id": "collection_number",
+          "label": "Collection Number",
+          "default": "01"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tile Title"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Shopify Collection"
+        },
+        {
+          "type": "url",
+          "id": "custom_url",
+          "label": "Custom URL (Overrides Collection URL)"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Short Description (Optional)"
+        },
+        {
+          "type": "header",
+          "content": "Interactive Step-by-Step Flow"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_interactive_flow",
+          "label": "Enable Step Flow (Fit -> Size -> Color)",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "fit_options",
+          "label": "Fit Options (Comma-separated)",
+          "default": "Slim, Straight, Relaxed"
+        },
+        {
+          "type": "text",
+          "id": "size_options",
+          "label": "Size Options (Comma-separated)",
+          "default": "30, 32, 34, 36"
+        },
+        {
+          "type": "text",
+          "id": "color_options",
+          "label": "Color Options (Comma-separated)",
+          "default": "Light Wash, Mid Wash, Dark Wash"
+        },
+        {
+          "type": "text",
+          "id": "fit_param",
+          "label": "Fit URL Parameter",
+          "default": "filter.v.option.fit"
+        },
+        {
+          "type": "text",
+          "id": "size_param",
+          "label": "Size URL Parameter",
+          "default": "filter.v.option.size"
+        },
+        {
+          "type": "text",
+          "id": "color_param",
+          "label": "Color URL Parameter",
+          "default": "filter.v.option.color"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Curated by Founder",
+      "blocks": [
+        {
+          "type": "tile",
+          "settings": {
+            "title": "Cosmonaut Collection",
+            "collection_number": "01"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "title": "Inspired by Oceans",
+            "collection_number": "02"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "title": "Year of Goat",
+            "collection_number": "03"
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "title": "Stressed Jeans",
+            "collection_number": "04",
+            "enable_interactive_flow": true
+          }
+        },
+        {
+          "type": "tile",
+          "settings": {
+            "title": "Customize Jeans",
+            "collection_number": "05"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

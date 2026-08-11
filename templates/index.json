@@ -1039,6 +1039,7 @@
         "text_EB6FTM",
         "button_DtMqi9"
       ],
+      "disabled": true,
       "name": "t:names.hero",
       "settings": {
         "scrolling_id": "founder-note",
@@ -1432,6 +1433,132 @@
         "padding_bottom": 60,
         "padding_top_mobile": 0,
         "padding_bottom_mobile": 30
+      }
+    },
+    "curated_by_founder_AEGHGD": {
+      "type": "curated-by-founder",
+      "blocks": {
+        "tile_RCLbiP": {
+          "type": "tile",
+          "settings": {
+            "enable": true,
+            "image": "shopify://shop_images/7_c0f4b279-d835-454d-8e62-db1e8bb2d355.jpg",
+            "collection_number": "01",
+            "title": "Cosmonaut Collection",
+            "collection": "bottom-wear",
+            "custom_url": "",
+            "description": "Text 1",
+            "enable_interactive_flow": false,
+            "fit_options": "Slim, Straight, Relaxed",
+            "size_options": "",
+            "color_options": "",
+            "fit_param": "",
+            "size_param": "",
+            "color_param": ""
+          }
+        },
+        "tile_iCQp73": {
+          "type": "tile",
+          "settings": {
+            "enable": true,
+            "image": "shopify://shop_images/7_dcde85c4-d7fe-4271-9826-fd9044a360f1.jpg",
+            "collection_number": "02",
+            "title": "Inspired by Oceans",
+            "collection": "",
+            "custom_url": "",
+            "description": "Text 2",
+            "enable_interactive_flow": false,
+            "fit_options": "Slim, Straight, Relaxed",
+            "size_options": "30, 32, 34, 36",
+            "color_options": "Light Wash, Mid Wash, Dark Wash",
+            "fit_param": "filter.v.option.fit",
+            "size_param": "filter.v.option.size",
+            "color_param": "filter.v.option.color"
+          }
+        },
+        "tile_gHJdeQ": {
+          "type": "tile",
+          "settings": {
+            "enable": true,
+            "image": "shopify://shop_images/7_8ef3d5ed-92ea-4a64-9bb9-32c6c7aa2c88.jpg",
+            "collection_number": "03",
+            "title": "Year of Goat",
+            "collection": "cargo",
+            "custom_url": "",
+            "description": "",
+            "enable_interactive_flow": false,
+            "fit_options": "Slim, Straight, Relaxed",
+            "size_options": "30, 32, 34, 36",
+            "color_options": "Light Wash, Mid Wash, Dark Wash",
+            "fit_param": "filter.v.option.fit",
+            "size_param": "filter.v.option.size",
+            "color_param": "filter.v.option.color"
+          }
+        },
+        "tile_dAb8EX": {
+          "type": "tile",
+          "settings": {
+            "enable": true,
+            "image": "shopify://shop_images/7_51c6070b-f0b4-4ddc-a16c-d9556e67578f.jpg",
+            "collection_number": "04",
+            "title": "Stressed Jeans",
+            "collection": "clothing",
+            "custom_url": "",
+            "description": "",
+            "enable_interactive_flow": true,
+            "fit_options": "Slim, Straight, Relaxed",
+            "size_options": "30, 32, 34, 36",
+            "color_options": "Light Wash, Mid Wash, Dark Wash",
+            "fit_param": "filter.v.option.fit",
+            "size_param": "filter.v.option.size",
+            "color_param": "filter.v.option.color"
+          }
+        },
+        "tile_gQVmMg": {
+          "type": "tile",
+          "settings": {
+            "enable": true,
+            "image": "shopify://shop_images/7_5aa39cbc-7472-4248-9c41-318f5d12dbf4.jpg",
+            "collection_number": "05",
+            "title": "Customize Jeans",
+            "collection": "bottom-wear",
+            "custom_url": "",
+            "description": "",
+            "enable_interactive_flow": false,
+            "fit_options": "Slim, Straight, Relaxed",
+            "size_options": "30, 32, 34, 36",
+            "color_options": "Light Wash, Mid Wash, Dark Wash",
+            "fit_param": "filter.v.option.fit",
+            "size_param": "filter.v.option.size",
+            "color_param": "filter.v.option.color"
+          }
+        }
+      },
+      "block_order": [
+        "tile_RCLbiP",
+        "tile_iCQp73",
+        "tile_gHJdeQ",
+        "tile_dAb8EX",
+        "tile_gQVmMg"
+      ],
+      "name": "Curated by Founder",
+      "settings": {
+        "heading": "CURATED BY FOUNDER",
+        "subheading": "Handpicked collections inspired by stories, crafted for you.",
+        "text_alignment": "center",
+        "max_width": 1400,
+        "heading_size_desktop": 40,
+        "heading_size_mobile": 28,
+        "bg_color": "#ffffff",
+        "text_color": "#000000",
+        "text_color_sub": "#555555",
+        "grid_gap": 16,
+        "grid_gap_tablet": 16,
+        "grid_gap_mobile": 12,
+        "padding_top_desktop": 60,
+        "padding_bottom_desktop": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
       }
     },
     "look_book_tMbyRK": {
@@ -1951,6 +2078,7 @@
     "tab_section_iaPzmM",
     "explore_selections_grid_YRPPzj",
     "three_panel_editorial_GNpExa",
+    "curated_by_founder_AEGHGD",
     "look_book_tMbyRK",
     "rotating_text_xz6pbK",
     "custom_editorial_BTqYCq",
