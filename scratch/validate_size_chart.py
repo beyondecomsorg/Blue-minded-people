@@ -2,7 +2,7 @@ import urllib.request
 import urllib.parse
 import re
 
-url_base = "http://localhost:9296"
+url_base = "http://localhost:9299"
 
 cookie_jar = urllib.request.HTTPCookieProcessor()
 opener = urllib.request.build_opener(cookie_jar)
@@ -20,7 +20,7 @@ except Exception as e:
     print(f"Login failed: {e}")
 
 # 2. Fetch a specific product page, e.g. blue-pull-up-pant-non-denim or cameo-pink-oversized-t-shirt
-product_url = f"{url_base}/products/blue-pull-up-pant-non-denim"
+product_url = f"{url_base}/products/cameo-pink-oversized-t-shirt"
 print(f"Fetching product page: {product_url}")
 try:
     with urllib.request.urlopen(product_url) as response:

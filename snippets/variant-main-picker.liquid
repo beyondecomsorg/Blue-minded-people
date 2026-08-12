@@ -380,6 +380,13 @@
               {%- assign shirt_size_chart_val = product_resource.metafields.custom.shirt_size_chart.value -%}
               {%- assign bottom_size_chart_val = product_resource.metafields.custom.bottom_size_chart.value -%}
 
+              {%- if shirt_size_chart_val != blank or bottom_size_chart_val != blank or product_resource.metafields.custom.size_chart.value == blank -%}
+                <div class="size-chart-modal__tabs" role="tablist" aria-label="Select measurement unit">
+                  <button type="button" class="size-chart-unit-btn active" data-unit="Inches" role="tab" aria-selected="true">Inches</button>
+                  <button type="button" class="size-chart-unit-btn" data-unit="CM" role="tab" aria-selected="false">CM</button>
+                </div>
+              {%- endif -%}
+
               {%- if shirt_size_chart_val != blank or bottom_size_chart_val != blank -%}
                 <script class="shirt-size-chart-data" type="application/json">
                   {{ shirt_size_chart_val | json }}
