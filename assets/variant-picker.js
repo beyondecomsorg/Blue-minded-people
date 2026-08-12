@@ -186,7 +186,8 @@ export default class VariantPicker extends Component {
         unitText.style.color = 'var(--color-foreground-secondary, #666)';
         unitText.style.marginTop = '8px';
         unitText.style.marginBottom = '0';
-        unitText.textContent = `Measurements in ${unit}`;
+        // unitText.textContent = `Measurements in ${unit}`;
+        unitText.textContent = ``;
         sectionDiv.appendChild(unitText);
         
         container.appendChild(sectionDiv);
