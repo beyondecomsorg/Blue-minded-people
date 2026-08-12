@@ -228,6 +228,11 @@
         "type": "shopify://apps/kwikpass/blocks/kp_login/603e209b-d585-47ff-8592-837a4faa325b",
         "disabled": false,
         "settings": {}
+      },
+      "753360823172887587": {
+        "type": "shopify://apps/crazyrocket-spin-wheel-pop-ups/blocks/crazyrocket-script/31762d47-a891-447e-9769-ef8b68621ed4",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {
