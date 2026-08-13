@@ -22,9 +22,48 @@ export class MediaGallery extends Component {
     this.refs.zoomDialogComponent?.addEventListener(ThemeEvents.zoomMediaSelected, this.#handleZoomMediaSelected, {
       signal,
     });
+
+    this.#initHoverZoom();
   }
 
   #controller = new AbortController();
+
+  #initHoverZoom() {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    const containers = Array.from(this.querySelectorAll('.product-media-container--image'))
+      .filter((container) => !container.closest('zoom-dialog'));
+
+    const { signal } = this.#controller;
+
+    containers.forEach((container) => {
+      const productMedia = container.querySelector('.product-media');
+      if (!productMedia) return;
+
+      container.addEventListener('mouseenter', () => {
+        container.classList.add('is-zoomed');
+      }, { signal });
+
+      container.addEventListener('mousemove', (event) => {
+        const rect = productMedia.getBoundingClientRect();
+        
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
+        
+        const clampedX = Math.max(0, Math.min(100, x));
+        const clampedY = Math.max(0, Math.min(100, y));
+
+        productMedia.style.setProperty('--zoom-x', `${clampedX}%`);
+        productMedia.style.setProperty('--zoom-y', `${clampedY}%`);
+      }, { signal });
+
+      container.addEventListener('mouseleave', () => {
+        container.classList.remove('is-zoomed');
+        productMedia.style.removeProperty('--zoom-x');
+        productMedia.style.removeProperty('--zoom-y');
+      }, { signal });
+    });
+  }
 
   disconnectedCallback() {
     super.disconnectedCallback();

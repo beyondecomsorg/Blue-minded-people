@@ -62,4 +62,40 @@
   .product-media-container--zoomable.product-media-container--image {
     cursor: zoom-in;
   }
+
+  @media (hover: hover) and (pointer: fine) {
+    /* Prevent the zoomed image from escaping outside its container */
+    .product-media-container--image:not(.dialog-zoomed-gallery *) .product-media {
+      position: relative !important;
+      overflow: hidden !important;
+    }
+
+    .product-media-container--image:not(.dialog-zoomed-gallery *) .product-media__image {
+      transition: transform 180ms ease-out !important;
+      transform-origin: var(--zoom-x, 50%) var(--zoom-y, 50%) !important;
+      cursor: zoom-in !important;
+    }
+
+    /* When zoomed, scale the image and show zoom-out cursor */
+    .product-media-container--image:not(.dialog-zoomed-gallery *).is-zoomed .product-media__image {
+      transform: scale(2.2) !important;
+      cursor: zoom-out !important;
+    }
+
+    /* Ensure the zoom button cursor updates as well */
+    .product-media-container--image:not(.dialog-zoomed-gallery *).is-zoomed .product-media-container__zoom-button {
+      cursor: zoom-out !important;
+    }
+
+    /* Cursor styling for popup zoom wrapper */
+    .product-media__drag-zoom-wrapper {
+      cursor: zoom-in !important;
+    }
+    .product-media__drag-zoom-wrapper.is-zoomed {
+      cursor: grab !important;
+    }
+    .product-media__drag-zoom-wrapper.is-zoomed:active {
+      cursor: grabbing !important;
+    }
+  }
 {% endstylesheet %}

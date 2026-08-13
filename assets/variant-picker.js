@@ -51,6 +51,12 @@ export default class VariantPicker extends Component {
 
     if (!trigger || !dialog) return;
 
+    const formatMeasurement = (val) => {
+      const num = parseFloat(val);
+      if (isNaN(num)) return val;
+      return Number(num.toFixed(2));
+    };
+
     // Determine the source unit
     const shirtScript = this.querySelector('.shirt-size-chart-data');
     const bottomScript = this.querySelector('.bottom-size-chart-data');
@@ -408,9 +414,9 @@ export default class VariantPicker extends Component {
       cells.forEach(td => {
         if (td.dataset.inch || td.dataset.cm) {
           if (targetUnit.toLowerCase() === 'inches') {
-            if (td.dataset.inch !== undefined) td.textContent = td.dataset.inch;
+            if (td.dataset.inch !== undefined) td.textContent = formatMeasurement(td.dataset.inch);
           } else {
-            if (td.dataset.cm !== undefined) td.textContent = td.dataset.cm;
+            if (td.dataset.cm !== undefined) td.textContent = formatMeasurement(td.dataset.cm);
           }
         } else {
           const origValStr = td.getAttribute('data-original-val');
@@ -419,7 +425,7 @@ export default class VariantPicker extends Component {
             const origVal = parseFloat(origValStr);
             if (!isNaN(origVal)) {
               if (origUnit.toLowerCase() === targetUnit.toLowerCase()) {
-                td.textContent = origVal;
+                td.textContent = formatMeasurement(origVal);
               } else {
                 let converted;
                 if (origUnit.toLowerCase() === 'inches' || origUnit.toLowerCase() === 'inch' || origUnit.toLowerCase() === 'in') {
@@ -427,8 +433,7 @@ export default class VariantPicker extends Component {
                 } else {
                   converted = origVal / 2.54;
                 }
-                const rounded = Math.round(converted * 100) / 100;
-                td.textContent = rounded;
+                td.textContent = formatMeasurement(converted);
               }
             } else {
               td.textContent = origValStr;

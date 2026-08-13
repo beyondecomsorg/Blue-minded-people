@@ -58,8 +58,6 @@ export class DragZoomWrapper extends Component {
     this.#initResizeListener();
     window.addEventListener(DialogCloseEvent.eventName, this.#resetZoom);
 
-    if (!isMobileBreakpoint()) return;
-
     this.#initEventListeners();
     this.#updateTransform();
   }
@@ -78,6 +76,12 @@ export class DragZoomWrapper extends Component {
     this.addEventListener('touchmove', this.#handleTouchMove, options);
     this.addEventListener('touchend', this.#handleTouchEnd, options);
 
+    // Desktop mouse events for clicking and panning
+    this.addEventListener('mousedown', this.#handleMouseDown, { signal });
+    this.addEventListener('mousemove', this.#handleMouseMove, { signal });
+    this.addEventListener('mouseup', this.#handleMouseUp, { signal });
+    this.addEventListener('click', this.#handleClick, { signal });
+
     // Initialize transform immediately
     this.#updateTransform();
   }
@@ -91,7 +95,7 @@ export class DragZoomWrapper extends Component {
   }
 
   #handleResize = () => {
-    if (!this.#initialized && isMobileBreakpoint()) {
+    if (!this.#initialized) {
       this.#initEventListeners();
     }
 
@@ -101,6 +105,90 @@ export class DragZoomWrapper extends Component {
   };
 
   #resizeObserver = new ResizeObserver(this.#handleResize);
+
+  #handleMouseDown = (event) => {
+    if (event.button !== 0) return;
+
+    if (this.#scale > MIN_ZOOM) {
+      this.#startPosition = { x: event.clientX, y: event.clientY };
+      this.#startTranslate = { x: this.#translate.x, y: this.#translate.y };
+      this.#isDragging = true;
+      this.#hasDraggedBeyondThreshold = false;
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  };
+
+  #handleMouseMove = (event) => {
+    if (!this.#isDragging) return;
+
+    const dx = event.clientX - this.#startPosition.x;
+    const dy = event.clientY - this.#startPosition.y;
+
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    if (!this.#hasDraggedBeyondThreshold && distance < DRAG_THRESHOLD) {
+      return;
+    }
+
+    this.#hasDraggedBeyondThreshold = true;
+
+    this.#translate.x = this.#startTranslate.x + dx / this.#scale;
+    this.#translate.y = this.#startTranslate.y + dy / this.#scale;
+
+    this.#requestUpdateTransform();
+
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+  #handleMouseUp = (event) => {
+    if (this.#isDragging) {
+      this.#isDragging = false;
+      this.#hasDraggedBeyondThreshold = false;
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  };
+
+  #handleClick = (event) => {
+    if (this.#hasDraggedBeyondThreshold) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
+    const rect = this.getBoundingClientRect();
+    const clickX = event.clientX - rect.left;
+    const clickY = event.clientY - rect.top;
+
+    let targetZoom;
+    if (this.#scale > MIN_ZOOM) {
+      targetZoom = MIN_ZOOM;
+      this.#translate = { x: 0, y: 0 };
+    } else {
+      targetZoom = 2.5;
+
+      const containerCenter = {
+        x: rect.width / 2,
+        y: rect.height / 2,
+      };
+
+      const distanceFromCenter = {
+        x: clickX - containerCenter.x,
+        y: clickY - containerCenter.y,
+      };
+
+      this.#scale = targetZoom;
+      this.#translate.x = -distanceFromCenter.x / this.#scale;
+      this.#translate.y = -distanceFromCenter.y / this.#scale;
+    }
+
+    this.#scale = targetZoom;
+    this.#requestUpdateTransform();
+
+    event.preventDefault();
+    event.stopPropagation();
+  };
 
   /**
    * @param {TouchEvent} event
@@ -443,6 +531,12 @@ export class DragZoomWrapper extends Component {
     this.style.setProperty('--drag-zoom-scale', this.#scale.toString());
     this.style.setProperty('--drag-zoom-translate-x', `${this.#translate.x}px`);
     this.style.setProperty('--drag-zoom-translate-y', `${this.#translate.y}px`);
+
+    if (this.#scale > MIN_ZOOM) {
+      this.classList.add('is-zoomed');
+    } else {
+      this.classList.remove('is-zoomed');
+    }
   };
 
   /**
@@ -468,6 +562,7 @@ export class DragZoomWrapper extends Component {
     this.style.setProperty('--drag-zoom-scale', DEFAULT_ZOOM.toString());
     this.style.setProperty('--drag-zoom-translate-x', '0px');
     this.style.setProperty('--drag-zoom-translate-y', '0px');
+    this.classList.remove('is-zoomed');
   };
 
   destroy() {
