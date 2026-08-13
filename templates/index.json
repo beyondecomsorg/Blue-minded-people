@@ -1546,8 +1546,9 @@
         },
         "tile_gQVmMg": {
           "type": "tile",
+          "disabled": false,
           "settings": {
-            "enable": true,
+            "enable": false,
             "image": "shopify://shop_images/7_5aa39cbc-7472-4248-9c41-318f5d12dbf4.jpg",
             "collection_number": "05",
             "title": "Customize Jeans",
