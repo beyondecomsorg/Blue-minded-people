@@ -1070,7 +1070,6 @@
         "text_EB6FTM",
         "button_DtMqi9"
       ],
-      "disabled": true,
       "name": "t:names.hero",
       "settings": {
         "scrolling_id": "founder-note",
@@ -1573,6 +1572,7 @@
         "tile_dAb8EX",
         "tile_gQVmMg"
       ],
+      "disabled": true,
       "name": "Curated by Founder",
       "settings": {
         "heading": "CURATED BY FOUNDER",
