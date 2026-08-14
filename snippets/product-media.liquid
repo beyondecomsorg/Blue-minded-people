@@ -53,6 +53,17 @@
       ref: image_ref
   }}
 
+  {%- if show_magnifier and media.media_type == 'image' -%}
+    <button
+      type="button"
+      class="product-media__magnifier-btn button-unstyled"
+      aria-label="Zoom image"
+      on:click="#zoom-dialog-{{ block_id }}/open/{{ index }}"
+    >
+      {{ 'icon-search.svg' | inline_asset_content }}
+    </button>
+  {%- endif -%}
+
   {% unless preview_image_only %}
     {%- case media.media_type -%}
       {% when 'model' %}

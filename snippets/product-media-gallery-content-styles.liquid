@@ -63,7 +63,38 @@
     cursor: zoom-in;
   }
 
+  .product-media__magnifier-btn {
+    position: absolute !important;
+    top: 16px !important;
+    right: 16px !important;
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50% !important;
+    background-color: var(--color-background, #ffffff) !important;
+    color: var(--color-foreground, #000000) !important;
+    border: 1px solid rgb(var(--color-border-rgb) / var(--media-border-opacity, 0.15)) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    z-index: 10 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    transition: transform 180ms ease-out, background-color 180ms ease-out, color 180ms ease-out !important;
+  }
+
+  .product-media__magnifier-btn svg {
+    width: 20px !important;
+    height: 20px !important;
+    stroke-width: 2px !important;
+    display: block !important;
+  }
+
   @media (hover: hover) and (pointer: fine) {
+    .product-media__magnifier-btn:hover {
+      transform: scale(1.08) !important;
+      background-color: var(--color-foreground, #000000) !important;
+      color: var(--color-background, #ffffff) !important;
+    }
     /* Prevent the zoomed image from escaping outside its container */
     .product-media-container--image:not(.dialog-zoomed-gallery *) .product-media {
       position: relative !important;

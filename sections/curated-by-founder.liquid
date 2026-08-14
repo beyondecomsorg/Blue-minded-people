@@ -1,3 +1,5 @@
+{{ 'https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css' | stylesheet_tag }}
+
 {%- style -%}
   .cbf-section-{{ section.id }} {
     padding-top: {{ section.settings.padding_top_desktop }}px;
@@ -86,6 +88,12 @@
     background-color: #f4f4f4;
     border-radius: 4px;
     cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease, transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .cbf-tile.is-active {
+    border-color: var(--color-foreground, #000000);
   }
 
   .cbf-tile-img-wrap {
@@ -392,6 +400,114 @@
     color: rgba(255, 255, 255, 0.4);
     cursor: not-allowed;
   }
+
+  /* Products Container Styles */
+  .cbf-products-container {
+    margin-top: 40px;
+    width: 100%;
+  }
+
+  .cbf-collection-products {
+    width: 100%;
+  }
+
+  .cbf-products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .cbf-product-grid-item {
+    width: 100%;
+  }
+
+  @media screen and (max-width: 1023px) {
+    .cbf-products-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .cbf-products-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+  }
+
+  .cbf-no-products {
+    text-align: center;
+    font-size: 16px;
+    color: var(--color-foreground, #000000);
+    opacity: 0.6;
+    margin: 40px 0;
+  }
+
+  /* Splide customization for curated section */
+  .cbf-products-splide {
+    position: relative;
+    width: 100%;
+  }
+
+  .cbf-products-splide .splide__track {
+    overflow: hidden;
+  }
+
+  .cbf-product-slide {
+    width: calc((100% - 48px) / 4) !important;
+  }
+
+  @media screen and (max-width: 1023px) {
+    .cbf-product-slide {
+      width: calc((100% - 32px) / 3) !important;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .cbf-product-slide {
+      width: calc((100% - 12px) / 2) !important;
+    }
+  }
+
+  .cbf-carousel-arrows {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .cbf-carousel-arrow {
+    background: var(--color-background, #ffffff);
+    border: 1px solid rgb(var(--color-border-rgb) / var(--media-border-opacity, 0.15));
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    color: var(--color-foreground, #000000);
+  }
+
+  .cbf-carousel-arrow:hover {
+    background: var(--color-foreground, #000000);
+    color: var(--color-background, #ffffff);
+  }
+
+  .cbf-carousel-arrow svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+  }
+
+  .cbf-carousel-arrow[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 {%- endstyle -%}
 
 <section class="cbf-section-{{ section.id }}" data-section-id="{{ section.id }}">
@@ -418,15 +534,23 @@
             endif
           -%}
 
-          <div
-            class="cbf-tile{% if is_interactive %} cbf-interactive{% endif %}"
-            id="cbf-block-{{ block.id }}"
-            data-block-id="{{ block.id }}"
-            {% unless is_interactive %}
-              onclick="if (!event.target.closest('.cbf-flow-overlay')) window.location.href='{{ tile_url | default: '#' }}';"
-            {% endunless %}
-            {{ block.shopify_attributes }}
-          >
+          {%- if is_interactive -%}
+            <div
+              class="cbf-tile cbf-interactive"
+              id="cbf-block-{{ block.id }}"
+              data-block-id="{{ block.id }}"
+              {{ block.shopify_attributes }}
+            >
+          {%- else -%}
+            <a
+              href="{{ tile_url | default: '#' }}"
+              class="cbf-tile"
+              id="cbf-block-{{ block.id }}"
+              data-block-id="{{ block.id }}"
+              data-has-custom-url="{% if block.settings.custom_url != blank %}true{% else %}false{% endif %}"
+              {{ block.shopify_attributes }}
+            >
+          {%- endif -%}
             <!-- Image -->
             <div class="cbf-tile-img-wrap">
               {%- if block.settings.image != blank -%}
@@ -531,12 +655,88 @@
                 </div>
               </div>
             {%- endif -%}
-          </div>
+          {%- if is_interactive -%}
+            </div>
+          {%- else -%}
+            </a>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <!-- Products Container for Curated Tiles -->
+    <div class="cbf-products-container">
+      {%- assign first_non_interactive_block_id = blank -%}
+      {%- for block in section.blocks -%}
+        {%- if block.settings.enable and block.settings.enable_interactive_flow == false -%}
+          {%- if first_non_interactive_block_id == blank -%}
+            {%- assign first_non_interactive_block_id = block.id -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- for block in section.blocks -%}
+        {%- if block.settings.enable -%}
+          {%- liquid
+            assign block_collection = block.settings.collection
+            assign is_interactive = block.settings.enable_interactive_flow
+            assign is_active = false
+            if first_non_interactive_block_id == block.id
+              assign is_active = true
+            endif
+          -%}
+          {%- if block_collection != blank and is_interactive == false -%}
+            <div
+              class="cbf-collection-products {% if is_active %}is-active{% endif %}"
+              id="cbf-products-{{ block.id }}"
+              data-block-id="{{ block.id }}"
+              style="{% unless is_active %}display: none;{% endunless %}"
+            >
+              {%- if block_collection.products_count > 0 -%}
+                {%- if block_collection.products_count > 4 -%}
+                  <!-- Render Splide Carousel -->
+                  <div class="splide cbf-products-splide" id="splide-{{ block.id }}">
+                    <div class="splide__track">
+                      <div class="splide__list">
+                        {%- for product in block_collection.products limit: 12 -%}
+                          <div class="splide__slide cbf-product-slide">
+                            {%- render 'product-card', product: product -%}
+                          </div>
+                        {%- endfor -%}
+                      </div>
+                    </div>
+                    <!-- Splide Arrows -->
+                    <div class="splide__arrows cbf-carousel-arrows">
+                      <button class="splide__arrow splide__arrow--prev cbf-carousel-arrow cbf-carousel-arrow--prev" aria-label="Previous">
+                        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                      </button>
+                      <button class="splide__arrow splide__arrow--next cbf-carousel-arrow cbf-carousel-arrow--next" aria-label="Next">
+                        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                      </button>
+                    </div>
+                  </div>
+                {%- else -%}
+                  <!-- Render simple grid for 4 or fewer products -->
+                  <div class="cbf-products-grid">
+                    {%- for product in block_collection.products limit: 4 -%}
+                      <div class="cbf-product-grid-item">
+                        {%- render 'product-card', product: product -%}
+                      </div>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+              {%- else -%}
+                <p class="cbf-no-products">No products found in this collection.</p>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
         {%- endif -%}
       {%- endfor -%}
     </div>
   </div>
 </section>
+
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js" defer></script>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -662,6 +862,71 @@
         window.location.href = url.toString();
       });
     });
+
+    // --- Collection Products Carousel / Tab Navigation JS ---
+    function initSplide(container) {
+      if (typeof Splide === 'undefined') {
+        setTimeout(() => initSplide(container), 100);
+        return;
+      }
+      if (container.classList.contains('splide-initialized')) return;
+      
+      const splideEl = container.querySelector('.cbf-products-splide');
+      if (!splideEl) return;
+      
+      const splide = new Splide(splideEl, {
+        type: 'slide',
+        perPage: 4,
+        perMove: 1,
+        gap: '20px',
+        pagination: false,
+        arrows: true,
+        breakpoints: {
+          1024: { perPage: 3, gap: '16px' },
+          768: { perPage: 2, gap: '12px' },
+          480: { perPage: 2, gap: '12px' }
+        }
+      });
+      
+      splide.mount();
+      container.classList.add('splide-initialized');
+    }
+
+    const nonInteractiveTiles = document.querySelectorAll('.cbf-tile:not(.cbf-interactive)');
+    nonInteractiveTiles.forEach(function(tile) {
+      const hasCustomUrl = tile.getAttribute('data-has-custom-url') === 'true';
+      if (!hasCustomUrl) {
+        tile.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          document.querySelectorAll('.cbf-tile').forEach(t => t.classList.remove('is-active'));
+          tile.classList.add('is-active');
+          
+          const blockId = tile.getAttribute('data-block-id');
+          document.querySelectorAll('.cbf-collection-products').forEach(container => {
+            container.style.display = 'none';
+            container.classList.remove('is-active');
+          });
+          
+          const activeContainer = document.getElementById('cbf-products-' + blockId);
+          if (activeContainer) {
+            activeContainer.style.display = 'block';
+            activeContainer.classList.add('is-active');
+            initSplide(activeContainer);
+          }
+        });
+      }
+    });
+
+    // Initialize the first active Splide carousel
+    const firstActiveContainer = document.querySelector('.cbf-collection-products.is-active');
+    if (firstActiveContainer) {
+      const firstBlockId = firstActiveContainer.getAttribute('data-block-id');
+      const firstTile = document.getElementById('cbf-block-' + firstBlockId);
+      if (firstTile) firstTile.classList.add('is-active');
+      
+      initSplide(firstActiveContainer);
+    }
   });
 </script>
 

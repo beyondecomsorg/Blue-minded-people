@@ -1070,6 +1070,7 @@
         "text_EB6FTM",
         "button_DtMqi9"
       ],
+      "disabled": true,
       "name": "t:names.hero",
       "settings": {
         "scrolling_id": "founder-note",
@@ -1494,7 +1495,7 @@
             "image": "shopify://shop_images/7_dcde85c4-d7fe-4271-9826-fd9044a360f1.jpg",
             "collection_number": "02",
             "title": "Inspired by Oceans",
-            "collection": "",
+            "collection": "borris-slim",
             "custom_url": "",
             "description": "Text 2",
             "enable_interactive_flow": false,
@@ -1513,7 +1514,7 @@
             "image": "shopify://shop_images/7_8ef3d5ed-92ea-4a64-9bb9-32c6c7aa2c88.jpg",
             "collection_number": "03",
             "title": "Year of Goat",
-            "collection": "cargo",
+            "collection": "jeans",
             "custom_url": "",
             "description": "",
             "enable_interactive_flow": false,
@@ -1532,10 +1533,10 @@
             "image": "shopify://shop_images/7_51c6070b-f0b4-4ddc-a16c-d9556e67578f.jpg",
             "collection_number": "04",
             "title": "Stressed Jeans",
-            "collection": "clothing",
+            "collection": "get-width-it",
             "custom_url": "",
             "description": "",
-            "enable_interactive_flow": true,
+            "enable_interactive_flow": false,
             "fit_options": "Slim, Straight, Relaxed",
             "size_options": "30, 32, 34, 36",
             "color_options": "Light Wash, Mid Wash, Dark Wash",
@@ -1546,7 +1547,7 @@
         },
         "tile_gQVmMg": {
           "type": "tile",
-          "disabled": false,
+          "disabled": true,
           "settings": {
             "enable": false,
             "image": "shopify://shop_images/7_5aa39cbc-7472-4248-9c41-318f5d12dbf4.jpg",
@@ -1572,7 +1573,6 @@
         "tile_dAb8EX",
         "tile_gQVmMg"
       ],
-      "disabled": true,
       "name": "Curated by Founder",
       "settings": {
         "heading": "CURATED BY FOUNDER",

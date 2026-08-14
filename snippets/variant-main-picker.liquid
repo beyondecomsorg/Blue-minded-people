@@ -43,7 +43,7 @@
       {%- for product_option in product_resource.options_with_values -%}
         {%- liquid
           assign swatch_count = product_option.values | map: 'swatch' | compact | size
-          assign option_name_downcase = product_option.name | downcase
+          assign option_name_downcase = product_option.name | downcase | strip
           if swatch_count == 0 and block_settings.show_swatches
             if option_name_downcase == 'color' or option_name_downcase == 'colour'
               assign swatch_count = 1
@@ -346,7 +346,7 @@
     </form>
     {%- assign has_size_option = false -%}
     {%- for option in product_resource.options_with_values -%}
-      {%- assign option_name_downcase = option.name | downcase -%}
+      {%- assign option_name_downcase = option.name | downcase | strip -%}
       {%- if option_name_downcase == 'size' -%}
         {%- assign has_size_option = true -%}
       {%- endif -%}
