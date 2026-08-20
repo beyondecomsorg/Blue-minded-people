@@ -14,6 +14,7 @@
       "blocks": {
         "slide_B6prei": {
           "type": "slide",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/Home_Page_W.png",
             "image_focal_point": "center center",
