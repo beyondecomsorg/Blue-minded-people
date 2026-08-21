@@ -14,11 +14,10 @@
       "blocks": {
         "slide_B6prei": {
           "type": "slide",
-          "disabled": true,
           "settings": {
-            "image": "shopify://shop_images/Home_Page_W.png",
+            "image": "shopify://shop_images/FESTIVE_B_WEB.png",
             "image_focal_point": "center center",
-            "mobile_image": "shopify://shop_images/Home_Page_Mobile.png",
+            "mobile_image": "shopify://shop_images/FESTIVE_B_WEB.png",
             "mobile_image_focal_point": "center center",
             "video_url_mp4": "",
             "video_url_webm": "",
@@ -27,7 +26,7 @@
             "heading": "",
             "subtext": "",
             "btn1_label": "Shop Now",
-            "btn1_link": "shopify://collections/shirts",
+            "btn1_link": "shopify://collections/all",
             "btn1_new_tab": false,
             "btn1_custom_bg": "",
             "btn1_custom_text": "",
