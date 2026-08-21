@@ -17,7 +17,7 @@
           "settings": {
             "image": "shopify://shop_images/FESTIVE_B_WEB.png",
             "image_focal_point": "center center",
-            "mobile_image": "shopify://shop_images/FESTIVE_B_WEB.png",
+            "mobile_image": "shopify://shop_images/FESTIVE_B_MOBILE.png",
             "mobile_image_focal_point": "center center",
             "video_url_mp4": "",
             "video_url_webm": "",
