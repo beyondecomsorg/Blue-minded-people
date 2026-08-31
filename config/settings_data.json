@@ -233,6 +233,11 @@
         "type": "shopify://apps/crazyrocket-spin-wheel-pop-ups/blocks/crazyrocket-script/31762d47-a891-447e-9769-ef8b68621ed4",
         "disabled": false,
         "settings": {}
+      },
+      "2567389343055140935": {
+        "type": "shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
+        "disabled": false,
+        "settings": {}
       }
     },
     "color_schemes": {
