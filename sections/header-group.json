@@ -45,7 +45,7 @@
         "announcement_BemRCx": {
           "type": "_announcement",
           "settings": {
-            "text": "Free shipping above INR 2500",
+            "text": "Free shipping",
             "link": "",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
