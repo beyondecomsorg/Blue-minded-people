@@ -78,284 +78,1165 @@
 -%}
 
 {% if block_settings.enable_filtering or block_settings.enable_sorting or block_settings.enable_grid_density %}
-  {% if block_settings.filter_style == 'vertical' %}
-    {% # These elements are always rendered in the horizontal bar that's why we apply the .facets--horizontal class %}
-    <div
-      class="facets facets--horizontal facets-controls-wrapper spacing-style"
-      style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
-    >
-      {% if block_settings.enable_filtering %}
-        <h4 class="facets--filters-title">{{ 'content.filters' | t }}</h4>
-      {% endif %}
+  {%- if template.suffix == 'size-selector' -%}
+    <div id="template-suffix-debug" data-suffix="{{ template.suffix }}" style="display:none !important;"></div>
+    <style>
+      /* Desktop/Mobile Visibility Helpers */
+      @media screen and (min-width: 750px) {
+        .desktop-only { display: block !important; }
+        .desktop-flex { display: flex !important; }
+        .mobile-only { display: none !important; }
+      }
+      @media screen and (max-width: 749px) {
+        .desktop-only { display: none !important; }
+        .desktop-flex { display: none !important; }
+        .mobile-only { display: block !important; }
+        .mobile-flex { display: flex !important; }
+      }
 
-      <div
-        class="products-count-wrapper"
-        data-testid="products-count"
-      >
-        <span role="status">
-          {% if products_count > 25000 %}
-            {{- 'content.item_count_cutoff' | t: count: 25000 -}}
-          {% else %}
-            {{- 'content.item_count' | t: count: products_count -}}
-          {% endif %}
-        </span>
-      </div>
+      /* Override collection wrapper CSS grid to a vertical flex stack */
+      .collection-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+      }
+      .collection-wrapper > * {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
 
-      {% if block_settings.enable_sorting %}
-        {% render 'sorting',
-          results: results,
-          sort_by: sort_by,
-          filter_style: block_settings.filter_style,
-          suffix: 'desktop',
-          sort_position: 'desktop',
-          should_use_select_on_mobile: false,
-          section_id: section.id
-        %}
-      {% endif %}
+      /* Transparent Outer Wrapper */
+      .collection-size-selector {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        min-width: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+      }
 
-      {% if block_settings.enable_grid_density %}
-        {% render 'grid-density-controls', viewport: 'desktop' %}
-      {% endif %}
-    </div>
-  {% endif %}
+      /* White Inner Card */
+      .collection-size-selector-inner-card {
+        background-color: #FFFFFF !important;
+        border: 1px solid #E5E7EB !important;
+        border-radius: 16px !important;
+        padding: 24px !important;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.02) !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+      }
+      @media screen and (max-width: 749px) {
+        .collection-size-selector-inner-card {
+          padding: 16px !important;
+          border-radius: 12px !important;
+          gap: 16px !important;
+        }
+      }
 
-  <div
-    class="
-      {% if should_show_pane == false %}
-        hidden
-      {% endif %}
-      facets-block-wrapper
-      facets-block-wrapper--{{ block_settings.filter_style }}
-      {%- if block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}
-      {%- if block_settings.filter_width == 'full-width' %} facets-block-wrapper--full-width{% endif %}
-    "
-    style="
-      --grid-column--desktop:
-        {%- if block_settings.filter_style == 'horizontal' -%}
-          var(--{{ block_settings.filter_width }})
-        {%- else -%}
-          2 / var(--facets-vertical-col-width)
-        {%- endif -%};
-      {{ facets_margin_style }}
-      --facets-inner-padding-block: {{ block_settings.padding-block-start }}px {{ block_settings.padding-block-end }}px;
-      --facets-inner-padding-inline: var(--padding-lg);
-    "
-    {{ block.shopify_attributes }}
-  >
-    <div
-      class="facets facets--{{ block_settings.filter_style }} spacing-style"
-      style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
-      aria-label="{{ 'accessibility.filters' | t }}"
-    >
+      /* Inner row elements */
+      .collection-size-selector__main {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+        width: 100% !important;
+        min-width: 0 !important;
+      }
+
+      /* Card Divider */
+      .size-selector-card__divider {
+        width: 100% !important;
+        height: 1px !important;
+        background-color: #F3F4F6 !important;
+        border: none !important;
+        margin: 0 !important;
+      }
+
+      /* Card Header (SIZE / COLOR label) */
+      .size-selector-card__header {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin-bottom: 12px !important;
+        width: 100% !important;
+      }
+      .size-selector-card__header-left {
+        display: flex !important;
+        align-items: center !important;
+        font-family: var(--font-body) !important;
+        font-size: 11px !important;
+        font-weight: 800 !important;
+        letter-spacing: 0.08em !important;
+        color: #374151 !important;
+      }
+      .size-selector-card__header-left svg {
+        display: none !important;
+      }
+      .size-selector-card__header-right {
+        display: none !important;
+      }
+      @media screen and (max-width: 749px) {
+        .size-selector-card__header {
+          margin-bottom: 8px !important;
+        }
+        .size-selector-card__header-left {
+          font-size: 12px !important;
+          color: #1F2937 !important;
+        }
+        .size-selector-card__header-left svg {
+          display: inline-block !important;
+          margin-right: 8px !important;
+          color: #4B5563 !important;
+          width: 18px !important;
+          height: 18px !important;
+        }
+        .size-selector-card__header-right {
+          display: none !important;
+          align-items: center !important;
+          gap: 4px !important;
+          font-size: 12px !important;
+          font-weight: 700 !important;
+          color: #4B5563 !important;
+          cursor: pointer !important;
+        }
+      }
+
+      /* Row 1 layouts on desktop */
+      @media screen and (min-width: 750px) {
+        .collection-size-selector__row-1 {
+          display: flex !important;
+          align-items: flex-start !important;
+          justify-content: space-between !important;
+          gap: 24px !important;
+          width: 100% !important;
+        }
+        .collection-size-selector__sizes-col {
+          flex-grow: 1 !important;
+          min-width: 0 !important;
+        }
+        .collection-size-selector__sort-col {
+          flex-shrink: 0 !important;
+          min-width: 320px !important;
+        }
+        .collection-size-selector__sort-controls-wrapper {
+          display: flex !important;
+          align-items: center !important;
+          gap: 16px !important;
+          width: 100% !important;
+        }
+      }
+
+      /* Desktop sorting dropdown summary styling inside size card */
+      .collection-size-selector__sort-col .facets__summary {
+        height: 44px !important;
+        background-color: #FFFFFF !important;
+        border: 1px solid #E5E7EB !important;
+        border-radius: 12px !important;
+        padding-inline: 16px !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        min-width: 180px !important;
+        box-sizing: border-box !important;
+      }
+      .collection-size-selector__sort-col .facets__panel-content {
+        min-width: 180px !important;
+      }
+
+      /* Grid Density controls spacing inside row */
+      .collection-size-selector__sort-col grid-density-controls {
+        flex-shrink: 0 !important;
+      }
+      .collection-size-selector__sort-col .grid-density-controls__btn {
+        height: 44px !important;
+        width: 44px !important;
+        background-color: #FFFFFF !important;
+        border: 1px solid #E5E7EB !important;
+        border-radius: 12px !important;
+      }
+
+      /* Scroll lists (Sizes list) */
+      .collection-size-selector__scroll-container {
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+      }
+      .collection-size-selector__list {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 10px !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        overflow-x: auto !important;
+        scrollbar-width: none !important;
+        margin: 0 !important;
+        padding: 4px 0 !important;
+        list-style: none !important;
+        box-sizing: border-box !important;
+      }
+      .collection-size-selector__list::-webkit-scrollbar {
+        display: none !important;
+      }
+
+      .collection-size-selector__item {
+        flex: 0 0 auto !important;
+        white-space: nowrap !important;
+        position: relative !important;
+        display: inline-block !important;
+        list-style: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      .collection-size-selector__input {
+        position: absolute !important;
+        opacity: 0 !important;
+        width: 0 !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        pointer-events: none !important;
+      }
+
+      .collection-size-selector__label {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-width: 44px !important;
+        height: 44px !important;
+        padding-inline: 16px !important;
+        background-color: #FFFFFF !important;
+        border: 1px solid #E5E7EB !important;
+        border-radius: 12px !important;
+        font-family: var(--font-body) !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        color: var(--color-charcoal-grey, #222222) !important;
+        cursor: pointer !important;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        user-select: none !important;
+        box-sizing: border-box !important;
+      }
+      .collection-size-selector__label:hover {
+        border-color: #9CA3AF !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+        transform: translateY(-1px);
+      }
+      .collection-size-selector__input:checked + .collection-size-selector__label {
+        color: #FFFFFF !important;
+        background-color: var(--color-deep-navy, #0B1F33) !important;
+        border-color: var(--color-deep-navy, #0B1F33) !important;
+      }
+      .collection-size-selector__input:checked + .collection-size-selector__label:hover {
+        transform: none !important;
+        box-shadow: none !important;
+      }
+      .collection-size-selector__input:disabled + .collection-size-selector__label {
+        opacity: 0.4 !important;
+        cursor: not-allowed !important;
+        pointer-events: none !important;
+        text-decoration: line-through !important;
+      }
+
+      /* Next Scroll Arrow button on mobile size selector */
+      .collection-size-selector__scroll-next-btn {
+        display: none !important;
+      }
+      @media screen and (max-width: 749px) {
+        .collection-size-selector__scroll-next-btn {
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          width: 36px !important;
+          height: 36px !important;
+          border-radius: 50% !important;
+          border: 1px solid #E5E7EB !important;
+          background-color: #FFFFFF !important;
+          flex-shrink: 0 !important;
+          margin-left: 8px !important;
+          cursor: pointer !important;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.05) !important;
+          color: #374151 !important;
+        }
+      }
+
+      /* Colors row - Desktop styling */
+      @media screen and (min-width: 750px) {
+        .collection-color-selector__list {
+          display: flex !important;
+          flex-wrap: wrap !important;
+          gap: 8px !important;
+          list-style: none !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          width: 100% !important;
+          box-sizing: border-box !important;
+        }
+        .collection-color-selector__item {
+          display: inline-block !important;
+          flex-shrink: 0 !important;
+          margin: 0 !important;
+        }
+        .collection-color-selector__input {
+          position: absolute !important;
+          opacity: 0 !important;
+          width: 0 !important;
+          height: 0 !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          pointer-events: none !important;
+        }
+        .collection-color-selector__label {
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          height: 44px !important;
+          padding-inline: 16px !important;
+          background-color: #FFFFFF !important;
+          border: 1px solid #E5E7EB !important;
+          border-radius: 12px !important;
+          font-family: var(--font-body) !important;
+          font-size: 13px !important;
+          font-weight: 600 !important;
+          color: var(--color-charcoal-grey, #222222) !important;
+          cursor: pointer !important;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+          user-select: none !important;
+          box-sizing: border-box !important;
+          gap: 8px !important;
+        }
+        .collection-color-selector__label:hover {
+          border-color: #9CA3AF !important;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+          transform: translateY(-1px);
+        }
+        .collection-color-selector__circle {
+          display: inline-block !important;
+          width: 16px !important;
+          height: 16px !important;
+          border-radius: 50% !important;
+          border: 1px solid rgba(0,0,0,0.15) !important;
+          flex-shrink: 0 !important;
+        }
+        .collection-color-selector__input:checked + .collection-color-selector__label {
+          color: #FFFFFF !important;
+          background-color: var(--color-deep-navy, #0B1F33) !important;
+          border-color: var(--color-deep-navy, #0B1F33) !important;
+        }
+        .collection-color-selector__input:checked + .collection-color-selector__label:hover {
+          transform: none !important;
+          box-shadow: none !important;
+        }
+        .collection-color-selector__input:disabled + .collection-color-selector__label {
+          opacity: 0.4 !important;
+          cursor: not-allowed !important;
+          pointer-events: none !important;
+          text-decoration: line-through !important;
+        }
+      }
+
+      /* Colors row - Mobile Swatches scroll layout */
+      @media screen and (max-width: 749px) {
+        .collection-color-selector__list {
+          display: flex !important;
+          flex-wrap: nowrap !important;
+          gap: 12px !important;
+          padding: 8px 0 !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          overflow-x: auto !important;
+          scrollbar-width: none !important;
+          list-style: none !important;
+          margin: 0 !important;
+          -webkit-overflow-scrolling: touch !important;
+        }
+        .collection-color-selector__list::-webkit-scrollbar {
+          display: none !important;
+        }
+        .collection-color-selector__item {
+          display: flex !important;
+          justify-content: center !important;
+          align-items: center !important;
+          margin: 0 !important;
+          list-style: none !important;
+          flex-shrink: 0 !important;
+        }
+        .collection-color-selector__input {
+          position: absolute !important;
+          opacity: 0 !important;
+          width: 0 !important;
+          height: 0 !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          pointer-events: none !important;
+        }
+        .collection-color-selector__label {
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          background: transparent !important;
+          border: none !important;
+          padding: 0 !important;
+          height: auto !important;
+          width: auto !important;
+          gap: 6px !important;
+          cursor: pointer !important;
+        }
+        .collection-color-selector__circle {
+          width: 32px !important;
+          height: 32px !important;
+          border-radius: 50% !important;
+          border: 1px solid rgba(0,0,0,0.15) !important;
+          background-size: cover !important;
+          transition: all 0.2s ease !important;
+        }
+        .collection-color-selector__text {
+          display: block !important;
+          font-size: 10px !important;
+          color: #6B7280 !important;
+          text-align: center !important;
+          white-space: nowrap !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          max-width: 54px !important;
+          font-weight: 500 !important;
+        }
+        /* Mobile checked state selector outline ring */
+        .collection-color-selector__input:checked + .collection-color-selector__label .collection-color-selector__circle {
+          outline: 2px solid var(--color-deep-navy, #0B1F33) !important;
+          outline-offset: 2px !important;
+        }
+        
+        /* Mobile "+X More" button */
+        .collection-color-selector__more-btn {
+          background: transparent !important;
+          border: none !important;
+          padding: 0 !important;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          gap: 6px !important;
+          cursor: pointer !important;
+        }
+        .collection-color-selector__more-circle {
+          width: 32px !important;
+          height: 32px !important;
+          border-radius: 50% !important;
+          border: 1px solid #E5E7EB !important;
+          background-color: #F9FAFB !important;
+          display: inline-flex !important;
+          align-items: center !important;
+          justify-content: center !important;
+          font-size: 11px !important;
+          font-weight: 700 !important;
+          color: #374151 !important;
+        }
+        .collection-color-selector__more-text {
+          font-size: 10px !important;
+          color: #6B7280 !important;
+          font-weight: 500 !important;
+        }
+      }
+
+      /* Desktop Footer (Products Found) styling below card */
+      .size-selector-card__desktop-footer {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        margin-top: 24px !important;
+        width: 100% !important;
+      }
+      .products-count-line-wrapper {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+      }
+      .products-count-line-wrapper::before,
+      .products-count-line-wrapper::after {
+        content: '' !important;
+        flex-grow: 1 !important;
+        height: 1px !important;
+        background-color: #E5E7EB !important;
+      }
+      .products-count-line-text {
+        padding-inline: 16px !important;
+        font-size: 12px !important;
+        font-weight: 800 !important;
+        color: #1F2937 !important;
+        letter-spacing: 0.12em !important;
+      }
+
+      /* Mobile Footer styling below card */
+      .size-selector-card__mobile-footer {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        margin-top: 16px !important;
+      }
+      .size-selector-card__mobile-footer .products-count-wrapper {
+        font-size: 12px !important;
+        font-weight: 800 !important;
+        color: #1F2937 !important;
+        letter-spacing: 0.1em !important;
+      }
+      .size-selector-card__mobile-controls-group {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+      }
+
+      /* Mobile Sort details wrapper style */
+      .size-selector-card__mobile-controls-group sorting-filter-component {
+        width: auto !important;
+      }
+      .size-selector-card__mobile-controls-group .facets__summary {
+        height: 40px !important;
+        background-color: #FFFFFF !important;
+        border: 1px solid #E5E7EB !important;
+        border-radius: 12px !important;
+        padding-inline: 12px !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        box-sizing: border-box !important;
+        color: #374151 !important;
+      }
+      /* Prepend sliders sliders-adjust icon before mobile sort button */
+      .size-selector-card__mobile-controls-group .facets__summary::before {
+        content: '';
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23374151' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='4' y1='21' x2='4' y2='14'/%3E%3Cline x1='4' y1='10' x2='4' y2='3'/%3E%3Cline x1='12' y1='21' x2='12' y2='12'/%3E%3Cline x1='12' y1='8' x2='12' y2='3'/%3E%3Cline x1='20' y1='21' x2='20' y2='16'/%3E%3Cline x1='20' y1='12' x2='20' y2='3'/%3E%3Cline x1='2' y1='14' x2='6' y2='14'/%3E%3Cline x1='10' y1='8' x2='14' y2='8'/%3E%3Cline x1='18' y1='16' x2='22' y2='16'/%3E%3C/svg%3E");
+        background-size: contain;
+        background-repeat: no-repeat;
+        margin-right: 6px;
+      }
+      .size-selector-card__mobile-controls-group .facets__summary .svg-wrapper.icon-caret {
+        display: none !important; /* Hide default caret on mobile sort */
+      }
+      .size-selector-card__mobile-controls-group .facets__summary .facets__label {
+        font-weight: 700 !important;
+      }
+
+      /* Mobile Grid density buttons inside controls group */
+      .size-selector-card__mobile-controls-group grid-density-controls {
+        display: inline-flex !important;
+        gap: 8px !important;
+      }
+      .size-selector-card__mobile-controls-group .grid-density-controls__btn {
+        height: 40px !important;
+        width: 40px !important;
+        background-color: #FFFFFF !important;
+        border: 1px solid #E5E7EB !important;
+        border-radius: 12px !important;
+      }
+      .size-selector-card__mobile-controls-group .grid-density-controls__btn svg {
+        width: 16px !important;
+        height: 16px !important;
+      }
+    </style>
+
+    <div class="collection-size-selector">
       <facets-form-component
-        class="facets__form-wrapper"
         section-id="{{ section.id }}"
-        form-style="{{ block_settings.filter_style }}"
+        form-style="horizontal"
+        style="width: 100%; display: block;"
       >
         <form
           action="{{ results_url }}"
           id="FacetFiltersForm--{{ section.id }}-desktop"
-          class="facets__form"
           ref="facetsForm"
+          style="width: 100%; display: block;"
         >
-          {% if should_show_pane %}
-            <div class="facets__main-row">
-              {% if block_settings.enable_filtering %}
-                {% assign total_active_values = 0 %}
+          <!-- White card wrapper for filters -->
+          <div class="collection-size-selector-inner-card">
+            <div class="collection-size-selector__main">
+              {%- assign size_filter = null -%}
+              {%- assign color_filter = null -%}
+              {%- for filter in filters -%}
+                {%- assign filter_label_downcase = filter.label | downcase -%}
+                {%- if filter_label_downcase == 'size' -%}
+                  {%- assign size_filter = filter -%}
+                {%- elsif filter_label_downcase == 'color' or filter_label_downcase == 'colour' -%}
+                  {%- assign color_filter = filter -%}
+                {%- endif -%}
+              {%- endfor -%}
 
-                {% capture rendered_filters %}
-                  {%- for filter in filters -%}
-                    {% case filter.type %}
-                      {% when 'price_range' %}
-                        {%- liquid
-                          if filter.min_value.value != null or filter.max_value.value != null
-                            assign total_active_values = total_active_values | plus: 1
-                            assign is_active = true
-                          endif
+              <!-- Row 1: Sizes on Left, Sort & Grid on Right (Desktop layout) -->
+              <div class="collection-size-selector__row-1">
+                <!-- Sizes Section -->
+                <div class="collection-size-selector__sizes-col">
+                  <div class="size-selector-card__header">
+                    <div class="size-selector-card__header-left">
+                      <!-- Ruler Icon for Mobile Header -->
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.3 15.3a2.82 2.82 0 0 1 0 4c-1 1-2.5 1-3.5 0L2.8 4.3a2.82 2.82 0 0 1 0-4c1-1 2.5-1 3.5 0Z"></path><path d="m5.6 7.2 1.4-1.4"></path><path d="m7.2 10.4 1.4-1.4"></path><path d="m10.4 12 1.4-1.4"></path><path d="m12 15.2 1.4-1.4"></path><path d="m15.2 16.8 1.4-1.4"></path></svg>
+                      SIZE
+                    </div>
+                    <div class="size-selector-card__header-right mobile-only">
+                      <span>View all</span>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </div>
+                  </div>
 
-                          if block_settings.filter_style != 'vertical'
-                            assign should_render_clear = true
-                          else
-                            assign should_render_clear = false
-                          endif
+                  {%- if size_filter -%}
+                    {%- assign sorted_values_str = '' -%}
+                    {%- for value in size_filter.values -%}
+                      {%- assign val_downcase = value.label | downcase | strip -%}
+                      {%- assign weight = 99999 -%}
 
-                          render 'price-filter', filter: filter, filter_style: block_settings.filter_style, should_render_clear: should_render_clear, id_prefix: 'horizontal'
-                        -%}
-                      {% else %}
-                        {% liquid
-                          if filter.active_values.size > 0
-                            assign is_active = true
-                          endif
+                      {%- if val_downcase == 'xxs' -%}
+                        {%- assign weight = 100 -%}
+                      {%- elsif val_downcase == 'xs' -%}
+                        {%- assign weight = 110 -%}
+                      {%- elsif val_downcase == 's' -%}
+                        {%- assign weight = 120 -%}
+                      {%- elsif val_downcase == 'm' -%}
+                        {%- assign weight = 130 -%}
+                      {%- elsif val_downcase == 'l' -%}
+                        {%- assign weight = 140 -%}
+                      {%- elsif val_downcase == 'xl' -%}
+                        {%- assign weight = 150 -%}
+                      {%- elsif val_downcase == 'xxl' or val_downcase == '2xl' -%}
+                        {%- assign weight = 160 -%}
+                      {%- elsif val_downcase == 'xxxl' or val_downcase == '3xl' -%}
+                        {%- assign weight = 170 -%}
+                      {%- elsif val_downcase == 'xxxxl' or val_downcase == '4xl' -%}
+                        {%- assign weight = 180 -%}
+                      {%- elsif val_downcase == '5xl' -%}
+                        {%- assign weight = 190 -%}
+                      {%- elsif val_downcase == 'os' or val_downcase == 'one size' or val_downcase == 'onesize' -%}
+                        {%- assign weight = 500 -%}
+                      {%- else -%}
+                        {%- assign num_val = val_downcase | plus: 0.0 -%}
+                        {%- if num_val != 0.0 or val_downcase == '0' or val_downcase == '0.0' -%}
+                          {%- assign weight = num_val | times: 100 | plus: 10000 | floor -%}
+                        {%- endif -%}
+                      {%- endif -%}
 
-                          assign active_value_count = filter.active_values | size
-                          assign total_active_values = total_active_values | plus: active_value_count
-                          if block_settings.filter_style != 'vertical'
-                            assign should_render_clear = true
-                          else
-                            assign should_render_clear = false
-                          endif
-                          render 'list-filter', filter: filter, filter_style: block_settings.filter_style, active_value_count: active_value_count, should_render_clear: should_render_clear, show_swatch_label: block_settings.show_swatch_label, sectionId: section.id
-                        %}
-                    {% endcase %}
-                  {%- endfor -%}
-                {% endcapture %}
+                      {%- comment -%} Zero-pad weight to exactly 5 digits for lexicographical sorting {%- endcomment -%}
+                      {%- assign weight_str = weight | prepend: '00000' -%}
+                      {%- assign weight_len = weight_str | size -%}
+                      {%- assign start_idx = weight_len | minus: 5 -%}
+                      {%- assign padded_weight = weight_str | slice: start_idx, 5 -%}
 
-                <div class="facets__filters-wrapper">
-                  {{ rendered_filters }}
+                      {%- assign sorted_values_str = sorted_values_str | append: padded_weight | append: '~' | append: forloop.index0 | append: '|' -%}
+                    {%- endfor -%}
+
+                    {%- assign sorted_values_arr = sorted_values_str | split: '|' | sort -%}
+
+                    <div class="collection-size-selector__scroll-container">
+                      <facet-inputs-component on:change="/updateFilters" id="facet-inputs-component-size-selector" style="width: 100%; display: block; min-width: 0 !important;">
+                        <ul class="collection-size-selector__list" id="DesktopMobileSizeList">
+                          {%- for item in sorted_values_arr -%}
+                            {%- if item == '' -%}{%- continue -%}{%- endif -%}
+                            {%- assign parts = item | split: '~' -%}
+                            {%- if parts.size < 2 -%}{%- continue -%}{%- endif -%}
+                            {%- assign idx = parts[1] | plus: 0 -%}
+                            {%- assign value = size_filter.values[idx] -%}
+
+                            {%- assign input_id = 'Filter-' | append: size_filter.param_name | escape | append: '-' | append: idx | replace: '.', '-' | append: '-size-selector' -%}
+                            {%- assign is_disabled = false -%}
+                            {%- if value.count == 0 and value.active == false -%}
+                              {%- assign is_disabled = true -%}
+                            {%- endif -%}
+
+                            <li class="collection-size-selector__item">
+                              <input
+                                type="checkbox"
+                                name="{{ value.param_name }}"
+                                value="{{ value.value }}"
+                                id="{{ input_id }}"
+                                class="collection-size-selector__input"
+                                {% if value.active %}checked{% endif %}
+                                {% if is_disabled %}disabled{% endif %}
+                                ref="facetInputs[]"
+                              >
+                              <label
+                                class="collection-size-selector__label"
+                                for="{{ input_id }}"
+                              >
+                                {{- value.label -}}
+                              </label>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      </facet-inputs-component>
+                      
+                      <button type="button" class="collection-size-selector__scroll-next-btn mobile-only" onclick="document.getElementById('DesktopMobileSizeList').scrollBy({ left: 120, behavior: 'smooth' });">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                      </button>
+                    </div>
+                  {%- endif -%}
                 </div>
-              {% endif %}
 
-              {% if block_settings.filter_style == 'horizontal' %}
-                <div
-                  class="products-count-wrapper"
-                  data-testid="products-count"
-                >
-                  <span role="status">
-                    {% if products_count > 25000 %}
-                      {{- 'content.item_count_cutoff' | t: count: 25000 -}}
-                    {% else %}
-                      {{- 'content.item_count' | t: count: products_count -}}
+                <!-- Sorting & Grid Controls (Desktop Only placement) -->
+                <div class="collection-size-selector__sort-col desktop-only">
+                  <div class="size-selector-card__header">
+                    <div class="size-selector-card__header-left">SORT BY</div>
+                  </div>
+                  <div class="collection-size-selector__sort-controls-wrapper">
+                    {% if block_settings.enable_sorting %}
+                      {% render 'sorting',
+                        results: results,
+                        sort_by: sort_by,
+                        filter_style: 'horizontal',
+                        suffix: 'desktop-size-selector',
+                        sort_position: 'desktop',
+                        should_use_select_on_mobile: false,
+                        section_id: section.id
+                      %}
                     {% endif %}
-                  </span>
+
+                    {% if block_settings.enable_grid_density %}
+                      {% render 'grid-density-controls', viewport: 'desktop' %}
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Divider Line -->
+              <div class="size-selector-card__divider"></div>
+
+              <!-- Row 2: Colors row -->
+              <div class="collection-size-selector__colors-col">
+                <div class="size-selector-card__header">
+                  <div class="size-selector-card__header-left">
+                    <!-- Palette Icon for Mobile Header -->
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 14.7255 3.09032 17.1962 4.85857 19C5.35471 19.5126 5.56847 20.2183 5.43716 20.9022L5.22896 21.9862C5.12733 22.5152 5.5843 22.9723 6.11333 22.8706L7.19733 22.6624C7.8817 22.5312 8.58737 22.7449 9.1 23.241C10.0827 24.192 11.2384 24.498 12 22Z" fill="none"></path><circle cx="7.5" cy="10.5" r="1.5" fill="currentColor"></circle><circle cx="11.5" cy="7.5" r="1.5" fill="currentColor"></circle><circle cx="16.5" cy="9.5" r="1.5" fill="currentColor"></circle></svg>
+                    COLOR
+                  </div>
+                  <div class="size-selector-card__header-right mobile-only">
+                    <span>View all</span>
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  </div>
                 </div>
 
+                {%- if color_filter -%}
+                  <div class="collection-color-selector__wrapper" style="width: 100% !important; min-width: 0 !important; overflow: hidden !important;">
+                    <facet-inputs-component on:change="/updateFilters" id="facet-inputs-component-color-selector" style="width: 100%; display: block; min-width: 0 !important;">
+                      <ul class="collection-color-selector__list">
+                        {%- for value in color_filter.values -%}
+                          {%- assign input_id = 'Filter-' | append: color_filter.param_name | escape | append: '-' | append: forloop.index0 | replace: '.', '-' | append: '-color-selector' -%}
+                          {%- assign is_disabled = false -%}
+                          {%- if value.count == 0 and value.active == false -%}
+                            {%- assign is_disabled = true -%}
+                          {%- endif -%}
+
+                          {%- comment -%} Resolve Color value background using standard swatch mapping {%- endcomment -%}
+                          {%- liquid
+                            assign color_value = null
+                            assign color_name_downcase = value.label | downcase | strip
+                            
+                            if settings.swatch_color_mapping != blank
+                              assign mappings = settings.swatch_color_mapping | newline_to_br | split: '<br />'
+                              for mapping in mappings
+                                assign parts = mapping | split: ':'
+                                if parts.size >= 2
+                                  assign map_name = parts[0] | downcase | strip
+                                  assign map_val = parts[1] | strip
+                                  if map_name == color_name_downcase
+                                    assign color_value = map_val
+                                    break
+                                  endif
+                                endif
+                              endfor
+                            endif
+
+                            if color_value == null
+                              case color_name_downcase
+                                when 'deep navy', 'navy'
+                                  assign color_value = 'var(--color-deep-navy, #0B1F33)'
+                                when 'indigo blue', 'indigo'
+                                  assign color_value = 'var(--color-indigo-blue, #4B0082)'
+                                when 'off white', 'white'
+                                  assign color_value = 'var(--color-off-white, #FAF9F6)'
+                                when 'raw denim blue', 'raw denim', 'denim'
+                                  assign color_value = 'var(--color-raw-denim-blue, #1E3F66)'
+                                when 'vintage stone', 'stone'
+                                  assign color_value = 'var(--color-vintage-stone, #8A7F7C)'
+                                when 'charcoal grey', 'charcoal gray', 'charcoal'
+                                  assign color_value = 'var(--color-charcoal-grey, #36454F)'
+                                when 'medium grey', 'medium gray', 'grey', 'gray'
+                                  assign color_value = 'var(--color-medium-grey, #808080)'
+                                when 'border grey', 'border gray'
+                                  assign color_value = 'var(--color-border-grey, #CCCCCC)'
+                                when 'copper rivet', 'copper'
+                                  assign color_value = 'var(--color-copper-rivet, #B87333)'
+                                else
+                                  assign color_value = color_name_downcase
+                              endcase
+                            endif
+                          -%}
+
+                          <li class="collection-color-selector__item">
+                            <input
+                              type="checkbox"
+                              name="{{ value.param_name }}"
+                              value="{{ value.value }}"
+                              id="{{ input_id }}"
+                              class="collection-color-selector__input"
+                              {% if value.active %}checked{% endif %}
+                              {% if is_disabled %}disabled{% endif %}
+                              ref="facetInputs[]"
+                            >
+                            <label
+                              class="collection-color-selector__label"
+                              for="{{ input_id }}"
+                            >
+                              <span class="collection-color-selector__circle" style="background-color: {{ color_value }};"></span>
+                              <span class="collection-color-selector__text">{{- value.label -}}</span>
+                            </label>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    </facet-inputs-component>
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+
+          <!-- Desktop Footer (PRODUCTS FOUND centered below the card) -->
+          <div class="size-selector-card__desktop-footer desktop-only">
+            <div class="products-count-line-wrapper">
+              <span class="products-count-line-text">
+                {{ products_count }} PRODUCTS FOUND
+              </span>
+            </div>
+          </div>
+
+          <!-- Mobile Footer (PRODUCTS FOUND left, Sort & Grid right, below the card) -->
+          <div class="size-selector-card__mobile-footer mobile-only" {% if collection.handle == 'test-1' %}style="justify-content: center !important;"{% endif %}>
+            <div class="products-count-wrapper">
+              {{ products_count }} PRODUCTS FOUND
+            </div>
+            
+            {% unless collection.handle == 'test-1' %}
+              <div class="size-selector-card__mobile-controls-group">
                 {% if block_settings.enable_sorting %}
                   {% render 'sorting',
                     results: results,
                     sort_by: sort_by,
-                    filter_style: block_settings.filter_style,
-                    suffix: 'desktop',
-                    sort_position: 'desktop',
+                    filter_style: 'horizontal',
+                    suffix: 'mobile-size-selector',
+                    sort_position: 'mobile',
                     should_use_select_on_mobile: false,
                     section_id: section.id
                   %}
                 {% endif %}
 
                 {% if block_settings.enable_grid_density %}
-                  {% render 'grid-density-controls', viewport: 'desktop' %}
+                  {% render 'grid-density-controls', viewport: 'mobile' %}
                 {% endif %}
-              {% endif %}
-            </div>
-
-            {% if block_settings.enable_filtering and total_active_values > 0 %}
-              <div class="facets__active-chips-row desktop:flex hidden">
-                {% render 'filter-remove-buttons',
-                  filters: filters,
-                  results_url: results_url,
-                  show_filter_label: block_settings.show_filter_label,
-                  should_show_clear_all: true
-                %}
               </div>
-            {% endif %}
+            {% endunless %}
+          </div>
+
+          {% if block_settings.enable_filtering and total_active_values > 0 %}
+            <div class="facets__active-chips-row flex">
+              {% render 'filter-remove-buttons',
+                filters: filters,
+                results_url: results_url,
+                show_filter_label: block_settings.show_filter_label,
+                should_show_clear_all: true
+              %}
+            </div>
           {% endif %}
         </form>
       </facets-form-component>
     </div>
-  </div>
+  {%- else -%}
+    {% if block_settings.filter_style == 'vertical' %}
+      {% # These elements are always rendered in the horizontal bar that's why we apply the .facets--horizontal class %}
+      <div
+        class="facets facets--horizontal facets-controls-wrapper spacing-style"
+        style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
+      >
+        {% if block_settings.enable_filtering %}
+          <h4 class="facets--filters-title">{{ 'content.filters' | t }}</h4>
+        {% endif %}
 
-  <div
-    class="facets-toggle{% if block_settings.enable_filtering == false %} facets-toggle--no-filters{% endif %}{% if block_settings.filter_style == 'horizontal' and block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}"
-    style="
-      --facets-inner-padding-block: {{ block_settings.padding-block-start }}px {{ block_settings.padding-block-end }}px; --facets-inner-padding-inline: var(--padding-lg);
-      {{ facets_margin_style }}
-    "
-  >
-    {% if block_settings.enable_filtering %}
-      <div class="facets-toggle__wrapper">
-        <button
-          class="button facets-toggle__button button-unstyled button-unstyled--with-icon"
-          on:click="#filters-drawer/showDialog"
-          type="button"
-          aria-haspopup="dialog"
+        <div
+          class="products-count-wrapper"
+          data-testid="products-count"
         >
-          <span class="svg-wrapper">
-            <svg class="icon-menu-filter" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="9"></circle>
-              <line x1="8" y1="12" x2="16" y2="12"></line>
-            </svg>
-          </span>
-
-          <span class="facets-toggle__text">Filter</span>
-
-          <span class="facets-toggle__results-count">
+          <span role="status">
             {% if products_count > 25000 %}
               {{- 'content.item_count_cutoff' | t: count: 25000 -}}
             {% else %}
-              {{ products_count }} Results
+              {{- 'content.item_count' | t: count: products_count -}}
             {% endif %}
           </span>
+        </div>
 
-          {% if total_active_values > 0 %}
-            <div
-              id="filter-count-bubble-toggle"
-              class="filter-count-bubble"
-              aria-label="{{ 'accessibility.filter_count' | t: count: total_active_values }}"
-            >
-              <span class="filter-count-bubble__background"></span>
+        {% if block_settings.enable_sorting %}
+          {% render 'sorting',
+            results: results,
+            sort_by: sort_by,
+            filter_style: block_settings.filter_style,
+            suffix: 'desktop',
+            sort_position: 'desktop',
+            should_use_select_on_mobile: false,
+            section_id: section.id
+          %}
+        {% endif %}
 
-              <span
-                ref="cartBubbleText"
-                class="filter-count-bubble__text"
-                aria-hidden="true"
-              >
-                {{ total_active_values }}
-              </span>
-            </div>
-          {% endif %}
-        </button>
+        {% if block_settings.enable_grid_density %}
+          {% render 'grid-density-controls', viewport: 'desktop' %}
+        {% endif %}
       </div>
     {% endif %}
 
-    {% liquid
-      assign child_count = 0
-      if block_settings.enable_sorting
-        assign child_count = child_count | plus: 1
-      endif
-    %}
-
-    <div class="facets-mobile-wrapper facets-controls-wrapper{% if child_count > 1 %} facets-mobile-wrapper--multiple-controls{% endif %}">
-      {% if block_settings.enable_sorting %}
+    <div
+      class="
+        {% if should_show_pane == false %}
+          hidden
+        {% endif %}
+        facets-block-wrapper
+        facets-block-wrapper--{{ block_settings.filter_style }}
+        {%- if block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}
+        {%- if block_settings.filter_width == 'full-width' %} facets-block-wrapper--full-width{% endif %}
+      "
+      style="
+        --grid-column--desktop:
+          {%- if block_settings.filter_style == 'horizontal' -%}
+            var(--{{ block_settings.filter_width }})
+          {%- else -%}
+            2 / var(--facets-vertical-col-width)
+          {%- endif -%};
+        {{ facets_margin_style }}
+        --facets-inner-padding-block: {{ block_settings.padding-block-start }}px {{ block_settings.padding-block-end }}px;
+        --facets-inner-padding-inline: var(--padding-lg);
+      "
+      {{ block.shopify_attributes }}
+    >
+      <div
+        class="facets facets--{{ block_settings.filter_style }} spacing-style"
+        style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
+        aria-label="{{ 'accessibility.filters' | t }}"
+      >
         <facets-form-component
+          class="facets__form-wrapper"
           section-id="{{ section.id }}"
-          id="FacetFiltersForm--{{ section.id }}-mobile-sorting"
+          form-style="{{ block_settings.filter_style }}"
         >
           <form
             action="{{ results_url }}"
-            id="FacetFiltersForm--{{ section.id }}-mobile-sorting"
+            id="FacetFiltersForm--{{ section.id }}-desktop"
+            class="facets__form"
             ref="facetsForm"
           >
-            {% render 'sorting',
-              results: results,
-              sort_by: sort_by,
-              filter_style: block_settings.filter_style,
-              suffix: 'mobile',
-              sort_position: 'mobile',
-              should_use_select_on_mobile: false,
-              section_id: section.id
-            %}
+            {% if should_show_pane %}
+              <div class="facets__main-row">
+                {% if block_settings.enable_filtering %}
+                  {% assign total_active_values = 0 %}
+
+                  {% capture rendered_filters %}
+                    {%- for filter in filters -%}
+                      {% case filter.type %}
+                        {% when 'price_range' %}
+                          {%- liquid
+                            if filter.min_value.value != null or filter.max_value.value != null
+                              assign total_active_values = total_active_values | plus: 1
+                              assign is_active = true
+                            endif
+
+                            if block_settings.filter_style != 'vertical'
+                              assign should_render_clear = true
+                            else
+                              assign should_render_clear = false
+                            endif
+
+                            render 'price-filter', filter: filter, filter_style: block_settings.filter_style, should_render_clear: should_render_clear, id_prefix: 'horizontal'
+                          -%}
+                        {% else %}
+                          {% liquid
+                            if filter.active_values.size > 0
+                              assign is_active = true
+                            endif
+
+                            assign active_value_count = filter.active_values | size
+                            assign total_active_values = total_active_values | plus: active_value_count
+                            if block_settings.filter_style != 'vertical'
+                              assign should_render_clear = true
+                            else
+                              assign should_render_clear = false
+                            endif
+                            render 'list-filter', filter: filter, filter_style: block_settings.filter_style, active_value_count: active_value_count, should_render_clear: should_render_clear, show_swatch_label: block_settings.show_swatch_label, sectionId: section.id
+                          %}
+                      {% endcase %}
+                    {%- endfor -%}
+                  {% endcapture %}
+
+                  <div class="facets__filters-wrapper">
+                    {{ rendered_filters }}
+                  </div>
+                {% endif %}
+
+                {% if block_settings.filter_style == 'horizontal' %}
+                  <div
+                    class="products-count-wrapper"
+                    data-testid="products-count"
+                  >
+                    <span role="status">
+                      {% if products_count > 25000 %}
+                        {{- 'content.item_count_cutoff' | t: count: 25000 -}}
+                      {% else %}
+                        {{- 'content.item_count' | t: count: products_count -}}
+                      {% endif %}
+                    </span>
+                  </div>
+
+                  {% if block_settings.enable_sorting %}
+                    {% render 'sorting',
+                      results: results,
+                      sort_by: sort_by,
+                      filter_style: block_settings.filter_style,
+                      suffix: 'desktop',
+                      sort_position: 'desktop',
+                      should_use_select_on_mobile: false,
+                      section_id: section.id
+                    %}
+                  {% endif %}
+
+                  {% if block_settings.enable_grid_density %}
+                    {% render 'grid-density-controls', viewport: 'desktop' %}
+                  {% endif %}
+                {% endif %}
+              </div>
+
+              {% if block_settings.enable_filtering and total_active_values > 0 %}
+                <div class="facets__active-chips-row desktop:flex hidden">
+                  {% render 'filter-remove-buttons',
+                    filters: filters,
+                    results_url: results_url,
+                    show_filter_label: block_settings.show_filter_label,
+                    should_show_clear_all: true
+                  %}
+                </div>
+              {% endif %}
+            {% endif %}
           </form>
         </facets-form-component>
-      {% endif %}
-    </div>
-  </div>
-
-  {% if block_settings.enable_filtering and total_active_values > 0 %}
-    <facets-form-component section-id="{{ section.id }}" id="FacetFiltersForm--{{ section.id }}-mobile-active-filters">
-      <div class="facets-mobile-active-filters spacing-style desktop:hidden" style="--facets-inner-padding-inline: var(--padding-lg);">
-        {% render 'filter-remove-buttons',
-          filters: filters,
-          results_url: results_url,
-          show_filter_label: block_settings.show_filter_label,
-          should_show_clear_all: true
-        %}
       </div>
-    </facets-form-component>
-  {% endif %}
+    </div>
+
+    <div
+      class="facets-toggle{% if block_settings.enable_filtering == false %} facets-toggle--no-filters{% endif %}{% if block_settings.filter_style == 'horizontal' and block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}"
+      style="
+        --facets-inner-padding-block: {{ block_settings.padding-block-start }}px {{ block_settings.padding-block-end }}px; --facets-inner-padding-inline: var(--padding-lg);
+        {{ facets_margin_style }}
+      "
+    >
+      {% if block_settings.enable_filtering %}
+        <div class="facets-toggle__wrapper">
+          <button
+            class="button facets-toggle__button button-unstyled button-unstyled--with-icon"
+            on:click="#filters-drawer/showDialog"
+            type="button"
+            aria-haspopup="dialog"
+          >
+            <span class="svg-wrapper">
+              <svg class="icon-menu-filter" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9"></circle>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+              </svg>
+            </span>
+
+            <span class="facets-toggle__text">Filter</span>
+
+            <span class="facets-toggle__results-count">
+              {% if products_count > 25000 %}
+                {{- 'content.item_count_cutoff' | t: count: 25000 -}}
+              {% else %}
+                {{ products_count }} Results
+              {% endif %}
+            </span>
+
+            {% if total_active_values > 0 %}
+              <div
+                id="filter-count-bubble-toggle"
+                class="filter-count-bubble"
+                aria-label="{{ 'accessibility.filter_count' | t: count: total_active_values }}"
+              >
+                <span class="filter-count-bubble__background"></span>
+
+                <span
+                  ref="cartBubbleText"
+                  class="filter-count-bubble__text"
+                  aria-hidden="true"
+                >
+                  {{ total_active_values }}
+                </span>
+              </div>
+            {% endif %}
+          </button>
+        </div>
+      {% endif %}
+
+      {% liquid
+        assign child_count = 0
+        if block_settings.enable_sorting
+          assign child_count = child_count | plus: 1
+        endif
+      %}
+
+      <div class="facets-mobile-wrapper facets-controls-wrapper{% if child_count > 1 %} facets-mobile-wrapper--multiple-controls{% endif %}">
+        {% if block_settings.enable_sorting %}
+          <facets-form-component
+            section-id="{{ section.id }}"
+            id="FacetFiltersForm--{{ section.id }}-mobile-sorting"
+          >
+            <form
+              action="{{ results_url }}"
+              id="FacetFiltersForm--{{ section.id }}-mobile-sorting"
+              ref="facetsForm"
+            >
+              {% render 'sorting',
+                results: results,
+                sort_by: sort_by,
+                filter_style: block_settings.filter_style,
+                suffix: 'mobile',
+                sort_position: 'mobile',
+                should_use_select_on_mobile: false,
+                section_id: section.id
+              %}
+            </form>
+          </facets-form-component>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if block_settings.enable_filtering and total_active_values > 0 %}
+      <facets-form-component section-id="{{ section.id }}" id="FacetFiltersForm--{{ section.id }}-mobile-active-filters">
+        <div class="facets-mobile-active-filters spacing-style desktop:hidden" style="--facets-inner-padding-inline: var(--padding-lg);">
+          {% render 'filter-remove-buttons',
+            filters: filters,
+            results_url: results_url,
+            show_filter_label: block_settings.show_filter_label,
+            should_show_clear_all: true
+          %}
+        </div>
+      </facets-form-component>
+    {% endif %}
+  {%- endif -%}
 {% else %}
   <div></div>
 {% endif %}
 
-{% if block_settings.enable_filtering %}
+{% if block_settings.enable_filtering and template.suffix != 'size-selector' %}
   <dialog-component
     id="filters-drawer"
     class="facets-block-wrapper facets-block-wrapper--vertical color-{{ settings.drawer_color_scheme }}"

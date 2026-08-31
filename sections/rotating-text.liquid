@@ -87,8 +87,8 @@
 <style>
 .war-section {
   background: var(--war-bg);
-  padding-top: var(--war-pt);
-  padding-bottom: var(--war-pb);
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
   padding-left: 20px;
   padding-right: 20px;
   overflow: hidden;
@@ -125,7 +125,7 @@
   overflow: hidden;
   display: flex;
   align-items: center;
-  min-width: 40px;
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* ==========================
@@ -221,8 +221,8 @@
 
   .war-section {
     min-height: 50px;
-    padding-top: var(--section-padding-top-mobile);
-    padding-bottom: var(--section-padding-bottom-mobile);
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
   }
 
   .war-static {
@@ -270,16 +270,18 @@
   const elA = document.getElementById('war-word-a-{{ section.id }}');
   const elB = document.getElementById('war-word-b-{{ section.id }}');
 
-  /* Size the slot to match word height so it never collapses */
+  let activeEl  = elA; /* currently visible */
+  let inactiveEl = elB; /* waiting off-screen */
+
+  /* Size the slot to match word height and width so it never collapses and centers perfectly */
   function sizeSlot() {
-    const h = elA.offsetHeight || 52;
+    const h = activeEl.offsetHeight || 52;
     slot.style.height = h + 'px';
-    slot.style.minWidth = Math.max(elA.offsetWidth, elB.offsetWidth) + 'px';
+    slot.style.width = activeEl.offsetWidth + 'px';
   }
   sizeSlot();
 
-  let activeEl  = elA; /* currently visible */
-  let inactiveEl = elB; /* waiting off-screen */
+  window.addEventListener('resize', sizeSlot);
 
   function rotate() {
     if (busy) return;
@@ -295,10 +297,9 @@
     /* Force reflow so transition fires */
     void inactiveEl.offsetWidth;
 
-    /* Widen slot if new word is wider */
-    const newW = inactiveEl.scrollWidth;
-    const curW = activeEl.scrollWidth;
-    slot.style.minWidth = Math.max(newW, curW) + 'px';
+    /* Animate slot width to the new word's width */
+    const newW = inactiveEl.offsetWidth;
+    slot.style.width = newW + 'px';
 
     /* Kick both animations simultaneously */
     activeEl.className  = 'war-word war-word--animating-out';

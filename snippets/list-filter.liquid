@@ -385,6 +385,11 @@
                       </label>
                     </div>
                   {% else %}
+                    {%- assign current_filter_label_downcase = filter.label | downcase -%}
+                    {%- assign pass_color_name = blank -%}
+                    {%- if current_filter_label_downcase == 'color' or current_filter_label_downcase == 'colour' -%}
+                      {%- assign pass_color_name = value.label -%}
+                    {%- endif -%}
                     {% render 'checkbox',
                       name: value.param_name,
                       value: value.value,
@@ -393,6 +398,7 @@
                       id: input_id,
                       disabled: is_disabled,
                       inputRef: 'facetInputs[]',
+                      color_name: pass_color_name,
                       events: 'on:pointerenter="/prefetchPage" on:pointerleave="/cancelPrefetchPage"'
                     %}
                   {% endif %}

@@ -53,6 +53,7 @@
     min-width: inherit;
     display: inherit;
     flex: inherit;
+    position: relative;
   }
 
   .media-gallery__mobile-controls {
@@ -128,5 +129,21 @@
     .product-media__drag-zoom-wrapper.is-zoomed:active {
       cursor: grabbing !important;
     }
+  }
+
+  .product-media__magnifier-lens {
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border: 1px solid rgb(var(--color-border-rgb) / var(--media-border-opacity, 0.15));
+    border-radius: var(--media-radius, 2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    pointer-events: none;
+    z-index: 100;
+    display: none;
+    background-repeat: no-repeat;
+    background-color: var(--color-background, #ffffff);
+    top: 0;
+    left: 0;
   }
 {% endstylesheet %}

@@ -1,4 +1,3 @@
-{{ 'https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css' | stylesheet_tag }}
 
 {%- style -%}
   .cbf-section-{{ section.id }} {
@@ -227,7 +226,8 @@
     box-sizing: border-box;
   }
 
-  .cbf-tile.flow-active .cbf-flow-overlay {
+  .cbf-tile.flow-active .cbf-flow-overlay,
+  .cbf-tile:hover .cbf-flow-overlay {
     opacity: 1;
     visibility: visible;
   }
@@ -470,13 +470,15 @@
   }
 
   .cbf-carousel-arrows {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-top: 16px;
+    display: block;
+    margin: 0;
   }
 
   .cbf-carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
     background: var(--color-background, #ffffff);
     border: 1px solid rgb(var(--color-border-rgb) / var(--media-border-opacity, 0.15));
     border-radius: 50%;
@@ -489,6 +491,14 @@
     transition: all 0.2s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     color: var(--color-foreground, #000000);
+  }
+
+  .cbf-carousel-arrow--prev {
+    left: -20px;
+  }
+
+  .cbf-carousel-arrow--next {
+    right: -20px;
   }
 
   .cbf-carousel-arrow:hover {
@@ -508,9 +518,18 @@
     opacity: 0.4;
     cursor: not-allowed;
   }
+
+  .cbf-section-{{ section.id }} .splide__arrow {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .cbf-section-{{ section.id }} .splide__arrow--prev svg {
+    transform: none;
+  }
 {%- endstyle -%}
 
-<section class="cbf-section-{{ section.id }}" data-section-id="{{ section.id }}">
+<section class="cbf-section-{{ section.id }}" data-section-id="{{ section.id }}" id="curated-by-founder">
   <div class="cbf-container">
     {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
       <div class="cbf-header">
@@ -527,18 +546,18 @@
       {%- for block in section.blocks -%}
         {%- if block.settings.enable -%}
           {%- liquid
-            assign is_interactive = block.settings.enable_interactive_flow
             assign tile_url = block.settings.custom_url
             if tile_url == blank and block.settings.collection != blank
               assign tile_url = block.settings.collection.url
             endif
           -%}
 
-          {%- if is_interactive -%}
+          {%- if block.settings.enable_interactive_flow -%}
             <div
-              class="cbf-tile cbf-interactive"
+              class="cbf-tile"
               id="cbf-block-{{ block.id }}"
               data-block-id="{{ block.id }}"
+              data-collection-url="{{ tile_url | default: '#' }}"
               {{ block.shopify_attributes }}
             >
           {%- else -%}
@@ -547,7 +566,6 @@
               class="cbf-tile"
               id="cbf-block-{{ block.id }}"
               data-block-id="{{ block.id }}"
-              data-has-custom-url="{% if block.settings.custom_url != blank %}true{% else %}false{% endif %}"
               {{ block.shopify_attributes }}
             >
           {%- endif -%}
@@ -589,73 +607,73 @@
               {%- endif -%}
             </div>
 
-            <!-- Interactive Flow Overlay (For Stressed Jeans / Custom Flow) -->
-            {%- if is_interactive -%}
-              {%- liquid
-                assign fits = block.settings.fit_options | split: ','
-                assign sizes = block.settings.size_options | split: ','
-                assign colors = block.settings.color_options | split: ','
-              -%}
+            {%- if block.settings.enable_interactive_flow -%}
+              {%- assign fit_arr = block.settings.fit_options | split: ',' -%}
+              {%- assign size_arr = block.settings.size_options | split: ',' -%}
+              {%- assign color_arr = block.settings.color_options | split: ',' -%}
               <div class="cbf-flow-overlay">
                 <div class="cbf-flow-header">
-                  <span class="cbf-flow-heading">{{ block.settings.title }}</span>
-                  <button class="cbf-flow-close" type="button" aria-label="Close panel">
-                    <svg viewBox="0 0 24 24">
-                      <path d="M18 6L6 18M6 6l12 12"/>
-                    </svg>
+                  <h4 class="cbf-flow-heading">{{ block.settings.title | default: block.settings.collection.title }}</h4>
+                  <button type="button" class="cbf-flow-close" aria-label="Close panel">
+                    <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                   </button>
                 </div>
-
+                
                 <div class="cbf-flow-body">
-                  <!-- Step 1: Fit -->
-                  <div class="cbf-step step-active" data-step="1">
-                    <div class="cbf-step-title">Select Fit</div>
-                    <div class="cbf-options-list">
-                      {%- for fit in fits -%}
-                        {%- assign clean_fit = fit | strip -%}
-                        {%- if clean_fit != blank -%}
-                          <button class="cbf-option-btn" type="button" data-val="{{ clean_fit }}">{{ clean_fit }}</button>
-                        {%- endif -%}
-                      {%- endfor -%}
+                  {%- assign step_index = 1 -%}
+                  
+                  {%- if block.settings.fit_options != blank -%}
+                    <div class="cbf-step step-active" data-step="fit" data-param="{{ block.settings.fit_param }}">
+                      <h5 class="cbf-step-title">Select Fit</h5>
+                      <div class="cbf-options-list">
+                        {%- for opt in fit_arr -%}
+                          {%- assign opt_clean = opt | strip -%}
+                          {%- if opt_clean != blank -%}
+                            <button type="button" class="cbf-option-btn" data-value="{{ opt_clean }}">{{ opt_clean }}</button>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </div>
                     </div>
-                  </div>
+                    {%- assign step_index = step_index | plus: 1 -%}
+                  {%- endif -%}
 
-                  <!-- Step 2: Size -->
-                  <div class="cbf-step" data-step="2">
-                    <div class="cbf-step-title">Select Size</div>
-                    <div class="cbf-options-list">
-                      {%- for size in sizes -%}
-                        {%- assign clean_size = size | strip -%}
-                        {%- if clean_size != blank -%}
-                          <button class="cbf-option-btn" type="button" data-val="{{ clean_size }}">{{ clean_size }}</button>
-                        {%- endif -%}
-                      {%- endfor -%}
+                  {%- if block.settings.size_options != blank -%}
+                    <div class="cbf-step {% if step_index == 1 %}step-active{% endif %}" data-step="size" data-param="{{ block.settings.size_param }}">
+                      <h5 class="cbf-step-title">Select Size</h5>
+                      <div class="cbf-options-list">
+                        {%- for opt in size_arr -%}
+                          {%- assign opt_clean = opt | strip -%}
+                          {%- if opt_clean != blank -%}
+                            <button type="button" class="cbf-option-btn" data-value="{{ opt_clean }}">{{ opt_clean }}</button>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </div>
                     </div>
-                  </div>
+                    {%- assign step_index = step_index | plus: 1 -%}
+                  {%- endif -%}
 
-                  <!-- Step 3: Color -->
-                  <div class="cbf-step" data-step="3">
-                    <div class="cbf-step-title">Select Color</div>
-                    <div class="cbf-options-list">
-                      {%- for color in colors -%}
-                        {%- assign clean_color = color | strip -%}
-                        {%- if clean_color != blank -%}
-                          <button class="cbf-option-btn" type="button" data-val="{{ clean_color }}">{{ clean_color }}</button>
-                        {%- endif -%}
-                      {%- endfor -%}
+                  {%- if block.settings.color_options != blank -%}
+                    <div class="cbf-step {% if step_index == 1 %}step-active{% endif %}" data-step="color" data-param="{{ block.settings.color_param }}">
+                      <h5 class="cbf-step-title">Select Color</h5>
+                      <div class="cbf-options-list">
+                        {%- for opt in color_arr -%}
+                          {%- assign opt_clean = opt | strip -%}
+                          {%- if opt_clean != blank -%}
+                            <button type="button" class="cbf-option-btn" data-value="{{ opt_clean }}">{{ opt_clean }}</button>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </div>
                     </div>
-                  </div>
+                  {%- endif -%}
                 </div>
-
+                
                 <div class="cbf-flow-footer">
-                  <button class="cbf-back-btn" type="button" style="display: none;">Back</button>
-                  <button class="cbf-submit-btn" type="button" disabled data-base-url="{{ tile_url }}" data-fit-param="{{ block.settings.fit_param }}" data-size-param="{{ block.settings.size_param }}" data-color-param="{{ block.settings.color_param }}">
-                    View Listing
-                  </button>
+                  <button type="button" class="cbf-back-btn" style="visibility: hidden;">Back</button>
                 </div>
               </div>
             {%- endif -%}
-          {%- if is_interactive -%}
+
+          {%- if block.settings.enable_interactive_flow -%}
             </div>
           {%- else -%}
             </a>
@@ -663,271 +681,122 @@
         {%- endif -%}
       {%- endfor -%}
     </div>
-
-    <!-- Products Container for Curated Tiles -->
-    <div class="cbf-products-container">
-      {%- assign first_non_interactive_block_id = blank -%}
-      {%- for block in section.blocks -%}
-        {%- if block.settings.enable and block.settings.enable_interactive_flow == false -%}
-          {%- if first_non_interactive_block_id == blank -%}
-            {%- assign first_non_interactive_block_id = block.id -%}
-          {%- endif -%}
-        {%- endif -%}
-      {%- endfor -%}
-
-      {%- for block in section.blocks -%}
-        {%- if block.settings.enable -%}
-          {%- liquid
-            assign block_collection = block.settings.collection
-            assign is_interactive = block.settings.enable_interactive_flow
-            assign is_active = false
-            if first_non_interactive_block_id == block.id
-              assign is_active = true
-            endif
-          -%}
-          {%- if block_collection != blank and is_interactive == false -%}
-            <div
-              class="cbf-collection-products {% if is_active %}is-active{% endif %}"
-              id="cbf-products-{{ block.id }}"
-              data-block-id="{{ block.id }}"
-              style="{% unless is_active %}display: none;{% endunless %}"
-            >
-              {%- if block_collection.products_count > 0 -%}
-                {%- if block_collection.products_count > 4 -%}
-                  <!-- Render Splide Carousel -->
-                  <div class="splide cbf-products-splide" id="splide-{{ block.id }}">
-                    <div class="splide__track">
-                      <div class="splide__list">
-                        {%- for product in block_collection.products limit: 12 -%}
-                          <div class="splide__slide cbf-product-slide">
-                            {%- render 'product-card', product: product -%}
-                          </div>
-                        {%- endfor -%}
-                      </div>
-                    </div>
-                    <!-- Splide Arrows -->
-                    <div class="splide__arrows cbf-carousel-arrows">
-                      <button class="splide__arrow splide__arrow--prev cbf-carousel-arrow cbf-carousel-arrow--prev" aria-label="Previous">
-                        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                      </button>
-                      <button class="splide__arrow splide__arrow--next cbf-carousel-arrow cbf-carousel-arrow--next" aria-label="Next">
-                        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                      </button>
-                    </div>
-                  </div>
-                {%- else -%}
-                  <!-- Render simple grid for 4 or fewer products -->
-                  <div class="cbf-products-grid">
-                    {%- for product in block_collection.products limit: 4 -%}
-                      <div class="cbf-product-grid-item">
-                        {%- render 'product-card', product: product -%}
-                      </div>
-                    {%- endfor -%}
-                  </div>
-                {%- endif -%}
-              {%- else -%}
-                <p class="cbf-no-products">No products found in this collection.</p>
-              {%- endif -%}
-            </div>
-          {%- endif -%}
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
   </div>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js" defer></script>
-
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const interactiveTiles = document.querySelectorAll('.cbf-tile.cbf-interactive');
-
-    interactiveTiles.forEach(function(tile) {
-      const overlay = tile.querySelector('.cbf-flow-overlay');
-      const closeBtn = tile.querySelector('.cbf-flow-close');
-      const backBtn = tile.querySelector('.cbf-back-btn');
-      const submitBtn = tile.querySelector('.cbf-submit-btn');
-      const steps = tile.querySelectorAll('.cbf-step');
-      
-      let selections = {
-        fit: '',
-        size: '',
-        color: ''
-      };
-      let currentStepIndex = 0; // 0: Fit, 1: Size, 2: Color
-
-      function updateStepView() {
-        steps.forEach((step, idx) => {
-          if (idx === currentStepIndex) {
-            step.classList.add('step-active');
-          } else {
-            step.classList.remove('step-active');
-          }
-        });
-
-        // Toggle back button visibility
-        if (currentStepIndex > 0) {
-          backBtn.style.display = 'block';
-        } else {
-          backBtn.style.display = 'none';
-        }
-
-        // Enable/Disable submit button on color screen
-        if (currentStepIndex === 2 && selections.color) {
-          submitBtn.removeAttribute('disabled');
-        } else {
-          submitBtn.setAttribute('disabled', 'disabled');
-        }
-      }
-
-      function resetFlow() {
-        selections = { fit: '', size: '', color: '' };
-        currentStepIndex = 0;
-        tile.querySelectorAll('.cbf-option-btn').forEach(btn => btn.classList.remove('selected'));
-        updateStepView();
-      }
-
-      // Open overlay on tile click
-      tile.addEventListener('click', function(e) {
-        if (!tile.classList.contains('flow-active') && !e.target.closest('.cbf-flow-overlay')) {
-          e.preventDefault();
-          e.stopPropagation();
-          tile.classList.add('flow-active');
-          resetFlow();
-        }
+document.addEventListener('DOMContentLoaded', function() {
+  const tiles = document.querySelectorAll('.cbf-tile[data-collection-url]');
+  
+  tiles.forEach(tile => {
+    const overlay = tile.querySelector('.cbf-flow-overlay');
+    if (!overlay) return;
+    
+    const steps = Array.from(overlay.querySelectorAll('.cbf-step'));
+    const backBtn = overlay.querySelector('.cbf-back-btn');
+    const closeBtn = overlay.querySelector('.cbf-flow-close');
+    
+    let selections = {};
+    let currentStepIndex = 0;
+    
+    function resetFlow() {
+      selections = {};
+      currentStepIndex = 0;
+      steps.forEach((step, idx) => {
+        step.classList.toggle('step-active', idx === 0);
+        step.querySelectorAll('.cbf-option-btn').forEach(btn => btn.classList.remove('selected'));
       });
+      if (backBtn) backBtn.style.visibility = 'hidden';
+      tile.classList.remove('flow-active');
+    }
+    
+    // Prevent tile click from navigating if clicking overlay elements
+    tile.addEventListener('click', function(e) {
+      if (e.target.closest('.cbf-flow-overlay')) {
+        e.preventDefault();
+        e.stopPropagation();
+      } else {
+        // Toggle active class on tap for mobile devices
+        if (window.innerWidth <= 1024) {
+          e.preventDefault();
+          tile.classList.add('flow-active');
+        }
+      }
+    });
 
-      // Close button
+    // Close button click
+    if (closeBtn) {
       closeBtn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        tile.classList.remove('flow-active');
+        resetFlow();
       });
-
-      // Back button
+    }
+    
+    // Back button click
+    if (backBtn) {
       backBtn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         if (currentStepIndex > 0) {
+          steps[currentStepIndex].classList.remove('step-active');
           currentStepIndex--;
-          updateStepView();
+          steps[currentStepIndex].classList.add('step-active');
+          steps[currentStepIndex].querySelectorAll('.cbf-option-btn').forEach(btn => btn.classList.remove('selected'));
+          
+          if (currentStepIndex === 0) {
+            backBtn.style.visibility = 'hidden';
+          }
         }
       });
-
-      // Option selection
-      tile.querySelectorAll('.cbf-option-btn').forEach(function(btn) {
+    }
+    
+    // Option button clicks
+    steps.forEach((step, stepIdx) => {
+      const btns = step.querySelectorAll('.cbf-option-btn');
+      btns.forEach(btn => {
         btn.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
-
-          const parentStep = btn.closest('.cbf-step');
-          const stepNum = parseInt(parentStep.getAttribute('data-step'), 10);
-
-          // Clear selection on siblings
-          parentStep.querySelectorAll('.cbf-option-btn').forEach(sibling => sibling.classList.remove('selected'));
+          
+          // Select this button
+          btns.forEach(b => b.classList.remove('selected'));
           btn.classList.add('selected');
-
-          const val = btn.getAttribute('data-val');
-
-          if (stepNum === 1) {
-            selections.fit = val;
-            currentStepIndex = 1;
-            updateStepView();
-          } else if (stepNum === 2) {
-            selections.size = val;
-            currentStepIndex = 2;
-            updateStepView();
-          } else if (stepNum === 3) {
-            selections.color = val;
-            updateStepView();
+          
+          const param = step.dataset.param;
+          const val = btn.dataset.value;
+          selections[param] = val;
+          
+          if (stepIdx < steps.length - 1) {
+            // Move to next step
+            step.classList.remove('step-active');
+            currentStepIndex = stepIdx + 1;
+            steps[currentStepIndex].classList.add('step-active');
+            
+            if (backBtn) backBtn.style.visibility = 'visible';
+          } else {
+            // Final step: Redirect with URL parameters!
+            const baseUrl = tile.dataset.collectionUrl;
+            let separator = baseUrl.includes('?') ? '&' : '?';
+            let paramsString = '';
+            
+            for (const key in selections) {
+              paramsString += `${separator}${encodeURIComponent(key)}=${encodeURIComponent(selections[key])}`;
+              separator = '&';
+            }
+            
+            window.location.href = baseUrl + paramsString;
           }
         });
       });
-
-      // Submit Button Click
-      submitBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const baseUrl = submitBtn.getAttribute('data-base-url') || '#';
-        const fitParam = submitBtn.getAttribute('data-fit-param') || 'filter.v.option.fit';
-        const sizeParam = submitBtn.getAttribute('data-size-param') || 'filter.v.option.size';
-        const colorParam = submitBtn.getAttribute('data-color-param') || 'filter.v.option.color';
-
-        const url = new URL(baseUrl, window.location.origin);
-        url.searchParams.set(fitParam, selections.fit);
-        url.searchParams.set(sizeParam, selections.size);
-        url.searchParams.set(colorParam, selections.color);
-
-        window.location.href = url.toString();
-      });
     });
-
-    // --- Collection Products Carousel / Tab Navigation JS ---
-    function initSplide(container) {
-      if (typeof Splide === 'undefined') {
-        setTimeout(() => initSplide(container), 100);
-        return;
-      }
-      if (container.classList.contains('splide-initialized')) return;
-      
-      const splideEl = container.querySelector('.cbf-products-splide');
-      if (!splideEl) return;
-      
-      const splide = new Splide(splideEl, {
-        type: 'slide',
-        perPage: 4,
-        perMove: 1,
-        gap: '20px',
-        pagination: false,
-        arrows: true,
-        breakpoints: {
-          1024: { perPage: 3, gap: '16px' },
-          768: { perPage: 2, gap: '12px' },
-          480: { perPage: 2, gap: '12px' }
-        }
-      });
-      
-      splide.mount();
-      container.classList.add('splide-initialized');
-    }
-
-    const nonInteractiveTiles = document.querySelectorAll('.cbf-tile:not(.cbf-interactive)');
-    nonInteractiveTiles.forEach(function(tile) {
-      const hasCustomUrl = tile.getAttribute('data-has-custom-url') === 'true';
-      if (!hasCustomUrl) {
-        tile.addEventListener('click', function(e) {
-          e.preventDefault();
-          
-          document.querySelectorAll('.cbf-tile').forEach(t => t.classList.remove('is-active'));
-          tile.classList.add('is-active');
-          
-          const blockId = tile.getAttribute('data-block-id');
-          document.querySelectorAll('.cbf-collection-products').forEach(container => {
-            container.style.display = 'none';
-            container.classList.remove('is-active');
-          });
-          
-          const activeContainer = document.getElementById('cbf-products-' + blockId);
-          if (activeContainer) {
-            activeContainer.style.display = 'block';
-            activeContainer.classList.add('is-active');
-            initSplide(activeContainer);
-          }
-        });
-      }
+    
+    // Reset flow when mouse leaves tile on desktop
+    tile.addEventListener('mouseleave', function() {
+      resetFlow();
     });
-
-    // Initialize the first active Splide carousel
-    const firstActiveContainer = document.querySelector('.cbf-collection-products.is-active');
-    if (firstActiveContainer) {
-      const firstBlockId = firstActiveContainer.getAttribute('data-block-id');
-      const firstTile = document.getElementById('cbf-block-' + firstBlockId);
-      if (firstTile) firstTile.classList.add('is-active');
-      
-      initSplide(firstActiveContainer);
-    }
   });
+});
 </script>
 
 {% schema %}

@@ -1,0 +1,192 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "blocks": {
+        "heading": {
+          "type": "text",
+          "name": "Title",
+          "disabled": true,
+          "settings": {
+            "text": "<h1>{{ closest.page.title }}</h1>",
+            "width": "100%",
+            "max_width": "normal",
+            "alignment": "left",
+            "type_preset": "h2",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "line_height": "normal",
+            "letter_spacing": "normal",
+            "case": "none",
+            "wrap": "pretty",
+            "color": "var(--color-foreground)",
+            "background": false,
+            "background_color": "#00000026",
+            "corner_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {}
+        },
+        "page-content": {
+          "type": "page-content",
+          "settings": {},
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "page-content"
+      ],
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "gap": 32,
+        "color_scheme": "",
+        "padding-block-start": 40,
+        "padding-block-end": 80
+      }
+    },
+    "curated_by_founder_mrQByK": {
+      "type": "curated-by-founder",
+      "blocks": {
+        "tile_AQLpDC": {
+          "type": "tile",
+          "settings": {
+            "enable": true,
+            "image": "shopify://shop_images/B2JNPUCR023CREAM.png",
+            "collection_number": "01",
+            "title": "Cosmonaut Collection",
+            "collection": "test-1",
+            "custom_url": "",
+            "description": "",
+            "enable_interactive_flow": false,
+            "fit_options": "Slim, Straight, Relaxed",
+            "size_options": "30, 32, 34, 36",
+            "color_options": "Light Wash, Mid Wash, Dark Wash",
+            "fit_param": "filter.v.option.fit",
+            "size_param": "filter.v.option.size",
+            "color_param": "filter.v.option.color"
+          }
+        },
+        "tile_4dRG3D": {
+          "type": "tile",
+          "settings": {
+            "enable": true,
+            "image": "shopify://shop_images/B2JNBSOL076OLIVE.png",
+            "collection_number": "02",
+            "title": "Inspired by Oceans",
+            "collection": "test-1",
+            "custom_url": "",
+            "description": "",
+            "enable_interactive_flow": false,
+            "fit_options": "Slim, Straight, Relaxed",
+            "size_options": "30, 32, 34, 36",
+            "color_options": "Light Wash, Mid Wash, Dark Wash",
+            "fit_param": "filter.v.option.fit",
+            "size_param": "filter.v.option.size",
+            "color_param": "filter.v.option.color"
+          }
+        },
+        "tile_8nRiDG": {
+          "type": "tile",
+          "settings": {
+            "enable": true,
+            "image": "shopify://shop_images/B2JNGWBL020BLACK.png",
+            "collection_number": "03",
+            "title": "Year of Goat",
+            "collection": "test-1",
+            "custom_url": "",
+            "description": "",
+            "enable_interactive_flow": false,
+            "fit_options": "Slim, Straight, Relaxed",
+            "size_options": "30, 32, 34, 36",
+            "color_options": "Light Wash, Mid Wash, Dark Wash",
+            "fit_param": "filter.v.option.fit",
+            "size_param": "filter.v.option.size",
+            "color_param": "filter.v.option.color"
+          }
+        },
+        "tile_bqdAk7": {
+          "type": "tile",
+          "settings": {
+            "enable": true,
+            "image": "shopify://shop_images/B2JNGWGR075GREY.png",
+            "collection_number": "04",
+            "title": "Stressed Jeans",
+            "collection": "test-1",
+            "custom_url": "",
+            "description": "",
+            "enable_interactive_flow": true,
+            "fit_options": "Slim, Straight, Relaxed",
+            "size_options": "30, 32, 34, 36",
+            "color_options": "Light Wash, Mid Wash, Dark Wash",
+            "fit_param": "filter.v.option.fit",
+            "size_param": "filter.v.option.size",
+            "color_param": "filter.v.option.color"
+          }
+        },
+        "tile_Wagnbe": {
+          "type": "tile",
+          "settings": {
+            "enable": true,
+            "image": "shopify://shop_images/B2JNBSJI074JETINDIGO.png",
+            "collection_number": "05",
+            "title": "Customize Jeans",
+            "collection": "all-products-1",
+            "custom_url": "",
+            "description": "",
+            "enable_interactive_flow": true,
+            "fit_options": "",
+            "size_options": "S, M, L, XL",
+            "color_options": "Black, Green, Gray",
+            "fit_param": "filter.v.option.fit",
+            "size_param": "filter.v.option.size",
+            "color_param": "filter.v.option.color"
+          }
+        }
+      },
+      "block_order": [
+        "tile_AQLpDC",
+        "tile_4dRG3D",
+        "tile_8nRiDG",
+        "tile_bqdAk7",
+        "tile_Wagnbe"
+      ],
+      "name": "Curated by Founder",
+      "settings": {
+        "heading": "CURATED BY FOUNDER",
+        "subheading": "Handpicked collections inspired by stories, crafted for you.",
+        "text_alignment": "center",
+        "max_width": 1400,
+        "heading_size_desktop": 40,
+        "heading_size_mobile": 28,
+        "bg_color": "#ffffff",
+        "text_color": "#000000",
+        "text_color_sub": "#555555",
+        "grid_gap": 16,
+        "grid_gap_tablet": 16,
+        "grid_gap_mobile": 12,
+        "padding_top_desktop": 60,
+        "padding_bottom_desktop": 60,
+        "padding_top_mobile": 40,
+        "padding_bottom_mobile": 40
+      }
+    }
+  },
+  "order": [
+    "main",
+    "curated_by_founder_mrQByK"
+  ]
+}

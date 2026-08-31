@@ -47,6 +47,17 @@ export class DragZoomWrapper extends Component {
   /** @type {boolean} */
   #hasManualZoom = false;
 
+  /** @type {HTMLElement | null} */
+  #lens = null;
+  /** @type {DOMRect | null} */
+  #rect = null;
+  /** @type {boolean} */
+  #isHoverActive = false;
+  /** @type {boolean} */
+  #ticking = false;
+  /** @type {Point} */
+  #mousePos = { x: 0, y: 0 };
+
   get #image() {
     return this.refs.image;
   }
@@ -60,6 +71,13 @@ export class DragZoomWrapper extends Component {
 
     this.#initEventListeners();
     this.#updateTransform();
+
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      const options = { signal: this.#controller.signal };
+      this.addEventListener('mouseenter', this.#handleMouseEnter, options);
+      this.addEventListener('mousemove', this.#handleMouseMoveDesktop, options);
+      this.addEventListener('mouseleave', this.#handleMouseLeave, options);
+    }
   }
 
   #initResizeListener() {
@@ -185,6 +203,7 @@ export class DragZoomWrapper extends Component {
 
     this.#scale = targetZoom;
     this.#requestUpdateTransform();
+    this.#hideLens();
 
     event.preventDefault();
     event.stopPropagation();
@@ -544,6 +563,7 @@ export class DragZoomWrapper extends Component {
    * Called when zoom is exited/closed
    */
   #resetZoom = () => {
+    this.#hideLens();
     // Reset scale and translation to defaults
     this.#scale = DEFAULT_ZOOM;
     this.#startScale = DEFAULT_ZOOM;
@@ -563,6 +583,87 @@ export class DragZoomWrapper extends Component {
     this.style.setProperty('--drag-zoom-translate-x', '0px');
     this.style.setProperty('--drag-zoom-translate-y', '0px');
     this.classList.remove('is-zoomed');
+  };
+
+  #handleMouseEnter = () => {
+    if (this.#scale > DEFAULT_ZOOM) {
+      this.#hideLens();
+      return;
+    }
+    this.#isHoverActive = true;
+    this.#rect = this.getBoundingClientRect();
+    this.#showLens();
+  };
+
+  #handleMouseMoveDesktop = (event) => {
+    if (!this.#isHoverActive || !this.#rect || this.#scale > DEFAULT_ZOOM) {
+      this.#hideLens();
+      return;
+    }
+
+    this.#mousePos.x = event.clientX - this.#rect.left;
+    this.#mousePos.y = event.clientY - this.#rect.top;
+
+    if (!this.#ticking) {
+      requestAnimationFrame(this.#updateLensPosition);
+      this.#ticking = true;
+    }
+  };
+
+  #handleMouseLeave = () => {
+    this.#hideLens();
+  };
+
+  #showLens() {
+    if (!this.#lens) {
+      this.#lens = document.createElement('div');
+      this.#lens.className = 'product-media__magnifier-lens';
+      this.appendChild(this.#lens);
+    }
+
+    const img = this.querySelector('img.product-media__image');
+    if (img) {
+      const bgUrl = img.getAttribute('data_max_resolution') || img.src || img.currentSrc;
+      this.#lens.style.backgroundImage = `url(${bgUrl})`;
+    }
+
+    this.#lens.style.display = 'block';
+  }
+
+  #hideLens() {
+    if (this.#lens) {
+      this.#lens.style.display = 'none';
+    }
+    this.#isHoverActive = false;
+  }
+
+  #updateLensPosition = () => {
+    this.#ticking = false;
+    if (!this.#isHoverActive || !this.#rect || !this.#lens) return;
+
+    const mouseX = this.#mousePos.x;
+    const mouseY = this.#mousePos.y;
+
+    if (mouseX < 0 || mouseX > this.#rect.width || mouseY < 0 || mouseY > this.#rect.height) {
+      this.#hideLens();
+      return;
+    }
+
+    const lensWidth = this.#lens.offsetWidth || 180;
+    const lensHeight = this.#lens.offsetHeight || 180;
+
+    const lensLeft = mouseX - lensWidth / 2;
+    const lensTop = mouseY - lensHeight / 2;
+
+    this.#lens.style.transform = `translate(${lensLeft}px, ${lensTop}px)`;
+
+    const percentX = (mouseX / this.#rect.width) * 100;
+    const percentY = (mouseY / this.#rect.height) * 100;
+
+    this.#lens.style.backgroundPosition = `${percentX}% ${percentY}%`;
+
+    const zoomFactor = 2.5;
+    this.#lens.style.backgroundSize = `${this.#rect.width * zoomFactor}px ${this.#rect.height * zoomFactor}px`;
   };
 
   destroy() {

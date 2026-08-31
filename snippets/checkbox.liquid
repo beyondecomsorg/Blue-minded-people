@@ -52,6 +52,68 @@
     {% endif %}
   >
     {{ 'icon-checkmark.svg' | inline_asset_content }}
+
+    {%- if color_name != blank -%}
+      {%- liquid
+        # Resolve color value using the exact same logic as swatch.liquid
+        assign color_value = null
+        assign color_name_downcase = color_name | downcase | strip
+        
+        if settings.swatch_color_mapping != blank
+          assign mappings = settings.swatch_color_mapping | newline_to_br | split: '<br />'
+          for mapping in mappings
+            assign parts = mapping | split: ':'
+            if parts.size >= 2
+              assign map_name = parts[0] | downcase | strip
+              assign map_val = parts[1] | strip
+              if map_name == color_name_downcase
+                assign color_value = map_val
+                break
+              endif
+            endif
+          endfor
+        endif
+
+        if color_value == null
+          case color_name_downcase
+            when 'deep navy', 'navy'
+              assign color_value = 'var(--color-deep-navy, #0B1F33)'
+            when 'indigo blue', 'indigo'
+              assign color_value = 'var(--color-indigo-blue, #4B0082)'
+            when 'off white', 'white'
+              assign color_value = 'var(--color-off-white, #FAF9F6)'
+            when 'raw denim blue', 'raw denim', 'denim'
+              assign color_value = 'var(--color-raw-denim-blue, #1E3F66)'
+            when 'vintage stone', 'stone'
+              assign color_value = 'var(--color-vintage-stone, #8A7F7C)'
+            when 'charcoal grey', 'charcoal gray', 'charcoal'
+              assign color_value = 'var(--color-charcoal-grey, #36454F)'
+            when 'medium grey', 'medium gray', 'grey', 'gray'
+              assign color_value = 'var(--color-medium-grey, #808080)'
+            when 'border grey', 'border gray'
+              assign color_value = 'var(--color-border-grey, #CCCCCC)'
+            when 'copper rivet', 'copper'
+              assign color_value = 'var(--color-copper-rivet, #B87333)'
+            else
+              assign color_value = color_name_downcase
+          endcase
+        endif
+      -%}
+      <style>
+        .checkbox__color-circle {
+          display: inline-block !important;
+          width: 18px !important;
+          height: 18px !important;
+          border-radius: 50% !important;
+          margin-left: 8px !important;
+          border: 1px solid rgba(0, 0, 0, 0.15) !important;
+          flex-shrink: 0 !important;
+          align-self: center !important;
+        }
+      </style>
+      <span class="checkbox__color-circle" style="background-color: {{ color_value }};"></span>
+    {%- endif -%}
+
     <span class="checkbox__label-text">{{- label -}}</span>
   </label>
 </div>

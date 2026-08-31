@@ -41,26 +41,39 @@
 {% stylesheet %}
   .announcement-bar {
     border-block-end: var(--border-bottom-width) solid var(--color-border);
-  text-align: center;
+    text-align: center;
+    /* FIX: keep announcement bar background full-width but constrain inner content to header-like centered container */
+    width: 100%;
   }
-p.announcement-bar__text{
-  padding: 3px;
-}
+  p.announcement-bar__text{
+    padding: 3px;
+  }
   .announcement-bar__slider {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
+    gap: 16px;
     position: relative;
+    width: 100%;
+    max-width: 760px;
+    margin-inline: auto;
+    padding-inline: 44px;
+    box-sizing: border-box;
 
     @media screen and (max-width: 749px) {
       grid-column: 1 / -1;
+      max-width: 100%;
+      padding-inline: 36px;
+      gap: 8px;
     }
   }
 
   .announcement-bar__slides {
     display: grid;
     grid: [stack] auto / [stack] auto;
-    width: calc(100% - var(--button-size) * 2);
+    flex: 1 1 auto;
+    width: auto;
     max-width: 680px;
     margin-inline: auto;
   }
@@ -80,12 +93,19 @@ p.announcement-bar__text{
   }
 
   .announcement-bar__slider slideshow-arrows {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 0;
     mix-blend-mode: normal;
+    pointer-events: none;
   }
 
   .announcement-bar__slider slideshow-arrows .slideshow-control {
     color: var(--color-foreground);
+    pointer-events: auto;
   }
 
   .announcement-bar__slider .slideshow-control {
@@ -99,11 +119,8 @@ p.announcement-bar__text{
     animation: none;
 
     @media screen and (min-width: 750px) {
-      --slideshow-control-offset: calc((var(--button-size) - var(--icon-size-xs)) / 2);
-
-      .section--page-width &.slideshow-control--previous {
-        transform: translateX(var(--slideshow-control-offset));
-      }
+      --slideshow-control-offset: 0px;
+      transform: none;
     }
   }
 

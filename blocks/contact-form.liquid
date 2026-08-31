@@ -119,9 +119,10 @@
       class="contact-form__input"
       autocomplete="tel"
       name="contact[phone]"
-      pattern="[0-9\-]*"
+      pattern="[0-9\-+ ]*"
       value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
       placeholder="{{ 'blocks.contact_form.phone' | t }}"
+      title="Please enter a valid phone number (digits, spaces, hyphens, or a leading plus sign)."
     >
 
     <label

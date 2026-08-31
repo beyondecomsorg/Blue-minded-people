@@ -440,6 +440,96 @@ bottom: -3%;
     font-size: {{ section.settings.button_font_size_mobile }}px;
   }
 }
+
+/* Split Layout CSS styling */
+.custom-hero-split {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  width: 100%;
+  height: var(--section-height-desktop);
+  overflow: hidden;
+}
+
+.custom-hero-split__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 60px;
+  background: var(--brand-blue);
+  color: var(--brand-white);
+  z-index: 2;
+  box-sizing: border-box;
+  text-align: left;
+  order: 2;
+}
+
+.custom-hero-split__heading {
+  font-family: var(--font-heading);
+  font-size: {{ section.settings.heading_font_size_desktop }}px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--brand-white);
+  margin: 0 0 20px 0;
+}
+
+.custom-hero-split__description {
+  font-family: var(--font-body);
+  font-size: {{ section.settings.description_font_size }}px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 30px 0;
+}
+
+.custom-hero-split__description p {
+  margin: 0 0 10px 0;
+}
+.custom-hero-split__description p:last-child {
+  margin-bottom: 0;
+}
+
+.custom-hero-split__button {
+  margin-top: 0 !important;
+}
+
+.custom-hero-split__image-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  order: 1;
+}
+
+@media (max-width: 768px) {
+  .custom-hero-split {
+    grid-template-columns: 1fr !important;
+    height: auto !important;
+    min-height: var(--section-height-mobile);
+  }
+  
+  .custom-hero-split__content {
+    padding: 30px 20px;
+    order: 1;
+  }
+  
+  .custom-hero-split__heading {
+    font-size: {{ section.settings.heading_font_size_mobile }}px !important;
+    margin-bottom: 15px;
+  }
+  
+  .custom-hero-split__description {
+    margin-bottom: 20px;
+  }
+  
+  .custom-hero-split__image-wrap {
+    height: var(--section-height-mobile);
+    width: 100%;
+    order: 2;
+  }
+}
 </style>
 
 <section
@@ -474,169 +564,304 @@ bottom: -3%;
           {% endif %}
 
           <li class="splide__slide" {{ block.shopify_attributes }}>
-            {% if b.btn1_link != blank %}
-              <a href="{{ b.btn1_link }}" {% if b.btn1_new_tab %}target="_blank" rel="noopener"{% endif %} class="hs-slide" style="display: block; text-decoration: none; color: inherit;">
-            {% else %}
-              <div class="hs-slide">
-            {% endif %}
-
-              {% if has_video %}
-                {%- comment -%} ── VIDEO BACKGROUND ── {%- endcomment -%}
-                <div class="hs-slide__video-wrap">
-                  <video
-                    class="hs-slide__video"
-                    autoplay
-                    muted
-                    loop
-                    playsinline
-                    {% if b.video_poster != blank %}
-                      poster="{{ b.video_poster | image_url: width: 2400 }}"
-                    {% elsif b.image != blank %}
-                      poster="{{ b.image | image_url: width: 2400 }}"
-                    {% endif %}
-                  >
-                    {% if b.video_url_mp4 != blank %}
-                      <source src="{{ b.video_url_mp4 }}" type="video/mp4">
-                    {% endif %}
-                    {% if b.video_url_webm != blank %}
-                      <source src="{{ b.video_url_webm }}" type="video/webm">
-                    {% endif %}
-                    {% comment %} Fallback image if video can't play {% endcomment %}
-                    {% if b.image != blank %}
-                      {{ b.image | image_url: width: 2400 | image_tag:
-                        class: 'hs-slide__bg hs-slide__bg--desktop',
-                        loading: 'lazy',
-                        widths: '800,1200,1600,2000,2400',
-                        sizes: '100vw'
-                      }}
-                    {% endif %}
-                  </video>
+            {% if b.enable_split_layout %}
+              <div class="hs-slide custom-hero-split">
+                
+                <div class="custom-hero-split__content">
+                  {% if b.split_heading != blank %}
+                    <h2 class="custom-hero-split__heading">{{ b.split_heading }}</h2>
+                  {% endif %}
+                  
+                  {% if b.split_description != blank %}
+                    <div class="custom-hero-split__description">{{ b.split_description }}</div>
+                  {% endif %}
+                  
+                  {% if b.split_button_text != blank and b.split_button_link != blank %}
+                    <a href="{{ b.split_button_link }}" class="custom-hero-split__button hs-btn">
+                      {{ b.split_button_text }}
+                    </a>
+                  {% endif %}
                 </div>
 
-              {% else %}
-                {%- comment -%} ── DESKTOP IMAGE ── {%- endcomment -%}
-                {% if b.image != blank %}
-                  {% assign focal_desktop = b.image_focal_point | default: 'top center' %}
-                  {{ b.image | image_url: width: 2400 | image_tag:
-                    class: 'hs-slide__bg hs-slide__bg--desktop',
-                    loading: 'eager',
-                    widths: '800,1200,1600,2000,2400',
-                    sizes: '100vw',
-                    alt: b.image.alt,
-                    style: 'object-position: ' | append: focal_desktop | append: ' !important;'
-                  }}
+                {% if b.btn1_link != blank %}
+                  <a href="{{ b.btn1_link }}" {% if b.btn1_new_tab %}target="_blank" rel="noopener"{% endif %} class="custom-hero-split__image-wrap" style="display: block; text-decoration: none;">
                 {% else %}
-                  {{ 'lifestyle-1' | placeholder_svg_tag: 'hs-slide__bg hs-slide__bg--desktop placeholder-svg' }}
+                  <div class="custom-hero-split__image-wrap">
                 {% endif %}
 
-                {%- comment -%} ── MOBILE IMAGE (falls back to desktop if not set) ── {%- endcomment -%}
-                {% if b.mobile_image != blank %}
-                  {% assign focal_mobile = b.mobile_image_focal_point | default: 'top center' %}
-                  {{ b.mobile_image | image_url: width: 1200 | image_tag:
-                    class: 'hs-slide__bg hs-slide__bg--mobile',
-                    loading: 'eager',
-                    widths: '400,600,800,1000,1200',
-                    sizes: '100vw',
-                    alt: b.mobile_image.alt,
-                    style: 'object-position: ' | append: focal_mobile | append: ' !important;'
-                  }}
+                  {% if has_video %}
+                    {%- comment -%} ── VIDEO BACKGROUND ── {%- endcomment -%}
+                    <div class="hs-slide__video-wrap">
+                      <video
+                        class="hs-slide__video"
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                        {% if b.video_poster != blank %}
+                          poster="{{ b.video_poster | image_url: width: 2400 }}"
+                        {% elsif b.image != blank %}
+                          poster="{{ b.image | image_url: width: 2400 }}"
+                        {% endif %}
+                      >
+                        {% if b.video_url_mp4 != blank %}
+                          <source src="{{ b.video_url_mp4 }}" type="video/mp4">
+                        {% endif %}
+                        {% if b.video_url_webm != blank %}
+                          <source src="{{ b.video_url_webm }}" type="video/webm">
+                        {% endif %}
+                        {% comment %} Fallback image if video can't play {% endcomment %}
+                        {% if b.image != blank %}
+                          {{ b.image | image_url: width: 2400 | image_tag:
+                            class: 'hs-slide__bg hs-slide__bg--desktop',
+                            loading: 'lazy',
+                            widths: '800,1200,1600,2000,2400',
+                            sizes: '100vw'
+                          }}
+                        {% endif %}
+                      </video>
+                    </div>
+
+                  {% else %}
+                    {%- comment -%} ── DESKTOP IMAGE ── {%- endcomment -%}
+                    {% if b.image != blank %}
+                      {% assign focal_desktop = b.image_focal_point | default: 'top center' %}
+                      {{ b.image | image_url: width: 2400 | image_tag:
+                        class: 'hs-slide__bg hs-slide__bg--desktop',
+                        loading: 'eager',
+                        widths: '800,1200,1600,2000,2400',
+                        sizes: '100vw',
+                        alt: b.image.alt,
+                        style: 'object-position: ' | append: focal_desktop | append: ' !important;'
+                      }}
+                    {% else %}
+                      {{ 'lifestyle-1' | placeholder_svg_tag: 'hs-slide__bg hs-slide__bg--desktop placeholder-svg' }}
+                    {% endif %}
+
+                    {%- comment -%} ── MOBILE IMAGE (falls back to desktop if not set) ── {%- endcomment -%}
+                    {% if b.mobile_image != blank %}
+                      {% assign focal_mobile = b.mobile_image_focal_point | default: 'top center' %}
+                      {{ b.mobile_image | image_url: width: 1200 | image_tag:
+                        class: 'hs-slide__bg hs-slide__bg--mobile',
+                        loading: 'eager',
+                        widths: '400,600,800,1000,1200',
+                        sizes: '100vw',
+                        alt: b.mobile_image.alt,
+                        style: 'object-position: ' | append: focal_mobile | append: ' !important;'
+                      }}
+                    {% else %}
+                      {% if b.image != blank %}
+                        {% assign focal_desktop = b.image_focal_point | default: 'top center' %}
+                        {{ b.image | image_url: width: 1200 | image_tag:
+                          class: 'hs-slide__bg hs-slide__bg--mobile',
+                          loading: 'eager',
+                          widths: '400,600,800,1000,1200',
+                          sizes: '100vw',
+                          alt: b.image.alt,
+                          style: 'object-position: ' | append: focal_desktop | append: ' !important;'
+                        }}
+                      {% else %}
+                        {{ 'lifestyle-1' | placeholder_svg_tag: 'hs-slide__bg hs-slide__bg--mobile placeholder-svg' }}
+                      {% endif %}
+                    {% endif %}
+                  {% endif %}
+
+                {% if b.btn1_link != blank %}
+                  </a>
                 {% else %}
-                  {% comment %}
-                    No mobile image set — clone the desktop image with mobile class
-                    so CSS swap still works cleanly.
-                  {% endcomment %}
+                  </div>
+                {% endif %}
+
+              </div>
+            {% else %}
+              {% if b.btn1_link != blank %}
+                <a href="{{ b.btn1_link }}" {% if b.btn1_new_tab %}target="_blank" rel="noopener"{% endif %} class="hs-slide" style="display: block; text-decoration: none; color: inherit;">
+              {% else %}
+                <div class="hs-slide">
+              {% endif %}
+
+                {% if has_video %}
+                  {%- comment -%} ── VIDEO BACKGROUND ── {%- endcomment -%}
+                  <div class="hs-slide__video-wrap">
+                    <video
+                      class="hs-slide__video"
+                      autoplay
+                      muted
+                      loop
+                      playsinline
+                      {% if b.video_poster != blank %}
+                        poster="{{ b.video_poster | image_url: width: 2400 }}"
+                      {% elsif b.image != blank %}
+                        poster="{{ b.image | image_url: width: 2400 }}"
+                      {% endif %}
+                    >
+                      {% if b.video_url_mp4 != blank %}
+                        <source src="{{ b.video_url_mp4 }}" type="video/mp4">
+                      {% endif %}
+                      {% if b.video_url_webm != blank %}
+                        <source src="{{ b.video_url_webm }}" type="video/webm">
+                      {% endif %}
+                      {% comment %} Fallback image if video can't play {% endcomment %}
+                      {% if b.image != blank %}
+                        {{ b.image | image_url: width: 2400 | image_tag:
+                          class: 'hs-slide__bg hs-slide__bg--desktop',
+                          loading: 'lazy',
+                          widths: '800,1200,1600,2000,2400',
+                          sizes: '100vw'
+                        }}
+                      {% endif %}
+                    </video>
+                  </div>
+                {% else %}
+                  {%- comment -%} ── DESKTOP IMAGE ── {%- endcomment -%}
                   {% if b.image != blank %}
                     {% assign focal_desktop = b.image_focal_point | default: 'top center' %}
-                    {{ b.image | image_url: width: 1200 | image_tag:
-                      class: 'hs-slide__bg hs-slide__bg--mobile',
+                    {{ b.image | image_url: width: 2400 | image_tag:
+                      class: 'hs-slide__bg hs-slide__bg--desktop',
                       loading: 'eager',
-                      widths: '400,600,800,1000,1200',
+                      widths: '800,1200,1600,2000,2400',
                       sizes: '100vw',
                       alt: b.image.alt,
                       style: 'object-position: ' | append: focal_desktop | append: ' !important;'
                     }}
                   {% else %}
-                    {{ 'lifestyle-1' | placeholder_svg_tag: 'hs-slide__bg hs-slide__bg--mobile placeholder-svg' }}
+                    {{ 'lifestyle-1' | placeholder_svg_tag: 'hs-slide__bg hs-slide__bg--desktop placeholder-svg' }}
+                  {% endif %}
+
+                  {%- comment -%} ── MOBILE IMAGE (falls back to desktop if not set) ── {%- endcomment -%}
+                  {% if b.mobile_image != blank %}
+                    {% assign focal_mobile = b.mobile_image_focal_point | default: 'top center' %}
+                    {{ b.mobile_image | image_url: width: 1200 | image_tag:
+                      class: 'hs-slide__bg hs-slide__bg--mobile',
+                      loading: 'eager',
+                      widths: '400,600,800,1000,1200',
+                      sizes: '100vw',
+                      alt: b.mobile_image.alt,
+                      style: 'object-position: ' | append: focal_mobile | append: ' !important;'
+                    }}
+                  {% else %}
+                    {% comment %}
+                      No mobile image set — clone the desktop image with mobile class
+                      so CSS swap still works cleanly.
+                    {% endcomment %}
+                    {% if b.image != blank %}
+                      {% assign focal_desktop = b.image_focal_point | default: 'top center' %}
+                      {{ b.image | image_url: width: 1200 | image_tag:
+                        class: 'hs-slide__bg hs-slide__bg--mobile',
+                        loading: 'eager',
+                        widths: '400,600,800,1000,1200',
+                        sizes: '100vw',
+                        alt: b.image.alt,
+                        style: 'object-position: ' | append: focal_desktop | append: ' !important;'
+                      }}
+                    {% else %}
+                      {{ 'lifestyle-1' | placeholder_svg_tag: 'hs-slide__bg hs-slide__bg--mobile placeholder-svg' }}
+                    {% endif %}
                   {% endif %}
                 {% endif %}
 
-              {% endif %}
+                {% comment %} Overlay {% endcomment %}
+                <div class="hs-slide__overlay"></div>
 
-              {% comment %} Overlay {% endcomment %}
-              <div class="hs-slide__overlay"></div>
+                {% comment %} Caption {% endcomment %}
+                {% unless b.hide_content %}
+                  <div class="hs-slide__caption">
 
-              {% comment %} Caption {% endcomment %}
-              {% unless b.hide_content %}
-                <div class="hs-slide__caption">
+                    {% if b.eyebrow != blank %}
+                      <p class="hs-slide__eyebrow">{{ b.eyebrow }}</p>
+                    {% endif %}
 
-                  {% if b.eyebrow != blank %}
-                    <p class="hs-slide__eyebrow">{{ b.eyebrow }}</p>
-                  {% endif %}
+                    {% if b.heading != blank %}
+                      <h2 class="hs-slide__heading">{{ b.heading }}</h2>
+                    {% endif %}
 
-                  {% if b.heading != blank %}
-                    <h2 class="hs-slide__heading">{{ b.heading }}</h2>
-                  {% endif %}
+                    {% if b.subtext != blank %}
+                      <p class="hs-slide__subtext">{{ b.subtext }}</p>
+                    {% endif %}
 
-                  {% if b.subtext != blank %}
-                    <p class="hs-slide__subtext">{{ b.subtext }}</p>
-                  {% endif %}
+                    {% assign has_btn = false %}
+                    {% if b.btn1_label != blank %}{% assign has_btn = true %}{% endif %}
+                    {% if b.btn2_label != blank %}{% assign has_btn = true %}{% endif %}
+                    {% if b.btn3_label != blank %}{% assign has_btn = true %}{% endif %}
 
-                  {% comment %} 3 CTA buttons are commented out because the whole section is now a link {% endcomment %}
-                  {% comment %}
-                  {% assign has_btn = false %}
-                  {% if b.btn1_label != blank %}{% assign has_btn = true %}{% endif %}
-                  {% if b.btn2_label != blank %}{% assign has_btn = true %}{% endif %}
-                  {% if b.btn3_label != blank %}{% assign has_btn = true %}{% endif %}
+                    {% if has_btn %}
+                      <div class="hs-slide__buttons">
 
-                  {% if has_btn %}
-                    <div class="hs-slide__buttons">
+                        {% if b.btn1_label != blank %}
+                          {% if b.btn1_link != blank %}
+                            <span
+                              class="hs-btn"
+                              style="
+                                {% if b.btn1_custom_bg != blank %}background:{{ b.btn1_custom_bg }};border-color:{{ b.btn1_custom_bg }};{% endif %}
+                                {% if b.btn1_custom_text != blank %}color:{{ b.btn1_custom_text }};{% endif %}
+                              "
+                            >{{ b.btn1_label }}</span>
+                          {% else %}
+                            <a
+                              href="#"
+                              class="hs-btn"
+                              style="
+                                {% if b.btn1_custom_bg != blank %}background:{{ b.btn1_custom_bg }};border-color:{{ b.btn1_custom_bg }};{% endif %}
+                                {% if b.btn1_custom_text != blank %}color:{{ b.btn1_custom_text }};{% endif %}
+                              "
+                            >{{ b.btn1_label }}</a>
+                          {% endif %}
+                        {% endif %}
 
-                      {% if b.btn1_label != blank %}
-                        <a
-                          href="{{ b.btn1_link | default: '#' }}"
-                          class="hs-btn"
-                          {% if b.btn1_new_tab %}target="_blank" rel="noopener"{% endif %}
-                          style="
-                            {% if b.btn1_custom_bg != blank %}background:{{ b.btn1_custom_bg }};border-color:{{ b.btn1_custom_bg }};{% endif %}
-                            {% if b.btn1_custom_text != blank %}color:{{ b.btn1_custom_text }};{% endif %}
-                          "
-                        >{{ b.btn1_label }}</a>
-                      {% endif %}
+                        {% if b.btn2_label != blank %}
+                          {% if b.btn1_link != blank %}
+                            <span
+                              class="hs-btn"
+                              style="
+                                {% if b.btn2_custom_bg != blank %}background:{{ b.btn2_custom_bg }};border-color:{{ b.btn2_custom_bg }};{% endif %}
+                                {% if b.btn2_custom_text != blank %}color:{{ b.btn2_custom_text }};{% endif %}
+                              "
+                            >{{ b.btn2_label }}</span>
+                          {% else %}
+                            <a
+                              href="{{ b.btn2_link | default: '#' }}"
+                              class="hs-btn"
+                              {% if b.btn2_new_tab %}target="_blank" rel="noopener"{% endif %}
+                              style="
+                                {% if b.btn2_custom_bg != blank %}background:{{ b.btn2_custom_bg }};border-color:{{ b.btn2_custom_bg }};{% endif %}
+                                {% if b.btn2_custom_text != blank %}color:{{ b.btn2_custom_text }};{% endif %}
+                              "
+                            >{{ b.btn2_label }}</a>
+                          {% endif %}
+                        {% endif %}
 
-                      {% if b.btn2_label != blank %}
-                        <a
-                          href="{{ b.btn2_link | default: '#' }}"
-                          class="hs-btn"
-                          {% if b.btn2_new_tab %}target="_blank" rel="noopener"{% endif %}
-                          style="
-                            {% if b.btn2_custom_bg != blank %}background:{{ b.btn2_custom_bg }};border-color:{{ b.btn2_custom_bg }};{% endif %}
-                            {% if b.btn2_custom_text != blank %}color:{{ b.btn2_custom_text }};{% endif %}
-                          "
-                        >{{ b.btn2_label }}</a>
-                      {% endif %}
+                        {% if b.btn3_label != blank %}
+                          {% if b.btn1_link != blank %}
+                            <span
+                              class="hs-btn mobile-hide"
+                              style="
+                                {% if b.btn3_custom_bg != blank %}background:{{ b.btn3_custom_bg }};border-color:{{ b.btn3_custom_bg }};{% endif %}
+                                {% if b.btn3_custom_text != blank %}color:{{ b.btn3_custom_text }};{% endif %}
+                              "
+                            >{{ b.btn3_label }}</span>
+                          {% else %}
+                            <a
+                              href="{{ b.btn3_link | default: '#' }}"
+                              class="hs-btn mobile-hide"
+                              {% if b.btn3_new_tab %}target="_blank" rel="noopener"{% endif %}
+                              style="
+                                {% if b.btn3_custom_bg != blank %}background:{{ b.btn3_custom_bg }};border-color:{{ b.btn3_custom_bg }};{% endif %}
+                                {% if b.btn3_custom_text != blank %}color:{{ b.btn3_custom_text }};{% endif %}
+                              "
+                            >{{ b.btn3_label }}</a>
+                          {% endif %}
+                        {% endif %}
 
-                      {% if b.btn3_label != blank %}
-                        <a
-                          href="{{ b.btn3_link | default: '#' }}"
-                          class="hs-btn mobile-hide"
-                          {% if b.btn3_new_tab %}target="_blank" rel="noopener"{% endif %}
-                          style="
-                            {% if b.btn3_custom_bg != blank %}background:{{ b.btn3_custom_bg }};border-color:{{ b.btn3_custom_bg }};{% endif %}
-                            {% if b.btn3_custom_text != blank %}color:{{ b.btn3_custom_text }};{% endif %}
-                          "
-                        >{{ b.btn3_label }}</a>
-                      {% endif %}
+                      </div>
+                    {% endif %}
+                  </div>
+                {% endunless %}
 
-                    </div>
-                  {% endif %}
-                  {% endcomment %}
+              {% if b.btn1_link != blank %}
+                </a>
+              {% else %}
                 </div>
-              {% endunless %}
-
-            {% if b.btn1_link != blank %}
-              </a>
-            {% else %}
-              </div>
+              {% endif %}
             {% endif %}
           </li>
         {% endfor %}
@@ -718,7 +943,6 @@ bottom: -3%;
   "tag": "section",
   "class": "hs-section-wrapper",
   "settings": [
-
     {
       "type": "header",
       "content": "━━  Slideshow Behaviour  ━━"
@@ -1201,6 +1425,36 @@ bottom: -3%;
         {
           "type": "header",
           "content": "✏️  Content"
+        },
+        {
+          "type": "header",
+          "content": "🥞  Split Layout Content (per slide)"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_split_layout",
+          "label": "Enable Split Banner Layout",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "split_heading",
+          "label": "Split Layout Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "split_description",
+          "label": "Split Layout Description"
+        },
+        {
+          "type": "text",
+          "id": "split_button_text",
+          "label": "Split Layout Button Text"
+        },
+        {
+          "type": "url",
+          "id": "split_button_link",
+          "label": "Split Layout Button Link"
         },
         {
           "type": "checkbox",
