@@ -279,8 +279,16 @@ class ProductFormComponent extends Component {
     }
   };
 
-  /** @param {Event} event */
+  /** @param {SubmitEvent} event */
   handleSubmit(event) {
+    const submitter = event.submitter || document.activeElement;
+    if (submitter && (
+      submitter.classList.contains('shopify-payment-button__button') ||
+      submitter.closest('.shopify-payment-button')
+    )) {
+      return;
+    }
+
     event.preventDefault();
 
     if (this.#variantChangeInProgress) {
