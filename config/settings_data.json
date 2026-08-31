@@ -238,6 +238,18 @@
         "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
         "disabled": true,
         "settings": {}
+      },
+      "11502817661673146621": {
+        "type": "shopify://apps/releasit-cod-fee/blocks/app-embed/019a066b-bc34-792e-8460-8aae1d0bdf53",
+        "disabled": false,
+        "settings": {}
+      },
+      "17916174682701315096": {
+        "type": "shopify://apps/devnzo-advanced-cod/blocks/payment-popup/019b8a90-cd58-7d01-9c78-e0adb4f9dcf1",
+        "disabled": false,
+        "settings": {
+          "enabled": true
+        }
       }
     },
     "color_schemes": {
