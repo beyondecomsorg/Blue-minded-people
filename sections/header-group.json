@@ -18,8 +18,8 @@
           "type": "_announcement",
           "name": "t:names.announcement",
           "settings": {
-            "text": "Welcome to blue minded people store",
-            "link": "",
+            "text": "Festive Sale is Live",
+            "link": "shopify://collections/all",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
             "weight": "",
@@ -33,7 +33,7 @@
           "name": "t:names.announcement",
           "settings": {
             "text": "7 days easy return",
-            "link": "",
+            "link": "shopify://collections/all",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
             "weight": "",
@@ -46,7 +46,7 @@
           "type": "_announcement",
           "settings": {
             "text": "Free Shipping On All Orders",
-            "link": "",
+            "link": "shopify://collections/all",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
             "weight": "",
