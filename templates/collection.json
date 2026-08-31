@@ -41,6 +41,7 @@
         "slide_XYHLcK",
         "slide_gTL8rP"
       ],
+      "disabled": true,
       "name": "Custom Banner Slideshow",
       "settings": {
         "banner_height": "adapt",
@@ -50,7 +51,7 @@
         "heading_size_mobile": 24,
         "subheading_size_desktop": 18,
         "subheading_size_mobile": 14,
-        "text_color": "#FFFFFF",
+        "text_color": "#ffffff",
         "content_alignment": "center",
         "overlay_color": "#000000",
         "overlay_opacity": 30,
@@ -60,7 +61,11 @@
         "infinite_loop": true,
         "show_arrows": true,
         "show_dots": true,
-        "pause_on_hover": true
+        "pause_on_hover": true,
+        "padding_top": 30,
+        "padding_bottom": 30,
+        "padding_top_mobile": 15,
+        "padding_bottom_mobile": 15
       }
     },
     "collection_banner_section": {
