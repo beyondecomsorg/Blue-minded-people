@@ -18,7 +18,7 @@
           "type": "_announcement",
           "name": "t:names.announcement",
           "settings": {
-            "text": "Festive Sale is Live",
+            "text": "Festive Sale is Live - Shop Now",
             "link": "shopify://collections/all",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
