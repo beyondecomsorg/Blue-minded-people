@@ -4904,7 +4904,7 @@ slideshow-component .product-price-main-sale{
 }
 
 .product-card__quick-view-btn {
-  display: flex;
+  display: none;
   align-items: center;
   gap: 6px;
   background-color: rgba(11, 31, 51, 0.9) !important; /* Deep Navy with transparency */
