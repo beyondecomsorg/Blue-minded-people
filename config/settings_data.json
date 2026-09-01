@@ -224,11 +224,6 @@
         "disabled": false,
         "settings": {}
       },
-      "753360823172887587": {
-        "type": "shopify://apps/crazyrocket-spin-wheel-pop-ups/blocks/crazyrocket-script/31762d47-a891-447e-9769-ef8b68621ed4",
-        "disabled": false,
-        "settings": {}
-      },
       "2567389343055140935": {
         "type": "shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
         "disabled": false,
@@ -239,17 +234,17 @@
         "disabled": true,
         "settings": {}
       },
-      "11502817661673146621": {
-        "type": "shopify://apps/releasit-cod-fee/blocks/app-embed/019a066b-bc34-792e-8460-8aae1d0bdf53",
-        "disabled": true,
-        "settings": {}
-      },
       "17916174682701315096": {
         "type": "shopify://apps/devnzo-advanced-cod/blocks/payment-popup/019b8a90-cd58-7d01-9c78-e0adb4f9dcf1",
         "disabled": true,
         "settings": {
           "enabled": true
         }
+      },
+      "753360823172887587": {
+        "type": "shopify://apps/crazyrocket-spin-wheel-pop-ups/blocks/crazyrocket-script/31762d47-a891-447e-9769-ef8b68621ed4",
+        "disabled": true,
+        "settings": {}
       }
     },
     "color_schemes": {
