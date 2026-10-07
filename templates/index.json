@@ -50,9 +50,9 @@
         "slide_ad4gJb": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Landing_Home_page_Web..png",
+            "image": "shopify://shop_images/Top_50_Web.png",
             "image_focal_point": "center center",
-            "mobile_image": "shopify://shop_images/Landing_Home_page_Mobile.png",
+            "mobile_image": "shopify://shop_images/Top_50_Mobil.png",
             "mobile_image_focal_point": "center center",
             "video_url_mp4": "",
             "video_url_webm": "",
@@ -66,7 +66,7 @@
             "heading": "",
             "subtext": "",
             "btn1_label": "Shop Now",
-            "btn1_link": "shopify://collections/shirts",
+            "btn1_link": "shopify://collections/top-wear",
             "btn1_new_tab": false,
             "btn1_custom_bg": "",
             "btn1_custom_text": "",
