@@ -186,6 +186,41 @@
             "btn3_custom_bg": "",
             "btn3_custom_text": ""
           }
+        },
+        "slide_GtW6EB": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Shirt_Banner_Web.png",
+            "image_focal_point": "center center",
+            "mobile_image": "shopify://shop_images/Shirt_Banner_Mob.png",
+            "mobile_image_focal_point": "center center",
+            "video_url_mp4": "",
+            "video_url_webm": "",
+            "enable_split_layout": false,
+            "split_heading": "",
+            "split_description": "",
+            "split_button_text": "",
+            "split_button_link": "",
+            "hide_content": false,
+            "eyebrow": "",
+            "heading": "",
+            "subtext": "",
+            "btn1_label": "",
+            "btn1_link": "",
+            "btn1_new_tab": false,
+            "btn1_custom_bg": "",
+            "btn1_custom_text": "",
+            "btn2_label": "",
+            "btn2_link": "",
+            "btn2_new_tab": false,
+            "btn2_custom_bg": "",
+            "btn2_custom_text": "",
+            "btn3_label": "",
+            "btn3_link": "",
+            "btn3_new_tab": false,
+            "btn3_custom_bg": "",
+            "btn3_custom_text": ""
+          }
         }
       },
       "block_order": [
@@ -193,7 +228,8 @@
         "slide_ad4gJb",
         "slide_RV7Dct",
         "slide_NHT4Nb",
-        "slide_dXAETc"
+        "slide_dXAETc",
+        "slide_GtW6EB"
       ],
       "name": "Hero Slideshow Custom",
       "settings": {
