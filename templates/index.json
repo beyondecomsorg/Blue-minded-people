@@ -151,13 +151,49 @@
             "btn3_custom_bg": "",
             "btn3_custom_text": ""
           }
+        },
+        "slide_dXAETc": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/T_Bnr_Web.png",
+            "image_focal_point": "center center",
+            "mobile_image": "shopify://shop_images/T_Bnr_Mob.png",
+            "mobile_image_focal_point": "center center",
+            "video_url_mp4": "",
+            "video_url_webm": "",
+            "enable_split_layout": false,
+            "split_heading": "",
+            "split_description": "",
+            "split_button_text": "",
+            "split_button_link": "",
+            "hide_content": false,
+            "eyebrow": "",
+            "heading": "New for Summer",
+            "subtext": "Cobblestone streets, sunbaked rooftops, and Lisbon as our guide.\nLet adventure lead the way in relaxed linen and packable new arrivals.",
+            "btn1_label": "",
+            "btn1_link": "",
+            "btn1_new_tab": false,
+            "btn1_custom_bg": "",
+            "btn1_custom_text": "",
+            "btn2_label": "MEN'S NEW ARRIVALS",
+            "btn2_link": "",
+            "btn2_new_tab": false,
+            "btn2_custom_bg": "",
+            "btn2_custom_text": "",
+            "btn3_label": "EXPLORE THE CAMPAIGN",
+            "btn3_link": "",
+            "btn3_new_tab": false,
+            "btn3_custom_bg": "",
+            "btn3_custom_text": ""
+          }
         }
       },
       "block_order": [
         "slide_B6prei",
         "slide_ad4gJb",
         "slide_RV7Dct",
-        "slide_NHT4Nb"
+        "slide_NHT4Nb",
+        "slide_dXAETc"
       ],
       "name": "Hero Slideshow Custom",
       "settings": {
