@@ -285,7 +285,7 @@
         "product_card_gfweth": {
           "type": "product_card",
           "settings": {
-            "product_image": "shopify://shop_images/Artboard_10_2x_7e8afd45-882b-4072-a464-4259a7cbc85b.png",
+            "product_image": "shopify://shop_images/Web_Cate_10.png",
             "brand_name": "Jeans",
             "product_url": "shopify://collections/jeans"
           }
@@ -293,7 +293,7 @@
         "product_card_xLwBpc": {
           "type": "product_card",
           "settings": {
-            "product_image": "shopify://shop_images/Artboard_5_2x_799e20f0-dcc5-4bcd-9efc-80d34abce427.png",
+            "product_image": "shopify://shop_images/Web_Cate_8.png",
             "brand_name": "Shirts",
             "product_url": "shopify://collections/shirts"
           }
@@ -301,7 +301,7 @@
         "product_card_6yVGCm": {
           "type": "product_card",
           "settings": {
-            "product_image": "shopify://shop_images/Artboard_9_2x_1.png",
+            "product_image": "shopify://shop_images/Web_Cate_11.png",
             "brand_name": "T-SHIRTS",
             "product_url": "shopify://collections/t-shirts"
           }
@@ -309,7 +309,7 @@
         "product_card_H8Cn9w": {
           "type": "product_card",
           "settings": {
-            "product_image": "shopify://shop_images/Artboard_12_2x_616ac5a4-f1a7-447d-bb20-23466b676da4.png",
+            "product_image": "shopify://shop_images/Web_Cate_12.png",
             "brand_name": "TROUSERS",
             "product_url": "shopify://collections/all"
           }
@@ -317,7 +317,7 @@
         "product_card_kEktML": {
           "type": "product_card",
           "settings": {
-            "product_image": "shopify://shop_images/Artboard_9_2x_ad8fdeac-4e6a-45c9-b9c7-1c38f62fe5fb.png",
+            "product_image": "shopify://shop_images/Web_Cate_9.png",
             "brand_name": "Coming soon",
             "product_url": ""
           }
