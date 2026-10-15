@@ -6872,6 +6872,63 @@ html body .cart-recommendations .cart-recommendations__nav:hover svg {
   stroke: #EF4444 !important;
 }
 
+/* Sold-out / error state — cart item */
+.cart-drawer .cart-items__error:not(.hidden) {
+  display: flex !important;
+  align-items: flex-start !important;
+  width: 100% !important;
+  margin-block-start: 4px !important;
+}
+
+.cart-drawer .cart-item__error {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 5px !important;
+  background-color: #FFF5F5 !important;
+  border: 1px solid #FECACA !important;
+  border-radius: 6px !important;
+  padding: 6px 8px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.cart-drawer .cart-item__error .svg-wrapper {
+  flex-shrink: 0 !important;
+  width: 14px !important;
+  height: 14px !important;
+  min-width: 14px !important;
+  margin-block-start: 1px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.cart-drawer .cart-item__error .svg-wrapper svg,
+.cart-drawer .cart-item__error .svg-wrapper svg * {
+  stroke: #EF4444 !important;
+  color: #EF4444 !important;
+  width: 14px !important;
+  height: 14px !important;
+}
+
+.cart-drawer .cart-item__error-text {
+  font-size: 11px !important;
+  color: #B91C1C !important;
+  line-height: 1.4 !important;
+  font-weight: 500 !important;
+  flex: 1 !important;
+}
+
+/* Dim quantity + price when error is visible */
+.cart-drawer .cart-items__table-row:has(.cart-items__error:not(.hidden)) .cart-items__quantity {
+  opacity: 0.4 !important;
+  pointer-events: none !important;
+}
+
+.cart-drawer .cart-items__table-row:has(.cart-items__error:not(.hidden)) .cart-items__price {
+  opacity: 0.4 !important;
+}
+
 /* Line Item Total Price */
 .cart-drawer .cart-items__price {
   grid-area: price !important;

@@ -103,11 +103,11 @@
 
   .pdp-viewer-banner__count {
     display: inline-block;
-    transition: transform 0.25s ease;
+    transition: opacity 0.4s ease;
   }
 
   .pdp-viewer-banner__count.pdp-count-bump {
-    transform: scale(1.25);
+    opacity: 0.5;
   }
 
   @media screen and (max-width: 600px) {
@@ -126,32 +126,36 @@
     var countEl = document.getElementById('PdpViewerBannerCount-{{ product_id }}');
     if (!countEl) return;
     
-    // Generate fresh random viewer count on each page load/refresh (24 to 48)
-    var randomViewer = Math.floor(Math.random() * (48 - 24 + 1)) + 24;
+    // Generate fresh random viewer count on each page load/refresh (28 to 52)
+    var randomViewer = Math.floor(Math.random() * (52 - 28 + 1)) + 28;
     countEl.textContent = randomViewer;
     
     var currentCount = randomViewer;
-    var baseCount = randomViewer;
     
     function fluctuateCount() {
-      var delta = Math.floor(Math.random() * 5) - 2; // -2 to +2
+      // Only change by ±1 at a time — very subtle movement
+      var delta = Math.random() < 0.5 ? 1 : -1;
       var nextCount = currentCount + delta;
-      if (nextCount < 20) nextCount = 24;
-      if (nextCount > 55) nextCount = 48;
+      if (nextCount < 22) nextCount = 28;
+      if (nextCount > 58) nextCount = 52;
       
       if (nextCount !== currentCount) {
-        currentCount = nextCount;
-        countEl.textContent = currentCount;
+        // Fade out → update → fade in
         countEl.classList.add('pdp-count-bump');
         setTimeout(function() {
+          currentCount = nextCount;
+          countEl.textContent = currentCount;
           countEl.classList.remove('pdp-count-bump');
-        }, 300);
+        }, 400);
       }
       
-      var nextInterval = Math.floor(Math.random() * 6000) + 10000; // 10-16s
+      // Next change: every 45–90 seconds (natural, unhurried pace)
+      var nextInterval = Math.floor(Math.random() * 45000) + 45000;
       setTimeout(fluctuateCount, nextInterval);
     }
     
-    setTimeout(fluctuateCount, 10000);
+    // First change after 60–90 seconds
+    var firstDelay = Math.floor(Math.random() * 30000) + 60000;
+    setTimeout(fluctuateCount, firstDelay);
   })();
 </script>
