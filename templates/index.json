@@ -15,15 +15,15 @@
         "slide_B6prei": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Artboard_5_copy_4.png",
+            "image": "shopify://shop_images/Bottom_40_Web.png",
             "image_focal_point": "center center",
-            "mobile_image": "shopify://shop_images/Artboard_8_copy_2.png",
+            "mobile_image": "shopify://shop_images/Bottom_40_Mobile.png",
             "mobile_image_focal_point": "center center",
             "video_url_mp4": "",
             "video_url_webm": "",
             "enable_split_layout": false,
             "split_heading": "Curated by Founders",
-            "split_description": "<p>Curated by Founders Subheading </p>",
+            "split_description": "<p>Curated by Founders Subheading&nbsp;</p>",
             "split_button_text": "Know more",
             "split_button_link": "shopify://pages/curated-by-founders",
             "hide_content": false,
@@ -31,7 +31,7 @@
             "heading": "",
             "subtext": "",
             "btn1_label": "Shop Now",
-            "btn1_link": "shopify://collections/all",
+            "btn1_link": "shopify://collections/bottom-wear",
             "btn1_new_tab": false,
             "btn1_custom_bg": "",
             "btn1_custom_text": "",
@@ -50,9 +50,9 @@
         "slide_ad4gJb": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Landing_Home_page_Web..png",
+            "image": "shopify://shop_images/Top_50_Web.png",
             "image_focal_point": "center center",
-            "mobile_image": "shopify://shop_images/Landing_Home_page_Mobile.png",
+            "mobile_image": "shopify://shop_images/Top_50_Mobil.png",
             "mobile_image_focal_point": "center center",
             "video_url_mp4": "",
             "video_url_webm": "",
@@ -66,7 +66,7 @@
             "heading": "",
             "subtext": "",
             "btn1_label": "Shop Now",
-            "btn1_link": "shopify://collections/shirts",
+            "btn1_link": "shopify://collections/top-wear",
             "btn1_new_tab": false,
             "btn1_custom_bg": "",
             "btn1_custom_text": "",
@@ -151,13 +151,85 @@
             "btn3_custom_bg": "",
             "btn3_custom_text": ""
           }
+        },
+        "slide_dXAETc": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/T_Bnr_Web.png",
+            "image_focal_point": "center center",
+            "mobile_image": "shopify://shop_images/T_Bnr_Mob.png",
+            "mobile_image_focal_point": "center center",
+            "video_url_mp4": "",
+            "video_url_webm": "",
+            "enable_split_layout": false,
+            "split_heading": "",
+            "split_description": "",
+            "split_button_text": "",
+            "split_button_link": "",
+            "hide_content": false,
+            "eyebrow": "",
+            "heading": "",
+            "subtext": "",
+            "btn1_label": "",
+            "btn1_link": "",
+            "btn1_new_tab": false,
+            "btn1_custom_bg": "",
+            "btn1_custom_text": "",
+            "btn2_label": "",
+            "btn2_link": "",
+            "btn2_new_tab": false,
+            "btn2_custom_bg": "",
+            "btn2_custom_text": "",
+            "btn3_label": "",
+            "btn3_link": "",
+            "btn3_new_tab": false,
+            "btn3_custom_bg": "",
+            "btn3_custom_text": ""
+          }
+        },
+        "slide_GtW6EB": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Shirt_Banner_Web.png",
+            "image_focal_point": "center center",
+            "mobile_image": "shopify://shop_images/Shirt_Banner_Mob.png",
+            "mobile_image_focal_point": "center center",
+            "video_url_mp4": "",
+            "video_url_webm": "",
+            "enable_split_layout": false,
+            "split_heading": "",
+            "split_description": "",
+            "split_button_text": "",
+            "split_button_link": "",
+            "hide_content": false,
+            "eyebrow": "",
+            "heading": "",
+            "subtext": "",
+            "btn1_label": "",
+            "btn1_link": "",
+            "btn1_new_tab": false,
+            "btn1_custom_bg": "",
+            "btn1_custom_text": "",
+            "btn2_label": "",
+            "btn2_link": "",
+            "btn2_new_tab": false,
+            "btn2_custom_bg": "",
+            "btn2_custom_text": "",
+            "btn3_label": "",
+            "btn3_link": "",
+            "btn3_new_tab": false,
+            "btn3_custom_bg": "",
+            "btn3_custom_text": ""
+          }
         }
       },
       "block_order": [
         "slide_B6prei",
         "slide_ad4gJb",
         "slide_RV7Dct",
-        "slide_NHT4Nb"
+        "slide_NHT4Nb",
+        "slide_dXAETc",
+        "slide_GtW6EB"
       ],
       "name": "Hero Slideshow Custom",
       "settings": {
@@ -213,7 +285,7 @@
         "product_card_gfweth": {
           "type": "product_card",
           "settings": {
-            "product_image": "shopify://shop_images/Artboard_10_2x_7e8afd45-882b-4072-a464-4259a7cbc85b.png",
+            "product_image": "shopify://shop_images/Web_Cate_10.png",
             "brand_name": "Jeans",
             "product_url": "shopify://collections/jeans"
           }
@@ -221,7 +293,7 @@
         "product_card_xLwBpc": {
           "type": "product_card",
           "settings": {
-            "product_image": "shopify://shop_images/Artboard_5_2x_799e20f0-dcc5-4bcd-9efc-80d34abce427.png",
+            "product_image": "shopify://shop_images/Web_Cate_8.png",
             "brand_name": "Shirts",
             "product_url": "shopify://collections/shirts"
           }
@@ -229,7 +301,7 @@
         "product_card_6yVGCm": {
           "type": "product_card",
           "settings": {
-            "product_image": "shopify://shop_images/Artboard_9_2x_1.png",
+            "product_image": "shopify://shop_images/Web_Cate_11.png",
             "brand_name": "T-SHIRTS",
             "product_url": "shopify://collections/t-shirts"
           }
@@ -237,7 +309,7 @@
         "product_card_H8Cn9w": {
           "type": "product_card",
           "settings": {
-            "product_image": "shopify://shop_images/Artboard_12_2x_616ac5a4-f1a7-447d-bb20-23466b676da4.png",
+            "product_image": "shopify://shop_images/Web_Cate_12.png",
             "brand_name": "TROUSERS",
             "product_url": "shopify://collections/all"
           }
@@ -245,7 +317,7 @@
         "product_card_kEktML": {
           "type": "product_card",
           "settings": {
-            "product_image": "shopify://shop_images/Artboard_9_2x_ad8fdeac-4e6a-45c9-b9c7-1c38f62fe5fb.png",
+            "product_image": "shopify://shop_images/Web_Cate_9.png",
             "brand_name": "Coming soon",
             "product_url": ""
           }
