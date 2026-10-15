@@ -1,0 +1,259 @@
+{% comment %}
+  Live Viewer Count Component for PDP
+  Displays real-time or active session viewer count directly below product title.
+  Uses brand styling tokens and accessible design.
+{% endcomment %}
+
+{% liquid
+  assign enable_viewer_count = true
+  if section.settings.enable_live_viewer_count == false
+    assign enable_viewer_count = false
+  endif
+  assign target_product = product | default: closest.product
+  assign product_id = target_product.id
+%}
+
+{% if enable_viewer_count and product_id != blank %}
+  <pdp-viewer-count
+    class="pdp-live-viewers"
+    data-product-id="{{ product_id }}"
+    aria-live="polite"
+  >
+    <div class="pdp-live-viewers__container">
+      <span class="pdp-live-viewers__icon-wrapper" aria-hidden="true">
+        <svg class="pdp-live-viewers__icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+        <span class="pdp-live-viewers__pulse-dot"></span>
+      </span>
+      <span class="pdp-live-viewers__text">
+        <strong class="pdp-live-viewers__count" id="LiveViewerCount-{{ product_id }}">1</strong>
+        <span class="pdp-live-viewers__label">
+          <span class="pdp-live-viewers__plural">person is</span> viewing this product
+        </span>
+      </span>
+    </div>
+  </pdp-viewer-count>
+
+  {% style %}
+    .pdp-live-viewers {
+      display: inline-block;
+      margin-top: 6px;
+      margin-bottom: 4px;
+      font-family: var(--font-body--family, sans-serif);
+      font-size: 13px;
+      color: var(--color-medium-grey, #555555);
+      line-height: 1.4;
+      user-select: none;
+    }
+
+    .pdp-live-viewers__container {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 0;
+    }
+
+    .pdp-live-viewers__icon-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-deep-navy, #0B1F33);
+      flex-shrink: 0;
+    }
+
+    .pdp-live-viewers__icon {
+      display: block;
+      color: var(--color-deep-navy, #0B1F33);
+    }
+
+    .pdp-live-viewers__pulse-dot {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 6px;
+      height: 6px;
+      background-color: #10B981; /* Subtle live green indicator */
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pdpPulse 2s infinite;
+    }
+
+    @keyframes pdpPulse {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      }
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 5px rgba(16, 185, 129, 0);
+      }
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+      }
+    }
+
+    .pdp-live-viewers__text {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      letter-spacing: 0.01em;
+    }
+
+    .pdp-live-viewers__count {
+      font-weight: 600;
+      color: var(--color-deep-navy, #0B1F33);
+      display: inline-block;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .pdp-live-viewers__count.pdp-count-bump {
+      transform: scale(1.3);
+      color: #10B981;
+    }
+
+    .pdp-live-viewers__label {
+      color: var(--color-medium-grey, #555555);
+    }
+  {% endstyle %}
+
+  <script>
+    if (!customElements.get('pdp-viewer-count')) {
+      customElements.define('pdp-viewer-count', class PdpViewerCount extends HTMLElement {
+        connectedCallback() {
+          this.productId = this.dataset.productId;
+          if (!this.productId) return;
+
+          this.countEl = this.querySelector('#LiveViewerCount-' + this.productId);
+          this.pluralEl = this.querySelector('.pdp-live-viewers__plural');
+          
+          this.channelName = 'pdp_live_viewers_' + this.productId;
+          this.tabId = 'tab_' + Math.random().toString(36).substring(2, 9);
+          
+          this.initTracking();
+        }
+
+        initTracking() {
+          // Initialize BroadcastChannel if supported
+          if ('BroadcastChannel' in window) {
+            try {
+              this.bc = new BroadcastChannel(this.channelName);
+              this.bc.onmessage = (event) => this.handleMessage(event);
+            } catch (e) {
+              console.warn('BroadcastChannel error:', e);
+            }
+          }
+
+          // Register this tab presence in localStorage
+          this.pingPresence();
+          this.updateCountDisplay();
+
+          // Set heartbeat every 5 seconds
+          this.heartbeatTimer = setInterval(() => {
+            this.pingPresence();
+            this.updateCountDisplay();
+          }, 5000);
+
+          // Clean up on tab close / hide
+          this.unloadHandler = () => this.leavePresence();
+          window.addEventListener('beforeunload', this.unloadHandler);
+          window.addEventListener('pagehide', this.unloadHandler);
+        }
+
+        getStorageKey() {
+          return 'pdp_viewers_registry_' + this.productId;
+        }
+
+        pingPresence() {
+          try {
+            const raw = localStorage.getItem(this.getStorageKey());
+            let registry = raw ? JSON.parse(raw) : {};
+            const now = Date.now();
+            
+            // Purge expired tabs (> 12 seconds old)
+            Object.keys(registry).forEach(id => {
+              if (now - registry[id] > 12000) {
+                delete registry[id];
+              }
+            });
+
+            // Update current tab timestamp
+            registry[this.tabId] = now;
+            localStorage.setItem(this.getStorageKey(), JSON.stringify(registry));
+
+            if (this.bc) {
+              this.bc.postMessage({ type: 'PING', count: Object.keys(registry).length });
+            }
+          } catch (e) {
+            // Storage access blocked or error
+          }
+        }
+
+        leavePresence() {
+          try {
+            const raw = localStorage.getItem(this.getStorageKey());
+            if (raw) {
+              let registry = JSON.parse(raw);
+              delete registry[this.tabId];
+              localStorage.setItem(this.getStorageKey(), JSON.stringify(registry));
+            }
+            if (this.bc) {
+              this.bc.postMessage({ type: 'LEAVE' });
+            }
+          } catch (e) {}
+        }
+
+        handleMessage(event) {
+          if (event.data && (event.data.type === 'PING' || event.data.type === 'LEAVE')) {
+            this.updateCountDisplay();
+          }
+        }
+
+        updateCountDisplay() {
+          let count = 1;
+          try {
+            const raw = localStorage.getItem(this.getStorageKey());
+            if (raw) {
+              const registry = JSON.parse(raw);
+              const now = Date.now();
+              const activeIds = Object.keys(registry).filter(id => (now - registry[id]) <= 12000);
+              count = Math.max(1, activeIds.length);
+            }
+          } catch (e) {
+            count = 1;
+          }
+
+          if (this.countEl) {
+            const prevCount = parseInt(this.countEl.textContent, 10) || 1;
+            if (prevCount !== count) {
+              this.countEl.textContent = count;
+              this.countEl.classList.add('pdp-count-bump');
+              setTimeout(() => {
+                this.countEl.classList.remove('pdp-count-bump');
+              }, 300);
+            }
+          }
+
+          if (this.pluralEl) {
+            this.pluralEl.textContent = count === 1 ? 'person is' : 'people are';
+          }
+        }
+
+        disconnectedCallback() {
+          if (this.heartbeatTimer) clearInterval(this.heartbeatTimer);
+          if (this.unloadHandler) {
+            window.removeEventListener('beforeunload', this.unloadHandler);
+            window.removeEventListener('pagehide', this.unloadHandler);
+          }
+          this.leavePresence();
+          if (this.bc) {
+            try { this.bc.close(); } catch(e) {}
+          }
+        }
+      });
+    }
+  </script>
+{% endif %}

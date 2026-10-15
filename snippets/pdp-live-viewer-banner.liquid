@@ -1,0 +1,157 @@
+{% comment %}
+  PDP Live Viewer & Low Stock Banner Block
+  Displays real-time viewer count on left side and "Only few left in stock!" on right side matching user design.
+  Viewer count randomizes on every refresh and subtly fluctuates during the session.
+{% endcomment %}
+
+{% liquid
+  assign target_product = product | default: closest.product
+  assign product_id = target_product.id | default: section.id | default: 'main'
+  assign viewer_count = block.settings.viewer_count | default: 31
+  assign stock_text = block.settings.stock_text | default: 'Only few left in stock!'
+%}
+
+<div class="pdp-viewer-banner" {{ block.shopify_attributes }}>
+  <div class="pdp-viewer-banner__card">
+    <!-- Left side: Live Viewers -->
+    <div class="pdp-viewer-banner__left">
+      <span class="pdp-viewer-banner__icon" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E53E3E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3" fill="#E53E3E"></circle>
+        </svg>
+      </span>
+      <span class="pdp-viewer-banner__text pdp-viewer-banner__text--red">
+        <strong class="pdp-viewer-banner__count" id="PdpViewerBannerCount-{{ product_id }}">{{ viewer_count }}</strong> people are viewing this right now
+      </span>
+    </div>
+
+    <!-- Center Divider -->
+    <div class="pdp-viewer-banner__divider" aria-hidden="true"></div>
+
+    <!-- Right side: Stock Urgency -->
+    <div class="pdp-viewer-banner__right">
+      <span class="pdp-viewer-banner__text pdp-viewer-banner__text--green">
+        {{ stock_text }}
+      </span>
+    </div>
+  </div>
+</div>
+
+{% style %}
+  .pdp-viewer-banner {
+    width: 100%;
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+
+  .pdp-viewer-banner__card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background-color: #FFF5F5;
+    border: 1px solid #FFE3E3;
+    border-radius: 50px;
+    gap: 12px;
+  }
+
+  .pdp-viewer-banner__left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .pdp-viewer-banner__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .pdp-viewer-banner__divider {
+    width: 1px;
+    height: 16px;
+    background-color: rgba(229, 62, 62, 0.25);
+    flex-shrink: 0;
+  }
+
+  .pdp-viewer-banner__right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+  }
+
+  .pdp-viewer-banner__text {
+    font-family: var(--font-body--family, sans-serif);
+    font-size: 13px;
+    line-height: 1.3;
+  }
+
+  .pdp-viewer-banner__text--red {
+    color: #E53E3E;
+    font-weight: 700;
+  }
+
+  .pdp-viewer-banner__text--green {
+    color: #065F46;
+    font-weight: 700;
+  }
+
+  .pdp-viewer-banner__count {
+    display: inline-block;
+    transition: transform 0.25s ease;
+  }
+
+  .pdp-viewer-banner__count.pdp-count-bump {
+    transform: scale(1.25);
+  }
+
+  @media screen and (max-width: 600px) {
+    .pdp-viewer-banner__card {
+      padding: 8px 12px;
+      gap: 8px;
+    }
+    .pdp-viewer-banner__text {
+      font-size: 11px;
+    }
+  }
+{% endstyle %}
+
+<script>
+  (function() {
+    var countEl = document.getElementById('PdpViewerBannerCount-{{ product_id }}');
+    if (!countEl) return;
+    
+    // Generate fresh random viewer count on each page load/refresh (24 to 48)
+    var randomViewer = Math.floor(Math.random() * (48 - 24 + 1)) + 24;
+    countEl.textContent = randomViewer;
+    
+    var currentCount = randomViewer;
+    var baseCount = randomViewer;
+    
+    function fluctuateCount() {
+      var delta = Math.floor(Math.random() * 5) - 2; // -2 to +2
+      var nextCount = currentCount + delta;
+      if (nextCount < 20) nextCount = 24;
+      if (nextCount > 55) nextCount = 48;
+      
+      if (nextCount !== currentCount) {
+        currentCount = nextCount;
+        countEl.textContent = currentCount;
+        countEl.classList.add('pdp-count-bump');
+        setTimeout(function() {
+          countEl.classList.remove('pdp-count-bump');
+        }, 300);
+      }
+      
+      var nextInterval = Math.floor(Math.random() * 6000) + 10000; // 10-16s
+      setTimeout(fluctuateCount, nextInterval);
+    }
+    
+    setTimeout(fluctuateCount, 10000);
+  })();
+</script>

@@ -1,0 +1,95 @@
+{% comment %}
+  PDP Payment Icons Row Block
+  Displays Mastercard, Visa, PhonePe, Google Pay, and Amazon Pay badges in a card matching page background.
+{% endcomment %}
+
+<div class="pdp-payment-icons">
+  <div class="pdp-payment-icons__card">
+    <div class="pdp-payment-icons__list">
+      <!-- Mastercard -->
+      <div class="pdp-payment-icons__badge" title="Mastercard">
+        <svg width="34" height="22" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="38" height="24" rx="4" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+          <circle cx="15" cy="12" r="7" fill="#EB001B"/>
+          <circle cx="23" cy="12" r="7" fill="#F79E1B" fill-opacity="0.9"/>
+          <path d="M19 6.88A6.97 6.97 0 0 0 16.54 12 6.97 6.97 0 0 0 19 17.12 6.97 6.97 0 0 0 21.46 12 6.97 6.97 0 0 0 19 6.88Z" fill="#FF5F00"/>
+        </svg>
+      </div>
+
+      <!-- Visa -->
+      <div class="pdp-payment-icons__badge" title="Visa">
+        <svg width="34" height="22" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="38" height="24" rx="4" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+          <path d="M14.78 16H12.92L14.08 8.78H15.94L14.78 16ZM22.56 8.98C22.18 8.84 21.6 8.68 20.88 8.68C19.12 8.68 17.88 9.62 17.86 10.96C17.84 11.96 18.74 12.52 19.42 12.86C20.12 13.2 20.36 13.42 20.36 13.72C20.36 14.18 19.8 14.38 19.28 14.38C18.42 14.38 17.92 14.24 17.26 13.94L16.94 15.42C17.74 15.8 18.84 16 19.78 16C21.66 16 22.88 15.06 22.9 13.68C22.92 12.64 22.24 12.02 21.36 11.58C20.64 11.22 20.24 11 20.24 10.66C20.24 10.36 20.58 10.04 21.28 10.04C21.9 10.04 22.38 10.18 22.84 10.38L23.26 8.98H22.56ZM27.88 8.78H26.44C26 8.78 25.64 9 25.48 9.38L22.62 16H24.58L24.98 14.92H27.38L27.6 16H29.34L27.88 8.78ZM25.5 13.52L26.3 11.36L26.76 13.52H25.5ZM11.78 8.78L9.94 13.74L9.74 12.72C9.4 11.54 8.3 10.18 7.12 9.56L8.84 16H10.8L13.72 8.78H11.78Z" fill="#1A1F71"/>
+        </svg>
+      </div>
+
+      <!-- PhonePe -->
+      <div class="pdp-payment-icons__badge" title="PhonePe">
+        <svg width="40" height="22" viewBox="0 0 54 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="54" height="24" rx="4" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+          <circle cx="12" cy="12" r="7" fill="#5F259F"/>
+          <path d="M14.2 11.8C14.2 10.6 13.3 9.8 12.1 9.8H10.5V14.2H11.7V12.7H12.2L13.3 14.2H14.6L13.3 12.5C13.8 12.4 14.2 12.1 14.2 11.8ZM11.7 11.7H11.7V10.8H12.1C12.5 10.8 12.9 11 12.9 11.3C12.9 11.6 12.6 11.7 12.1 11.7H11.7Z" fill="#FFFFFF"/>
+          <text x="21" y="15" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#5F259F">PhonePe</text>
+        </svg>
+      </div>
+
+      <!-- GPay -->
+      <div class="pdp-payment-icons__badge" title="Google Pay">
+        <svg width="40" height="22" viewBox="0 0 54 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="54" height="24" rx="4" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+          <path d="M12.5 12.1v-1.6h4.5c.05.3.08.6.08.95 0 2.3-1.5 3.9-3.9 3.9-2.2 0-4-1.8-4-4s1.8-4 4-4c1.1 0 2 .4 2.7 1.1l-1.1 1.1c-.4-.4-.9-.7-1.6-.7-1.3 0-2.4 1.1-2.4 2.4s1.1 2.4 2.4 2.4c1.2 0 1.8-.8 1.9-1.5h-2.5z" fill="#4285F4"/>
+          <path d="M12.5 12.1h2.5c-.1.7-.7 1.5-1.9 1.5-1.3 0-2.4-1.1-2.4-2.4s1.1-2.4 2.4-2.4c.7 0 1.2.3 1.6.7l1.1-1.1c-.7-.7-1.6-1.1-2.7-1.1-2.2 0-4 1.8-4 4s1.8 4 4 4c2.4 0 3.9-1.6 3.9-3.9 0-.35-.03-.65-.08-.95h-4.5z" fill="#4285F4"/>
+          <text x="21" y="15" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#3C4043">Pay</text>
+        </svg>
+      </div>
+
+      <!-- Amazon Pay -->
+      <div class="pdp-payment-icons__badge" title="Amazon Pay">
+        <svg width="48" height="22" viewBox="0 0 64 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="64" height="24" rx="4" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+          <text x="6" y="14" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#232F3E">amazon</text>
+          <text x="40" y="14" font-family="Arial, sans-serif" font-size="9" font-weight="normal" fill="#FF9900">pay</text>
+          <path d="M10 16.5C14 18 25 18 29 16.5" stroke="#FF9900" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% style %}
+  .pdp-payment-icons {
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 14px;
+  }
+
+  .pdp-payment-icons__card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 12px;
+    background-color: var(--color-background, #F8F6F2);
+    border-radius: 12px;
+    border: 1px solid var(--color-border-grey, rgba(0, 0, 0, 0.08));
+  }
+
+  .pdp-payment-icons__list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .pdp-payment-icons__badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+  }
+
+  .pdp-payment-icons__badge:hover {
+    transform: translateY(-1px);
+  }
+{% endstyle %}

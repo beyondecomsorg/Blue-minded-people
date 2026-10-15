@@ -11,6 +11,15 @@
   assign product_form_id = 'product-form-' | append: section.id | append: '-' | append: product.id
   assign variant_to_link = product.selected_or_first_available_variant
 
+  assign is_coming_soon = false
+  for tag in product.tags
+    assign tag_lower = tag | downcase | strip
+    if tag_lower == 'coming-soon' or tag_lower == 'coming soon' or tag_lower == 'coming_soon'
+      assign is_coming_soon = true
+      break
+    endif
+  endfor
+
   assign onboarding = false
   if product.id == empty or product == blank
     assign onboarding = true
@@ -40,7 +49,11 @@
     {% capture gallery_children %}
       {% unless onboarding %}
         <!-- Badge (top-left overlay) -->
-        {% if product.metafields.custom.fabric_badge != blank %}
+        {% if product.available == false or is_coming_soon %}
+          <div class="product-card__badge product-card__badge--coming-soon">
+            <span>Coming Soon</span>
+          </div>
+        {% elsif product.metafields.custom.fabric_badge != blank %}
           <div class="product-card__badge product-card__badge--fabric">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1 9.8a7 7 0 0 1-9 8.2z"/>
@@ -274,21 +287,21 @@
               value="1"
             >
             <button
-              class="product-card__atc-btn"
+              class="product-card__atc-btn{% if product.available == false or is_coming_soon %} product-card__atc-btn--coming-soon{% endif %}"
               type="submit"
-              {% unless product.available %}
+              {% if product.available == false or is_coming_soon %}
                 disabled
-              {% endunless %}
+              {% endif %}
             >
-              {% if product.available %}
+              {% if product.available == false or is_coming_soon %}
+                <span>Coming Soon</span>
+              {% else %}
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="product-card__atc-icon">
                   <circle cx="9" cy="21" r="1"/>
                   <circle cx="20" cy="21" r="1"/>
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
                 </svg>
                 <span>Add to Cart</span>
-              {% else %}
-                <span>Sold Out</span>
               {% endif %}
             </button>
           {%- endform -%}

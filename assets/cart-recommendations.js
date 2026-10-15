@@ -134,7 +134,7 @@ class CartRecommendationsComponent extends HTMLElement {
       return `
         <div class="cart-recommendations__card" data-product-id="${product.id}">
           <a href="/products/${product.handle}" class="cart-recommendations__image-link">
-            ${imageSrc ? `<img src="${imageSrc}" alt="${product.title}" loading="lazy" class="cart-recommendations__image">` : ''}
+            ${imageSrc ? `<img src="${imageSrc}" alt="${product.title}" loading="lazy" class="cart-recommendations__image">` : `<div class="cart-recommendations__placeholder"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg></div>`}
             ${showDiscount && hasDiscount ? `<span class="cart-recommendations__discount-badge">-${discountPercent}%</span>` : ''}
           </a>
           <div class="cart-recommendations__info">
@@ -145,28 +145,25 @@ class CartRecommendationsComponent extends HTMLElement {
               ${showCompareAt && hasDiscount ? `<span class="cart-recommendations__compare-price">${formattedCompare}</span>` : ''}
             </div>
             ${showQuickAdd ? `
-              <button 
-                type="button" 
-                class="cart-recommendations__add-btn ${isSingleVariant ? 'js-quick-add' : 'js-select-options'}"
-                data-variant-id="${firstVariant ? firstVariant.id : ''}"
-                data-product-url="/products/${product.handle}"
-              >
-                ${isSingleVariant ? '+ Add' : 'Select Size'}
-              </button>
+              ${isSingleVariant ? `
+                <button 
+                  type="button" 
+                  class="cart-recommendations__add-btn js-quick-add"
+                  data-variant-id="${firstVariant ? firstVariant.id : ''}"
+                  data-product-url="/products/${product.handle}"
+                >
+                  Add to cart
+                </button>
+              ` : `
+                <a 
+                  href="/products/${product.handle}"
+                  class="cart-recommendations__add-btn js-select-options"
+                >
+                  Select Size
+                </a>
+              `}
             ` : ''}
           </div>
-
-          ${!isSingleVariant ? `
-            <div class="cart-recommendations__popover hidden" js-variant-popover>
-              <div class="cart-recommendations__popover-header">
-                <span class="cart-recommendations__popover-title">SELECT SIZE</span>
-                <button type="button" class="cart-recommendations__popover-close" js-close-popover aria-label="Close">&times;</button>
-              </div>
-              <div class="cart-recommendations__popover-pills">
-                ${variantsHtml}
-              </div>
-            </div>
-          ` : ''}
         </div>
       `;
     }).join('');
@@ -201,33 +198,13 @@ class CartRecommendationsComponent extends HTMLElement {
       };
     });
 
-    // Multi-variant "Select Size" toggle popover
+    // Multi-variant "Select Size" redirects directly to product page
     this.querySelectorAll('.js-select-options').forEach(btn => {
       btn.onclick = (e) => {
-        e.preventDefault();
-        const card = btn.closest('.cart-recommendations__card');
-        if (!card) return;
-
-        // Close any other open popovers
-        this.querySelectorAll('[js-variant-popover]').forEach(p => {
-          if (p.closest('.cart-recommendations__card') !== card) {
-            p.classList.add('hidden');
-          }
-        });
-
-        const popover = card.querySelector('[js-variant-popover]');
-        if (popover) {
-          popover.classList.toggle('hidden');
+        const url = btn.getAttribute('href') || btn.dataset.productUrl;
+        if (url) {
+          window.location.href = url;
         }
-      };
-    });
-
-    // Close button on popovers
-    this.querySelectorAll('[js-close-popover]').forEach(closeBtn => {
-      closeBtn.onclick = (e) => {
-        e.preventDefault();
-        const popover = closeBtn.closest('[js-variant-popover]');
-        if (popover) popover.classList.add('hidden');
       };
     });
 

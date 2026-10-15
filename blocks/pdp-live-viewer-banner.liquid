@@ -1,0 +1,27 @@
+{% render 'pdp-live-viewer-banner', block: block %}
+
+{% schema %}
+{
+  "name": "Live Viewer & Stock",
+  "settings": [
+    {
+      "type": "number",
+      "id": "viewer_count",
+      "label": "Viewer Count",
+      "default": 31
+    },
+    {
+      "type": "text",
+      "id": "stock_text",
+      "label": "Stock Urgency Text",
+      "default": "Only few left in stock!"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Live Viewer & Stock",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

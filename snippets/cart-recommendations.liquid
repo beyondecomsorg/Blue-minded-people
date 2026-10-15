@@ -123,80 +123,87 @@
     }
 
     .cart-recommendations__card {
-      flex: 0 0 calc((100% - (12px * ({{ desktop_cols }} - 1))) / {{ desktop_cols }});
-      min-width: 140px;
+      flex: 0 0 calc((100% - (10px * ({{ desktop_cols }} - 1))) / {{ desktop_cols }});
+      min-width: 125px;
       scroll-snap-align: start;
       background: #FFFFFF;
-      border: 1px solid var(--color-border-grey, #E5E5E5);
+      border: 1px solid #E5E7EB;
       border-radius: 8px;
-      padding: 10px;
+      padding: 8px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       position: relative;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     @media (max-width: 749px) {
       .cart-recommendations {
-        margin-top: 12px;
-        margin-bottom: 12px;
-        padding: 12px 10px 14px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        padding: 8px 10px 10px;
       }
 
       .cart-recommendations__heading {
-        font-size: 13px;
+        font-size: 11.5px;
+        letter-spacing: 0.03em;
       }
 
       .cart-recommendations__slider {
-        gap: 10px;
+        gap: 8px;
       }
 
       .cart-recommendations__card {
-        flex: 0 0 145px !important;
-        min-width: 145px !important;
-        max-width: 145px !important;
-        padding: 8px !important;
-        border-radius: 6px !important;
+        flex: 0 0 118px !important;
+        min-width: 118px !important;
+        max-width: 118px !important;
+        padding: 6px !important;
+        border-radius: 8px !important;
       }
 
       .cart-recommendations__image-link {
-        height: 140px !important;
+        height: 75px !important;
+        max-height: 75px !important;
         aspect-ratio: auto !important;
       }
 
       .cart-recommendations__info {
-        margin-top: 6px;
+        margin-top: 4px;
       }
 
       .cart-recommendations__title {
-        font-size: 11px !important;
-        line-height: 1.25 !important;
-        margin-bottom: 4px !important;
+        font-size: 10px !important;
+        line-height: 1.2 !important;
+        margin-bottom: 2px !important;
+        max-height: 24px;
         -webkit-line-clamp: 2;
       }
 
       .cart-recommendations__price-row {
-        margin-bottom: 6px;
+        margin-bottom: 4px;
       }
 
       .cart-recommendations__price {
-        font-size: 11px !important;
+        font-size: 10.5px !important;
       }
 
       .cart-recommendations__compare-price {
-        font-size: 10px !important;
+        font-size: 9.5px !important;
       }
 
       html body .cart-recommendations .cart-recommendations__add-btn,
-      html body .cart-recommendations button.cart-recommendations__add-btn {
-        padding: 6px 4px !important;
-        font-size: 10px !important;
-        height: 28px !important;
-        line-height: 28px !important;
-        display: flex !important;
+      html body .cart-recommendations button.cart-recommendations__add-btn,
+      html body .cart-recommendations a.cart-recommendations__add-btn {
+        padding: 0 4px !important;
+        font-size: 9.5px !important;
+        height: 24px !important;
+        line-height: 24px !important;
+        display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
+        text-decoration: none !important;
+        box-sizing: border-box !important;
       }
 
       .cart-recommendations__popover-pills {
@@ -225,6 +232,15 @@
       height: 100%;
       object-fit: cover;
       display: block;
+    }
+
+    .cart-recommendations__placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #F3F4F6;
     }
 
     .cart-recommendations__discount-badge {
@@ -272,7 +288,7 @@
 
     .cart-recommendations__price-row {
       display: flex;
-      align-items: center;
+      align-items: baseline;
       gap: 6px;
       margin-bottom: 8px;
       margin-top: auto;
@@ -280,40 +296,61 @@
 
     .cart-recommendations__price {
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--color-deep-navy, #0B1F33);
     }
 
     .cart-recommendations__compare-price {
       font-size: 11px;
-      color: var(--color-medium-grey, #666666);
+      color: var(--color-medium-grey, #888888);
       text-decoration: line-through;
+      font-weight: 400;
+    }
+
+    /* Wishlist completely removed based on client feedback */
+    .cart-recommendations .cart-recommendations__wishlist-icon,
+    .cart-recommendations [class*="wishlist"],
+    .cart-recommendations button[class*="wishlist"],
+    .cart-recommendations a[class*="wishlist"] {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
     }
 
     html body .cart-recommendations .cart-recommendations__add-btn,
-    html body .cart-recommendations button.cart-recommendations__add-btn {
-      width: 100%;
-      padding: 8px 10px;
-      font-family: var(--font-body, 'Inter', sans-serif);
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      border: 1px solid var(--color-deep-navy, #0B1F33) !important;
-      background-color: var(--color-deep-navy, #0B1F33) !important;
-      color: #FFFFFF !important;
-      -webkit-text-fill-color: #FFFFFF !important;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.2s, color 0.2s;
-      text-align: center;
-      line-height: 1.2;
-      opacity: 1 !important;
+    html body .cart-recommendations button.cart-recommendations__add-btn,
+    html body .cart-recommendations a.cart-recommendations__add-btn {
+      width: 100% !important;
+      height: 30px !important;
+      line-height: 28px !important;
+      padding: 0 8px !important;
+      font-family: var(--font-body, 'Inter', sans-serif) !important;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      text-transform: none !important;
+      text-decoration: none !important;
+      border: 1px solid #0B1F33 !important;
+      background-color: #FFFFFF !important;
+      color: #0B1F33 !important;
+      -webkit-text-fill-color: #0B1F33 !important;
+      border-radius: 6px !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      text-align: center !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-sizing: border-box !important;
     }
 
-    html body .cart-recommendations .cart-recommendations__add-btn * {
+    html body .cart-recommendations .cart-recommendations__add-btn:hover,
+    html body .cart-recommendations button.cart-recommendations__add-btn:hover,
+    html body .cart-recommendations a.cart-recommendations__add-btn:hover {
+      background-color: #0B1F33 !important;
       color: #FFFFFF !important;
       -webkit-text-fill-color: #FFFFFF !important;
+      text-decoration: none !important;
     }
 
     /* Inline Variant Popover Drawer */
@@ -485,6 +522,10 @@
             <a href="{{ product.url }}" class="cart-recommendations__image-link">
               {%- if product.featured_image -%}
                 <img src="{{ product.featured_image | image_url: width: 300 }}" alt="{{ product.title | escape }}" loading="lazy" class="cart-recommendations__image">
+              {%- else -%}
+                <div class="cart-recommendations__placeholder">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                </div>
               {%- endif -%}
               {%- if show_discount and first_variant.compare_at_price > first_variant.price -%}
                 {%- assign discount_perc = first_variant.compare_at_price | minus: first_variant.price | times: 100 | divided_by: first_variant.compare_at_price -%}
@@ -503,46 +544,25 @@
                 {%- endif -%}
               </div>
               {%- if show_quick_add -%}
-                <button
-                  type="button"
-                  class="cart-recommendations__add-btn {% if is_single_variant %}js-quick-add{% else %}js-select-options{% endif %}"
-                  data-variant-id="{{ first_variant.id }}"
-                  data-product-url="{{ product.url }}"
-                >
-                  {%- if is_single_variant -%}+ Add{%- else -%}Select Size{%- endif -%}
-                </button>
+                {%- if is_single_variant -%}
+                  <button
+                    type="button"
+                    class="cart-recommendations__add-btn js-quick-add"
+                    data-variant-id="{{ first_variant.id }}"
+                    data-product-url="{{ product.url }}"
+                  >
+                    Add to cart
+                  </button>
+                {%- else -%}
+                  <a
+                    href="{{ product.url }}"
+                    class="cart-recommendations__add-btn js-select-options"
+                  >
+                    Select Size
+                  </a>
+                {%- endif -%}
               {%- endif -%}
             </div>
-
-            {%- unless is_single_variant -%}
-              <div class="cart-recommendations__popover hidden" js-variant-popover>
-                <div class="cart-recommendations__popover-header">
-                  <span class="cart-recommendations__popover-title">SELECT SIZE</span>
-                  <button type="button" class="cart-recommendations__popover-close" js-close-popover aria-label="Close">&times;</button>
-                </div>
-                <div class="cart-recommendations__popover-pills">
-                  {%- for variant in product.variants -%}
-                    {%- if variant.available -%}
-                      <button
-                        type="button"
-                        class="cart-recommendations__pill js-variant-pill"
-                        data-variant-id="{{ variant.id }}"
-                      >
-                        {{ variant.title }}
-                      </button>
-                    {%- else -%}
-                      <button
-                        type="button"
-                        class="cart-recommendations__pill cart-recommendations__pill--disabled"
-                        disabled
-                      >
-                        {{ variant.title }}
-                      </button>
-                    {%- endif -%}
-                  {%- endfor -%}
-                </div>
-              </div>
-            {%- endunless -%}
           </div>
         {%- endfor -%}
       {%- endif -%}

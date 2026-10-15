@@ -1,0 +1,33 @@
+{% render 'pdp-sales-demand-banner', block: block %}
+
+{% schema %}
+{
+  "name": "Sales Velocity Banner",
+  "settings": [
+    {
+      "type": "number",
+      "id": "sales_count",
+      "label": "Sales Count",
+      "default": 188
+    },
+    {    
+      "type": "number",
+      "id": "hours_count",
+      "label": "Hours Span",
+      "default": 3
+    },
+    {
+      "type": "text",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "High demand – Selling fast"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sales Velocity Banner",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

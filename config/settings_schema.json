@@ -2347,6 +2347,226 @@
     ]
   },
   {
+    "name": "Cart Drawer Progress Bar",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Configure the tiered rewards & free shipping progress bar in your cart drawer."
+      },
+      {
+        "type": "header",
+        "content": "General Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_progress_bar_enable",
+        "label": "Enable rewards progress bar",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_progress_bar_show_empty",
+        "label": "Show when cart is empty",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "cart_drawer_width_desktop",
+        "min": 440,
+        "max": 680,
+        "step": 10,
+        "unit": "px",
+        "label": "Desktop cart drawer width",
+        "default": 540
+      },
+      {
+        "type": "header",
+        "content": "Brand Colors & Styling"
+      },
+      {
+        "type": "color",
+        "id": "cart_progress_bar_card_bg",
+        "label": "Card background",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "cart_progress_bar_card_border",
+        "label": "Card border color",
+        "default": "#EBE7DF"
+      },
+      {
+        "type": "color",
+        "id": "cart_progress_bar_text_color",
+        "label": "Headline text color",
+        "default": "#0B1F33"
+      },
+      {
+        "type": "color",
+        "id": "cart_progress_bar_highlight_color",
+        "label": "Highlighted amount color",
+        "default": "#1E3A5F"
+      },
+      {
+        "type": "color",
+        "id": "cart_progress_bar_track_color",
+        "label": "Progress track background",
+        "default": "#E5E7EB"
+      },
+      {
+        "type": "color",
+        "id": "cart_progress_bar_fill_color",
+        "label": "Progress fill & needle color",
+        "default": "#1E3A5F"
+      },
+      {
+        "type": "color",
+        "id": "cart_progress_bar_active_circle_bg",
+        "label": "Unlocked milestone badge bg",
+        "default": "#1E3A5F"
+      },
+      {
+        "type": "color",
+        "id": "cart_progress_bar_active_circle_text",
+        "label": "Unlocked milestone icon color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "cart_progress_bar_inactive_circle_bg",
+        "label": "Locked milestone badge bg",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "cart_progress_bar_inactive_circle_border",
+        "label": "Locked milestone border",
+        "default": "#CBD5E1"
+      },
+      {
+        "type": "color",
+        "id": "cart_progress_bar_inactive_circle_text",
+        "label": "Locked milestone icon color",
+        "default": "#8898AA"
+      },
+      {
+        "type": "header",
+        "content": "Tier 1: Free Shipping (All Orders)"
+      },
+      {
+        "type": "text",
+        "id": "cart_progress_bar_tier1_label",
+        "label": "Badge label",
+        "default": "FREE SHIPPING"
+      },
+      {
+        "type": "text",
+        "id": "cart_progress_bar_tier1_sublabel",
+        "label": "Badge sub-label",
+        "default": "ALL ORDERS"
+      },
+      {
+        "type": "select",
+        "id": "cart_progress_bar_tier1_icon",
+        "label": "Badge icon",
+        "options": [
+          { "value": "truck", "label": "Delivery Truck" },
+          { "value": "tag", "label": "Tag / Discount" },
+          { "value": "percent", "label": "Percentage (%)" },
+          { "value": "gift", "label": "Gift Box" },
+          { "value": "star", "label": "Star" }
+        ],
+        "default": "truck"
+      },
+      {
+        "type": "header",
+        "content": "Tier 2: Buy 2 (+5% OFF)"
+      },
+      {
+        "type": "text",
+        "id": "cart_progress_bar_tier2_label",
+        "label": "Badge label",
+        "default": "BUY 2"
+      },
+      {
+        "type": "text",
+        "id": "cart_progress_bar_tier2_sublabel",
+        "label": "Badge sub-label",
+        "default": "+5% OFF"
+      },
+      {
+        "type": "select",
+        "id": "cart_progress_bar_tier2_icon",
+        "label": "Badge icon",
+        "options": [
+          { "value": "tag", "label": "Tag / Discount" },
+          { "value": "truck", "label": "Delivery Truck" },
+          { "value": "percent", "label": "Percentage (%)" },
+          { "value": "gift", "label": "Gift Box" },
+          { "value": "star", "label": "Star" }
+        ],
+        "default": "tag"
+      },
+      {
+        "type": "text",
+        "id": "cart_progress_bar_msg_tier1",
+        "label": "Message when 1 product in cart",
+        "default": "Add 1 more product to unlock 5% OFF"
+      },
+      {
+        "type": "header",
+        "content": "Tier 3: Buy 3 (+10% OFF)"
+      },
+      {
+        "type": "text",
+        "id": "cart_progress_bar_tier3_label",
+        "label": "Badge label",
+        "default": "BUY 3"
+      },
+      {
+        "type": "text",
+        "id": "cart_progress_bar_tier3_sublabel",
+        "label": "Badge sub-label",
+        "default": "+10% OFF"
+      },
+      {
+        "type": "select",
+        "id": "cart_progress_bar_tier3_icon",
+        "label": "Badge icon",
+        "options": [
+          { "value": "percent", "label": "Percentage (%)" },
+          { "value": "tag", "label": "Tag / Discount" },
+          { "value": "truck", "label": "Delivery Truck" },
+          { "value": "gift", "label": "Gift Box" },
+          { "value": "star", "label": "Star" }
+        ],
+        "default": "percent"
+      },
+      {
+        "type": "text",
+        "id": "cart_progress_bar_msg_tier2",
+        "label": "Message when 2 products in cart",
+        "default": "Buy 1 more product to unlock 10% OFF"
+      },
+      {
+        "type": "header",
+        "content": "All Rewards Unlocked"
+      },
+      {
+        "type": "text",
+        "id": "cart_progress_bar_completed_msg",
+        "label": "Celebration message (3+ items)",
+        "default": "🎉 10% OFF & Free Shipping unlocked!"
+      },
+      {
+        "type": "text",
+        "id": "cart_progress_bar_msg_empty",
+        "label": "Message when cart is empty",
+        "default": "FREE SHIPPING ON ALL ORDERS"
+      }
+    ]
+  },
+  {
     "name": "t:names.drawers",
     "settings": [
       {

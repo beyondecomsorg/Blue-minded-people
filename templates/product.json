@@ -292,12 +292,51 @@
                 "row_4_static_value_3": "Blue Minded People Warehouse Guddadahalli, Bashettihalli, Karnataka 562163"
               },
               "blocks": {}
+            },
+            "pdp_live_viewer_banner": {
+              "type": "pdp-live-viewer-banner",
+              "name": "Live Viewer & Stock",
+              "settings": {
+                "viewer_count": 31,
+                "stock_text": "Only few left in stock!"
+              }
+            },
+            "pdp_sales_demand_banner": {
+              "type": "pdp-sales-demand-banner",
+              "name": "Sales Velocity Banner",
+              "settings": {
+                "sales_count": 188,
+                "hours_count": 3,
+                "subtext": "High demand – Selling fast"
+              }
+            },
+            "pdp_items_remaining_banner": {
+              "type": "pdp-items-remaining-banner",
+              "name": "Items Remaining Banner",
+              "settings": {
+                "fallback_stock_count": 35
+              }
+            },
+            "pdp_trust_features": {
+              "type": "pdp-trust-features",
+              "name": "Trust Features Row",
+              "settings": {}
+            },
+            "pdp_payment_icons": {
+              "type": "pdp-payment-icons",
+              "name": "Payment Icons Badges",
+              "settings": {}
             }
           },
           "block_order": [
             "group_8fkkWP",
             "variant_picker_3Nha6V",
             "buy_buttons_NmYpFG",
+            "pdp_live_viewer_banner",
+            "pdp_sales_demand_banner",
+            "pdp_items_remaining_banner",
+            "pdp_trust_features",
+            "pdp_payment_icons",
             "notify_me_preorder_selling_plan_bLTU8B",
             "accordion_iWQwkW"
           ]

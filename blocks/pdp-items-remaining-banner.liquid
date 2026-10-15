@@ -1,0 +1,21 @@
+{% render 'pdp-items-remaining-banner', block: block %}
+
+{% schema %}
+{
+  "name": "Items Remaining Banner",
+  "settings": [
+    {
+      "type": "number",
+      "id": "fallback_stock_count",
+      "label": "Fallback Stock Count",
+      "default": 35
+    }
+  ],
+  "presets": [
+    {
+      "name": "Items Remaining Banner",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

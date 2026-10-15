@@ -193,6 +193,40 @@ class StickyAddToCartComponent extends Component {
   };
 
   /**
+   * Handles the buy now button click in the sticky bar
+   */
+  handleBuyNowClick = async () => {
+    const productForm = this.#getProductForm();
+    if (productForm) {
+      const mainPaymentBtn = productForm.querySelector('.shopify-payment-button__button, [data-testid="CheckoutButton"]');
+      if (mainPaymentBtn) {
+        mainPaymentBtn.click();
+        return;
+      }
+    }
+
+    const variantId = this.dataset.currentVariantId || (this.refs.addToCartButton && this.refs.addToCartButton.form ? this.refs.addToCartButton.form.querySelector('[name="id"]')?.value : null);
+    if (!variantId) {
+      window.location.href = '/checkout';
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('id', variantId);
+      formData.append('quantity', this.#currentQuantity || 1);
+
+      await fetch('/cart/add.js', {
+        method: 'POST',
+        body: formData
+      });
+      window.location.href = '/checkout';
+    } catch (e) {
+      window.location.href = '/checkout';
+    }
+  };
+
+  /**
    * Handles variant update events
    * @param {CustomEvent} event - The variant update event
    */

@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart Drawer Preview - Blue Minded People</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #0F172A;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 12px;
+      min-height: 100vh;
+      color: #0B1F33;
+    }
+
+    .controls-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .control-btn {
+      padding: 7px 14px;
+      border-radius: 20px;
+      border: 1px solid #334155;
+      background: #1E293B;
+      color: #F8FAFC;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .control-btn.active {
+      background: #1E3A5F;
+      border-color: #38BDF8;
+      color: #FFFFFF;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+    }
+
+    .drawer-preview {
+      width: 390px;
+      max-width: 100vw;
+      background-color: #F8F6F2;
+      border-radius: 8px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      height: 844px;
+      overflow-y: auto;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: width 0.3s ease;
+    }
+
+    .drawer-preview.desktop {
+      width: 540px;
+      height: 900px;
+    }
+
+    /* Cart Drawer Header */
+    .cart-drawer__header {
+      background-color: #F8F6F2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 14px 18px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .cart-drawer__heading {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0B1F33;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+
+    .close-button {
+      background: none;
+      border: none;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #0B1F33;
+    }
+
+    /* ========================================================
+       OFFER MILESTONES / CART PROGRESS BAR
+       - Free Shipping on All Orders (No ₹999 threshold)
+       - Buy 2 -> +5% OFF
+       - Buy 3 -> +10% OFF
+       ======================================================== */
+    .cart-progress-bar-wrapper {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding-inline: 12px;
+      padding-block: 6px 8px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .cart-progress-bar-wrapper {
+        padding-inline: 18px;
+        padding-block: 8px 10px;
+      }
+    }
+
+    .cart-progress-bar__card {
+      background-color: #FFFFFF;
+      border: 1px solid #EBE7DF;
+      border-radius: 8px;
+      padding: 8px 12px 10px 12px;
+      box-shadow: 0 1px 3px rgba(11, 31, 51, 0.04);
+      width: 100%;
+    }
+
+    .cart-progress-bar__message {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+      line-height: 1.25;
+      color: #0B1F33;
+      margin-bottom: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .cart-progress-bar__timeline {
+      position: relative;
+      width: 100%;
+    }
+
+    .cart-progress-bar__track {
+      position: absolute;
+      top: 13px;
+      left: 16%;
+      right: 16%;
+      height: 2.5px;
+      background-color: #E5E7EB;
+      border-radius: 2px;
+      z-index: 1;
+    }
+
+    .cart-progress-bar__fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0%;
+      background-color: #0B1F33;
+      border-radius: 2px;
+      transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .cart-progress-bar__needle-dot {
+      position: absolute;
+      right: -3px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #0B1F33;
+      box-shadow: 0 0 0 1.5px #FFFFFF;
+    }
+
+    .cart-progress-bar__milestones {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    .cart-progress-bar__milestone {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 32%;
+    }
+
+    .cart-progress-bar__circle {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background-color: #FFFFFF;
+      border: 1.5px solid #CBD5E1;
+      color: #8898AA;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .cart-progress-bar__circle svg {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.2px;
+    }
+
+    .cart-progress-bar__circle svg * {
+      stroke: currentColor !important;
+      fill: none !important;
+      stroke-width: 2.2px !important;
+    }
+
+    /* Unlocked milestone styling */
+    .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle {
+      background-color: #0B1F33 !important;
+      border-color: #0B1F33 !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 2px 6px rgba(11, 31, 51, 0.25) !important;
+      transform: scale(1.06);
+    }
+
+    .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg,
+    .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg * {
+      stroke: #FFFFFF !important;
+      color: #FFFFFF !important;
+      fill: none !important;
+    }
+
+    .cart-progress-bar__label {
+      margin-top: 4px;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 1.15;
+      color: #0B1F33;
+    }
+
+    .cart-progress-bar__target {
+      margin-top: 1px;
+      font-size: 8.5px;
+      font-weight: 600;
+      color: #8898AA;
+      line-height: 1.15;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__target {
+      color: #15803D;
+      font-weight: 700;
+    }
+
+    /* ========================================================
+       CART ITEMS CONTAINER
+       ======================================================== */
+    .cart-drawer__items {
+      padding: 8px 14px;
+    }
+
+    .cart-items__table-row {
+      display: grid !important;
+      grid-template-columns: 80px minmax(0, 1fr) auto !important;
+      grid-template-rows: auto auto auto auto !important;
+      grid-template-areas:
+        'media details details'
+        'media unit_price unit_price'
+        'media variants variants'
+        'media quantity price' !important;
+      gap: 0 12px !important;
+      align-items: center !important;
+      background-color: #FFFFFF !important;
+      border: 1px solid #E5E7EB !important;
+      border-radius: 10px !important;
+      padding: 10px !important;
+      margin-bottom: 10px !important;
+      box-shadow: 0 1px 3px rgba(11, 31, 51, 0.03) !important;
+    }
+
+    .cart-items__media {
+      grid-area: media !important;
+      grid-row: 1 / 5 !important;
+      width: 80px !important;
+      height: 90px !important;
+      align-self: start !important;
+      border-radius: 6px !important;
+      overflow: hidden !important;
+      background-color: #F5F5F5 !important;
+    }
+
+    .cart-items__media img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      display: block !important;
+    }
+
+    .cart-items__product-info {
+      grid-area: details !important;
+    }
+
+    .cart-item__badge {
+      display: inline-block !important;
+      background-color: #EEF4FA !important;
+      color: #1E3A5F !important;
+      font-size: 10px !important;
+      font-weight: 600 !important;
+      padding: 2px 6px !important;
+      border-radius: 4px !important;
+      margin-bottom: 2px !important;
+      line-height: 1.2 !important;
+    }
+
+    .cart-items__title {
+      font-size: 13px !important;
+      line-height: 1.3 !important;
+      font-weight: 600 !important;
+      color: #0B1F33 !important;
+      text-decoration: none !important;
+      display: block !important;
+    }
+
+    .cart-items__unit-price-wrapper {
+      grid-area: unit_price !important;
+      margin-top: 2px !important;
+    }
+
+    .cart-items__price-container {
+      display: flex !important;
+      align-items: baseline !important;
+      gap: 6px !important;
+    }
+
+    .cart-items__price-current {
+      font-size: 13px !important;
+      font-weight: 700 !important;
+      color: #0B1F33 !important;
+    }
+
+    .compare-at-price {
+      font-size: 11px !important;
+      color: #9CA3AF !important;
+      text-decoration: line-through !important;
+    }
+
+    .cart-item__discount-pill {
+      font-size: 9.5px !important;
+      font-weight: 700 !important;
+      color: #B87333 !important;
+      background: #FDF4EB !important;
+      padding: 1px 5px !important;
+      border-radius: 3px !important;
+    }
+
+    .cart-items__variants-wrapper {
+      grid-area: variants !important;
+      font-size: 11px !important;
+      color: #6B7280 !important;
+      margin-top: 2px !important;
+    }
+
+    .cart-items__quantity {
+      grid-area: quantity !important;
+      margin-top: 6px !important;
+    }
+
+    .quantity-selector {
+      display: inline-flex !important;
+      align-items: center !important;
+      border: 1px solid #D1D5DB !important;
+      border-radius: 6px !important;
+      background: #FFFFFF !important;
+      height: 28px !important;
+    }
+
+    .quantity-selector button {
+      width: 26px !important;
+      height: 100% !important;
+      border: none !important;
+      background: none !important;
+      font-size: 14px !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      color: #0B1F33 !important;
+    }
+
+    .quantity-selector input {
+      width: 24px !important;
+      text-align: center !important;
+      border: none !important;
+      background: none !important;
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      color: #0B1F33 !important;
+    }
+
+    .cart-items__price {
+      grid-area: price !important;
+      font-size: 13px !important;
+      font-weight: 700 !important;
+      color: #0B1F33 !important;
+      justify-self: end !important;
+      margin-top: 6px !important;
+    }
+
+    /* ========================================================
+       YOU MAY ALSO LIKE (RECOMMENDATIONS)
+       - NO wishlist/heart icon
+       - Compact, premium card design
+       - Rounded corners (8px)
+       - Clean border (#E5E7EB)
+       - Full-width Add to cart
+       ======================================================== */
+    .cart-recommendations {
+      margin: 6px 14px 12px;
+      padding: 10px 12px 12px;
+      background-color: #FFFFFF;
+      border-radius: 10px;
+      border: 1px solid #EBE7DF;
+    }
+
+    .cart-recommendations__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .cart-recommendations__heading {
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: #0B1F33;
+      text-transform: uppercase;
+    }
+
+    .cart-recommendations__nav-group {
+      display: flex;
+      gap: 5px;
+    }
+
+    .cart-recommendations__nav {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1px solid #D1D5DB;
+      background: #FFFFFF;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: #0B1F33;
+      transition: all 0.2s;
+    }
+
+    .cart-recommendations__nav:hover {
+      background: #0B1F33;
+      color: #FFFFFF;
+      border-color: #0B1F33;
+    }
+
+    .cart-recommendations__slider {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+
+    .cart-recommendations__slider::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cart-recommendations__card {
+      flex: 0 0 118px;
+      min-width: 118px;
+      max-width: 118px;
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      border-radius: 8px;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .cart-recommendations__image-link {
+      height: 80px;
+      max-height: 80px;
+      background: #F3F4F6;
+      border-radius: 6px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      text-decoration: none;
+    }
+
+    .cart-recommendations__image-link img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .cart-recommendations__discount-badge {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      background-color: #B87333;
+      color: #FFFFFF;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 3px;
+      line-height: 1.1;
+      z-index: 2;
+    }
+
+    /* Wishlist completely suppressed */
+    .cart-recommendations__wishlist-icon,
+    [class*="wishlist"] {
+      display: none !important;
+    }
+
+    .cart-recommendations__title {
+      font-size: 10.5px;
+      line-height: 1.25;
+      font-weight: 500;
+      color: #222222;
+      text-decoration: none;
+      margin-top: 5px;
+      margin-bottom: 2px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      max-height: 26px;
+    }
+
+    .cart-recommendations__price-row {
+      display: flex;
+      gap: 5px;
+      align-items: baseline;
+      margin-bottom: 5px;
+      margin-top: auto;
+    }
+
+    .cart-recommendations__price {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #0B1F33;
+    }
+
+    .cart-recommendations__compare-price {
+      font-size: 10px;
+      color: #888888;
+      text-decoration: line-through;
+      font-weight: 400;
+    }
+
+    .cart-recommendations__add-btn {
+      width: 100%;
+      height: 28px;
+      line-height: 26px;
+      padding: 0 6px;
+      font-size: 10.5px;
+      font-weight: 600;
+      text-transform: none;
+      border: 1px solid #0B1F33;
+      background-color: #FFFFFF;
+      color: #0B1F33;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cart-recommendations__add-btn:hover {
+      background-color: #0B1F33;
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+
+    /* ========================================================
+       SUMMARY & CHECKOUT
+       ======================================================== */
+    .cart-drawer__summary {
+      margin-top: auto;
+      background: #FFFFFF;
+      padding: 14px 18px 18px;
+      border-top: 1px solid #EBE7DF;
+      position: sticky;
+      bottom: 0;
+    }
+
+    .cart-totals {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .cart-totals__row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #4B5563;
+    }
+
+    .cart-discount-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #15803D;
+      font-weight: 600;
+    }
+
+    .cart-discount-val {
+      color: #15803D;
+      font-weight: 600;
+    }
+
+    .cart-totals__container {
+      margin-top: 4px;
+      padding-top: 6px;
+      border-top: 1px dashed #D1D5DB;
+    }
+
+    .cart-totals__total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #0B1F33;
+    }
+
+    .cart-totals__total-val {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0B1F33;
+    }
+
+    .tax-note {
+      font-size: 11px;
+      line-height: 1.35;
+      color: #6B7280;
+      margin: 3px 0 0 0;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      height: 46px;
+      background: #0B1F33;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 3px 8px rgba(11, 31, 51, 0.18);
+      transition: all 0.2s ease;
+    }
+
+    .checkout-btn:hover {
+      background: #142c44;
+      box-shadow: 0 4px 12px rgba(11, 31, 51, 0.25);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="controls-panel">
+    <!-- Viewport Switcher -->
+    <div class="btn-group">
+      <button class="control-btn active" id="btn-mobile" onclick="setMode('mobile')">📱 Mobile View (390px)</button>
+      <button class="control-btn" id="btn-desktop" onclick="setMode('desktop')">💻 Desktop View (540px)</button>
+    </div>
+
+    <!-- Quantity / Cart Milestone Simulator -->
+    <div class="btn-group">
+      <button class="control-btn" id="q-0" onclick="setQuantity(0)">🛒 0 Items (Empty)</button>
+      <button class="control-btn active" id="q-1" onclick="setQuantity(1)">🛒 1 Item (Free Ship Active)</button>
+      <button class="control-btn" id="q-2" onclick="setQuantity(2)">🛒 2 Items (5% OFF Active)</button>
+      <button class="control-btn" id="q-3" onclick="setQuantity(3)">🛒 3+ Items (10% OFF Active)</button>
+    </div>
+  </div>
+
+  <div class="drawer-preview" id="drawer">
+    <!-- Header -->
+    <div class="cart-drawer__header">
+      <h2 class="cart-drawer__heading">Cart</h2>
+      <button class="close-button" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <!-- Tiered Progress Bar (Client Approved Structure) -->
+    <div class="cart-progress-bar-wrapper">
+      <div class="cart-progress-bar__card">
+        <div class="cart-progress-bar__message" id="cpb-message">
+          Add 1 more product to unlock 5% OFF
+        </div>
+
+        <div class="cart-progress-bar__timeline">
+          <div class="cart-progress-bar__track">
+            <div class="cart-progress-bar__fill" id="cpb-fill" style="width: 0%;">
+              <span class="cart-progress-bar__needle-dot"></span>
+            </div>
+          </div>
+
+          <div class="cart-progress-bar__milestones">
+            <!-- Tier 1: Free Shipping on all orders -->
+            <div class="cart-progress-bar__milestone milestone-1 is-unlocked" id="cpb-m1">
+              <div class="cart-progress-bar__circle" title="FREE SHIPPING">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+              </div>
+              <span class="cart-progress-bar__label">FREE SHIPPING</span>
+              <span class="cart-progress-bar__target">ALL ORDERS</span>
+            </div>
+
+            <!-- Tier 2: Buy 2 -> +5% OFF -->
+            <div class="cart-progress-bar__milestone milestone-2" id="cpb-m2">
+              <div class="cart-progress-bar__circle" title="BUY 2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+              </div>
+              <span class="cart-progress-bar__label">BUY 2</span>
+              <span class="cart-progress-bar__target">+5% OFF</span>
+            </div>
+
+            <!-- Tier 3: Buy 3 -> +10% OFF -->
+            <div class="cart-progress-bar__milestone milestone-3" id="cpb-m3">
+              <div class="cart-progress-bar__circle" title="BUY 3">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="19" y1="5" x2="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg>
+              </div>
+              <span class="cart-progress-bar__label">BUY 3</span>
+              <span class="cart-progress-bar__target">+10% OFF</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Item Card -->
+    <div class="cart-drawer__items" id="cart-items-container">
+      <div class="cart-items__table-row">
+        <div class="cart-items__media">
+          <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=250&auto=format&fit=crop&q=80" alt="T-Shirt">
+        </div>
+        <div class="cart-items__product-info">
+          <span class="cart-item__badge">Oversized Fit</span>
+          <a href="#" class="cart-items__title">Printed Graphic T-Shirt</a>
+        </div>
+        <div class="cart-items__unit-price-wrapper">
+          <div class="cart-items__price-container">
+            <span class="cart-items__price-current">₹799</span>
+            <s class="compare-at-price">₹1,599</s>
+            <span class="cart-item__discount-pill">50% OFF</span>
+          </div>
+        </div>
+        <div class="cart-items__variants-wrapper">
+          Light Purple&nbsp;&nbsp;|&nbsp;&nbsp;M
+        </div>
+        <div class="cart-items__quantity">
+          <div class="quantity-selector">
+            <button type="button" onclick="changeQty(-1)">−</button>
+            <input type="number" id="qty-input" value="1" readonly>
+            <button type="button" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+        <div class="cart-items__price" id="line-item-total">
+          ₹799
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommendations: YOU MAY ALSO LIKE (No Wishlist Icons) -->
+    <div class="cart-recommendations">
+      <div class="cart-recommendations__header">
+        <h3 class="cart-recommendations__heading">YOU MAY ALSO LIKE</h3>
+        <div class="cart-recommendations__nav-group">
+          <button class="cart-recommendations__nav" aria-label="Previous">‹</button>
+          <button class="cart-recommendations__nav" aria-label="Next">›</button>
+        </div>
+      </div>
+      <div class="cart-recommendations__slider">
+        <!-- Card 1 (No wishlist icon) -->
+        <div class="cart-recommendations__card">
+          <a href="#" class="cart-recommendations__image-link">
+            <img src="https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=180&auto=format&fit=crop&q=80" alt="Classic White Shirt">
+            <span class="cart-recommendations__discount-badge">-50%</span>
+          </a>
+          <a href="#" class="cart-recommendations__title">Classic White Shirt</a>
+          <div class="cart-recommendations__price-row">
+            <span class="cart-recommendations__price">₹799</span>
+            <span class="cart-recommendations__compare-price">₹1,599</span>
+          </div>
+          <a href="#" class="cart-recommendations__add-btn" onclick="alert('Redirecting to product page: Classic White Shirt'); return false;">Select Size</a>
+        </div>
+
+        <!-- Card 2 (Multi-variant: Select Size) -->
+        <div class="cart-recommendations__card">
+          <a href="#" class="cart-recommendations__image-link">
+            <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=180&auto=format&fit=crop&q=80" alt="Raglan T-Shirt">
+            <span class="cart-recommendations__discount-badge">-50%</span>
+          </a>
+          <a href="#" class="cart-recommendations__title">Raglan T-Shirt</a>
+          <div class="cart-recommendations__price-row">
+            <span class="cart-recommendations__price">₹599</span>
+            <span class="cart-recommendations__compare-price">₹1,199</span>
+          </div>
+          <a href="#" class="cart-recommendations__add-btn" onclick="alert('Redirecting to product page: Raglan T-Shirt'); return false;">Select Size</a>
+        </div>
+
+        <!-- Card 3 (Single-variant: Add to cart) -->
+        <div class="cart-recommendations__card">
+          <a href="#" class="cart-recommendations__image-link">
+            <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=180&auto=format&fit=crop&q=80" alt="Essential Hoodie">
+            <span class="cart-recommendations__discount-badge">-40%</span>
+          </a>
+          <a href="#" class="cart-recommendations__title">Essential Hoodie</a>
+          <div class="cart-recommendations__price-row">
+            <span class="cart-recommendations__price">₹1,199</span>
+            <span class="cart-recommendations__compare-price">₹1,999</span>
+          </div>
+          <button class="cart-recommendations__add-btn" onclick="changeQty(1)">Add to cart</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary & Checkout -->
+    <div class="cart-drawer__summary">
+      <div class="cart-totals">
+        <div class="cart-totals__row">
+          <span>Subtotal</span>
+          <span id="summary-subtotal">₹799</span>
+        </div>
+        <div class="cart-totals__row" id="discount-row" style="display: none;">
+          <span class="cart-discount-tag">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+            <span id="discount-label">5% OFF</span>
+          </span>
+          <span class="cart-discount-val" id="summary-discount">-₹0</span>
+        </div>
+        <div class="cart-totals__container">
+          <div class="cart-totals__total-row">
+            <span>Estimated total</span>
+            <span class="cart-totals__total-val" id="summary-total">₹799</span>
+          </div>
+          <p class="tax-note">Taxes included. Free shipping on all orders.</p>
+        </div>
+      </div>
+      <button class="checkout-btn">Check out &rarr;</button>
+    </div>
+  </div>
+
+  <script>
+    let currentQty = 1;
+
+    function setMode(mode) {
+      document.getElementById('btn-mobile').classList.toggle('active', mode === 'mobile');
+      document.getElementById('btn-desktop').classList.toggle('active', mode === 'desktop');
+      const drawer = document.getElementById('drawer');
+      if (mode === 'desktop') {
+        drawer.classList.add('desktop');
+      } else {
+        drawer.classList.remove('desktop');
+      }
+    }
+
+    function setQuantity(q) {
+      currentQty = q;
+      document.querySelectorAll('[id^="q-"]').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`q-${Math.min(q, 3)}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const qtyInput = document.getElementById('qty-input');
+      if (qtyInput) qtyInput.value = currentQty;
+
+      updateUI();
+    }
+
+    function changeQty(delta) {
+      setQuantity(Math.max(0, currentQty + delta));
+    }
+
+    function updateUI() {
+      const m1 = document.getElementById('cpb-m1');
+      const m2 = document.getElementById('cpb-m2');
+      const m3 = document.getElementById('cpb-m3');
+      const fill = document.getElementById('cpb-fill');
+      const msg = document.getElementById('cpb-message');
+
+      const m1Unlocked = currentQty >= 1;
+      const m2Unlocked = currentQty >= 2;
+      const m3Unlocked = currentQty >= 3;
+
+      m1.classList.toggle('is-unlocked', m1Unlocked);
+      m2.classList.toggle('is-unlocked', m2Unlocked);
+      m3.classList.toggle('is-unlocked', m3Unlocked);
+
+      let fillPct = 0;
+      if (currentQty === 1) fillPct = 0;
+      else if (currentQty === 2) fillPct = 50;
+      else if (currentQty >= 3) fillPct = 100;
+      fill.style.width = fillPct + '%';
+
+      if (currentQty === 0) {
+        msg.textContent = 'FREE SHIPPING ON ALL ORDERS';
+      } else if (currentQty === 1) {
+        msg.textContent = 'Add 1 more product to unlock 5% OFF';
+      } else if (currentQty === 2) {
+        msg.textContent = 'Buy 1 more product to unlock 10% OFF';
+      } else {
+        msg.textContent = 'You unlocked 10% OFF 🎉';
+      }
+
+      // Update pricing
+      const unitPrice = 799;
+      const subtotal = currentQty * unitPrice;
+      let discount = 0;
+      let discountLabel = '';
+
+      if (currentQty === 2) {
+        discount = Math.round(subtotal * 0.05);
+        discountLabel = '5% OFF (Buy 2)';
+      } else if (currentQty >= 3) {
+        discount = Math.round(subtotal * 0.10);
+        discountLabel = '10% OFF (Buy 3+)';
+      }
+
+      const total = subtotal - discount;
+
+      document.getElementById('line-item-total').textContent = '₹' + subtotal.toLocaleString('en-IN');
+      document.getElementById('summary-subtotal').textContent = '₹' + subtotal.toLocaleString('en-IN');
+
+      const discRow = document.getElementById('discount-row');
+      if (discount > 0) {
+        discRow.style.display = 'flex';
+        document.getElementById('discount-label').textContent = discountLabel;
+        document.getElementById('summary-discount').textContent = '-₹' + discount.toLocaleString('en-IN');
+      } else {
+        discRow.style.display = 'none';
+      }
+
+      document.getElementById('summary-total').textContent = '₹' + total.toLocaleString('en-IN');
+
+      // Empty cart visibility
+      const itemsContainer = document.getElementById('cart-items-container');
+      if (currentQty === 0) {
+        itemsContainer.style.display = 'none';
+      } else {
+        itemsContainer.style.display = 'block';
+      }
+    }
+
+    // Initialize
+    updateUI();
+  </script>
+</body>
+</html>

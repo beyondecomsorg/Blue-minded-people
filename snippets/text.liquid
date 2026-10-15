@@ -91,6 +91,9 @@
   <{{ element }} {{ attributes | strip_newlines | strip }}>
     {{ block.settings.text }}
   </{{ element }}>
+  {% if block.settings.text contains 'product.title' or block.name == 't:names.title' %}
+    {% render 'pdp-live-viewer-count', product: closest.product %}
+  {% endif %}
 {% endif %}
 
 {% stylesheet %}

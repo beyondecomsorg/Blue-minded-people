@@ -24,6 +24,7 @@
         {% render 'hulkapps-wishlist-collection-btn', productId: closest.product.id, variantId: closest.product.selected_or_first_available_variant.id %}
       </div>
     </div>
+    {% render 'pdp-live-viewer-count', product: closest.product %}
   </div>
 {% endif %}
 

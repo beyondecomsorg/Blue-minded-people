@@ -5127,10 +5127,47 @@ shopify-account{
   background-color: var(--color-copper-rivet, #B87333) !important;
 }
 
-.product-card__atc-btn[disabled] {
-  background-color: #E5E5E5 !important;
-  color: var(--color-medium-grey, #666666) !important;
-  cursor: not-allowed;
+.product-card__atc-btn[disabled],
+.product-card__atc-btn--sold-out,
+.product-card__atc-btn--coming-soon {
+  background-color: #EBEBEB !important;
+  color: #222222 !important;
+  border: 1px solid #707070 !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em !important;
+  cursor: not-allowed !important;
+  opacity: 1 !important;
+  box-shadow: none !important;
+}
+
+.product-card__atc-btn[disabled]:hover {
+  background-color: #EBEBEB !important;
+  color: #222222 !important;
+  border-color: #707070 !important;
+}
+
+/* Sold Out & Coming Soon Badge (top-left overlay) */
+.product-card__badge--sold-out,
+.product-card__badge--coming-soon {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #EBEBEB !important;
+  color: #222222 !important;
+  border: 1px solid #707070 !important;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-family: var(--font-body) !important;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  line-height: 1;
 }
 
 .product-card__atc-icon {
@@ -6462,3 +6499,703 @@ html body .cart-recommendations .cart-recommendations__nav:hover svg {
     margin-right: 0 !important;
   }
 }
+
+/* ==========================================================================
+   Cart Drawer Responsive Width Controls
+   ========================================================================== */
+@media screen and (max-width: 749px) {
+  dialog.cart-drawer__dialog,
+  dialog.cart-drawer__dialog:modal,
+  .cart-drawer__dialog {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    min-width: 100vw !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    margin: 0 !important;
+    inset: 0 !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-sizing: border-box !important;
+  }
+
+  .cart-drawer__dialog .cart-drawer__inner {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  dialog.cart-drawer__dialog,
+  dialog.cart-drawer__dialog:modal,
+  .cart-drawer__dialog {
+    width: 540px !important;
+    max-width: 90vw !important;
+    min-width: 480px !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: auto !important;
+    margin: 0 0 0 auto !important;
+    inset-inline-start: auto !important;
+    inset-inline-end: 0px !important;
+    border-radius: 0 !important;
+    border-left: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+}
+
+/* ==========================================================================
+   Cart Drawer - Image 2 Card Design & Compact User-Friendly Layout
+   ========================================================================== */
+
+/* Cart item table structure */
+.cart-drawer .cart-items__table {
+  display: block !important;
+  width: 100% !important;
+  border-collapse: separate !important;
+}
+
+.cart-drawer .cart-items__table tbody {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  gap: 10px !important;
+}
+
+/* Individual Cart Item as a sleek White Card */
+.cart-drawer .cart-items__table-row,
+.cart-drawer .cart-items__table-row--full-width-variants {
+  display: grid !important;
+  grid-template-columns: 86px minmax(0, 1fr) auto !important;
+  grid-template-rows: auto auto auto auto !important;
+  grid-template-areas:
+    'media details details'
+    'media unit_price unit_price'
+    'media variants variants'
+    'media quantity price' !important;
+  gap: 0 12px !important;
+  align-items: center !important;
+  background-color: #FFFFFF !important;
+  border: 1px solid #EBE7DF !important;
+  border-radius: 12px !important;
+  padding: 12px !important;
+  margin-bottom: 10px !important;
+  box-shadow: 0 1px 3px rgba(11, 31, 51, 0.03) !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+}
+
+/* Left thumbnail image inside the card */
+.cart-drawer .cart-items__media {
+  grid-area: media !important;
+  grid-row: 1 / 5 !important;
+  width: 86px !important;
+  min-width: 86px !important;
+  max-width: 86px !important;
+  height: 96px !important;
+  align-self: start !important;
+  background-color: #F5F5F5 !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.cart-drawer .cart-items__media img,
+.cart-drawer .cart-items__media-container {
+  width: 86px !important;
+  height: 96px !important;
+  object-fit: cover !important;
+  border-radius: 8px !important;
+  display: block !important;
+}
+
+/* Product Info Container */
+.cart-drawer .cart-items__product-info {
+  grid-area: details !important;
+}
+
+/* Category Badge (e.g. Oversized Fit) */
+.cart-drawer .cart-item__badge {
+  display: inline-block !important;
+  background-color: #EEF4FA !important;
+  color: #1E3A5F !important;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  padding: 2px 7px !important;
+  border-radius: 4px !important;
+  margin-bottom: 3px !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.01em !important;
+  width: fit-content !important;
+}
+
+/* Product Clean Title */
+.cart-drawer .cart-items__title {
+  font-size: 13.5px !important;
+  line-height: 1.3 !important;
+  font-weight: 700 !important;
+  color: #0B1F33 !important;
+  margin: 0 !important;
+  text-decoration: none !important;
+  display: block !important;
+}
+
+/* Unit Price & Discount Badge Row */
+.cart-drawer .cart-items__unit-price-wrapper {
+  grid-area: unit_price !important;
+  margin-top: 3px !important;
+  line-height: 1.2 !important;
+}
+
+.cart-drawer .cart-items__price-container {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex-wrap: wrap !important;
+}
+
+.cart-drawer .cart-items__price-current {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #0B1F33 !important;
+}
+
+.cart-drawer .cart-items__unit-price-wrapper s.compare-at-price {
+  font-size: 12px !important;
+  color: #9CA3AF !important;
+  text-decoration: line-through !important;
+}
+
+.cart-drawer .cart-item__discount-pill {
+  display: inline-block !important;
+  background-color: #FEF3EB !important;
+  color: #E07A2B !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  padding: 1.5px 6px !important;
+  border-radius: 4px !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.02em !important;
+}
+
+/* Variants Row (e.g. Light Purple | S) */
+.cart-drawer .cart-items__variants-wrapper {
+  grid-area: variants !important;
+  margin-top: 3px !important;
+  margin-bottom: 6px !important;
+  line-height: 1.25 !important;
+}
+
+.cart-drawer .cart-items__variants-row {
+  font-size: 12px !important;
+  color: #4B5563 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Action Row: Quantity + Remove button */
+.cart-drawer .cart-items__quantity {
+  grid-area: quantity !important;
+  margin-block-start: 4px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.cart-drawer .cart-items__quantity-controls {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+/* Compact Rounded Quantity Selector */
+.cart-drawer .quantity-selector-wrapper {
+  display: inline-flex !important;
+  width: auto !important;
+  flex: 0 0 auto !important;
+}
+
+.cart-drawer .quantity-selector,
+.cart-drawer-component .quantity-selector,
+.cart-drawer .cart-items__quantity-controls .quantity-selector {
+  width: 86px !important;
+  min-width: 86px !important;
+  max-width: 86px !important;
+  height: 28px !important;
+  min-height: 28px !important;
+  max-height: 28px !important;
+  flex: 0 0 86px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  border: 1px solid #D1D5DB !important;
+  border-radius: 6px !important;
+  background-color: #FFFFFF !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+.cart-drawer .quantity-selector :is(.quantity-minus, .quantity-plus),
+.cart-drawer-component .quantity-selector :is(.quantity-minus, .quantity-plus),
+.cart-drawer .cart-items__quantity-controls .quantity-selector :is(.quantity-minus, .quantity-plus) {
+  width: 25px !important;
+  min-width: 25px !important;
+  max-width: 25px !important;
+  height: 26px !important;
+  min-height: 26px !important;
+  max-height: 26px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+  color: #0B1F33 !important;
+  font-size: 14px !important;
+}
+
+.cart-drawer .quantity-selector :is(.quantity-minus, .quantity-plus):hover {
+  background-color: #F3F4F6 !important;
+}
+
+.cart-drawer .quantity-selector :is(.quantity-minus, .quantity-plus) svg,
+.cart-drawer-component .quantity-selector svg {
+  width: 8px !important;
+  height: 8px !important;
+}
+
+.cart-drawer .quantity-selector input[type='number'],
+.cart-drawer-component .quantity-selector input[type='number'],
+.cart-drawer .cart-items__quantity-controls .quantity-selector input[type='number'] {
+  width: 28px !important;
+  min-width: 28px !important;
+  max-width: 28px !important;
+  height: 26px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #0B1F33 !important;
+  text-align: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  -moz-appearance: textfield !important;
+}
+
+.cart-drawer .quantity-selector input[type='number']::-webkit-inner-spin-button,
+.cart-drawer .quantity-selector input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+/* Remove button with icon and "Remove" text */
+.cart-drawer .cart-items__remove,
+.cart-drawer-component .cart-items__remove {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  background: transparent !important;
+  border: none !important;
+  color: #6B7280 !important;
+  cursor: pointer !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  padding: 2px 4px !important;
+  margin-left: 6px !important;
+  transition: color 0.15s ease !important;
+  line-height: 1 !important;
+}
+
+.cart-drawer .cart-items__remove:hover,
+.cart-drawer-component .cart-items__remove:hover {
+  color: #DC2626 !important;
+}
+
+.cart-drawer .cart-items__remove svg,
+.cart-drawer-component .cart-items__remove svg {
+  width: 13px !important;
+  height: 13px !important;
+  stroke: currentColor !important;
+}
+
+.cart-drawer .cart-items__remove-text {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: inherit !important;
+  display: inline !important;
+}
+
+/* Inline X remove button next to product title */
+.cart-drawer .cart-items__remove--inline {
+  flex-shrink: 0 !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  color: #9CA3AF !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 4px !important;
+  transition: color 0.15s ease, background-color 0.15s ease !important;
+  box-shadow: none !important;
+  line-height: 1 !important;
+}
+
+.cart-drawer .cart-items__remove--inline:hover {
+  color: #EF4444 !important;
+  background-color: #FEF2F2 !important;
+}
+
+.cart-drawer .cart-items__remove--inline svg {
+  width: 14px !important;
+  height: 14px !important;
+  stroke: #9CA3AF !important;
+  fill: none !important;
+  display: block !important;
+}
+
+.cart-drawer .cart-items__remove--inline:hover svg {
+  stroke: #EF4444 !important;
+}
+
+/* Line Item Total Price */
+.cart-drawer .cart-items__price {
+  grid-area: price !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #0B1F33 !important;
+  justify-self: end !important;
+  margin-block-start: 4px !important;
+  align-self: center !important;
+  width: auto !important;
+  min-width: auto !important;
+  white-space: nowrap !important;
+}
+
+/* Drawer Spacing & Summary Elements */
+.cart-drawer .cart-drawer__header {
+  padding: 10px 14px !important;
+}
+
+@media screen and (min-width: 750px) {
+  .cart-drawer .cart-drawer__header {
+    padding: 14px 18px !important;
+  }
+}
+
+/* Cart Drawer Summary / Totals Polished Redesign */
+.cart-drawer .cart-drawer__summary {
+  position: sticky !important;
+  bottom: 0 !important;
+  z-index: 3 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  padding: 14px 16px 16px 16px !important;
+  margin-top: auto !important;
+  background-color: #FAF8F5 !important;
+  border-top: 1px solid #E5E7EB !important;
+  box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.04) !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+@media screen and (min-width: 750px) {
+  .cart-drawer .cart-drawer__summary {
+    padding: 16px 20px 20px 20px !important;
+    gap: 12px !important;
+  }
+}
+
+/* Remove default harsh borders and oversized gaps */
+.cart-drawer .cart-totals,
+.cart-drawer .cart-totals:not(:has(.cart-actions)),
+.cart-drawer .cart-drawer__summary .cart-totals:not(:has(.cart-totals__original-container:empty)) {
+  border-block-start: none !important;
+  border-top: none !important;
+  padding-block-start: 0 !important;
+  padding-top: 0 !important;
+  margin-block-start: 0 !important;
+  margin-top: 0 !important;
+  gap: 8px !important;
+  width: 100% !important;
+}
+
+/* Subtotal & Discounts Section */
+.cart-drawer .cart-totals__original-container {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+  width: 100% !important;
+}
+
+.cart-drawer .cart-totals__original {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.cart-drawer .cart-totals__original-label {
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  color: #4B5563 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.cart-drawer .cart-totals__original-value {
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: #0B1F33 !important;
+}
+
+/* Discount row */
+.cart-drawer .cart-discounts {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.cart-drawer .cart-discounts__item {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 2px 0 !important;
+  font-size: 13px !important;
+}
+
+.cart-drawer .cart-discounts__label {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: #0B1F33 !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+}
+
+.cart-drawer .cart-discounts__label svg {
+  width: 14px !important;
+  height: 14px !important;
+  color: #0B1F33 !important;
+  flex-shrink: 0 !important;
+}
+
+.cart-drawer .cart-discounts__value {
+  color: #15803D !important;
+  font-weight: 700 !important;
+  font-size: 13.5px !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* Divider above Estimated Total (when subtotal/discounts are present) */
+.cart-drawer .cart-totals:has(.cart-totals__original-container:not(:empty)) .cart-totals__container {
+  margin-top: 6px !important;
+  padding-top: 8px !important;
+  border-top: 1px dashed #D1D5DB !important;
+}
+
+.cart-drawer .cart-totals:has(.cart-totals__original-container:empty) .cart-totals__container {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  border-top: none !important;
+}
+
+/* Estimated Total Row */
+.cart-drawer .cart-totals__container {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+  width: 100% !important;
+}
+
+.cart-drawer .cart-totals__total {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: baseline !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+}
+
+.cart-drawer .cart-totals__total-label {
+  font-size: 14.5px !important;
+  font-weight: 700 !important;
+  color: #0B1F33 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.cart-drawer .cart-totals__total-value {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  color: #0B1F33 !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* Tax and Shipping Disclaimer */
+.cart-drawer .cart-totals__tax-note {
+  font-size: 11px !important;
+  line-height: 1.35 !important;
+  color: #6B7280 !important;
+  margin: 3px 0 0 0 !important;
+  padding: 0 !important;
+}
+
+.cart-drawer .cart-totals__tax-note p,
+.cart-drawer .cart-totals__tax-note small {
+  font-size: 11px !important;
+  line-height: 1.35 !important;
+  color: #6B7280 !important;
+  margin: 0 !important;
+}
+
+/* Checkout CTA Button */
+.cart-drawer .cart__ctas {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.cart-drawer .cart__checkout-button {
+  width: 100% !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  background-color: #0B1F33 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-size: 14.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  box-shadow: 0 3px 8px rgba(11, 31, 51, 0.18) !important;
+  transition: all 0.2s ease !important;
+}
+
+.cart-drawer .cart__checkout-button:hover {
+  background-color: #142c44 !important;
+  box-shadow: 0 4px 12px rgba(11, 31, 51, 0.25) !important;
+}
+
+.cart-drawer .cart__checkout-button:active {
+  transform: scale(0.99) !important;
+}
+
+.cart-drawer .cart__checkout-button .button-text::after {
+  content: ' \2192';
+  margin-left: 6px;
+  font-weight: 700;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.cart-drawer .cart__checkout-button:hover .button-text::after {
+  transform: translateX(4px);
+}
+
+/* Progress Bar Milestone Circle Icons - High Contrast & Visibility */
+.cart-drawer .cart-progress-bar__circle,
+.cart-progress-bar .cart-progress-bar__circle,
+cart-progress-bar .cart-progress-bar__circle,
+.cart-progress-bar__circle {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+
+.cart-drawer .cart-progress-bar__circle svg,
+.cart-progress-bar .cart-progress-bar__circle svg,
+cart-progress-bar .cart-progress-bar__circle svg,
+.cart-progress-bar__circle svg,
+.cart-progress-bar__icon {
+  width: 12px !important;
+  height: 12px !important;
+  max-width: 12px !important;
+  max-height: 12px !important;
+  color: inherit !important;
+  stroke: currentColor !important;
+  fill: none !important;
+  display: block !important;
+}
+
+.cart-drawer .cart-progress-bar__circle svg *,
+.cart-progress-bar .cart-progress-bar__circle svg *,
+cart-progress-bar .cart-progress-bar__circle svg *,
+.cart-progress-bar__circle svg *,
+.cart-progress-bar__icon * {
+  stroke: currentColor !important;
+  fill: none !important;
+  stroke-width: 2.2px !important;
+}
+
+/* Unlocked active state - Always bold high contrast pure white */
+.cart-drawer .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle,
+.cart-progress-bar .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle,
+cart-progress-bar .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle,
+.cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle,
+body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle,
+body #header-component.header[transparent].header--scrolled .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle,
+html body .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle {
+  background-color: #0B1F33 !important;
+  border-color: #0B1F33 !important;
+  color: #FFFFFF !important;
+}
+
+body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg,
+body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg *,
+body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg path,
+body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg rect,
+body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg polygon,
+body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg circle,
+body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg line,
+body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg polyline,
+body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__icon,
+body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__icon *,
+body #header-component.header[transparent].header--scrolled .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg,
+body #header-component.header[transparent].header--scrolled .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg *,
+body #header-component.header[transparent].header--scrolled .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__icon,
+body #header-component.header[transparent].header--scrolled .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__icon *,
+.cart-drawer .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg,
+.cart-drawer .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg *,
+.cart-progress-bar .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg,
+.cart-progress-bar .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg *,
+cart-progress-bar .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg,
+cart-progress-bar .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg *,
+.cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg,
+.cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg *,
+.cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg path,
+.cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg rect,
+.cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg polygon,
+.cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg circle,
+.cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg line,
+.cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg polyline,
+.cart-progress-bar__milestone.is-unlocked .cart-progress-bar__icon,
+.cart-progress-bar__milestone.is-unlocked .cart-progress-bar__icon *,
+html body .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg,
+html body .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg *,
+html body .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__icon,
+html body .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__icon * {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+  fill: none !important;
+  stroke-width: 2.2px !important;
+}

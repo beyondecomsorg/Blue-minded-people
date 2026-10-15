@@ -1,0 +1,15 @@
+{% assign target_product = closest.product | default: product %}
+{% render 'pdp-live-viewer-count', product: target_product %}
+
+{% schema %}
+{
+  "name": "Live Viewer Count",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Live Viewer Count",
+      "category": "t:categories.product"
+    }
+  ]
+}
+{% endschema %}

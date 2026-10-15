@@ -1,0 +1,678 @@
+{%- doc -%}
+  Renders the tiered rewards & free shipping offer section for the cart drawer.
+  Updated based on client requirements:
+  - Free Shipping on all orders (no minimum cart threshold)
+  - Buy 2 -> +5% OFF
+  - Buy 3 -> +10% OFF
+  - Dynamic milestone logic based on total cart item quantity (cart.item_count)
+{%- enddoc -%}
+
+{%- liquid
+  assign enabled = settings.cart_progress_bar_enable
+  if enabled == nil
+    assign enabled = true
+  endif
+
+  assign show_empty = settings.cart_progress_bar_show_empty
+  if show_empty == nil
+    assign show_empty = true
+  endif
+
+  if enabled == false
+    break
+  endif
+
+  if cart.empty? and show_empty == false
+    break
+  endif
+
+  assign item_count = cart.item_count | default: 0
+
+  # Milestone labels & icons
+  assign tier1_label = settings.cart_progress_bar_tier1_label
+  if tier1_label == blank
+    assign tier1_label = 'FREE SHIPPING'
+  endif
+  assign tier1_sublabel = settings.cart_progress_bar_tier1_sublabel
+  if tier1_sublabel == blank
+    assign tier1_sublabel = 'ALL ORDERS'
+  endif
+  assign tier1_icon = settings.cart_progress_bar_tier1_icon | default: 'truck'
+
+  assign tier2_label = settings.cart_progress_bar_tier2_label
+  if tier2_label == blank
+    assign tier2_label = 'BUY 2'
+  endif
+  assign tier2_sublabel = settings.cart_progress_bar_tier2_sublabel
+  if tier2_sublabel == blank
+    assign tier2_sublabel = '+5% OFF'
+  endif
+  assign tier2_icon = settings.cart_progress_bar_tier2_icon | default: 'tag'
+
+  assign tier3_label = settings.cart_progress_bar_tier3_label
+  if tier3_label == blank
+    assign tier3_label = 'BUY 3'
+  endif
+  assign tier3_sublabel = settings.cart_progress_bar_tier3_sublabel
+  if tier3_sublabel == blank
+    assign tier3_sublabel = '+10% OFF'
+  endif
+  assign tier3_icon = settings.cart_progress_bar_tier3_icon | default: 'percent'
+
+  # Dynamic messages
+  assign msg_empty = settings.cart_progress_bar_msg_empty
+  if msg_empty == blank
+    assign msg_empty = 'FREE SHIPPING ON ALL ORDERS'
+  endif
+
+  assign msg_tier1 = settings.cart_progress_bar_msg_tier1
+  if msg_tier1 == blank
+    assign msg_tier1 = 'Add 1 more product to unlock 5% OFF'
+  endif
+
+  assign msg_tier2 = settings.cart_progress_bar_msg_tier2
+  if msg_tier2 == blank
+    assign msg_tier2 = 'Buy 1 more product to unlock 10% OFF'
+  endif
+
+  assign msg_completed = settings.cart_progress_bar_completed_msg
+  if msg_completed == blank
+    assign msg_completed = 'You unlocked 10% OFF 🎉'
+  endif
+
+  # Determine unlocked milestones (based on total cart item quantity cart.item_count)
+  assign tier1_unlocked = false
+  assign tier2_unlocked = false
+  assign tier3_unlocked = false
+
+  if item_count >= 1
+    assign tier1_unlocked = true
+  endif
+  if item_count >= 2
+    assign tier2_unlocked = true
+  endif
+  if item_count >= 3
+    assign tier3_unlocked = true
+  endif
+
+  # Progress bar fill percentage
+  assign progress_pct = 0
+  if item_count == 1
+    assign progress_pct = 25
+  elsif item_count == 2
+    assign progress_pct = 50
+  elsif item_count >= 3
+    assign progress_pct = 100
+  endif
+
+  # Current message
+  if item_count == 0
+    assign active_msg = msg_empty
+  elsif item_count == 1
+    assign active_msg = msg_tier1
+  elsif item_count == 2
+    assign active_msg = msg_tier2
+  else
+    assign active_msg = msg_completed
+  endif
+
+  # Colors & Styling
+  assign card_bg = settings.cart_progress_bar_card_bg
+  if card_bg == blank
+    assign card_bg = '#FFFFFF'
+  endif
+
+  assign card_border = settings.cart_progress_bar_card_border
+  if card_border == blank
+    assign card_border = '#EBE7DF'
+  endif
+
+  assign text_color = settings.cart_progress_bar_text_color
+  if text_color == blank
+    assign text_color = '#0B1F33'
+  endif
+
+  assign highlight_color = settings.cart_progress_bar_highlight_color
+  if highlight_color == blank
+    assign highlight_color = '#15803D'
+  endif
+
+  assign track_color = settings.cart_progress_bar_track_color
+  if track_color == blank
+    assign track_color = '#E5E7EB'
+  endif
+
+  assign fill_color = settings.cart_progress_bar_fill_color
+  if fill_color == blank
+    assign fill_color = '#0B1F33'
+  endif
+
+  assign active_circle_bg = settings.cart_progress_bar_active_circle_bg
+  if active_circle_bg == blank
+    assign active_circle_bg = '#0B1F33'
+  endif
+
+  assign active_circle_text = settings.cart_progress_bar_active_circle_text
+  if active_circle_text == blank
+    assign active_circle_text = '#FFFFFF'
+  endif
+
+  assign inactive_circle_bg = settings.cart_progress_bar_inactive_circle_bg
+  if inactive_circle_bg == blank
+    assign inactive_circle_bg = '#FFFFFF'
+  endif
+
+  assign inactive_circle_border = settings.cart_progress_bar_inactive_circle_border
+  if inactive_circle_border == blank
+    assign inactive_circle_border = '#CBD5E1'
+  endif
+
+  assign inactive_circle_text = settings.cart_progress_bar_inactive_circle_text
+  if inactive_circle_text == blank
+    if inactive_circle_bg != blank and inactive_circle_bg != '#ffffff' and inactive_circle_bg != '#FFFFFF' and inactive_circle_bg != 'transparent'
+      assign inactive_circle_text = '#FFFFFF'
+    else
+      assign inactive_circle_text = '#8898AA'
+    endif
+  endif
+-%}
+
+<cart-progress-bar
+  class="cart-progress-bar-wrapper"
+  data-hydration-key="cart-progress-bar"
+  data-cart-item-count="{{ item_count }}"
+  data-msg-empty="{{ msg_empty | escape }}"
+  data-msg-tier1="{{ msg_tier1 | escape }}"
+  data-msg-tier2="{{ msg_tier2 | escape }}"
+  data-msg-completed="{{ msg_completed | escape }}"
+  style="
+    --cpb-card-bg: {{ card_bg }};
+    --cpb-card-border: {{ card_border }};
+    --cpb-text-color: {{ text_color }};
+    --cpb-highlight-color: {{ highlight_color }};
+    --cpb-track-color: {{ track_color }};
+    --cpb-fill-color: {{ fill_color }};
+    --cpb-active-circle-bg: {{ active_circle_bg }};
+    --cpb-active-circle-text: {{ active_circle_text }};
+    --cpb-inactive-circle-bg: {{ inactive_circle_bg }};
+    --cpb-inactive-circle-border: {{ inactive_circle_border }};
+    --cpb-inactive-circle-text: {{ inactive_circle_text }};
+    --cpb-progress-width: {{ progress_pct }}%;
+  "
+>
+  <div class="cart-progress-bar__card">
+    <div class="cart-progress-bar__message" role="status" aria-live="polite">
+      {{ active_msg }}
+    </div>
+
+    <div class="cart-progress-bar__timeline">
+      <div class="cart-progress-bar__track">
+        <div class="cart-progress-bar__fill">
+          <span class="cart-progress-bar__needle-dot"></span>
+        </div>
+      </div>
+
+      <div class="cart-progress-bar__milestones">
+        {%- # Milestone 1: Free Shipping on all orders -%}
+        <div class="cart-progress-bar__milestone milestone-1{% if tier1_unlocked %} is-unlocked{% endif %}">
+          <div class="cart-progress-bar__circle" title="{{ tier1_label }}" style="{% if tier1_unlocked %}background-color: #0B1F33 !important; border-color: #0B1F33 !important; color: #FFFFFF !important;{% endif %}">
+            {%- case tier1_icon -%}
+              {%- when 'tag' -%}
+                <svg class="cart-progress-bar__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{% if tier1_unlocked %}color: #FFFFFF !important; stroke: #FFFFFF !important; fill: none !important;{% endif %}"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" fill="none" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier1_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important; fill: none !important;{% endif %}"></path><line x1="7" y1="7" x2="7.01" y2="7" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier1_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important;{% endif %}"></line></svg>
+              {%- when 'percent' -%}
+                <svg class="cart-progress-bar__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{% if tier1_unlocked %}color: #FFFFFF !important; stroke: #FFFFFF !important; fill: none !important;{% endif %}"><line x1="19" y1="5" x2="5" y2="19" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier1_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important;{% endif %}"></line><circle cx="6.5" cy="6.5" r="2.5" fill="none" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier1_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></circle><circle cx="17.5" cy="17.5" r="2.5" fill="none" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier1_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></circle></svg>
+              {%- when 'gift' -%}
+                <svg class="cart-progress-bar__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{% if tier1_unlocked %}color: #FFFFFF !important; stroke: #FFFFFF !important; fill: none !important;{% endif %}"><polyline points="20 12 20 22 4 22 4 12" fill="none" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier1_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important; fill: none !important;{% endif %}"></polyline><rect x="2" y="7" width="20" height="5" fill="none" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier1_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important; fill: none !important;{% endif %}"></rect><line x1="12" y1="22" x2="12" y2="7" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier1_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important;{% endif %}"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" fill="none" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier1_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important; fill: none !important;{% endif %}"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" fill="none" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier1_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important; fill: none !important;{% endif %}"></path></svg>
+              {%- else -%}
+                <svg class="cart-progress-bar__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{% if tier1_unlocked %}color: #FFFFFF !important; stroke: #FFFFFF !important; fill: none !important;{% endif %}"><rect x="1" y="3" width="15" height="13" fill="none" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier1_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 8" fill="none" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier1_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></polygon><circle cx="5.5" cy="18.5" r="2.5" fill="none" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier1_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></circle><circle cx="18.5" cy="18.5" r="2.5" fill="none" stroke="{% if tier1_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier1_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></circle></svg>
+            {%- endcase -%}
+          </div>
+          <span class="cart-progress-bar__label">{{ tier1_label }}</span>
+          <span class="cart-progress-bar__target">{{ tier1_sublabel }}</span>
+        </div>
+
+        {%- # Milestone 2: Buy 2 -> +5% OFF -%}
+        <div class="cart-progress-bar__milestone milestone-2{% if tier2_unlocked %} is-unlocked{% endif %}">
+          <div class="cart-progress-bar__circle" title="{{ tier2_label }}" style="{% if tier2_unlocked %}background-color: #0B1F33 !important; border-color: #0B1F33 !important; color: #FFFFFF !important;{% endif %}">
+            {%- case tier2_icon -%}
+              {%- when 'truck' -%}
+                <svg class="cart-progress-bar__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{% if tier2_unlocked %}color: #FFFFFF !important; stroke: #FFFFFF !important; fill: none !important;{% endif %}"><rect x="1" y="3" width="15" height="13" fill="none" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier2_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 8" fill="none" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier2_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></polygon><circle cx="5.5" cy="18.5" r="2.5" fill="none" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier2_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></circle><circle cx="18.5" cy="18.5" r="2.5" fill="none" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier2_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></circle></svg>
+              {%- when 'percent' -%}
+                <svg class="cart-progress-bar__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{% if tier2_unlocked %}color: #FFFFFF !important; stroke: #FFFFFF !important; fill: none !important;{% endif %}"><line x1="19" y1="5" x2="5" y2="19" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier2_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important;{% endif %}"></line><circle cx="6.5" cy="6.5" r="2.5" fill="none" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier2_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></circle><circle cx="17.5" cy="17.5" r="2.5" fill="none" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier2_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></circle></svg>
+              {%- when 'gift' -%}
+                <svg class="cart-progress-bar__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{% if tier2_unlocked %}color: #FFFFFF !important; stroke: #FFFFFF !important; fill: none !important;{% endif %}"><polyline points="20 12 20 22 4 22 4 12" fill="none" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier2_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important; fill: none !important;{% endif %}"></polyline><rect x="2" y="7" width="20" height="5" fill="none" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier2_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important; fill: none !important;{% endif %}"></rect><line x1="12" y1="22" x2="12" y2="7" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier2_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important;{% endif %}"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" fill="none" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier2_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important; fill: none !important;{% endif %}"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" fill="none" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier2_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important; fill: none !important;{% endif %}"></path></svg>
+              {%- else -%}
+                <svg class="cart-progress-bar__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{% if tier2_unlocked %}color: #FFFFFF !important; stroke: #FFFFFF !important; fill: none !important;{% endif %}"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" fill="none" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier2_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important; fill: none !important;{% endif %}"></path><line x1="7" y1="7" x2="7.01" y2="7" stroke="{% if tier2_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier2_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important;{% endif %}"></line></svg>
+            {%- endcase -%}
+          </div>
+          <span class="cart-progress-bar__label">{{ tier2_label }}</span>
+          <span class="cart-progress-bar__target">{{ tier2_sublabel }}</span>
+        </div>
+
+        {%- # Milestone 3: Buy 3 -> +10% OFF -%}
+        <div class="cart-progress-bar__milestone milestone-3{% if tier3_unlocked %} is-unlocked{% endif %}">
+          <div class="cart-progress-bar__circle" title="{{ tier3_label }}" style="{% if tier3_unlocked %}background-color: #0B1F33 !important; border-color: #0B1F33 !important; color: #FFFFFF !important;{% endif %}">
+            {%- case tier3_icon -%}
+              {%- when 'truck' -%}
+                <svg class="cart-progress-bar__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{% if tier3_unlocked %}color: #FFFFFF !important; stroke: #FFFFFF !important; fill: none !important;{% endif %}"><rect x="1" y="3" width="15" height="13" fill="none" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier3_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 8" fill="none" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier3_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></polygon><circle cx="5.5" cy="18.5" r="2.5" fill="none" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier3_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></circle><circle cx="18.5" cy="18.5" r="2.5" fill="none" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier3_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></circle></svg>
+              {%- when 'tag' -%}
+                <svg class="cart-progress-bar__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{% if tier3_unlocked %}color: #FFFFFF !important; stroke: #FFFFFF !important; fill: none !important;{% endif %}"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" fill="none" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier3_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important; fill: none !important;{% endif %}"></path><line x1="7" y1="7" x2="7.01" y2="7" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier3_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important;{% endif %}"></line></svg>
+              {%- when 'gift' -%}
+                <svg class="cart-progress-bar__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{% if tier3_unlocked %}color: #FFFFFF !important; stroke: #FFFFFF !important; fill: none !important;{% endif %}"><polyline points="20 12 20 22 4 22 4 12" fill="none" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier3_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important; fill: none !important;{% endif %}"></polyline><rect x="2" y="7" width="20" height="5" fill="none" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier3_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important; fill: none !important;{% endif %}"></rect><line x1="12" y1="22" x2="12" y2="7" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier3_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important;{% endif %}"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" fill="none" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier3_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important; fill: none !important;{% endif %}"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" fill="none" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier3_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important; fill: none !important;{% endif %}"></path></svg>
+              {%- else -%}
+                <svg class="cart-progress-bar__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="{% if tier3_unlocked %}color: #FFFFFF !important; stroke: #FFFFFF !important; fill: none !important;{% endif %}"><line x1="19" y1="5" x2="5" y2="19" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier3_unlocked %}stroke: #FFFFFF !important; color: #FFFFFF !important;{% endif %}"></line><circle cx="6.5" cy="6.5" r="2.5" fill="none" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier3_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></circle><circle cx="17.5" cy="17.5" r="2.5" fill="none" stroke="{% if tier3_unlocked %}#FFFFFF{% else %}currentColor{% endif %}" style="{% if tier3_unlocked %}stroke: #FFFFFF !important; fill: none !important; color: #FFFFFF !important;{% endif %}"></circle></svg>
+            {%- endcase -%}
+          </div>
+          <span class="cart-progress-bar__label">{{ tier3_label }}</span>
+          <span class="cart-progress-bar__target">{{ tier3_sublabel }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</cart-progress-bar>
+
+<style>
+  .cart-progress-bar-wrapper {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding-inline: 12px;
+    padding-block: 4px 6px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .cart-progress-bar-wrapper {
+      padding-inline: 18px;
+      padding-block: 6px 8px;
+    }
+  }
+
+  .cart-progress-bar__card {
+    background-color: var(--cpb-card-bg, #FFFFFF);
+    border: 1px solid var(--cpb-card-border, #EBE7DF);
+    border-radius: 8px;
+    padding: 6px 10px 8px 10px;
+    box-shadow: 0 1px 3px rgba(11, 31, 51, 0.04);
+    box-sizing: border-box;
+    width: 100%;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  @media screen and (min-width: 750px) {
+    .cart-progress-bar__card {
+      padding: 8px 14px 10px 14px;
+    }
+  }
+
+  .cart-progress-bar__message {
+    text-align: center;
+    font-family: var(--font-body-family, 'Inter', sans-serif);
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    line-height: 1.2;
+    color: var(--cpb-text-color, #0B1F33);
+    margin-bottom: 5px;
+    transition: color 0.3s ease;
+  }
+
+  @media screen and (min-width: 750px) {
+    .cart-progress-bar__message {
+      font-size: 11.5px;
+      margin-bottom: 6px;
+    }
+  }
+
+  .cart-progress-bar__timeline {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Connecting horizontal line track */
+  .cart-progress-bar__track {
+    position: absolute;
+    top: 12px;
+    left: 14%;
+    right: 14%;
+    height: 2.5px;
+    background-color: var(--cpb-track-color, #E5E7EB);
+    border-radius: 2px;
+    z-index: 1;
+    overflow: visible;
+  }
+
+  @media screen and (min-width: 750px) {
+    .cart-progress-bar__track {
+      top: 13px;
+    }
+  }
+
+  /* Progress fill */
+  .cart-progress-bar__fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: var(--cpb-progress-width, 0%);
+    max-width: 100%;
+    background-color: var(--cpb-fill-color, #0B1F33);
+    border-radius: 2px;
+    transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Needle dot at the leading tip of the fill line */
+  .cart-progress-bar__needle-dot {
+    position: absolute;
+    right: -3px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--cpb-fill-color, #0B1F33);
+    box-shadow: 0 0 0 1.5px #FFFFFF;
+    opacity: 0;
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+    pointer-events: none;
+  }
+
+  .cart-progress-bar-wrapper:not([style*="--cpb-progress-width: 0%"]):not([style*="--cpb-progress-width: 100%"]) .cart-progress-bar__needle-dot {
+    opacity: 1;
+  }
+
+  /* Milestones container */
+  .cart-progress-bar__milestones {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .cart-progress-bar__milestone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 32%;
+    box-sizing: border-box;
+    cursor: default;
+  }
+
+  /* Circle icon badge */
+  .cart-progress-bar__circle {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    min-height: 24px;
+    border-radius: 50%;
+    background-color: var(--cpb-inactive-circle-bg, #FFFFFF);
+    border: 1.5px solid var(--cpb-inactive-circle-border, #CBD5E1);
+    color: var(--cpb-inactive-circle-text, #8898AA);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  @media screen and (min-width: 750px) {
+    .cart-progress-bar__circle {
+      width: 26px;
+      height: 26px;
+      min-width: 26px;
+      min-height: 26px;
+    }
+  }
+
+  /* SVG Icons - Explicit stroke, fill: none, and sizing */
+  .cart-progress-bar__circle svg,
+  .cart-progress-bar__circle svg *,
+  .cart-progress-bar__icon,
+  .cart-progress-bar__icon * {
+    width: 12px !important;
+    height: 12px !important;
+    max-width: 12px !important;
+    max-height: 12px !important;
+    color: inherit !important;
+    stroke: currentColor !important;
+    fill: none !important;
+    stroke-width: 2.2px !important;
+    display: block !important;
+    transition: transform 0.3s ease, color 0.3s ease, stroke 0.3s ease;
+  }
+
+  .cart-progress-bar__circle svg path,
+  .cart-progress-bar__circle svg rect,
+  .cart-progress-bar__circle svg polygon,
+  .cart-progress-bar__circle svg circle,
+  .cart-progress-bar__circle svg line,
+  .cart-progress-bar__icon path,
+  .cart-progress-bar__icon rect,
+  .cart-progress-bar__icon polygon,
+  .cart-progress-bar__icon circle,
+  .cart-progress-bar__icon line {
+    stroke: currentColor !important;
+    fill: none !important;
+    stroke-width: 2.2px !important;
+  }
+
+  @media screen and (min-width: 750px) {
+    .cart-progress-bar__circle svg,
+    .cart-progress-bar__icon {
+      width: 13px !important;
+      height: 13px !important;
+      max-width: 13px !important;
+      max-height: 13px !important;
+    }
+  }
+
+  /* Unlocked state - Crystal clear pure white icon with absolute specificity overrides */
+  body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle,
+  body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle *,
+  body #header-component.header[transparent].header--scrolled .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle,
+  body #header-component.header[transparent].header--scrolled .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle *,
+  .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle,
+  .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle * {
+    color: #FFFFFF !important;
+  }
+
+  body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle,
+  body #header-component.header[transparent].header--scrolled .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle,
+  .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle {
+    background-color: var(--cpb-active-circle-bg, #0B1F33) !important;
+    border-color: var(--cpb-active-circle-bg, #0B1F33) !important;
+    box-shadow: 0 2px 6px rgba(11, 31, 51, 0.25) !important;
+    transform: scale(1.06);
+  }
+
+  body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg,
+  body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg *,
+  body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg path,
+  body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg rect,
+  body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg polygon,
+  body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg circle,
+  body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg line,
+  body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg polyline,
+  body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__icon,
+  body #header-component.header .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__icon *,
+  body #header-component.header[transparent].header--scrolled .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg,
+  body #header-component.header[transparent].header--scrolled .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg *,
+  body #header-component.header[transparent].header--scrolled .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__icon,
+  body #header-component.header[transparent].header--scrolled .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__icon *,
+  .cart-drawer .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg,
+  .cart-drawer .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg *,
+  .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg,
+  .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg *,
+  .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg path,
+  .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg rect,
+  .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg polygon,
+  .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg circle,
+  .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg line,
+  .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__circle svg polyline,
+  .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__icon,
+  .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__icon * {
+    color: #FFFFFF !important;
+    stroke: #FFFFFF !important;
+    fill: none !important;
+    stroke-width: 2.2px !important;
+  }
+
+  /* Labels */
+  .cart-progress-bar__label {
+    margin-top: 4px;
+    font-family: var(--font-body-family, 'Inter', sans-serif);
+    font-size: 8.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+    color: var(--cpb-text-color, #0B1F33);
+    text-align: center;
+    transition: color 0.3s ease;
+  }
+
+  @media screen and (min-width: 750px) {
+    .cart-progress-bar__label {
+      font-size: 9.5px;
+      margin-top: 4px;
+    }
+  }
+
+  .cart-progress-bar__target {
+    margin-top: 1px;
+    font-family: var(--font-body-family, 'Inter', sans-serif);
+    font-size: 8px;
+    font-weight: 600;
+    color: #8898AA;
+    line-height: 1.15;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    transition: color 0.3s ease;
+  }
+
+  @media screen and (min-width: 750px) {
+    .cart-progress-bar__target {
+      font-size: 9px;
+    }
+  }
+
+  .cart-progress-bar__milestone.is-unlocked .cart-progress-bar__target {
+    color: var(--cpb-highlight-color, #15803D);
+    font-weight: 700;
+  }
+</style>
+
+<script>
+  if (!customElements.get('cart-progress-bar')) {
+    class CartProgressBar extends HTMLElement {
+      connectedCallback() {
+        this.#bindEvents();
+        // Sync with current data-cart-item-count on mount
+        const initialCount = parseInt(this.dataset.cartItemCount, 10);
+        if (!isNaN(initialCount)) {
+          this.updateState(initialCount);
+        }
+      }
+
+      #bindEvents() {
+        document.addEventListener('cart:update', this.#handleUpdate);
+        document.addEventListener('cart-update', this.#handleUpdate);
+        document.addEventListener('cart:add', this.#handleUpdate);
+        document.addEventListener('cart-add', this.#handleUpdate);
+        document.addEventListener('cart:change', this.#handleUpdate);
+        document.addEventListener('dialog:open', this.#handleUpdate);
+        document.addEventListener('cart-drawer:open', this.#handleUpdate);
+      }
+
+      #handleUpdate = (event) => {
+        const cartData = event?.detail?.data || event?.detail?.cart || event?.detail?.resource;
+        if (cartData && typeof cartData.item_count === 'number') {
+          this.updateState(cartData.item_count);
+        } else {
+          fetch('/cart.js')
+            .then(res => res.json())
+            .then(cart => {
+              if (typeof cart?.item_count === 'number') {
+                this.updateState(cart.item_count);
+              }
+            })
+            .catch(() => {});
+        }
+      };
+
+      updateState(itemCount) {
+        const count = typeof itemCount === 'number' ? itemCount : (parseInt(this.dataset.cartItemCount, 10) || 0);
+        this.dataset.cartItemCount = count;
+
+        const tier1Unlocked = count >= 1;
+        const tier2Unlocked = count >= 2;
+        const tier3Unlocked = count >= 3;
+
+        // Progress line %
+        let progressPct = 0;
+        if (count === 1) {
+          progressPct = 25;
+        } else if (count === 2) {
+          progressPct = 50;
+        } else if (count >= 3) {
+          progressPct = 100;
+        }
+        this.style.setProperty('--cpb-progress-width', `${progressPct}%`);
+
+        // Milestone classes & direct SVG white icon enforcement
+        const updateMilestone = (selector, isUnlocked) => {
+          const m = this.querySelector(selector);
+          if (!m) return;
+          m.classList.toggle('is-unlocked', isUnlocked);
+          const circle = m.querySelector('.cart-progress-bar__circle');
+          if (circle) {
+            circle.style.setProperty('color', isUnlocked ? '#FFFFFF' : '#8898AA', 'important');
+            circle.style.setProperty('background-color', isUnlocked ? '#0B1F33' : '#FFFFFF', 'important');
+            circle.style.setProperty('border-color', isUnlocked ? '#0B1F33' : '#CBD5E1', 'important');
+            const svg = circle.querySelector('svg');
+            if (svg) {
+              svg.setAttribute('stroke', isUnlocked ? '#FFFFFF' : '#8898AA');
+              svg.style.setProperty('color', isUnlocked ? '#FFFFFF' : '#8898AA', 'important');
+              svg.style.setProperty('stroke', isUnlocked ? '#FFFFFF' : '#8898AA', 'important');
+              svg.style.setProperty('fill', 'none', 'important');
+              svg.querySelectorAll('path, rect, polygon, circle, line, polyline').forEach(child => {
+                child.setAttribute('stroke', isUnlocked ? '#FFFFFF' : '#8898AA');
+                child.style.setProperty('color', isUnlocked ? '#FFFFFF' : '#8898AA', 'important');
+                child.style.setProperty('stroke', isUnlocked ? '#FFFFFF' : '#8898AA', 'important');
+                child.style.setProperty('fill', 'none', 'important');
+              });
+            }
+          }
+        };
+
+        updateMilestone('.milestone-1', tier1Unlocked);
+        updateMilestone('.milestone-2', tier2Unlocked);
+        updateMilestone('.milestone-3', tier3Unlocked);
+
+        // Dynamic messaging
+        let msg = '';
+        if (count === 0) {
+          msg = this.dataset.msgEmpty || 'FREE SHIPPING ON ALL ORDERS';
+        } else if (count === 1) {
+          msg = this.dataset.msgTier1 || 'Add 1 more product to unlock 5% OFF';
+        } else if (count === 2) {
+          msg = this.dataset.msgTier2 || 'Buy 1 more product to unlock 10% OFF';
+        } else {
+          msg = this.dataset.msgCompleted || 'You unlocked 10% OFF 🎉';
+        }
+
+        const msgEl = this.querySelector('.cart-progress-bar__message');
+        if (msgEl) {
+          msgEl.textContent = msg;
+        }
+      }
+    }
+    customElements.define('cart-progress-bar', CartProgressBar);
+  }
+</script>
