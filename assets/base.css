@@ -6873,14 +6873,20 @@ html body .cart-recommendations .cart-recommendations__nav:hover svg {
 }
 
 /* Sold-out / error state — cart item */
-.cart-drawer .cart-items__error:not(.hidden) {
+.cart-drawer .cart-items__error.hidden,
+.cart-drawer .cart-items__error:has(.cart-item__error-text:empty),
+.cart-drawer .cart-item__error:has(.cart-item__error-text:empty) {
+  display: none !important;
+}
+
+.cart-drawer .cart-items__error:not(.hidden):has(.cart-item__error-text:not(:empty)) {
   display: flex !important;
   align-items: flex-start !important;
   width: 100% !important;
   margin-block-start: 4px !important;
 }
 
-.cart-drawer .cart-item__error {
+.cart-drawer .cart-item__error:not(:has(.cart-item__error-text:empty)) {
   display: flex !important;
   align-items: flex-start !important;
   gap: 5px !important;

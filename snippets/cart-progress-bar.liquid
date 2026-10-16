@@ -1,9 +1,8 @@
 {%- doc -%}
-  Renders the tiered rewards & free shipping offer section for the cart drawer.
-  Updated based on client requirements:
-  - Free Shipping on all orders (no minimum cart threshold)
-  - Buy 2 -> +5% OFF
-  - Buy 3 -> +10% OFF
+  Renders the tiered rewards offer section for the cart drawer:
+  - Buy 1 -> ₹200 OFF (Code: FIRST200)
+  - Buy 2 -> 5% OFF (Code: BUY2G5)
+  - Buy 3 -> 10% OFF (Code: BUY3G10)
   - Dynamic milestone logic based on total cart item quantity (cart.item_count)
 {%- enddoc -%}
 
@@ -31,13 +30,13 @@
   # Milestone labels & icons
   assign tier1_label = settings.cart_progress_bar_tier1_label
   if tier1_label == blank
-    assign tier1_label = 'FREE SHIPPING'
+    assign tier1_label = 'BUY 1'
   endif
   assign tier1_sublabel = settings.cart_progress_bar_tier1_sublabel
   if tier1_sublabel == blank
-    assign tier1_sublabel = 'ALL ORDERS'
+    assign tier1_sublabel = '₹200 OFF'
   endif
-  assign tier1_icon = settings.cart_progress_bar_tier1_icon | default: 'truck'
+  assign tier1_icon = settings.cart_progress_bar_tier1_icon | default: 'tag'
 
   assign tier2_label = settings.cart_progress_bar_tier2_label
   if tier2_label == blank
@@ -62,22 +61,22 @@
   # Dynamic messages
   assign msg_empty = settings.cart_progress_bar_msg_empty
   if msg_empty == blank
-    assign msg_empty = 'FREE SHIPPING ON ALL ORDERS'
+    assign msg_empty = 'ADD 1 PRODUCT TO UNLOCK ₹200 OFF'
   endif
 
   assign msg_tier1 = settings.cart_progress_bar_msg_tier1
   if msg_tier1 == blank
-    assign msg_tier1 = 'Add 1 more product to unlock 5% OFF'
+    assign msg_tier1 = 'BUY 1 MORE PRODUCT TO UNLOCK 5% OFF'
   endif
 
   assign msg_tier2 = settings.cart_progress_bar_msg_tier2
   if msg_tier2 == blank
-    assign msg_tier2 = 'Buy 1 more product to unlock 10% OFF'
+    assign msg_tier2 = 'BUY 1 MORE PRODUCT TO UNLOCK 10% OFF'
   endif
 
   assign msg_completed = settings.cart_progress_bar_completed_msg
   if msg_completed == blank
-    assign msg_completed = 'You unlocked 10% OFF 🎉'
+    assign msg_completed = '10% OFF UNLOCKED — CODE: BUY3G10'
   endif
 
   # Determine unlocked milestones (based on total cart item quantity cart.item_count)
@@ -213,8 +212,8 @@
       </div>
 
       <div class="cart-progress-bar__milestones">
-        {%- # Milestone 1: Free Shipping on all orders -%}
-        <div class="cart-progress-bar__milestone milestone-1{% if tier1_unlocked %} is-unlocked{% endif %}">
+        {%- # Milestone 1: Buy 1 -> ₹200 OFF -%}
+        <div class="cart-progress-bar__milestone milestone-1{% if tier1_unlocked %} is-unlocked{% endif %}{% if item_count == 1 %} is-active{% endif %}">
           <div class="cart-progress-bar__circle" title="{{ tier1_label }}" style="{% if tier1_unlocked %}background-color: #0B1F33 !important; border-color: #0B1F33 !important; color: #FFFFFF !important;{% endif %}">
             {%- case tier1_icon -%}
               {%- when 'tag' -%}
@@ -232,7 +231,7 @@
         </div>
 
         {%- # Milestone 2: Buy 2 -> +5% OFF -%}
-        <div class="cart-progress-bar__milestone milestone-2{% if tier2_unlocked %} is-unlocked{% endif %}">
+        <div class="cart-progress-bar__milestone milestone-2{% if tier2_unlocked %} is-unlocked{% endif %}{% if item_count == 2 %} is-active{% endif %}">
           <div class="cart-progress-bar__circle" title="{{ tier2_label }}" style="{% if tier2_unlocked %}background-color: #0B1F33 !important; border-color: #0B1F33 !important; color: #FFFFFF !important;{% endif %}">
             {%- case tier2_icon -%}
               {%- when 'truck' -%}
@@ -250,7 +249,7 @@
         </div>
 
         {%- # Milestone 3: Buy 3 -> +10% OFF -%}
-        <div class="cart-progress-bar__milestone milestone-3{% if tier3_unlocked %} is-unlocked{% endif %}">
+        <div class="cart-progress-bar__milestone milestone-3{% if tier3_unlocked %} is-unlocked{% endif %}{% if item_count >= 3 %} is-active{% endif %}">
           <div class="cart-progress-bar__circle" title="{{ tier3_label }}" style="{% if tier3_unlocked %}background-color: #0B1F33 !important; border-color: #0B1F33 !important; color: #FFFFFF !important;{% endif %}">
             {%- case tier3_icon -%}
               {%- when 'truck' -%}
@@ -266,6 +265,61 @@
           <span class="cart-progress-bar__label">{{ tier3_label }}</span>
           <span class="cart-progress-bar__target">{{ tier3_sublabel }}</span>
         </div>
+      </div>
+    </div>
+
+    {%- # Unlocked Coupon Card -%}
+    {%- assign active_coupon_code = '' -%}
+    {%- assign active_coupon_discount = '' -%}
+    {%- if item_count >= 3 -%}
+      {%- assign active_coupon_code = 'BUY3G10' -%}
+      {%- assign active_coupon_discount = '10% OFF' -%}
+    {%- elsif item_count == 2 -%}
+      {%- assign active_coupon_code = 'BUY2G5' -%}
+      {%- assign active_coupon_discount = '5% OFF' -%}
+    {%- elsif item_count == 1 -%}
+      {%- assign active_coupon_code = 'FIRST200' -%}
+      {%- assign active_coupon_discount = '₹200 OFF' -%}
+    {%- endif -%}
+
+    <div
+      class="cart-progress-bar__coupon-card{% if item_count >= 1 %} is-visible{% endif %}"
+      {% if item_count < 1 %}style="display: none;"{% endif %}
+    >
+      <div class="cart-progress-bar__coupon-left">
+        <span class="cart-progress-bar__coupon-tag-icon" aria-hidden="true">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#15803D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+          </svg>
+        </span>
+        <div class="cart-progress-bar__coupon-text-wrap">
+          <span class="cart-progress-bar__coupon-unlocked-title">
+            Coupon unlocked: <strong class="cart-progress-bar__coupon-code-text">{{ active_coupon_code }}</strong>
+          </span>
+          <span class="cart-progress-bar__coupon-unlocked-sub">
+            <span class="cart-progress-bar__coupon-discount-text">{{ active_coupon_discount }}</span> UNLOCKED
+          </span>
+        </div>
+      </div>
+
+      <div class="cart-progress-bar__coupon-right">
+        <div class="cart-progress-bar__coupon-pill">
+          <span class="cart-progress-bar__coupon-pill-code">{{ active_coupon_code }}</span>
+        </div>
+        <button
+          type="button"
+          class="cart-progress-bar__copy-btn"
+          data-code="{{ active_coupon_code }}"
+          title="Copy coupon code"
+          aria-label="Copy coupon code"
+        >
+          {% comment %} <svg class="cart-progress-bar__copy-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg> {% endcomment %}
+          <span class="cart-progress-bar__copy-text" style="color: white !important; padding: 5px;">COPY</span>
+        </button>
       </div>
     </div>
   </div>
@@ -566,6 +620,176 @@
     color: var(--cpb-highlight-color, #15803D);
     font-weight: 700;
   }
+
+  /* Active currently unlocked milestone */
+  .cart-progress-bar__milestone.is-active .cart-progress-bar__circle {
+    box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4px #0B1F33, 0 3px 8px rgba(11, 31, 51, 0.25) !important;
+    transform: scale(1.1) !important;
+  }
+
+  .cart-progress-bar__milestone.is-active .cart-progress-bar__label {
+    color: #0B1F33 !important;
+    font-weight: 800 !important;
+  }
+
+  .cart-progress-bar__milestone.is-active .cart-progress-bar__target {
+    color: #15803D !important;
+    font-weight: 800 !important;
+    background-color: #F0FDF4;
+    padding: 1px 4px;
+    border-radius: 4px;
+    border: 1px solid #DCFCE7;
+    display: inline-block;
+  }
+
+  /* Unlocked Coupon Card */
+  .cart-progress-bar__coupon-card {
+    margin-top: 8px;
+    padding: 6px 10px;
+    background: linear-gradient(135deg, #F0FDF4 0%, #F8FAFC 100%);
+    border: 1px dashed #86EFAC;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    box-sizing: border-box;
+    width: 100%;
+    animation: cpb-fade-in 0.3s ease;
+  }
+
+  @keyframes cpb-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(-3px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .cart-progress-bar__coupon-left {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .cart-progress-bar__coupon-tag-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: #DCFCE7;
+    color: #15803D;
+  }
+
+  .cart-progress-bar__coupon-text-wrap {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.2;
+  }
+
+  .cart-progress-bar__coupon-unlocked-title {
+    font-family: var(--font-body-family, 'Inter', sans-serif);
+    font-size: 10.5px;
+    font-weight: 600;
+    color: #0B1F33;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cart-progress-bar__coupon-unlocked-title strong {
+    font-weight: 800;
+    color: #0B1F33;
+  }
+
+  .cart-progress-bar__coupon-unlocked-sub {
+    font-family: var(--font-body-family, 'Inter', sans-serif);
+    font-size: 8px;
+    font-weight: 700;
+    color: #15803D;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+
+  .cart-progress-bar__coupon-right {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+
+  .cart-progress-bar__coupon-pill {
+    background-color: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-radius: 4px;
+    padding: 3px 7px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+
+  .cart-progress-bar__coupon-pill-code {
+    font-family: var(--font-body-family, 'Inter', sans-serif);
+    font-size: 11px;
+    font-weight: 800;
+    color: #0B1F33;
+    letter-spacing: 0.05em;
+  }
+
+  .cart-progress-bar__copy-btn {
+    background-color: #0B1F33;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 9px;
+    font-family: var(--font-body-family, 'Inter', sans-serif);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+
+  .cart-progress-bar__copy-btn:hover {
+    background-color: #1A365D;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(11, 31, 51, 0.15);
+  }
+
+  .cart-progress-bar__copy-btn.is-copied {
+    background-color: #15803D !important;
+    color: #FFFFFF !important;
+  }
+
+  @media screen and (max-width: 380px) {
+    .cart-progress-bar__coupon-unlocked-sub {
+      display: none;
+    }
+    .cart-progress-bar__coupon-pill-code {
+      font-size: 10px;
+    }
+    .cart-progress-bar__copy-btn {
+      padding: 3px 6px;
+      font-size: 9px;
+    }
+  }
 </style>
 
 <script>
@@ -581,19 +805,71 @@
       }
 
       #bindEvents() {
-        document.addEventListener('cart:update', this.#handleUpdate);
-        document.addEventListener('cart-update', this.#handleUpdate);
-        document.addEventListener('cart:add', this.#handleUpdate);
-        document.addEventListener('cart-add', this.#handleUpdate);
-        document.addEventListener('cart:change', this.#handleUpdate);
-        document.addEventListener('dialog:open', this.#handleUpdate);
-        document.addEventListener('cart-drawer:open', this.#handleUpdate);
+        const events = [
+          'cart:update',
+          'cart:updated',
+          'cart-update',
+          'cart:add',
+          'cart-add',
+          'cart:change',
+          'dialog:open',
+          'cart-drawer:open'
+        ];
+        events.forEach(evt => document.addEventListener(evt, this.#handleUpdate));
+
+        // Copy coupon code event delegation
+        this.addEventListener('click', (e) => {
+          const btn = e.target.closest('.cart-progress-bar__copy-btn');
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+
+          const code = btn.dataset.code || this.querySelector('.cart-progress-bar__coupon-pill-code')?.textContent?.trim();
+          if (!code) return;
+
+          const onSuccess = () => {
+            btn.classList.add('is-copied');
+            const textEl = btn.querySelector('.cart-progress-bar__copy-text');
+            const orig = textEl ? textEl.textContent : 'COPY';
+            if (textEl) textEl.textContent = 'COPIED';
+            setTimeout(() => {
+              btn.classList.remove('is-copied');
+              if (textEl) textEl.textContent = orig;
+            }, 2000);
+          };
+
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(code).then(onSuccess).catch(() => {
+              this.#fallbackCopy(code, onSuccess);
+            });
+          } else {
+            this.#fallbackCopy(code, onSuccess);
+          }
+        });
+      }
+
+      #fallbackCopy(text, callback) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          if (callback) callback();
+        } catch (e) {
+          console.warn('Copy failed', e);
+        }
+        document.body.removeChild(textarea);
       }
 
       #handleUpdate = (event) => {
         const cartData = event?.detail?.data || event?.detail?.cart || event?.detail?.resource;
         if (cartData && typeof cartData.item_count === 'number') {
           this.updateState(cartData.item_count);
+        } else if (cartData && typeof cartData.itemCount === 'number') {
+          this.updateState(cartData.itemCount);
         } else {
           fetch('/cart.js')
             .then(res => res.json())
@@ -626,10 +902,12 @@
         this.style.setProperty('--cpb-progress-width', `${progressPct}%`);
 
         // Milestone classes & direct SVG white icon enforcement
-        const updateMilestone = (selector, isUnlocked) => {
+        const updateMilestone = (selector, isUnlocked, isActive) => {
           const m = this.querySelector(selector);
           if (!m) return;
           m.classList.toggle('is-unlocked', isUnlocked);
+          m.classList.toggle('is-active', isActive);
+
           const circle = m.querySelector('.cart-progress-bar__circle');
           if (circle) {
             circle.style.setProperty('color', isUnlocked ? '#FFFFFF' : '#8898AA', 'important');
@@ -651,25 +929,59 @@
           }
         };
 
-        updateMilestone('.milestone-1', tier1Unlocked);
-        updateMilestone('.milestone-2', tier2Unlocked);
-        updateMilestone('.milestone-3', tier3Unlocked);
+        // Milestone 1 is active when count === 1; Milestone 2 is active when count === 2; Milestone 3 is active when count >= 3
+        updateMilestone('.milestone-1', tier1Unlocked, count === 1);
+        updateMilestone('.milestone-2', tier2Unlocked, count === 2);
+        updateMilestone('.milestone-3', tier3Unlocked, count >= 3);
 
         // Dynamic messaging
         let msg = '';
         if (count === 0) {
-          msg = this.dataset.msgEmpty || 'FREE SHIPPING ON ALL ORDERS';
+          msg = this.dataset.msgEmpty || 'ADD 1 PRODUCT TO UNLOCK ₹200 OFF';
         } else if (count === 1) {
-          msg = this.dataset.msgTier1 || 'Add 1 more product to unlock 5% OFF';
+          msg = this.dataset.msgTier1 || 'BUY 1 MORE PRODUCT TO UNLOCK 5% OFF';
         } else if (count === 2) {
-          msg = this.dataset.msgTier2 || 'Buy 1 more product to unlock 10% OFF';
+          msg = this.dataset.msgTier2 || 'BUY 1 MORE PRODUCT TO UNLOCK 10% OFF';
         } else {
-          msg = this.dataset.msgCompleted || 'You unlocked 10% OFF 🎉';
+          msg = this.dataset.msgCompleted || '10% OFF UNLOCKED — CODE: BUY3G10';
         }
 
         const msgEl = this.querySelector('.cart-progress-bar__message');
         if (msgEl) {
           msgEl.textContent = msg;
+        }
+
+        // Dynamic Coupon Card update
+        const couponCard = this.querySelector('.cart-progress-bar__coupon-card');
+        if (couponCard) {
+          if (count >= 1) {
+            couponCard.style.display = 'flex';
+            couponCard.classList.add('is-visible');
+            let code = 'BUY3G10';
+            let discount = '10% OFF';
+            if (count === 1) {
+              code = 'FIRST200';
+              discount = '₹200 OFF';
+            } else if (count === 2) {
+              code = 'BUY2G5';
+              discount = '5% OFF';
+            }
+
+            const codeText = couponCard.querySelector('.cart-progress-bar__coupon-code-text');
+            if (codeText) codeText.textContent = code;
+
+            const discountText = couponCard.querySelector('.cart-progress-bar__coupon-discount-text');
+            if (discountText) discountText.textContent = discount;
+
+            const pillCode = couponCard.querySelector('.cart-progress-bar__coupon-pill-code');
+            if (pillCode) pillCode.textContent = code;
+
+            const copyBtn = couponCard.querySelector('.cart-progress-bar__copy-btn');
+            if (copyBtn) copyBtn.dataset.code = code;
+          } else {
+            couponCard.style.display = 'none';
+            couponCard.classList.remove('is-visible');
+          }
         }
       }
     }

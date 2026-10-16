@@ -2451,32 +2451,32 @@
       },
       {
         "type": "header",
-        "content": "Tier 1: Free Shipping (All Orders)"
+        "content": "Tier 1: Buy 1 (₹200 OFF)"
       },
       {
         "type": "text",
         "id": "cart_progress_bar_tier1_label",
         "label": "Badge label",
-        "default": "FREE SHIPPING"
+        "default": "BUY 1"
       },
       {
         "type": "text",
         "id": "cart_progress_bar_tier1_sublabel",
         "label": "Badge sub-label",
-        "default": "ALL ORDERS"
+        "default": "₹200 OFF"
       },
       {
         "type": "select",
         "id": "cart_progress_bar_tier1_icon",
         "label": "Badge icon",
         "options": [
-          { "value": "truck", "label": "Delivery Truck" },
           { "value": "tag", "label": "Tag / Discount" },
+          { "value": "truck", "label": "Delivery Truck" },
           { "value": "percent", "label": "Percentage (%)" },
           { "value": "gift", "label": "Gift Box" },
           { "value": "star", "label": "Star" }
         ],
-        "default": "truck"
+        "default": "tag"
       },
       {
         "type": "header",
@@ -2511,7 +2511,7 @@
         "type": "text",
         "id": "cart_progress_bar_msg_tier1",
         "label": "Message when 1 product in cart",
-        "default": "Add 1 more product to unlock 5% OFF"
+        "default": "BUY 1 MORE PRODUCT TO UNLOCK 5% OFF"
       },
       {
         "type": "header",
@@ -2546,7 +2546,7 @@
         "type": "text",
         "id": "cart_progress_bar_msg_tier2",
         "label": "Message when 2 products in cart",
-        "default": "Buy 1 more product to unlock 10% OFF"
+        "default": "BUY 1 MORE PRODUCT TO UNLOCK 10% OFF"
       },
       {
         "type": "header",
@@ -2556,13 +2556,13 @@
         "type": "text",
         "id": "cart_progress_bar_completed_msg",
         "label": "Celebration message (3+ items)",
-        "default": "🎉 10% OFF & Free Shipping unlocked!"
+        "default": "10% OFF UNLOCKED — CODE: BUY3G10"
       },
       {
         "type": "text",
         "id": "cart_progress_bar_msg_empty",
         "label": "Message when cart is empty",
-        "default": "FREE SHIPPING ON ALL ORDERS"
+        "default": "ADD 1 PRODUCT TO UNLOCK ₹200 OFF"
       }
     ]
   },
