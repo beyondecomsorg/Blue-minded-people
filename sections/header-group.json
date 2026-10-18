@@ -32,7 +32,7 @@
           "type": "_announcement",
           "name": "t:names.announcement",
           "settings": {
-            "text": "<strong>&nbsp;Buy 2</strong> and Get <strong>Extra 5%</strong> Off Use Code: <strong>EXTRA5</strong>",
+            "text": "<strong>&nbsp;Buy 2</strong> & Get <strong>Extra 5%</strong> Off Use Code: <strong>EXTRA5</strong>",
             "link": "shopify://collections/all",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
@@ -46,7 +46,7 @@
           "type": "_announcement",
           "name": "t:names.announcement",
           "settings": {
-            "text": "<strong>&nbsp;Buy 3</strong> and Get <strong>Extra 10% </strong>Off Use Code: <strong>EXTRA10</strong>",
+            "text": "<strong>Buy 3</strong> & Get <strong>Extra 10% </strong>Off Use Code: <strong>EXTRA10</strong>",
             "link": "shopify://collections/all",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
