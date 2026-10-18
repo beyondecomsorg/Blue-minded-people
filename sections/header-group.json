@@ -18,6 +18,20 @@
           "type": "_announcement",
           "name": "t:names.announcement",
           "settings": {
+            "text": "<strong>&nbsp;200 OFF </strong>on first Purchase Use Code: <strong>FIRST200&nbsp;</strong>",
+            "link": "shopify://collections/all",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none"
+          },
+          "blocks": {}
+        },
+        "announcement_8dDarL": {
+          "type": "_announcement",
+          "name": "t:names.announcement",
+          "settings": {
             "text": "Festive Sale is Live - Shop Now",
             "link": "shopify://collections/all",
             "font": "var(--font-body--family)",
@@ -58,6 +72,7 @@
       },
       "block_order": [
         "announcement_67MUxj",
+        "announcement_8dDarL",
         "announcement_jixYVn",
         "announcement_BemRCx"
       ],
