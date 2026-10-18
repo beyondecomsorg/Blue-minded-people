@@ -275,7 +275,7 @@
       {%- assign active_coupon_code = 'BUY3G10' -%}
       {%- assign active_coupon_discount = '10% OFF' -%}
     {%- elsif item_count == 2 -%}
-      {%- assign active_coupon_code = 'BUY2G5' -%}
+      {%- assign active_coupon_code = 'EXTRA5' -%}
       {%- assign active_coupon_discount = '5% OFF' -%}
     {%- elsif item_count == 1 -%}
       {%- assign active_coupon_code = 'FIRST200' -%}
@@ -963,7 +963,7 @@
               code = 'FIRST200';
               discount = '₹200 OFF';
             } else if (count === 2) {
-              code = 'BUY2G5';
+              code = 'EXTRA5';
               discount = '5% OFF';
             }
 
