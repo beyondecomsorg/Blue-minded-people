@@ -2556,7 +2556,7 @@
         "type": "text",
         "id": "cart_progress_bar_completed_msg",
         "label": "Celebration message (3+ items)",
-        "default": "10% OFF UNLOCKED — CODE: BUY3G10"
+        "default": "10% OFF UNLOCKED — CODE: EXTRA10"
       },
       {
         "type": "text",

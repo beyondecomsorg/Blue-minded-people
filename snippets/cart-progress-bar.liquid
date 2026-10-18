@@ -76,7 +76,7 @@
 
   assign msg_completed = settings.cart_progress_bar_completed_msg
   if msg_completed == blank
-    assign msg_completed = '10% OFF UNLOCKED — CODE: BUY3G10'
+    assign msg_completed = '10% OFF UNLOCKED — CODE: EXTRA10'
   endif
 
   # Determine unlocked milestones (based on total cart item quantity cart.item_count)
@@ -272,7 +272,7 @@
     {%- assign active_coupon_code = '' -%}
     {%- assign active_coupon_discount = '' -%}
     {%- if item_count >= 3 -%}
-      {%- assign active_coupon_code = 'BUY3G10' -%}
+      {%- assign active_coupon_code = 'EXTRA10' -%}
       {%- assign active_coupon_discount = '10% OFF' -%}
     {%- elsif item_count == 2 -%}
       {%- assign active_coupon_code = 'EXTRA5' -%}
@@ -943,7 +943,7 @@
         } else if (count === 2) {
           msg = this.dataset.msgTier2 || 'BUY 1 MORE PRODUCT TO UNLOCK 10% OFF';
         } else {
-          msg = this.dataset.msgCompleted || '10% OFF UNLOCKED — CODE: BUY3G10';
+          msg = this.dataset.msgCompleted || '10% OFF UNLOCKED — CODE: EXTRA10';
         }
 
         const msgEl = this.querySelector('.cart-progress-bar__message');
