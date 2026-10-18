@@ -28,6 +28,34 @@
           },
           "blocks": {}
         },
+        "announcement_bQATDQ": {
+          "type": "_announcement",
+          "name": "t:names.announcement",
+          "settings": {
+            "text": "<strong>&nbsp;Buy 2</strong> and Get <strong>Extra 5%</strong> Off Use Code: <strong>EXTRA5</strong>",
+            "link": "shopify://collections/all",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none"
+          },
+          "blocks": {}
+        },
+        "announcement_ecdBkD": {
+          "type": "_announcement",
+          "name": "t:names.announcement",
+          "settings": {
+            "text": "<strong>&nbsp;Buy 3</strong> and Get <strong>Extra 10% </strong>Off Use Code: <strong>EXTRA10</strong>",
+            "link": "shopify://collections/all",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none"
+          },
+          "blocks": {}
+        },
         "announcement_8dDarL": {
           "type": "_announcement",
           "name": "t:names.announcement",
@@ -72,6 +100,8 @@
       },
       "block_order": [
         "announcement_67MUxj",
+        "announcement_bQATDQ",
+        "announcement_ecdBkD",
         "announcement_8dDarL",
         "announcement_jixYVn",
         "announcement_BemRCx"
