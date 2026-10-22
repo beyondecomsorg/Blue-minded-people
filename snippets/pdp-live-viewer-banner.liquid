@@ -8,7 +8,7 @@
   assign target_product = product | default: closest.product
   assign product_id = target_product.id | default: section.id | default: 'main'
   assign viewer_count = block.settings.viewer_count | default: 31
-  assign stock_text = block.settings.stock_text | default: 'Only few left in stock!'
+  assign stock_text = block.settings.stock_text 
 %}
 
 <div class="pdp-viewer-banner" {{ block.shopify_attributes }}>
