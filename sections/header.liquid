@@ -183,7 +183,7 @@
               </summary>
               <div ref="menuDrawer" class="menu-drawer color-{{ section.settings.color_scheme_bottom | default: 'scheme-5' }}">
                 <div class="menu-drawer__header">
-                  <span class="menu-drawer__title">MENU</span>
+                  {% comment %} <span class="menu-drawer__title">MENU</span> {% endcomment %}
                   <button class="button close-button menu-drawer__close-button button-unstyled" type="button" aria-label="Close" on:click="/close">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="icon icon-close">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
