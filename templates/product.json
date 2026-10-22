@@ -303,7 +303,7 @@
               "name": "Live Viewer & Stock",
               "settings": {
                 "viewer_count": 31,
-                "stock_text": "Only few left in stock!"
+                "stock_text": ""
               }
             },
             "pdp_sales_demand_banner": {
