@@ -203,7 +203,7 @@
                         <li class="menu-drawer__item has-sublinks">
                           <details class="menu-drawer__accordion" open>
                             <summary class="menu-drawer__summary">
-                              <a href="{{ link.url }}" class="menu-drawer__link{% if section.settings.highlight_item_index > 0 and forloop.index == section.settings.highlight_item_index %} menu-drawer__link--highlighted{% endif %}{% if is_sale %} sale-text menu-drawer__link--sale{% endif %}">
+                              <a href="{{ link.url }}" class="menu-drawer__link{% if section.settings.highlight_item_index > 0 and forloop.index == section.settings.highlight_item_index %} menu-drawer__link--highlighted{% endif %}{% if is_sale %} sale-text menu-drawer__link--sale{% endif %}" {% if is_sale %}style="color: #e50000 !important;"{% endif %}>
                                 {% render 'render-menu-link-title', title: link.title %}
                               </a>
                               <span class="menu-drawer__caret">
@@ -218,7 +218,7 @@
                                   {%- assign is_child_sale = true -%}
                                 {%- endif -%}
                                 <li class="menu-drawer__subitem">
-                                  <a href="{{ child_link.url }}" class="menu-drawer__sublink{% if is_child_sale %} sale-text menu-drawer__sublink--sale{% endif %}">
+                                  <a href="{{ child_link.url }}" class="menu-drawer__sublink{% if is_child_sale %} sale-text menu-drawer__sublink--sale{% endif %}" {% if is_child_sale %}style="color: #e50000 !important;"{% endif %}>
                                     {% render 'render-menu-link-title', title: child_link.title %}
                                   </a>
                                 </li>
@@ -228,7 +228,7 @@
                         </li>
                       {%- else -%}
                         <li class="menu-drawer__item">
-                          <a href="{{ link.url }}" class="menu-drawer__link{% if section.settings.highlight_item_index > 0 and forloop.index == section.settings.highlight_item_index %} menu-drawer__link--highlighted{% endif %}{% if is_sale %} sale-text menu-drawer__link--sale{% endif %}">
+                          <a href="{{ link.url }}" class="menu-drawer__link{% if section.settings.highlight_item_index > 0 and forloop.index == section.settings.highlight_item_index %} menu-drawer__link--highlighted{% endif %}{% if is_sale %} sale-text menu-drawer__link--sale{% endif %}" {% if is_sale %}style="color: #e50000 !important;"{% endif %}>
                             {% render 'render-menu-link-title', title: link.title %}
                           </a>
                         </li>
@@ -468,9 +468,7 @@
                 <a
                   href="{{ link.url }}"
                   class="header-nav-link{% if is_highlighted %} header-nav-link--highlighted{% endif %}{% if is_sale %} sale-text header-nav-link--sale{% endif %}"
-                  {% if is_highlighted %}
-                    style="--highlight-color: {{ section.settings.highlight_color | default: 'var(--color-copper-rivet)' }};"
-                  {% endif %}
+                  style="{% if is_sale %}color: #e50000 !important;{% elsif is_highlighted %}--highlight-color: {{ section.settings.highlight_color | default: 'var(--color-copper-rivet)' }};{% endif %}"
                 >
                   {% render 'render-menu-link-title', title: link.title %}
                 </a>
@@ -2777,35 +2775,12 @@
       });
     }
 
-    function formatSaleBadges() {
-      const selectors = '.header-nav-link, .header-dropdown-link, .header-grandchild-link, .menu-drawer__link, .menu-drawer__sublink, .mega-menu__link, .menu-list__link-title, .menu-drawer__menu-item-text, .menu-list__item';
-      document.querySelectorAll(selectors).forEach(function(el) {
-        if (el.querySelector('.menu-sale-badge')) return;
-
-        const clone = el.cloneNode(true);
-        clone.querySelectorAll('.coming-soon-pill, .menu-sale-badge').forEach(function(b) { b.remove(); });
-        const cleanText = clone.textContent.trim().toLowerCase();
-
-        if (cleanText === 'sale' || cleanText.indexOf('sale') !== -1) {
-          const badge = document.createElement('span');
-          badge.className = 'menu-sale-badge';
-          badge.textContent = 'NEW';
-          el.appendChild(badge);
-        }
-      });
-    }
-
-    function initAllBadges() {
-      formatComingSoonBadges();
-      formatSaleBadges();
-    }
-
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initAllBadges);
+      document.addEventListener('DOMContentLoaded', formatComingSoonBadges);
     } else {
-      initAllBadges();
+      formatComingSoonBadges();
     }
-    setTimeout(initAllBadges, 300);
-    setTimeout(initAllBadges, 1000);
+    setTimeout(formatComingSoonBadges, 300);
+    setTimeout(formatComingSoonBadges, 1000);
   })();
 </script>
