@@ -132,7 +132,7 @@
           {% render 'link-featured-image', link: link, class: 'mega-menu__link-image', sizes: collection_image_sizes %}
         {% endif %}
         <span class="wrap-text">
-          {{- link.title -}}
+          {% render 'render-menu-link-title', title: link.title %}
         </span>
       </a>
       {% if link.links != blank %}
@@ -153,7 +153,7 @@
                 href="{{ childLink.url }}"
                 class="mega-menu__link"
               >
-                <span class="wrap-text">{{- childLink.title -}}</span>
+                <span class="wrap-text">{% render 'render-menu-link-title', title: childLink.title %}</span>
               </a>
             </li>
           {% endfor %}

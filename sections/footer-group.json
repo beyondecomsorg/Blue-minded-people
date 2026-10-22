@@ -105,7 +105,9 @@
         "cta_text_desktop": 18,
         "cta_text_mobile": 16,
         "footer_top_padding": 20,
-        "footer_bottom_padding": 20
+        "footer_bottom_padding": 20,
+        "show_popular_searches": true,
+        "popular_searches_title": "POPULAR SEARCHES"
       }
     },
     "section_9FjKrC": {

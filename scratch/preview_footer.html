@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Footer Preview with Popular Searches</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --wb-font-heading: 'Inter', sans-serif;
+      --wb-font-body: 'Inter', sans-serif;
+      --wb-color-blue: #0c4168;
+      --wb-color-white: #ffffff;
+      --footer-bg: #0c4168;
+      --footer-right-bg: #0b3a5d;
+      --footer-text: #ffffff;
+      --footer-muted: #cccccc;
+      --footer-border: #2b5f88;
+      --popular-heading: #ffffff;
+      --popular-text: #cccccc;
+      --popular-hover: #ffffff;
+      --popular-cols: 7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #000; font-family: var(--wb-font-body); color: #fff; }
+    .page-width { max-width: 1400px; margin: 0 auto; width: 100%; }
+
+    .custom-footer {
+      background: var(--footer-bg);
+      color: var(--footer-text);
+      font-family: var(--wb-font-body);
+    }
+    .custom-footer__usp {
+      background: #092c47;
+      border-top: 1px solid var(--footer-border);
+      border-bottom: 1px solid var(--footer-border);
+      padding: 12px 24px;
+      font-size: 13px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      font-weight: 500;
+    }
+    .custom-footer__grid {
+      display: grid;
+      grid-template-columns: 65% 35%;
+      min-height: 260px;
+    }
+    .custom-footer__left {
+      padding: 40px 54px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr 1fr;
+      gap: 30px;
+    }
+    .custom-footer__right {
+      background: var(--footer-right-bg);
+      padding: 40px 54px;
+    }
+    .col-title {
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .menu-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--footer-text);
+    }
+    .menu-list a { color: var(--footer-text); text-decoration: none; }
+    .contact-item { margin-bottom: 14px; font-size: 14px; }
+    .contact-item .sub { font-size: 11px; color: var(--footer-muted); font-style: italic; }
+
+    /* Popular Searches Section */
+    .custom-footer__popular {
+      background: transparent;
+      border-top: 1px solid var(--footer-border);
+      width: 100%;
+    }
+    .custom-footer__popular-inner {
+      padding: 36px 54px;
+    }
+    .custom-footer__popular-heading {
+      margin: 0 0 22px;
+      font-family: var(--wb-font-heading);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--popular-heading);
+    }
+    .custom-footer__popular-content {
+      display: grid;
+      grid-template-columns: repeat(var(--popular-cols), minmax(0, 1fr));
+      gap: 16px 24px;
+    }
+    .custom-footer__popular-col {
+      min-width: 0;
+    }
+    .custom-footer__popular-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .custom-footer__popular-link {
+      display: inline-block;
+      color: var(--popular-text);
+      font-size: 13.5px;
+      line-height: 1.5;
+      text-decoration: none;
+      transition: color 0.2s ease, transform 0.2s ease;
+      font-family: var(--wb-font-body);
+      word-break: break-word;
+    }
+    .custom-footer__popular-link:hover {
+      color: var(--popular-hover);
+      transform: translateX(2px);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    /* Bottom Copyright */
+    .custom-footer__bottom {
+      border-top: 1px solid var(--footer-border);
+      padding: 16px;
+      text-align: center;
+      font-size: 14px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    @media (max-width: 990px) {
+      .custom-footer__grid { grid-template-columns: 1fr; }
+      .custom-footer__popular-inner { padding: 30px 24px; }
+      .custom-footer__popular-content { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 600px) {
+      .custom-footer__popular-inner { padding: 24px 20px; }
+      .custom-footer__popular-content { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .custom-footer__popular-link { font-size: 12.5px; }
+    }
+  </style>
+</head>
+<body>
+  <footer class="custom-footer">
+    <div class="custom-footer__usp">
+      <span>✦ OFFER: ENJOY FREE SHIPPING</span>
+      <span>✦ 7 DAYS EASY RETURN</span>
+      <span>✦ WELCOME TO BLUE MINDED PEOPLE STORE</span>
+    </div>
+
+    <div class="custom-footer__main">
+      <div class="custom-footer__grid page-width">
+        <div class="custom-footer__left">
+          <div>
+            <div class="contact-item"><strong>Whatsapp Us</strong><div>+91 91872 32900</div><div class="sub">Mon-Sat: 10 am to 5pm</div></div>
+            <div class="contact-item"><strong>Call Us</strong><div>+91 91872 32900</div><div class="sub">Mon-Sat: 10 am to 5pm</div></div>
+            <div class="contact-item"><strong>Email Us</strong><div>Care@bluemindedpeople.com</div><div class="sub">Mon-Sat: 10 am to 5pm</div></div>
+          </div>
+          <div>
+            <h4 class="col-title">SHOP</h4>
+            <ul class="menu-list">
+              <li><a href="#">Clothing</a></li>
+              <li><a href="#">New Launches</a></li>
+              <li><a href="#">Bottom wear</a></li>
+              <li><a href="#">Top wear</a></li>
+              <li><a href="#">Shop all</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="col-title">INFO</h4>
+            <ul class="menu-list">
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Blogs</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="col-title">POLICIES</h4>
+            <ul class="menu-list">
+              <li><a href="#">Shipping</a></li>
+              <li><a href="#">Returns</a></li>
+              <li><a href="#">Exchange</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms & Conditions</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="custom-footer__right">
+          <h3 class="col-title" style="font-size:16px;">JOIN US TO GET EXCLUSIVE OFFERS AND BENEFITS.</h3>
+          <p style="font-size:13px; color:#ccc; margin-bottom:16px;">We’ll send you updates on new launches, products and events – only the best stuff.</p>
+          <div style="display:flex; gap:8px; margin-bottom:12px;">
+            <input type="text" placeholder="EMAIL ADDRESS" style="flex:1; padding:10px; background:transparent; border:1px solid #fff; color:#fff;">
+            <input type="text" placeholder="MOBILE NUMBER" style="flex:1; padding:10px; background:transparent; border:1px solid #fff; color:#fff;">
+          </div>
+          <button style="width:100%; padding:10px; background:transparent; border:1px solid #fff; color:#fff; font-weight:700; letter-spacing:0.1em; cursor:pointer;">SUBSCRIBE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- POPULAR SEARCHES SECTION -->
+    <div class="custom-footer__popular">
+      <div class="custom-footer__popular-inner page-width">
+        <h4 class="custom-footer__popular-heading">POPULAR SEARCHES</h4>
+        <div class="custom-footer__popular-content">
+          <div class="custom-footer__popular-col">
+            <ul class="custom-footer__popular-list">
+              <li><a href="#" class="custom-footer__popular-link">shirts for men</a></li>
+              <li><a href="#" class="custom-footer__popular-link">straight fit jeans</a></li>
+              <li><a href="#" class="custom-footer__popular-link">formal shirts</a></li>
+              <li><a href="#" class="custom-footer__popular-link">bootcut jeans for men</a></li>
+              <li><a href="#" class="custom-footer__popular-link">korean trousers</a></li>
+              <li><a href="#" class="custom-footer__popular-link">sling bag for men</a></li>
+            </ul>
+          </div>
+          <div class="custom-footer__popular-col">
+            <ul class="custom-footer__popular-list">
+              <li><a href="#" class="custom-footer__popular-link">jeans for men</a></li>
+              <li><a href="#" class="custom-footer__popular-link">bootcut jeans</a></li>
+              <li><a href="#" class="custom-footer__popular-link">crochet shirts</a></li>
+              <li><a href="#" class="custom-footer__popular-link">office wear shirts</a></li>
+              <li><a href="#" class="custom-footer__popular-link">baggy pants men</a></li>
+              <li><a href="#" class="custom-footer__popular-link">cotton shirts for men</a></li>
+            </ul>
+          </div>
+          <div class="custom-footer__popular-col">
+            <ul class="custom-footer__popular-list">
+              <li><a href="#" class="custom-footer__popular-link">trousers for men</a></li>
+              <li><a href="#" class="custom-footer__popular-link">korean pants</a></li>
+              <li><a href="#" class="custom-footer__popular-link">striped shirts</a></li>
+              <li><a href="#" class="custom-footer__popular-link">korean pants for men</a></li>
+              <li><a href="#" class="custom-footer__popular-link">linen pants</a></li>
+              <li><a href="#" class="custom-footer__popular-link">cotton shirts for men</a></li>
+            </ul>
+          </div>
+          <div class="custom-footer__popular-col">
+            <ul class="custom-footer__popular-list">
+              <li><a href="#" class="custom-footer__popular-link">white shirt</a></li>
+              <li><a href="#" class="custom-footer__popular-link">gurkha pants</a></li>
+              <li><a href="#" class="custom-footer__popular-link">printed shirts</a></li>
+              <li><a href="#" class="custom-footer__popular-link">sunglasses for men</a></li>
+              <li><a href="#" class="custom-footer__popular-link">chinos for men</a></li>
+              <li><a href="#" class="custom-footer__popular-link">kurta for men</a></li>
+            </ul>
+          </div>
+          <div class="custom-footer__popular-col">
+            <ul class="custom-footer__popular-list">
+              <li><a href="#" class="custom-footer__popular-link">black shirt</a></li>
+              <li><a href="#" class="custom-footer__popular-link">cargo pants</a></li>
+              <li><a href="#" class="custom-footer__popular-link">formal pants for men</a></li>
+              <li><a href="#" class="custom-footer__popular-link">perfume for men</a></li>
+              <li><a href="#" class="custom-footer__popular-link">striped shirt men</a></li>
+            </ul>
+          </div>
+          <div class="custom-footer__popular-col">
+            <ul class="custom-footer__popular-list">
+              <li><a href="#" class="custom-footer__popular-link">overshirt men</a></li>
+              <li><a href="#" class="custom-footer__popular-link">linen shirts</a></li>
+              <li><a href="#" class="custom-footer__popular-link">concert outfits men</a></li>
+              <li><a href="#" class="custom-footer__popular-link">polo t-shirts</a></li>
+              <li><a href="#" class="custom-footer__popular-link">embroidery shirt men</a></li>
+            </ul>
+          </div>
+          <div class="custom-footer__popular-col">
+            <ul class="custom-footer__popular-list">
+              <li><a href="#" class="custom-footer__popular-link">baggy jeans</a></li>
+              <li><a href="#" class="custom-footer__popular-link">denim shirts</a></li>
+              <li><a href="#" class="custom-footer__popular-link">club wear for men</a></li>
+              <li><a href="#" class="custom-footer__popular-link">oversized t-shirts</a></li>
+              <li><a href="#" class="custom-footer__popular-link">chelsea boots men</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTTOM BAR -->
+    <div class="custom-footer__bottom">
+      <span>✦ BLUE MINDED PEOPLE &nbsp; © 2026 Blue Minded People</span>
+    </div>
+  </footer>
+</body>
+</html>

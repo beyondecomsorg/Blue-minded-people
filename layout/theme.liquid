@@ -195,6 +195,85 @@ body, p, a, span, li, button, input, label, select, textarea, .nav-link, .produc
   font-family: var(--font-body) !important;
 }
 
+/* Sale link: Red text */
+body #header-component.header .header-nav-link.sale-text,
+body #header-component.header .header-nav-link--sale,
+body #header-component.header .menu-drawer__link.sale-text,
+body #header-component.header .menu-drawer__link--sale,
+body #header-component.header .menu-drawer__sublink.sale-text,
+body #header-component.header .menu-drawer__sublink--sale,
+body #header-component.header .menu-list__link.sale-text,
+body #header-component.header .sale-text,
+.sale-text {
+  color: #e50000 !important;
+}
+
+body #header-component.header .header-nav-link.sale-text:hover,
+body #header-component.header .header-nav-link--sale:hover,
+body #header-component.header .menu-drawer__link.sale-text:hover,
+body #header-component.header .menu-drawer__link--sale:hover,
+body #header-component.header .menu-list__link.sale-text:hover {
+  color: #c00000 !important;
+}
+
+body #header-component.header .header-nav-link.sale-text::after,
+body #header-component.header .header-nav-link--sale::after {
+  background-color: #e50000 !important;
+}
+
+.menu-sale-badge {
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: #e50000 !important;
+  color: #ffffff !important;
+  font-size: 8px !important;
+  font-weight: 700 !important;
+  padding: 2px 7px !important;
+  border-radius: 999px !important;
+  margin-left: 6px !important;
+  line-height: 1.1 !important;
+  letter-spacing: 0.05em !important;
+  vertical-align: middle !important;
+  white-space: nowrap !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 1px 3px rgba(229, 0, 0, 0.3) !important;
+}
+
+@media screen and (min-width: 750px) {
+  body #header-component.header .header-nav-link,
+  body #header-component.header .menu-list__link,
+  body #header-component.header .mega-menu__link {
+    position: relative !important;
+  }
+
+  body #header-component.header .header-nav-link .menu-sale-badge,
+  body #header-component.header .menu-list__link .menu-sale-badge,
+  body #header-component.header .mega-menu__link .menu-sale-badge {
+    display: inline-flex !important;
+    position: absolute !important;
+    top: -4px !important;
+    right: -10px !important;
+    margin-left: 0 !important;
+    font-size: 7px !important;
+    padding: 1.5px 5.5px !important;
+    line-height: 1 !important;
+    letter-spacing: 0.04em !important;
+    z-index: 5 !important;
+    pointer-events: none !important;
+    transform: none !important;
+  }
+}
+
+body #header-component.header .menu-drawer__link .menu-sale-badge,
+body #header-component.header .menu-drawer__sublink .menu-sale-badge {
+  display: inline-flex !important;
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  margin-left: 8px !important;
+}
+
 /* HERO SECTIONS (all four hero sections) */
 .hero-section h1, .hero-section h2, .hero-section .h1, .hero-section .h2,
 .hero h1, .hero h2, .hero .h1, .hero .h2 {

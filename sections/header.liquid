@@ -194,11 +194,16 @@
                 <nav class="menu-drawer__navigation" aria-label="Navigation">
                   <ul class="menu-drawer__menu" role="list">
                     {%- for link in linklists[section.settings.menu].links -%}
+                      {%- assign link_title_down = link.title | downcase | strip -%}
+                      {%- assign is_sale = false -%}
+                      {%- if link_title_down == 'sale' or link_title_down contains 'sale' -%}
+                        {%- assign is_sale = true -%}
+                      {%- endif -%}
                       {%- if link.links != blank -%}
                         <li class="menu-drawer__item has-sublinks">
                           <details class="menu-drawer__accordion" open>
                             <summary class="menu-drawer__summary">
-                              <a href="{{ link.url }}" class="menu-drawer__link{% if section.settings.highlight_item_index > 0 and forloop.index == section.settings.highlight_item_index %} menu-drawer__link--highlighted{% endif %}">
+                              <a href="{{ link.url }}" class="menu-drawer__link{% if section.settings.highlight_item_index > 0 and forloop.index == section.settings.highlight_item_index %} menu-drawer__link--highlighted{% endif %}{% if is_sale %} sale-text menu-drawer__link--sale{% endif %}">
                                 {% render 'render-menu-link-title', title: link.title %}
                               </a>
                               <span class="menu-drawer__caret">
@@ -207,8 +212,13 @@
                             </summary>
                             <ul class="menu-drawer__sublist" role="list">
                               {%- for child_link in link.links -%}
+                                {%- assign child_title_down = child_link.title | downcase | strip -%}
+                                {%- assign is_child_sale = false -%}
+                                {%- if child_title_down == 'sale' or child_title_down contains 'sale' -%}
+                                  {%- assign is_child_sale = true -%}
+                                {%- endif -%}
                                 <li class="menu-drawer__subitem">
-                                  <a href="{{ child_link.url }}" class="menu-drawer__sublink">
+                                  <a href="{{ child_link.url }}" class="menu-drawer__sublink{% if is_child_sale %} sale-text menu-drawer__sublink--sale{% endif %}">
                                     {% render 'render-menu-link-title', title: child_link.title %}
                                   </a>
                                 </li>
@@ -218,7 +228,7 @@
                         </li>
                       {%- else -%}
                         <li class="menu-drawer__item">
-                          <a href="{{ link.url }}" class="menu-drawer__link{% if section.settings.highlight_item_index > 0 and forloop.index == section.settings.highlight_item_index %} menu-drawer__link--highlighted{% endif %}">
+                          <a href="{{ link.url }}" class="menu-drawer__link{% if section.settings.highlight_item_index > 0 and forloop.index == section.settings.highlight_item_index %} menu-drawer__link--highlighted{% endif %}{% if is_sale %} sale-text menu-drawer__link--sale{% endif %}">
                             {% render 'render-menu-link-title', title: link.title %}
                           </a>
                         </li>
@@ -445,6 +455,11 @@
         <nav class="header__nav-navigation" aria-label="Navigation">
           <ul class="header-nav-menu" role="list">
             {%-for link in linklists[section.settings.menu].links -%}
+              {%- assign link_title_down = link.title | downcase | strip -%}
+              {%- assign is_sale = false -%}
+              {%- if link_title_down == 'sale' or link_title_down contains 'sale' -%}
+                {%- assign is_sale = true -%}
+              {%- endif -%}
               <li class="header-nav-item{% if link.links != blank %} has-dropdown{% endif %}">
                 {%- assign is_highlighted = false -%}
                 {%- if section.settings.highlight_item_index > 0 and forloop.index == section.settings.highlight_item_index -%}
@@ -452,7 +467,7 @@
                 {%- endif -%}
                 <a
                   href="{{ link.url }}"
-                  class="header-nav-link{% if is_highlighted %} header-nav-link--highlighted{% endif %}"
+                  class="header-nav-link{% if is_highlighted %} header-nav-link--highlighted{% endif %}{% if is_sale %} sale-text header-nav-link--sale{% endif %}"
                   {% if is_highlighted %}
                     style="--highlight-color: {{ section.settings.highlight_color | default: 'var(--color-copper-rivet)' }};"
                   {% endif %}
@@ -1247,6 +1262,87 @@
     white-space: nowrap !important;
     text-transform: none !important;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  /* Sale link: Red text */
+  body #header-component.header .header-nav-link.sale-text,
+  body #header-component.header .header-nav-link--sale,
+  body #header-component.header .menu-drawer__link.sale-text,
+  body #header-component.header .menu-drawer__link--sale,
+  body #header-component.header .menu-drawer__sublink.sale-text,
+  body #header-component.header .menu-drawer__sublink--sale,
+  body #header-component.header .menu-list__link.sale-text,
+  body #header-component.header .sale-text,
+  .sale-text {
+    color: #e50000 !important;
+  }
+
+  body #header-component.header .header-nav-link.sale-text:hover,
+  body #header-component.header .header-nav-link--sale:hover,
+  body #header-component.header .menu-drawer__link.sale-text:hover,
+  body #header-component.header .menu-drawer__link--sale:hover,
+  body #header-component.header .menu-list__link.sale-text:hover {
+    color: #c00000 !important;
+  }
+
+  body #header-component.header .header-nav-link.sale-text::after,
+  body #header-component.header .header-nav-link--sale::after {
+    background-color: #e50000 !important;
+  }
+
+  .menu-sale-badge {
+    display: none!important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: #e50000 !important;
+    color: #ffffff !important;
+    font-size: 8px !important;
+    font-weight: 700 !important;
+    padding: 2px 7px !important;
+    border-radius: 999px !important;
+    margin-left: 6px !important;
+    line-height: 1.1 !important;
+    letter-spacing: 0.05em !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+    text-transform: uppercase !important;
+    box-shadow: 0 1px 3px rgba(229, 0, 0, 0.3) !important;
+  }
+
+  /* Desktop Header: Position badge floating above on the right side of the Sale text */
+  @media screen and (min-width: 750px) {
+    body #header-component.header .header-nav-link,
+    body #header-component.header .menu-list__link,
+    body #header-component.header .mega-menu__link {
+      position: relative !important;
+    }
+
+    body #header-component.header .header-nav-link .menu-sale-badge,
+    body #header-component.header .menu-list__link .menu-sale-badge,
+    body #header-component.header .mega-menu__link .menu-sale-badge {
+      display: inline-flex !important;
+      position: absolute !important;
+      top: -4px !important;
+      right: -10px !important;
+      margin-left: 0 !important;
+      font-size: 7px !important;
+      padding: 1.5px 5.5px !important;
+      line-height: 1 !important;
+      letter-spacing: 0.04em !important;
+      z-index: 5 !important;
+      pointer-events: none !important;
+      transform: none !important;
+    }
+  }
+
+  /* Keep mobile drawer badge inline next to the text */
+  body #header-component.header .menu-drawer__link .menu-sale-badge,
+  body #header-component.header .menu-drawer__sublink .menu-sale-badge {
+    display: inline-flex !important;
+    position: static !important;
+    top: auto !important;
+    right: auto !important;
+    margin-left: 8px !important;
   }
 
   .nav-coming-soon {
@@ -2681,12 +2777,35 @@
       });
     }
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', formatComingSoonBadges);
-    } else {
-      formatComingSoonBadges();
+    function formatSaleBadges() {
+      const selectors = '.header-nav-link, .header-dropdown-link, .header-grandchild-link, .menu-drawer__link, .menu-drawer__sublink, .mega-menu__link, .menu-list__link-title, .menu-drawer__menu-item-text, .menu-list__item';
+      document.querySelectorAll(selectors).forEach(function(el) {
+        if (el.querySelector('.menu-sale-badge')) return;
+
+        const clone = el.cloneNode(true);
+        clone.querySelectorAll('.coming-soon-pill, .menu-sale-badge').forEach(function(b) { b.remove(); });
+        const cleanText = clone.textContent.trim().toLowerCase();
+
+        if (cleanText === 'sale' || cleanText.indexOf('sale') !== -1) {
+          const badge = document.createElement('span');
+          badge.className = 'menu-sale-badge';
+          badge.textContent = 'NEW';
+          el.appendChild(badge);
+        }
+      });
     }
-    setTimeout(formatComingSoonBadges, 300);
-    setTimeout(formatComingSoonBadges, 1000);
+
+    function initAllBadges() {
+      formatComingSoonBadges();
+      formatSaleBadges();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAllBadges);
+    } else {
+      initAllBadges();
+    }
+    setTimeout(initAllBadges, 300);
+    setTimeout(initAllBadges, 1000);
   })();
 </script>

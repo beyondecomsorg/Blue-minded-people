@@ -1,6 +1,7 @@
 {%- comment -%}
   Renders menu link title with pill badge for specified items:
-  Cargo, Must Have, Shorts, Polos, Jackets, Sweaters, Sweatshirts
+  Cargo, Must Have, Shorts, Polos, Jackets, Sweaters, Sweatshirts,
+  and 'NEW' red badge for 'Sale' items
 {%- endcomment -%}
 {%- liquid
   assign raw_title = title | default: ''
@@ -11,5 +12,10 @@
   if clean_title_down == 'cargo' or clean_title_down == 'must have' or clean_title_down == 'shorts' or clean_title_down == 'short' or clean_title_down == 'polos' or clean_title_down == 'sweaters' or clean_title_down == 'sweatshirts'
     assign has_pill = true
   endif
+
+  assign has_sale_badge = false
+  if clean_title_down == 'sale' or clean_title_down contains 'sale'
+    assign has_sale_badge = true
+  endif
 -%}
-{{ display_title }}{% if has_pill %} <span class="coming-soon-pill">Coming Soon</span>{% endif %}
+{{ display_title }}{% if has_pill %} <span class="coming-soon-pill">Coming Soon</span>{% endif %}{% if has_sale_badge %} <span class="menu-sale-badge">NEW</span>{% endif %}

@@ -50,30 +50,34 @@
 
       <!-- First Set -->
       {% for block in section.blocks %}
-        <div class="custom-footer__usp-item"  style="
-    --usp-bg: {{ block.settings.usp_bg }};
-    --usp-text: {{ block.settings.usp_text_color }};
-    --usp-icon: {{ block.settings.usp_icon_color }};
-  " {{ block.shopify_attributes }}>
-          {% if block.settings.icon != blank %}
-            {{ block.settings.icon | image_url: width: 80 | image_tag: class: 'custom-footer__usp-icon', loading: 'lazy', alt: block.settings.text }}
-          {% else %}
-            <span class="custom-footer__usp-icon-fallback">✦</span>
-          {% endif %}
-          <span class="custom-footer__usp-text">{{ block.settings.text }}</span>
-        </div>
+        {% if block.type == 'usp' %}
+          <div class="custom-footer__usp-item"  style="
+      --usp-bg: {{ block.settings.usp_bg }};
+      --usp-text: {{ block.settings.usp_text_color }};
+      --usp-icon: {{ block.settings.usp_icon_color }};
+    " {{ block.shopify_attributes }}>
+            {% if block.settings.icon != blank %}
+              {{ block.settings.icon | image_url: width: 80 | image_tag: class: 'custom-footer__usp-icon', loading: 'lazy', alt: block.settings.text }}
+            {% else %}
+              <span class="custom-footer__usp-icon-fallback">✦</span>
+            {% endif %}
+            <span class="custom-footer__usp-text">{{ block.settings.text }}</span>
+          </div>
+        {% endif %}
       {% endfor %}
 
       <!-- Duplicate Set -->
       {% for block in section.blocks %}
-        <div class="custom-footer__usp-item">
-          {% if block.settings.icon != blank %}
-            {{ block.settings.icon | image_url: width: 80 | image_tag: class: 'custom-footer__usp-icon', loading: 'lazy', alt: block.settings.text }}
-          {% else %}
-            <span class="custom-footer__usp-icon-fallback">✦</span>
-          {% endif %}
-          <span class="custom-footer__usp-text">{{ block.settings.text }}</span>
-        </div>
+        {% if block.type == 'usp' %}
+          <div class="custom-footer__usp-item">
+            {% if block.settings.icon != blank %}
+              {{ block.settings.icon | image_url: width: 80 | image_tag: class: 'custom-footer__usp-icon', loading: 'lazy', alt: block.settings.text }}
+            {% else %}
+              <span class="custom-footer__usp-icon-fallback">✦</span>
+            {% endif %}
+            <span class="custom-footer__usp-text">{{ block.settings.text }}</span>
+          </div>
+        {% endif %}
       {% endfor %}
 
     </div>
@@ -374,6 +378,166 @@
 
     </div>
   </div>
+
+  {% if section.settings.show_popular_searches %}
+    {% liquid
+      assign has_popular_menus = false
+      assign has_popular_blocks = false
+
+      for block in section.blocks
+        if block.type == 'popular_search_menu' and block.settings.menu != blank
+          assign has_popular_blocks = true
+          break
+        endif
+      endfor
+
+      if section.settings.popular_searches_menu_1 != blank or section.settings.popular_searches_menu_2 != blank or section.settings.popular_searches_menu_3 != blank or section.settings.popular_searches_menu_4 != blank or section.settings.popular_searches_menu_5 != blank or section.settings.popular_searches_menu_6 != blank or section.settings.popular_searches_menu_7 != blank or section.settings.popular_searches_single_menu != blank
+        assign has_popular_menus = true
+      endif
+    %}
+
+    <div
+      class="custom-footer__popular"
+      style="
+        --popular-bg: {{ section.settings.popular_searches_bg | default: 'transparent' }};
+        --popular-heading: {{ section.settings.popular_searches_title_color | default: '#ffffff' }};
+        --popular-text: {{ section.settings.popular_searches_link_color | default: '#cccccc' }};
+        --popular-hover: {{ section.settings.popular_searches_link_hover_color | default: '#ffffff' }};
+        --popular-border: {{ section.settings.popular_searches_border_color | default: 'var(--footer-border)' }};
+        --popular-cols: {{ section.settings.popular_searches_desktop_columns | default: 7 }};
+      "
+    >
+      <div class="custom-footer__popular-inner page-width">
+        {% if section.settings.popular_searches_title != blank %}
+          <h4 class="custom-footer__popular-heading">
+            {{ section.settings.popular_searches_title }}
+          </h4>
+        {% endif %}
+
+        <div class="custom-footer__popular-content custom-footer__popular-content--{{ section.settings.popular_searches_layout | default: 'columns' }}">
+          {% if has_popular_blocks %}
+            {% for block in section.blocks %}
+              {% if block.type == 'popular_search_menu' %}
+                {% assign menu_handle = block.settings.menu %}
+                {% if menu_handle != blank and linklists[menu_handle].links.size > 0 %}
+                  <div class="custom-footer__popular-col" {{ block.shopify_attributes }}>
+                    {% if block.settings.title != blank %}
+                      <span class="custom-footer__popular-col-title">{{ block.settings.title }}</span>
+                    {% endif %}
+                    <ul class="custom-footer__popular-list">
+                      {% for link in linklists[menu_handle].links %}
+                        <li class="custom-footer__popular-item">
+                          <a href="{{ link.url }}" class="custom-footer__popular-link">{{ link.title }}</a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+
+          {% elsif has_popular_menus %}
+            {% if section.settings.popular_searches_single_menu != blank %}
+              {% assign single_menu = section.settings.popular_searches_single_menu %}
+              <div class="custom-footer__popular-single-grid">
+                {% for link in linklists[single_menu].links %}
+                  <div class="custom-footer__popular-item">
+                    <a href="{{ link.url }}" class="custom-footer__popular-link">{{ link.title }}</a>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              {% for i in (1..7) %}
+                {% assign menu_key = 'popular_searches_menu_' | append: i %}
+                {% assign menu_handle = section.settings[menu_key] %}
+                {% if menu_handle != blank and linklists[menu_handle].links.size > 0 %}
+                  <div class="custom-footer__popular-col">
+                    <ul class="custom-footer__popular-list">
+                      {% for link in linklists[menu_handle].links %}
+                        <li class="custom-footer__popular-item">
+                          <a href="{{ link.url }}" class="custom-footer__popular-link">{{ link.title }}</a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+
+          {% else %}
+            <!-- Default preview matching design in Image 2 -->
+            <div class="custom-footer__popular-col">
+              <ul class="custom-footer__popular-list">
+                <li class="custom-footer__popular-item"><a href="/search?q=shirts+for+men" class="custom-footer__popular-link">shirts for men</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=straight+fit+jeans" class="custom-footer__popular-link">straight fit jeans</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=formal+shirts" class="custom-footer__popular-link">formal shirts</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=bootcut+jeans+for+men" class="custom-footer__popular-link">bootcut jeans for men</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=korean+trousers" class="custom-footer__popular-link">korean trousers</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=sling+bag+for+men" class="custom-footer__popular-link">sling bag for men</a></li>
+              </ul>
+            </div>
+            <div class="custom-footer__popular-col">
+              <ul class="custom-footer__popular-list">
+                <li class="custom-footer__popular-item"><a href="/search?q=jeans+for+men" class="custom-footer__popular-link">jeans for men</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=bootcut+jeans" class="custom-footer__popular-link">bootcut jeans</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=crochet+shirts" class="custom-footer__popular-link">crochet shirts</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=office+wear+shirts" class="custom-footer__popular-link">office wear shirts</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=baggy+pants+men" class="custom-footer__popular-link">baggy pants men</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=cotton+shirts+for+men" class="custom-footer__popular-link">cotton shirts for men</a></li>
+              </ul>
+            </div>
+            <div class="custom-footer__popular-col">
+              <ul class="custom-footer__popular-list">
+                <li class="custom-footer__popular-item"><a href="/search?q=trousers+for+men" class="custom-footer__popular-link">trousers for men</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=korean+pants" class="custom-footer__popular-link">korean pants</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=striped+shirts" class="custom-footer__popular-link">striped shirts</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=korean+pants+for+men" class="custom-footer__popular-link">korean pants for men</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=linen+pants" class="custom-footer__popular-link">linen pants</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=cotton+shirts+for+men" class="custom-footer__popular-link">cotton shirts for men</a></li>
+              </ul>
+            </div>
+            <div class="custom-footer__popular-col">
+              <ul class="custom-footer__popular-list">
+                <li class="custom-footer__popular-item"><a href="/search?q=white+shirt" class="custom-footer__popular-link">white shirt</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=gurkha+pants" class="custom-footer__popular-link">gurkha pants</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=printed+shirts" class="custom-footer__popular-link">printed shirts</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=sunglasses+for+men" class="custom-footer__popular-link">sunglasses for men</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=chinos+for+men" class="custom-footer__popular-link">chinos for men</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=kurta+for+men" class="custom-footer__popular-link">kurta for men</a></li>
+              </ul>
+            </div>
+            <div class="custom-footer__popular-col">
+              <ul class="custom-footer__popular-list">
+                <li class="custom-footer__popular-item"><a href="/search?q=black+shirt" class="custom-footer__popular-link">black shirt</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=cargo+pants" class="custom-footer__popular-link">cargo pants</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=formal+pants+for+men" class="custom-footer__popular-link">formal pants for men</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=perfume+for+men" class="custom-footer__popular-link">perfume for men</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=striped+shirt+men" class="custom-footer__popular-link">striped shirt men</a></li>
+              </ul>
+            </div>
+            <div class="custom-footer__popular-col">
+              <ul class="custom-footer__popular-list">
+                <li class="custom-footer__popular-item"><a href="/search?q=overshirt+men" class="custom-footer__popular-link">overshirt men</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=linen+shirts" class="custom-footer__popular-link">linen shirts</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=concert+outfits+men" class="custom-footer__popular-link">concert outfits men</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=polo+t-shirts" class="custom-footer__popular-link">polo t-shirts</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=embroidery+shirt+men" class="custom-footer__popular-link">embroidery shirt men</a></li>
+              </ul>
+            </div>
+            <div class="custom-footer__popular-col">
+              <ul class="custom-footer__popular-list">
+                <li class="custom-footer__popular-item"><a href="/search?q=baggy+jeans" class="custom-footer__popular-link">baggy jeans</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=denim+shirts" class="custom-footer__popular-link">denim shirts</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=club+wear+for+men" class="custom-footer__popular-link">club wear for men</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=oversized+t-shirts" class="custom-footer__popular-link">oversized t-shirts</a></li>
+                <li class="custom-footer__popular-item"><a href="/search?q=chelsea+boots+men" class="custom-footer__popular-link">chelsea boots men</a></li>
+              </ul>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
 
   <div class="custom-footer__bottom">
     <div class="custom-footer__bottom-inner page-width">
@@ -1013,6 +1177,139 @@ margin-top: 10px;
     font-size: 13px;
   }
 }
+
+.custom-footer__popular {
+  background: var(--popular-bg, transparent);
+  border-top: 1px solid var(--popular-border, var(--footer-border));
+  width: 100%;
+}
+
+.custom-footer__popular-inner {
+  padding: 36px 54px;
+}
+
+.custom-footer__popular-heading {
+  margin: 0 0 22px;
+  font-family: var(--wb-font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--popular-heading, #ffffff);
+}
+
+.custom-footer__popular-content {
+  display: grid;
+  grid-template-columns: repeat(var(--popular-cols, 7), minmax(0, 1fr));
+  gap: 16px 24px;
+}
+
+.custom-footer__popular-col {
+  min-width: 0;
+}
+
+.custom-footer__popular-col-title {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--popular-heading, #ffffff);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  font-family: var(--wb-font-heading);
+}
+
+.custom-footer__popular-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.custom-footer__popular-item {
+  margin: 0;
+  padding: 0;
+}
+
+.custom-footer__popular-link {
+  display: inline-block;
+  color: var(--popular-text, #cccccc);
+  font-size: 13.5px;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+  font-family: var(--wb-font-body);
+  word-break: break-word;
+}
+
+.custom-footer__popular-link:hover {
+  color: var(--popular-hover, #ffffff);
+  transform: translateX(2px);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.custom-footer__popular-single-grid {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(var(--popular-cols, 7), minmax(0, 1fr));
+  gap: 12px 24px;
+}
+
+.custom-footer__popular-content--rows {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.custom-footer__popular-content--rows .custom-footer__popular-col {
+  width: 100%;
+}
+
+.custom-footer__popular-content--rows .custom-footer__popular-list {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+}
+
+@media screen and (max-width: 1200px) {
+  .custom-footer__popular-content {
+    grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+  }
+  .custom-footer__popular-single-grid {
+    grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+  }
+}
+
+@media screen and (max-width: 990px) {
+  .custom-footer__popular-inner {
+    padding: 30px 24px;
+  }
+  .custom-footer__popular-content {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px 20px;
+  }
+  .custom-footer__popular-single-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .custom-footer__popular-inner {
+    padding: 24px 20px;
+  }
+  .custom-footer__popular-content {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 16px;
+  }
+  .custom-footer__popular-single-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .custom-footer__popular-link {
+    font-size: 12.5px;
+  }
+}
 </style>
 
 {% schema %}
@@ -1200,6 +1497,126 @@ margin-top: 10px;
       "id": "copyright_text",
       "label": "Copyright text",
       "default": "© 2026, Andamen - All rights reserved."
+    },
+    {
+      "type": "header",
+      "content": "Popular Searches Section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_popular_searches",
+      "label": "Show Popular Searches",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "popular_searches_title",
+      "label": "Heading",
+      "default": "POPULAR SEARCHES"
+    },
+    {
+      "type": "select",
+      "id": "popular_searches_layout",
+      "label": "Layout style",
+      "options": [
+        {
+          "value": "columns",
+          "label": "Columns (Grid like image)"
+        },
+        {
+          "value": "rows",
+          "label": "Rows (Horizontal lines)"
+        }
+      ],
+      "default": "columns"
+    },
+    {
+      "type": "range",
+      "id": "popular_searches_desktop_columns",
+      "label": "Desktop columns",
+      "min": 3,
+      "max": 8,
+      "step": 1,
+      "default": 7
+    },
+    {
+      "type": "paragraph",
+      "content": "Select up to 7 menus (or add Popular Search blocks below). If no menu is selected, preview search keywords will be displayed."
+    },
+    {
+      "type": "link_list",
+      "id": "popular_searches_menu_1",
+      "label": "Menu 1"
+    },
+    {
+      "type": "link_list",
+      "id": "popular_searches_menu_2",
+      "label": "Menu 2"
+    },
+    {
+      "type": "link_list",
+      "id": "popular_searches_menu_3",
+      "label": "Menu 3"
+    },
+    {
+      "type": "link_list",
+      "id": "popular_searches_menu_4",
+      "label": "Menu 4"
+    },
+    {
+      "type": "link_list",
+      "id": "popular_searches_menu_5",
+      "label": "Menu 5"
+    },
+    {
+      "type": "link_list",
+      "id": "popular_searches_menu_6",
+      "label": "Menu 6"
+    },
+    {
+      "type": "link_list",
+      "id": "popular_searches_menu_7",
+      "label": "Menu 7"
+    },
+    {
+      "type": "link_list",
+      "id": "popular_searches_single_menu",
+      "label": "Or Single All-in-One Menu",
+      "info": "Display all links from 1 menu in the grid"
+    },
+    {
+      "type": "header",
+      "content": "Popular Searches Colors"
+    },
+    {
+      "type": "color",
+      "id": "popular_searches_bg",
+      "label": "Background",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "popular_searches_title_color",
+      "label": "Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "popular_searches_link_color",
+      "label": "Link Color",
+      "default": "#cccccc"
+    },
+    {
+      "type": "color",
+      "id": "popular_searches_link_hover_color",
+      "label": "Link Hover Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "popular_searches_border_color",
+      "label": "Border Color",
+      "default": "#2b5f88"
     },
     {
   "type": "header",
@@ -1467,9 +1884,25 @@ margin-top: 10px;
   "default": "#32ff00"
 }
       ]
+    },
+    {
+      "type": "popular_search_menu",
+      "name": "Popular search menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Column Title (Optional)"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        }
+      ]
     }
   ],
-  "max_blocks": 20,
+  "max_blocks": 40,
   "presets": [
     {
       "name": "Custom footer",
