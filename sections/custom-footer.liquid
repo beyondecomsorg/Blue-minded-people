@@ -465,15 +465,13 @@
             {% endif %}
 
           {% else %}
-            <!-- Default preview matching design in Image 2 -->
+            <!-- POPULAR SEARCHES (Default 7-column layout matching user list) -->
             <div class="custom-footer__popular-col">
               <ul class="custom-footer__popular-list">
                 <li class="custom-footer__popular-item"><a href="/search?q=shirts+for+men" class="custom-footer__popular-link">shirts for men</a></li>
                 <li class="custom-footer__popular-item"><a href="/search?q=straight+fit+jeans" class="custom-footer__popular-link">straight fit jeans</a></li>
                 <li class="custom-footer__popular-item"><a href="/search?q=formal+shirts" class="custom-footer__popular-link">formal shirts</a></li>
                 <li class="custom-footer__popular-item"><a href="/search?q=bootcut+jeans+for+men" class="custom-footer__popular-link">bootcut jeans for men</a></li>
-                <li class="custom-footer__popular-item"><a href="/search?q=korean+trousers" class="custom-footer__popular-link">korean trousers</a></li>
-                <li class="custom-footer__popular-item"><a href="/search?q=sling+bag+for+men" class="custom-footer__popular-link">sling bag for men</a></li>
               </ul>
             </div>
             <div class="custom-footer__popular-col">
@@ -489,21 +487,15 @@
             <div class="custom-footer__popular-col">
               <ul class="custom-footer__popular-list">
                 <li class="custom-footer__popular-item"><a href="/search?q=trousers+for+men" class="custom-footer__popular-link">trousers for men</a></li>
-                <li class="custom-footer__popular-item"><a href="/search?q=korean+pants" class="custom-footer__popular-link">korean pants</a></li>
                 <li class="custom-footer__popular-item"><a href="/search?q=striped+shirts" class="custom-footer__popular-link">striped shirts</a></li>
-                <li class="custom-footer__popular-item"><a href="/search?q=korean+pants+for+men" class="custom-footer__popular-link">korean pants for men</a></li>
                 <li class="custom-footer__popular-item"><a href="/search?q=linen+pants" class="custom-footer__popular-link">linen pants</a></li>
-                <li class="custom-footer__popular-item"><a href="/search?q=cotton+shirts+for+men" class="custom-footer__popular-link">cotton shirts for men</a></li>
               </ul>
             </div>
             <div class="custom-footer__popular-col">
               <ul class="custom-footer__popular-list">
                 <li class="custom-footer__popular-item"><a href="/search?q=white+shirt" class="custom-footer__popular-link">white shirt</a></li>
-                <li class="custom-footer__popular-item"><a href="/search?q=gurkha+pants" class="custom-footer__popular-link">gurkha pants</a></li>
                 <li class="custom-footer__popular-item"><a href="/search?q=printed+shirts" class="custom-footer__popular-link">printed shirts</a></li>
-                <li class="custom-footer__popular-item"><a href="/search?q=sunglasses+for+men" class="custom-footer__popular-link">sunglasses for men</a></li>
                 <li class="custom-footer__popular-item"><a href="/search?q=chinos+for+men" class="custom-footer__popular-link">chinos for men</a></li>
-                <li class="custom-footer__popular-item"><a href="/search?q=kurta+for+men" class="custom-footer__popular-link">kurta for men</a></li>
               </ul>
             </div>
             <div class="custom-footer__popular-col">
@@ -511,7 +503,6 @@
                 <li class="custom-footer__popular-item"><a href="/search?q=black+shirt" class="custom-footer__popular-link">black shirt</a></li>
                 <li class="custom-footer__popular-item"><a href="/search?q=cargo+pants" class="custom-footer__popular-link">cargo pants</a></li>
                 <li class="custom-footer__popular-item"><a href="/search?q=formal+pants+for+men" class="custom-footer__popular-link">formal pants for men</a></li>
-                <li class="custom-footer__popular-item"><a href="/search?q=perfume+for+men" class="custom-footer__popular-link">perfume for men</a></li>
                 <li class="custom-footer__popular-item"><a href="/search?q=striped+shirt+men" class="custom-footer__popular-link">striped shirt men</a></li>
               </ul>
             </div>
@@ -530,11 +521,86 @@
                 <li class="custom-footer__popular-item"><a href="/search?q=denim+shirts" class="custom-footer__popular-link">denim shirts</a></li>
                 <li class="custom-footer__popular-item"><a href="/search?q=club+wear+for+men" class="custom-footer__popular-link">club wear for men</a></li>
                 <li class="custom-footer__popular-item"><a href="/search?q=oversized+t-shirts" class="custom-footer__popular-link">oversized t-shirts</a></li>
-                <li class="custom-footer__popular-item"><a href="/search?q=chelsea+boots+men" class="custom-footer__popular-link">chelsea boots men</a></li>
               </ul>
             </div>
           {% endif %}
         </div>
+
+        {% if section.settings.show_popular_styles | default: true %}
+          <!-- MOST POPULAR BLUE MINDED PEOPLE STYLES SECTION -->
+          <div class="custom-footer__popular-section custom-footer__popular-section--styles">
+            {% if section.settings.popular_styles_title != blank %}
+              <h4 class="custom-footer__popular-heading custom-footer__popular-heading--styles">
+                {{ section.settings.popular_styles_title }}
+              </h4>
+            {% endif %}
+
+            <div class="custom-footer__popular-content custom-footer__popular-content--{{ section.settings.popular_searches_layout | default: 'columns' }}">
+              {% if section.settings.popular_styles_single_menu != blank and linklists[section.settings.popular_styles_single_menu].links.size > 0 %}
+                <div class="custom-footer__popular-single-grid">
+                  {% for link in linklists[section.settings.popular_styles_single_menu].links %}
+                    <div class="custom-footer__popular-item">
+                      <a href="{{ link.url }}" class="custom-footer__popular-link">{{ link.title }}</a>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% else %}
+                <div class="custom-footer__popular-col">
+                  <ul class="custom-footer__popular-list">
+                    <li class="custom-footer__popular-item"><a href="/search?q=Borris+Slim+Fit+Jeans+Black" class="custom-footer__popular-link">Borris Slim Fit Jeans Black</a></li>
+                    <li class="custom-footer__popular-item"><a href="/search?q=Checked+Brushed+Twill+Overshirt" class="custom-footer__popular-link">Checked Brushed Twill Overshirt</a></li>
+                    <li class="custom-footer__popular-item"><a href="/search?q=Polyester+Twill+Slim+Shirt" class="custom-footer__popular-link">Polyester Twill Slim Shirt</a></li>
+                    <li class="custom-footer__popular-item"><a href="/search?q=Men+Pull+Up+Pant+Jeans" class="custom-footer__popular-link">Men Pull Up Pant Jeans</a></li>
+                  </ul>
+                </div>
+                <div class="custom-footer__popular-col">
+                  <ul class="custom-footer__popular-list">
+                    <li class="custom-footer__popular-item"><a href="/search?q=Men+Pull+Up+Pant+Non+Denim+Off+White" class="custom-footer__popular-link">Men Pull Up Pant Non Denim Off White</a></li>
+                    <li class="custom-footer__popular-item"><a href="/search?q=Men+Track+Skinny+Jeans+Blue" class="custom-footer__popular-link">Men Track Skinny Jeans Blue</a></li>
+                    <li class="custom-footer__popular-item"><a href="/search?q=White+Solid+Spandex+Modern+Light+Blue+Shirt" class="custom-footer__popular-link">White Solid Spandex Modern Light Blue Shirt</a></li>
+                    <li class="custom-footer__popular-item"><a href="/search?q=Brown+Artisanal+Khadi+Abstract+Printed+Shirt" class="custom-footer__popular-link">Brown Artisanal Khadi Abstract Printed Shirt</a></li>
+                  </ul>
+                </div>
+                <div class="custom-footer__popular-col">
+                  <ul class="custom-footer__popular-list">
+                    <li class="custom-footer__popular-item"><a href="/search?q=Grey+Mutant+Marco+Jeans" class="custom-footer__popular-link">Grey Mutant Marco Jeans</a></li>
+                    <li class="custom-footer__popular-item"><a href="/search?q=Classic+Straight+Fit+Vintage+Jeans" class="custom-footer__popular-link">Classic Straight Fit Vintage Jeans</a></li>
+                    <li class="custom-footer__popular-item"><a href="/search?q=Herringbone+Henley+Textured+T-Shirt" class="custom-footer__popular-link">Herringbone Henley Textured T-Shirt</a></li>
+                    <li class="custom-footer__popular-item"><a href="/search?q=Men+Track+Cropped+Skinny+Jeans" class="custom-footer__popular-link">Men Track Cropped Skinny Jeans</a></li>
+                  </ul>
+                </div>
+                <div class="custom-footer__popular-col">
+                  <ul class="custom-footer__popular-list">
+                    <li class="custom-footer__popular-item"><a href="/search?q=Botanical+Leaf+Satin+Printed+Shirt" class="custom-footer__popular-link">Botanical Leaf Satin Printed Shirt</a></li>
+                    <li class="custom-footer__popular-item"><a href="/search?q=Regular+Fit+Washed+Flap+Pocket+T-Shirt" class="custom-footer__popular-link">Regular Fit Washed Flap Pocket T-Shirt</a></li>
+                    <li class="custom-footer__popular-item"><a href="/search?q=Get+Width+It+Wide+Leg+Jeans" class="custom-footer__popular-link">Get Width It Wide Leg Jeans</a></li>
+                  </ul>
+                </div>
+                <div class="custom-footer__popular-col">
+                  <ul class="custom-footer__popular-list">
+                    <li class="custom-footer__popular-item"><a href="/search?q=Abstract+Geometric+Satin+Shirt" class="custom-footer__popular-link">Abstract Geometric Satin Shirt</a></li>
+                    <li class="custom-footer__popular-item"><a href="/search?q=Arturo+Tapered+Kinetic+Pants" class="custom-footer__popular-link">Arturo Tapered Kinetic Pants</a></li>
+                    <li class="custom-footer__popular-item"><a href="/search?q=Dobby+Directional+Striped+Shirt" class="custom-footer__popular-link">Dobby Directional Striped Shirt</a></li>
+                  </ul>
+                </div>
+                <div class="custom-footer__popular-col">
+                  <ul class="custom-footer__popular-list">
+                    <li class="custom-footer__popular-item"><a href="/search?q=Playful+Dog+Print+Oxford+Shirt" class="custom-footer__popular-link">Playful Dog Print Oxford Shirt</a></li>
+                    <li class="custom-footer__popular-item"><a href="/search?q=Fatigue+Military+Utility+Pants" class="custom-footer__popular-link">Fatigue Military Utility Pants</a></li>
+                    <li class="custom-footer__popular-item"><a href="/search?q=Embroidered+Seersucker+Resort+Shirt" class="custom-footer__popular-link">Embroidered Seersucker Resort Shirt</a></li>
+                  </ul>
+                </div>
+                <div class="custom-footer__popular-col">
+                  <ul class="custom-footer__popular-list">
+                    <li class="custom-footer__popular-item"><a href="/search?q=Oversized+Fit+Acid-Wash+T-Shirt" class="custom-footer__popular-link">Oversized Fit Acid-Wash T-Shirt</a></li>
+                    <li class="custom-footer__popular-item"><a href="/search?q=Resort+Double+Cloth+Olive+Shirt" class="custom-footer__popular-link">Resort Double Cloth Olive Shirt</a></li>
+                    <li class="custom-footer__popular-item"><a href="/search?q=Yarn-Dyed+Oxford+Dobby+Stripe+Shirt" class="custom-footer__popular-link">Yarn-Dyed Oxford Dobby Stripe Shirt</a></li>
+                  </ul>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
       </div>
     </div>
   {% endif %}
@@ -1198,6 +1264,17 @@ margin-top: 10px;
   color: var(--popular-heading, #ffffff);
 }
 
+.custom-footer__popular-section--styles {
+  margin-top: 36px;
+  padding-top: 30px;
+  border-top: 1px solid var(--popular-border, var(--footer-border));
+}
+
+.custom-footer__popular-heading--styles {
+  margin-top: 0;
+  margin-bottom: 22px;
+}
+
 .custom-footer__popular-content {
   display: grid;
   grid-template-columns: repeat(var(--popular-cols, 7), minmax(0, 1fr));
@@ -1583,6 +1660,28 @@ margin-top: 10px;
       "id": "popular_searches_single_menu",
       "label": "Or Single All-in-One Menu",
       "info": "Display all links from 1 menu in the grid"
+    },
+    {
+      "type": "header",
+      "content": "Most Popular Styles Section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_popular_styles",
+      "label": "Show Most Popular Styles",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "popular_styles_title",
+      "label": "Styles Heading",
+      "default": "MOST POPULAR BLUE MINDED PEOPLE STYLES"
+    },
+    {
+      "type": "link_list",
+      "id": "popular_styles_single_menu",
+      "label": "Styles Menu (Optional override)",
+      "info": "Display links from 1 menu in the grid"
     },
     {
       "type": "header",

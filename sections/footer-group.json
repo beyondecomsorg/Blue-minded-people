@@ -107,7 +107,9 @@
         "footer_top_padding": 20,
         "footer_bottom_padding": 20,
         "show_popular_searches": true,
-        "popular_searches_title": "POPULAR SEARCHES"
+        "popular_searches_title": "POPULAR SEARCHES",
+        "show_popular_styles": true,
+        "popular_styles_title": "MOST POPULAR BLUE MINDED PEOPLE STYLES"
       }
     },
     "section_9FjKrC": {
