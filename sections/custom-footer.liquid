@@ -535,68 +535,18 @@
               </h4>
             {% endif %}
 
-            <div class="custom-footer__popular-content custom-footer__popular-content--{{ section.settings.popular_searches_layout | default: 'columns' }}">
+            <div class="custom-footer__popular-inline-list">
               {% if section.settings.popular_styles_single_menu != blank and linklists[section.settings.popular_styles_single_menu].links.size > 0 %}
-                <div class="custom-footer__popular-single-grid">
-                  {% for link in linklists[section.settings.popular_styles_single_menu].links %}
-                    <div class="custom-footer__popular-item">
-                      <a href="{{ link.url }}" class="custom-footer__popular-link">{{ link.title }}</a>
-                    </div>
-                  {% endfor %}
-                </div>
+                {% for link in linklists[section.settings.popular_styles_single_menu].links %}
+                  <a href="{{ link.url }}" class="custom-footer__popular-link custom-footer__popular-inline-link">{{ link.title }}</a>{% unless forloop.last %}<span class="custom-footer__popular-inline-sep">|</span>{% endunless %}
+                {% endfor %}
               {% else %}
-                <div class="custom-footer__popular-col">
-                  <ul class="custom-footer__popular-list">
-                    <li class="custom-footer__popular-item"><a href="/search?q=Borris+Slim+Fit+Jeans+Black" class="custom-footer__popular-link">Borris Slim Fit Jeans Black</a></li>
-                    <li class="custom-footer__popular-item"><a href="/search?q=Checked+Brushed+Twill+Overshirt" class="custom-footer__popular-link">Checked Brushed Twill Overshirt</a></li>
-                    <li class="custom-footer__popular-item"><a href="/search?q=Polyester+Twill+Slim+Shirt" class="custom-footer__popular-link">Polyester Twill Slim Shirt</a></li>
-                    <li class="custom-footer__popular-item"><a href="/search?q=Men+Pull+Up+Pant+Jeans" class="custom-footer__popular-link">Men Pull Up Pant Jeans</a></li>
-                  </ul>
-                </div>
-                <div class="custom-footer__popular-col">
-                  <ul class="custom-footer__popular-list">
-                    <li class="custom-footer__popular-item"><a href="/search?q=Men+Pull+Up+Pant+Non+Denim+Off+White" class="custom-footer__popular-link">Men Pull Up Pant Non Denim Off White</a></li>
-                    <li class="custom-footer__popular-item"><a href="/search?q=Men+Track+Skinny+Jeans+Blue" class="custom-footer__popular-link">Men Track Skinny Jeans Blue</a></li>
-                    <li class="custom-footer__popular-item"><a href="/search?q=White+Solid+Spandex+Modern+Light+Blue+Shirt" class="custom-footer__popular-link">White Solid Spandex Modern Light Blue Shirt</a></li>
-                    <li class="custom-footer__popular-item"><a href="/search?q=Brown+Artisanal+Khadi+Abstract+Printed+Shirt" class="custom-footer__popular-link">Brown Artisanal Khadi Abstract Printed Shirt</a></li>
-                  </ul>
-                </div>
-                <div class="custom-footer__popular-col">
-                  <ul class="custom-footer__popular-list">
-                    <li class="custom-footer__popular-item"><a href="/search?q=Grey+Mutant+Marco+Jeans" class="custom-footer__popular-link">Grey Mutant Marco Jeans</a></li>
-                    <li class="custom-footer__popular-item"><a href="/search?q=Classic+Straight+Fit+Vintage+Jeans" class="custom-footer__popular-link">Classic Straight Fit Vintage Jeans</a></li>
-                    <li class="custom-footer__popular-item"><a href="/search?q=Herringbone+Henley+Textured+T-Shirt" class="custom-footer__popular-link">Herringbone Henley Textured T-Shirt</a></li>
-                    <li class="custom-footer__popular-item"><a href="/search?q=Men+Track+Cropped+Skinny+Jeans" class="custom-footer__popular-link">Men Track Cropped Skinny Jeans</a></li>
-                  </ul>
-                </div>
-                <div class="custom-footer__popular-col">
-                  <ul class="custom-footer__popular-list">
-                    <li class="custom-footer__popular-item"><a href="/search?q=Botanical+Leaf+Satin+Printed+Shirt" class="custom-footer__popular-link">Botanical Leaf Satin Printed Shirt</a></li>
-                    <li class="custom-footer__popular-item"><a href="/search?q=Regular+Fit+Washed+Flap+Pocket+T-Shirt" class="custom-footer__popular-link">Regular Fit Washed Flap Pocket T-Shirt</a></li>
-                    <li class="custom-footer__popular-item"><a href="/search?q=Get+Width+It+Wide+Leg+Jeans" class="custom-footer__popular-link">Get Width It Wide Leg Jeans</a></li>
-                  </ul>
-                </div>
-                <div class="custom-footer__popular-col">
-                  <ul class="custom-footer__popular-list">
-                    <li class="custom-footer__popular-item"><a href="/search?q=Abstract+Geometric+Satin+Shirt" class="custom-footer__popular-link">Abstract Geometric Satin Shirt</a></li>
-                    <li class="custom-footer__popular-item"><a href="/search?q=Arturo+Tapered+Kinetic+Pants" class="custom-footer__popular-link">Arturo Tapered Kinetic Pants</a></li>
-                    <li class="custom-footer__popular-item"><a href="/search?q=Dobby+Directional+Striped+Shirt" class="custom-footer__popular-link">Dobby Directional Striped Shirt</a></li>
-                  </ul>
-                </div>
-                <div class="custom-footer__popular-col">
-                  <ul class="custom-footer__popular-list">
-                    <li class="custom-footer__popular-item"><a href="/search?q=Playful+Dog+Print+Oxford+Shirt" class="custom-footer__popular-link">Playful Dog Print Oxford Shirt</a></li>
-                    <li class="custom-footer__popular-item"><a href="/search?q=Fatigue+Military+Utility+Pants" class="custom-footer__popular-link">Fatigue Military Utility Pants</a></li>
-                    <li class="custom-footer__popular-item"><a href="/search?q=Embroidered+Seersucker+Resort+Shirt" class="custom-footer__popular-link">Embroidered Seersucker Resort Shirt</a></li>
-                  </ul>
-                </div>
-                <div class="custom-footer__popular-col">
-                  <ul class="custom-footer__popular-list">
-                    <li class="custom-footer__popular-item"><a href="/search?q=Oversized+Fit+Acid-Wash+T-Shirt" class="custom-footer__popular-link">Oversized Fit Acid-Wash T-Shirt</a></li>
-                    <li class="custom-footer__popular-item"><a href="/search?q=Resort+Double+Cloth+Olive+Shirt" class="custom-footer__popular-link">Resort Double Cloth Olive Shirt</a></li>
-                    <li class="custom-footer__popular-item"><a href="/search?q=Yarn-Dyed+Oxford+Dobby+Stripe+Shirt" class="custom-footer__popular-link">Yarn-Dyed Oxford Dobby Stripe Shirt</a></li>
-                  </ul>
-                </div>
+                {% liquid
+                  assign styles_items = "Borris Slim Fit Jeans Black,Men Pull Up Pant Non Denim Off White,Grey Mutant Marco Jeans,Botanical Leaf Satin Printed Shirt,Abstract Geometric Satin Shirt,Playful Dog Print Oxford Shirt,Oversized Fit Acid-Wash T-Shirt,Checked Brushed Twill Overshirt,Men Track Skinny Jeans Blue,Classic Straight Fit Vintage Jeans,Regular Fit Washed Flap Pocket T-Shirt,Arturo Tapered Kinetic Pants,Fatigue Military Utility Pants,Resort Double Cloth Olive Shirt,Polyester Twill Slim Shirt,White Solid Spandex Modern Light Blue Shirt,Herringbone Henley Textured T-Shirt,Get Width It Wide Leg Jeans,Dobby Directional Striped Shirt,Embroidered Seersucker Resort Shirt,Yarn-Dyed Oxford Dobby Stripe Shirt,Men Pull Up Pant Jeans,Brown Artisanal Khadi Abstract Printed Shirt,Men Track Cropped Skinny Jeans" | split: ","
+                %}
+                {% for style_name in styles_items %}
+                  <a href="/search?q={{ style_name | url_encode }}" class="custom-footer__popular-link custom-footer__popular-inline-link">{{ style_name }}</a>{% unless forloop.last %}<span class="custom-footer__popular-inline-sep">|</span>{% endunless %}
+                {% endfor %}
               {% endif %}
             </div>
           </div>
@@ -1273,6 +1223,41 @@ margin-top: 10px;
 .custom-footer__popular-heading--styles {
   margin-top: 0;
   margin-bottom: 22px;
+}
+
+.custom-footer__popular-inline-list {
+  display: block;
+  width: 100%;
+  line-height: 2.1;
+  font-size: 13.5px;
+  color: var(--popular-text, #cccccc);
+  font-family: var(--wb-font-body);
+}
+
+.custom-footer__popular-inline-link {
+  display: inline;
+  color: var(--popular-text, #cccccc);
+  font-size: 13.5px;
+  line-height: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-family: var(--wb-font-body);
+  word-break: normal;
+}
+
+.custom-footer__popular-inline-link:hover {
+  color: var(--popular-hover, #ffffff);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transform: none;
+}
+
+.custom-footer__popular-inline-sep {
+  display: inline-block;
+  margin: 0 9px;
+  color: var(--popular-border, rgba(255, 255, 255, 0.4));
+  opacity: 0.6;
+  user-select: none;
 }
 
 .custom-footer__popular-content {
