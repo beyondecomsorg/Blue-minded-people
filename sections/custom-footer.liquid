@@ -526,7 +526,7 @@
           {% endif %}
         </div>
 
-        {% if section.settings.show_popular_styles | default: true %}
+        {% if section.settings.show_popular_styles != false %}
           <!-- MOST POPULAR BLUE MINDED PEOPLE STYLES SECTION -->
           <div class="custom-footer__popular-section custom-footer__popular-section--styles">
             {% if section.settings.popular_styles_title != blank %}
