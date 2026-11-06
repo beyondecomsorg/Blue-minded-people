@@ -70,7 +70,6 @@
     },
     "collection_banner_section": {
       "type": "collection-banner",
-      "disabled": true,
       "settings": {
         "max_height_desktop": 600,
         "max_height_mobile": 400,
