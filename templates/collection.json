@@ -9,65 +9,6 @@
  */
 {
   "sections": {
-    "banner_image_custom_ChqkNR": {
-      "type": "banner-image-custom",
-      "blocks": {
-        "slide_XYHLcK": {
-          "type": "slide",
-          "settings": {
-            "image_desktop": "{{ collection.metafields.custom.collection_banner_desktop.value }}",
-            "image_mobile": "{{ collection.metafields.custom.collection_banner_mobile.value }}",
-            "link": "",
-            "open_in_new_tab": false,
-            "heading": "",
-            "subheading": "",
-            "button_label": ""
-          }
-        },
-        "slide_gTL8rP": {
-          "type": "slide",
-          "settings": {
-            "image_desktop": "{{ collection.metafields.custom.collection_banner_desktop_image_2.value }}",
-            "image_mobile": "{{ collection.metafields.custom.collection_banner_mobile_image_2.value }}",
-            "link": "",
-            "open_in_new_tab": false,
-            "heading": "",
-            "subheading": "",
-            "button_label": ""
-          }
-        }
-      },
-      "block_order": [
-        "slide_XYHLcK",
-        "slide_gTL8rP"
-      ],
-      "disabled": true,
-      "name": "Custom Banner Slideshow",
-      "settings": {
-        "banner_height": "adapt",
-        "custom_height_desktop": 600,
-        "custom_height_mobile": 400,
-        "heading_size_desktop": 48,
-        "heading_size_mobile": 24,
-        "subheading_size_desktop": 18,
-        "subheading_size_mobile": 14,
-        "text_color": "#ffffff",
-        "content_alignment": "center",
-        "overlay_color": "#000000",
-        "overlay_opacity": 30,
-        "autoplay": true,
-        "autoplay_speed": 5,
-        "transition_effect": "slide",
-        "infinite_loop": true,
-        "show_arrows": true,
-        "show_dots": true,
-        "pause_on_hover": true,
-        "padding_top": 30,
-        "padding_bottom": 30,
-        "padding_top_mobile": 15,
-        "padding_bottom_mobile": 15
-      }
-    },
     "collection_banner_section": {
       "type": "collection-banner",
       "settings": {
@@ -75,69 +16,6 @@
         "max_height_mobile": 400,
         "margin_top": 0,
         "margin_bottom": 0
-      }
-    },
-    "section": {
-      "type": "section",
-      "blocks": {
-        "text_tqQTNE": {
-          "type": "text",
-          "name": "Title",
-          "settings": {
-            "text": "<h1>{{ closest.collection.title }}</h1>",
-            "width": "fit-content",
-            "max_width": "narrow",
-            "alignment": "left",
-            "type_preset": "h1",
-            "font": "var(--font-primary--family)",
-            "font_size": "",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "text_tqQTNE"
-      ],
-      "disabled": true,
-      "name": "Collection heading",
-      "settings": {
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "space-between",
-        "vertical_alignment": "flex-end",
-        "align_baseline": false,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "center",
-        "gap": 12,
-        "section_width": "page-width",
-        "section_height": "",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-1",
-        "background_media": "none",
-        "video_position": "cover",
-        "background_image_position": "cover",
-        "border": "none",
-        "border_width": 1,
-        "border_opacity": 100,
-        "border_radius": 0,
-        "toggle_overlay": false,
-        "overlay_color": "#00000026",
-        "overlay_style": "solid",
-        "gradient_direction": "to top",
-        "padding-block-start": 80,
-        "padding-block-end": 80
       }
     },
     "collection_tabs_section": {
@@ -339,9 +217,7 @@
     }
   },
   "order": [
-    "banner_image_custom_ChqkNR",
     "collection_banner_section",
-    "section",
     "collection_tabs_section",
     "main-collection"
   ]
