@@ -2176,7 +2176,6 @@
     },
     "journal_grid_Di4rTH": {
       "type": "journal-grid",
-      "disabled": true,
       "name": "Journal Grid",
       "settings": {
         "label_text": "From the Journal",
@@ -2197,60 +2196,6 @@
         "background_color": "#ffffff",
         "heading_color": "#0b1f33",
         "text_color": "#444444"
-      }
-    },
-    "category_explore_banner": {
-      "type": "category-explore-banner",
-      "blocks": {
-        "panel_1": {
-          "type": "panel",
-          "settings": {
-            "image": "shopify://shop_images/1600-x-1700px-Only-T-Shirts.jpg"
-          }
-        },
-        "panel_2": {
-          "type": "panel",
-          "settings": {
-            "image": "shopify://shop_images/1600-x1700px-Only-Co-ords.jpg"
-          }
-        },
-        "panel_3": {
-          "type": "panel",
-          "settings": {
-            "image": "shopify://shop_images/1600-x-1700px-Only-T-Shirts.jpg"
-          }
-        }
-      },
-      "block_order": [
-        "panel_1",
-        "panel_2",
-        "panel_3"
-      ],
-      "disabled": true,
-      "settings": {
-        "heading": "Explore More Women's Fashion",
-        "cta_label": "Explore Now",
-        "cta_link": "shopify://collections",
-        "overlay_position": "center",
-        "overlay_opacity": 0,
-        "enable_text_shadow": true,
-        "banner_height_desktop": 560,
-        "banner_height_mobile": 360,
-        "heading_size_desktop": 42,
-        "heading_size_mobile": 26,
-        "heading_color": "#ffffff",
-        "button_bg_color": "#ffffff",
-        "button_text_color": "#222222",
-        "button_border_color": "#ffffff",
-        "button_font_size": 12,
-        "button_padding_vertical": 12,
-        "button_padding_horizontal": 24,
-        "padding_top": 0,
-        "padding_bottom": 60,
-        "padding_top_mobile": 0,
-        "padding_bottom_mobile": 30,
-        "gap_overlay": 20,
-        "mobile_layout": "collage"
       }
     },
     "custom_liquid_79pEQK": {
@@ -2289,7 +2234,6 @@
     "hero_Fr6tr6",
     "trust_scrolling_LFQwYD",
     "journal_grid_Di4rTH",
-    "category_explore_banner",
     "custom_liquid_79pEQK"
   ]
 }
