@@ -578,7 +578,7 @@
         "bg_color": "#f8f6f2",
         "container_width": 1400,
         "padding_top": 32,
-        "padding_bottom": 32,
+        "padding_bottom": 0,
         "padding_top_mobile": 16,
         "padding_bottom_mobile": 16
       }
